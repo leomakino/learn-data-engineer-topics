@@ -347,6 +347,7 @@ s3.upload_file(
 ---
 
 ## Reporting and Notifying!
+Alerting humans and machines to take action is a key component in data engineering.
 Let's learn how to automate sharing your findings with the world by building notification triggers for your analysis.
 
 ### SNS Topics
@@ -355,9 +356,30 @@ Amazon Simple Notification Service (SNS) is a notification service that
     - provides a low-cost infrastructure for mass delivery of messages, predominantly to mobile users.
     - allows messaging between decoupled microservices applications or directly to users with SMS texts, push notifications, and email.
 
-SNS components:
+**Publishers** post messages to **topics** and **subscribers** receive them. The SNS components are:
     1. **Publishers** send messages from distributed systems, microservices, and other AWS services;
     2. **Topics** decouple message publishers from subscribers;
     3. **Subscribers** can include mobile apps, mobile phone numbers, and email address
 
 Amazon Resource Names (ARNs) uniquely identify AWS resources. We require an ARN when you need to specify a resource unambiguously across all of AWS, such as in IAM policies, Amazon Relational Database Service (Amazon RDS) tags, and sns topics
+
+```
+# Create SNS Client
+
+sns = boto3.client('sns',
+    region_name='us-east-1',
+    aws_access_key_id=AWS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET)
+
+# Create a topic
+response = sns.create_topic(Name='Topic_name')
+topic_arn = response['TopicArn']
+
+# Listing topics
+response = sns.list_topics()
+
+
+# Delete topic
+
+sns.delete_topic(TopicArn='arn:aws:sns:us-east-1:320333787981:city_alerts')
+```
