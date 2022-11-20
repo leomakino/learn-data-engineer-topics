@@ -1,0 +1,27 @@
+
+
+\--Functions are objects
+Decorators: a powerful way of modifying the behavior of functions
+Functions: are just like any other object in Python
+It's is possible a list and dictionaries of functions
+Functions as arguments: you can pass one as an argument to another function
+Functinos as return values
+Defining a function inside another function
+	A nested function can make your code easier to read
+
+\--Scope
+Scope determines which variables can be accessed at different points in your code.
+Global scope and local scope
+Above Global scope, only Builtin scope
+Above local scope, nonlocal scope (It's the case of nested functions inside a function)
+
+\--Closures
+A closure in Python is a tuple of varibles that are no longer in scope, but that function needs in order to run
+It's like a memory accessed by __closure__, which have the contents variables (any global, nonlocal variable) saved to use
+A closure is Python's way of attaching nonlocal variables to a returned function so that the function can operate even when it is called outside of its parent's scope
+
+\--Decorators
+A decorator is a wrapper that you can place around a function that changes that function's behavior
+
+@print_args before the definition of my_function is exactly equivalent to my_function = print_args(my_function)
+

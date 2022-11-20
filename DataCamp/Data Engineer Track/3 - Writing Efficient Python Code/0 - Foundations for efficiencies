@@ -1,0 +1,87 @@
+bottlenecks: is a point of congestion in a production system (such as an assembly line or a computer network) that occurs when workloads arrive too quickly for the production process to handle. The inefficiencies brought about by the bottleneck often creates delays and higher production costs.
+
+\--Welcome - Course Overview
+Code to gain insights, intead of leaving you waiting for results
+How to write clean, gast, and efficient Python code
+How profile your code for bottlenecks
+How to eliminate bottlenecks and bad design patterns
+Escribir código Python elegante y eficiente
+
+To be efficient, the code must satisfy two key concepts: latencia(runtime) y sobrecarga (memory), while also follows Python's coding style principles like Zen of Python
+	Minimal completion time (fast runtime): tiene una pequeña latencia entre la ejecución y la devolución de un resultado
+	Minimal resource consumption (small memory footprint): asigna recursos hábilmente y no está sujeto a una sobrecarga innecesaria
+Pythonic codes tends to be less verbose and easier to interpret.
+Non-Pythonic codes tends to run slower
+
+The Zen of Python by Tim Peters: the code of my dreams
+	Beautiful is better than ugly
+	Explicit is better than implicit
+	Simple is better than complex
+	Complex is better than complicated
+	Flat is better than nested
+	Sparse is better than dense
+	Readability counts
+	Special cases aren't special enough to break the rules
+	Although praticality beats purity
+	Errors should never pass silently
+	Unless explicitly silenced
+	In the face of ambiguity, refuse the temptation to guess
+	...
+
+
+list comprehension: Output | Collection | Condition or Do this, for this colletion, in this situation
+	[x+1 for x in range(5) if x%2 ==2]
+
+\--Building with built-ins
+Built-ins components that help us to write eddicient Python code
+Built-in types:
+	list,
+	tuple,
+	set,
+	dict,
+	and others.
+Built-in functions:
+	print(),
+	len(),
+	range(), creates a sequence of numbers
+		nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+		is equal to
+		nums = range(11)
+		nums_list = list(nums)
+	round(),
+	enumerate(), creates an indexed list of objects
+		letters = ['a', 'b', 'c', 'd']
+		indexed_letters = enumerate(letters)
+		indexed_letters_list = list(indexed_letters)
+		print(indexed_letters_list)
+		>>[(0,'a'), (1,'b'), (2,'c'), (3,'d')]		
+	map(), applies a function over an object; Provides a quick and clean way to apply a function to an object iteratively without writing a for loop
+		nums = [1.5, 2.3, 3.4, 4.6, 5.0]
+		rnd_nums = map(round, nums)
+		print(list(rnd_nums))
+		>>[2, 2, 3, 5, 5]
+		
+		también se puede utilizar con un función lambda o anónima. *lambda arguments : expression
+		nums = [1, 2, 3, 4, 5]
+		sqrd_nums = map(lambda x: x ** 2, nums)
+		print(list(sqrd_nums))
+	zip(),
+	and others.
+
+# Create a new list of odd numbers from 1 to 11 by unpacking a range object
+nums_list2 = [*range(1,12,2)]
+
+\--The power of NunPy arrays
+NumPy: Numerical Python
+NumPy arrays
+	provide a fast and memory efficient alternative to Python lists
+	are homogeneous, which means that they must contain elements of the same type
+NumPy arrays broadcasting is more efficient than a for loop or a list comprehension to change a lists
+	nums_np = np.array([-2, -1, 0, 1, 2])
+	nums_np ** 2
+Index capabilities: 
+	2D advantages,
+	boolean indexing
+
+[[ 1  2  3  4  5]
+ [ 6  7  8  9 10]]

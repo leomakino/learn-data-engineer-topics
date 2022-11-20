@@ -1,0 +1,59 @@
+
+
+\--WHERE are the subqueries
+Subquery in Where can only return a single column
+
+What is a subquery?
+A: A query nested inside another query
+	an additional SELECT statement contained inside parentheses, surrounded by another complete SQL statement
+Useful for intermediary transformation (selecting filtering or calculating inf.)
+Can be placed in any part of the query
+	SELECT, FROM, WHERE, and GROUP BY
+	Where you place it depends on what you want your final data to look like
+Can (subquery) return a variety of information
+	Scalar quantities (3.14159, -2, 0.0001)
+	A list (id=(12, 25, 392, 401, 939))
+	A table (What I use most)
+Can be evaluated independently from the outer query
+
+Why might I need to use a subquery?
+	To compare groups to summarized values
+	To Reshape data for multiple purposes
+	To combine data that cannot be joined (from tables where you are unable to join)
+	To filtering list with IN
+	
+
+\--Subqueries in FROM
+ A subquery in FROM is an effective way of answering detailed questions that requires filtering or transforming data before including it in your final results.
+Useful when calculating aggregates of aggregate information
+
+Returns a set of more complex results
+Restructure and transform data
+	Transforming data from long to wide before selecting
+	Prefiltering data
+
+You can create multiple subqueries in one FROM statement
+You can join a subquery to any existing table
+
+\--Subqueries in SELECT
+used in a SELECT statement to bring summary values into a detailed data set
+
+Returns a single, aggregate value
+Used in mathematical calculations
+
+Make sure you have all filters in the right places
+	Properly filter both the main and the subquery
+	Since the subquery is processed before the main query, you'll need to include relevant filter in the subquery as well as the main query
+
+\-- Subqueries every where
+As many subqueries as you want
+
+Best practices for reading, and writing large queries:
+	Format your queries
+	Annotate your queries with comments
+	Indent your queries
+
+Is that subquery necessary?
+	Subqueries require computing power
+
+

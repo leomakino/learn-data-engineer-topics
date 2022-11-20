@@ -1,0 +1,168 @@
+\--Introduction
+In any data science project, you quickly reach a point when it becomes impossible to organize and manage unit tests. In this chapter, we will learn about how to structure your test suite well, how to effortlessly execute any subset of tests and how to mark problematic tests so that your test suite always stays green.
+
+\--How to organize a growing set of tests?
+Project structure
+src/ #all application code lives here
+	data/ #Package for data preprocessing
+		__init__.py
+		preprocessing_helpers.py #contains row_to_list(), convert_to_init()
+	features/ #Package for feature generation from preprocessed data
+		__init__.py
+		as_numpy.py
+	models/ #Package for training and testing linear regression model
+		__init__.py
+		train.py #Contains split_into_training_and_testing_sets()
+tests/ # Test suite: all tests live here
+# The tests folder mirrors the application folder
+	data/
+		__init__.py
+		test_preprocessing_helpers.py # Corresponds to module src/data/preprocessing_helpers.py
+	features/
+		__init__.py
+		test_as_numpy.py
+	models/
+		__init__.py
+		test_train.py
+
+Test class: theoretical structure
+Test classes are containers inside test modules. They help separate tests for different functions within the test module, and serve as a structuring tool in the pytest framework.
+Test classes are written in CamelCase e.g. TestMyFunction as opposed to tests, which are written using underscores e.g. test_something().
+
+import pytest
+from data.preprocessing_helpers import row_to_list, convert_to_int
+
+class TestRowToList(object): # Always put the argument object
+	def test_on_no_tab_no_missing_value(self): # Always put the argument self
+		...
+	def test_on_two_tabs_no_missing_value(self): # Always put the argument self
+		...
+class TestConvertToInt(object): # Test class for convert_to_int()
+	def test_with_no_comma(self): # A test for convert_to_int()
+		...
+	def test_with_one_comma(self): # Another test for convert_to_int()
+	
+\--Mastering test execution
+Running all tests
+```
+cd tests
+pytest
+```
+Recurses into directory subtree of tests/
+	test module: Filenames starting with test_
+	test class: CLassnames starting with Test
+	unit test: Function names starting with test_
+
+pytest -x: Stop after first failure
+
+Running tests in a test module
+```
+pytest data/test_preprocessing_helpers.py
+```
+
+Running only a particular test class or unit test
+Node ID of an testclass/unit test
+	<path to test module>::<test class name>
+	<path to test module>::<test class name>::<unit test name>
+
+Running tests using keyword expressions
+	pytest -k "pattern"
+	It runs all tests whose node ID matches the pattern
+	Example pytest -k "TestSplitIntoTrainingAndTestingSets"
+	Supports Python logical operators
+		pytest -k "TestSplit and not test_on_one_row"
+
+\--Expected failures and conditional skipping
+Test suite is green when all tests pass.
+Test suite is red when all tests fails.
+
+Implementing a function using TDD
+i.e. train_model() returns best fit line given training data
+Fail Traceback: NameError: name 'train_model' is not defined
+It's a false alarm
+
+Marking tests as expected to fail
+```
+import pytest
+class TestTrainModel(object):
+	@pytest.mark.xfail(reason="“Using TDD, train_model() is not implemented")
+	def test_on_linear_data(self):
+		...
+```
+
+Expected failures, but conditionally
+Tests are expected to fail
+	on certain Python versions
+	on certain platforms like Windows
+Fail Traceback: NameError: name 'unicode' is not defined
+skipif: skip tests conditionally
+If boolean_expression is True, then test is skipped
+ex: boolen expression: @pytest.mark.skipif(sys.version_info > (2, 7), reason="requires Python 2.7")
+One other common situation is to skip tests that won't run on particular platforms like Windows, Linux or Mac using the sys.platform attribute.
+```
+class TestConvertToInt(object):
+	@pytest.mark.skipif(boolean_expression)
+	def test_with_no_comma(self):
+		"""Only runs on Python 2.7 or lower"""
+		test_argument = "756"
+		expected = 756
+		actual = convert_to_int(test_argument)
+		message = unicode("Expected: 2081, Actual: {0}".format(actual))
+		assert actual == expected, message
+```
+
+pytest -r[set_of_characters] shows reasons in the test result report
+pytest -rs shows reasons for skipping
+pytest -rx shows reasons for xfail
+pytest -rsx shows reasons for both skipped and xfail
+
+\--Continuous Integration and code coverage
+Build status badges
+	Build passing = Stable project
+	Build failing = Unstable project
+		The package has bugs, which is either causing installation to error out or some of the unit tests in the test suite to fail.
+
+CI Server (Travis CI)
+Step 1: Create a configuration file
+	src/
+	tests/
+	.travis.yml
+Contents od .travis.yml
+```
+language: python
+python:
+- "3.6"
+install:
+- pip install -e .
+script:
+- pytest tests
+```
+Step 2: Push the file to GitHub
+```
+git add .travis.yml
+git push origin master
+```
+Step 3: Install the Travis CI app on Github Marketplace
+Every commit leads to a build
+
+Code coverage
+code_coverage = (num_lines_of_application_code_that_ran_during_testing/total_num_lines_of_application_code)*100
+75% or above indicate well tested code
+
+Codecov
+Step 1: Modify the Travis CI configuration file
+``´
+language: python
+python:
+	- "3.6"
+install:
+	- pip install -e . # use a local pip install
+	- pip install pytest-cov codecov # Install packages for code coverage report
+script: # lists the commands
+	- pytest --cov=src tests # Point to the source directory
+after_success:
+	- codecov # uploads report to codecov.io
+``´
+Step 2: Install the Codecov app on Github Marketplace
+Commits lead to coverage report at codecob.io
+Step 3: Showing the badge in GitHub

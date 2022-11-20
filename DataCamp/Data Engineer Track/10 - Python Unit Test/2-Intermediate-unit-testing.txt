@@ -1,0 +1,110 @@
+\--Introduction
+In this chapter, you will write more advanced unit tests. Starting from testing complicated data types like NumPy arrays to testing exception handling, you'll do it all. Once you have mastered the science of testing, we will also focus on the arts. For example, we will learn how to find the balance between writing too many tests and too few tests. In the last lesson, you will get introduced to a radically new programming methodology called Test Driven Development (TDD) and put it to practice. This might actually change the way you code forever!
+
+\--Mastering assert statements
+The optional message argument
+	assert 1 == 2, "One is not equal to two!" will return the double quote message in the Traceback
+Adding a message to a unit test
+import pytest
+...
+def test_for_missing_area_with_message():
+	actual = row_to_list("\t293,410\n")
+	expected = None
+	message = ("row_to_list('\t293,410\n') "
+		"returned {0} instead "
+		"of {1}".format(actual, expected)
+		)
+assert actual is expected, message
+
+Comparison of the two output on failure
+before:
+	E AssertionError: assert ['', '293,410'] is None
+	E + where ['', '293,410'] = row_to_list('\t293,410\n')
+Now:
+	> assert actual is expected, message
+	E AssertionError: row_to_list('\t293,410\n') returned ['', '293,410'] instead
+	of None
+	E assert ['', '293,410'] is None
+
+Recommendations:
+	Include a message with assert staements because it is much more easier to read and understand than the automatic output
+	Print values of any variable that is relevant to debugging
+
+Beware of float return values
+	0.1 + 0.1 + 0.1 = 0.300000004
+	assert 0.1 + 0.1 + 0.1 = 0.3 returns False
+	Use pytest.approx() to wrap expected return value
+	assert 0.1 + 0.1 + 0.1 == pytest.approx(0.3)
+NumPy arrays containing floats
+assert np.array([0.1 + 0.1, 0.1 + 0.1 + 0.1]) == pytest.approx(np.array([0.2, 0.3]))
+The pytest.approx() function not only works for NumPy arrays containing floats, but also for lists and dictionaries containing floats
+
+
+Multiple assertions in one unit test
+Test will pass only if both assertions pass
+def test_on_string_with_one_comma():
+	return_value = convert_to_int("2,081")
+	assert isinstance(return_value, int)
+	assert return_value == 2081
+	
+\--Testing for exceptions instead of return values
+Unit testing exceptions
+Goal: test if raises ValueError with one dimensional argument
+def test_valueerror_on_one_dimensional_agument():
+	example_argument = np.array([2081, 314942, 1059, 186606, 1148, 206186])
+	with pytest.raises(ValueError) as exception_info: #store the eception
+		split_into_training_and_testing_sets(example_argument)
+	#Check if Value Error contains correct message
+	assert exception_info.match(
+	"Argument data array must be two dimensional."
+	"Got 1 dimensional array instead!"
+	)
+Meaning:
+If function raises expected ValueError, test will pass.
+If function is buggy and does not raise ValueError, test will fail.
+exception_info stores the ValueError
+exception_indo.match(expected_msg) checks if expected_msg is present in the actual error message.
+
+Theoretical structure of a with statement
+Any code that is inside the with statement is known as the context
+The with statement takes a single argument, which is known as a context manager.
+The context manager runs some code before entering and exiting the context
+
+
+\--The well tested function
+Test for length, not value
+In general, the more arguments we check,
+the more confident we can be that the function is working correctly
+But since we cannot write tests for hundreds of arguments because of time limitations
+How many tests can be considered enough?
+A: The best practice is to pick a few from each of the following categories of arguments(types)
+Test for argument types:
+	Bad arguments: are arguments for which the function raises an exception instead of returning a value
+	Special arguments
+		Boundary values
+		Special logic: rules exceptions
+	Normal arguments
+*Not all functions have bad or special arguments
+
+\--Test Driven Development TDD
+Usual priorities in the industry
+1. Feature development
+	Bosses want to prioritize feature implementation, because they want fast results
+2. Unit testing
+	Eventually, the unit tests never get written.
+	Of course, we pay for this mistake in the long term
+
+Test Driven Development TDD
+	TDD tries to ensure that unit tests do get written
+	TDD alters the usual life cycle by adding a single step before implementation
+	This step involves writing unit tests for the function
+	Write tests even before the function is implemented in code
+Write unit tests before implementation
+	Unit tests cannot be deprioritized
+	Write unit tests as a part of implementation time
+	Thinking before implementation actually helps in finalizing the requirements for a function
+	Requirements are clearer and implementation easier
+Step 1: Write unit tests and fix requirements
+Step 2: Run tests and watch it fail
+step 3: Implement function and run tests again
+	

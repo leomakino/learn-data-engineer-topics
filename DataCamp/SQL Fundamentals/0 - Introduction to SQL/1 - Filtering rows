@@ -1,0 +1,70 @@
+\--Filtering results
+
+    = equal
+    <>, != not equal
+    < less than
+    > greater than
+    <= less than or equal to
+    >= greater than or equal to
+
+Ex: 
+	SELECT title
+	FROM films
+	WHERE title = 'Metropolis';
+
+\--WHERE AND OR
+WHERE allows you to filter based on both text and numeric values in a table
+WHERE clause always comes after the FROM statement!
+AND combine multiple conditions
+OR multiple conditions where some but not all of the conditions need to be met
+AND and OR, When combining both be sure to enclose the individual clauses in parentheses
+
+Ex:
+	SELECT title, release_year
+	FROM films
+	WHERE (release_year >= 1990 AND release_year < 2000)
+	AND (language = 'French' OR language = 'Spanish')
+	AND gross > 2000000;
+
+\--BETWEEN
+BETWEEN filters values within a specified range.
+BETWEEN is inclusive, meaning the beginning and end values are included in the results!
+
+Ex:
+	SELECT title, release_year
+	FROM films
+	WHERE release_year BETWEEN 1990 AND 2000
+	AND budget > 100000000
+	AND (language = 'Spanish' OR language = 'French');
+
+\--WHERE IN
+IN allows you to specify multiple values in a WHERE clause, making it easier and quicker to specify multiple OR conditions
+
+Ex:
+	SELECT title, language
+	FROM films
+	WHERE language IN ('English','Spanish','French')
+
+\--NULL and IS NULL
+NULL represents a missing or unknown value. You can check for NULL values using the expression IS NULL
+
+IS NOT NULL to filter out missing values so you only get results which are not NULL
+
+\--LIKE and NOT LIKE
+In the real world, often you'll want to search for a pattern rather than a specific text string. 
+The LIKE operator can be used in a WHERE clause to search for a pattern in a column.
+There are two wildcards you can use with LIKE:
+	% wildcard will match zero, one, or many characters in text. 
+		SELECT name
+		FROM companies
+		WHERE name LIKE 'Data%';
+
+		Results:'Data', 'DataC' 'DataCamp', 'DataMind'
+	_ wildcard will match a single character.
+		SELECT name
+		FROM companies
+		WHERE name LIKE 'DataC_mp';
+
+		Results: 'DataCamp', 'DataComp'
+
+NOT LIKE operator to find records that don't match the pattern you specify.

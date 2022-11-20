@@ -1,0 +1,97 @@
+Introduction
+Learn the structure of functions in Bash, how to use functions to help automate frequent tasks, and program your scripts to run on schedule.
+
+\--Basic functions in Bash
+Why function?
+1 - Functions are reusable
+2 - Functions allow neat, compartmentalized (modular) code
+3 - Functions aid sharing code (you only need to know inputs and outputs to use)
+
+Syntax:
+function_name () {
+	#function_code
+	return #something
+}
+or
+function function_name {
+	#function_code
+	return #something
+}
+The main differences:
+	Use the word function to denote starting a function build
+	You can drop the parenthesis on the opening line.
+
+temp_f=30
+function convert_temp () {
+	temp_c=$(echo "scale=2; ($temp_f - 32) * 5 / 9" | bc)
+	echo $temp_c
+}
+convert_temp #call the function
+
+\--Arguments, scope, and return values,
+Passing arguments into functions is similar to how you pass arguments into a script. Using the $1 notation
+Each argument can be accessed via the $1, $2 notation
+$@ and $* give all the arguments in ARGV
+$# gives the length (number) of arguments
+
+Scope in programming refers to how accessible a variable is.
+	Global means something is accessible anywhere in the program
+	Local means something is only accessible in a certain part of the program
+In Bash, all variables are global by default.
+You can use the local keyword to restrict variable scope ex:
+
+Return values
+The return option in Bash is only meant to determine if the function was a success (0) or failure (other values 1-255). It is captured in the global variable $?
+
+Options:
+	1. Assign to a global variable
+	2. echo what we want back (last line in function) and capture using shell-within-a-shell.
+	
+\--Scheduling your scripts with Cron
+Why schedule scripts?
+	1. Regular tasks that need to be done. Ex: daily, weekly, multiple times per day
+	2. Optimal use of resources
+What is cron?
+The name comes from the Grrek word for time, chronos
+It is driven by something called a crontab (the driver of cronjobs),
+which is a file that contains cronjobs (schedules),
+which each tell crontab what code to run and when.
+
+crontab
+	-l lists user cron table
+	-e edit the list of cronjobs
+	-r removes a crontable and all scheduled jobs
+
+Field structure 1 2 3 4 5 COMMAND
+	1 minute (0-59)
+	2 hour (24 hour format, 0-23)
+	3 day of month (1-31)
+	4 month of year (1-12)
+	5 day of week (0-6), 0 or 7 = Sunday, 1-6 = Mon-Sat)
+* means 'every'
+Note: /etc/cron.allow and /etc/cron.deny control who can and cannot use cron.
+
+Examples:
+44 4 21 12 * bash myscript.sh
+To schedule the shell script "myscript.sh"
+to run at 4:44am on December 2 irrespective of the week day.
+
+Advanced cronjobs structure
+If you wanted to run something multiple times per day or every 'X' time increments.
+This is also possible.
+15, 30, 45 * * * *
+	It will run at 15, 30, and 45 minutes mark for whatever hours
+*/15 * * * *
+	runs every 15 minutes. Also for every hour, day etc.
+
+\--Wrap up
+ARGV is the array of all the arguments given to the program. ARGV is vital knowledge.
+Different Bash variables
+	expr - Arithmetic
+	bc - decimals
+Different quotation maks mean different things
+	Single - interpret all text literally
+	Double - interpret literally except $ and backticks (`)
+Shell-within-a-shell
+	means calling out a shell in-place within a script and getting the return value.
+	$(expr 4 + 5)

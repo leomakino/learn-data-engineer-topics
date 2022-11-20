@@ -1,0 +1,42 @@
+In this chapter, you'll learn about the pyspark.sql module, which provides optimized data queries to your Spark session.
+
+in a nutshell: using as few words as possible
+
+sc - SparkContext - connection to the cluster
+spark - SparkSession - interface with that connection, platform for cluster computing.
+
+\--
+Spark DataFrame is immutable
+Pandas DataFrame is mutable
+
+DataFrame.withColumn(colName, col)
+	can make new columns derived from the old ones!
+	
+GROUP BY origin tells SQL that you want the output to have a row for each unique value of the origin column
+
+It's possible to GROUP BY more than one column. When you do this, the resulting table has a row for every combination of the unique values in each column. 
+
+Filtering Data
+	.filter() = WHERE clause
+	.select() = SELECT
+	.alias() = AS
+	
+flights.filter("air_time > 120").show()
+	can accept any expression that could go in the WHEREclause of a SQL query, as long as it is passed as a string
+flights.filter(flights.air_time > 120).show()
+	pass a column of boolean values. It returns a column of boolean values that has True in place of those records in flights.air_time that are over 120, and False otherwise.
+	
+temp = flights.select(flights.origin, flights.dest, flights.carrier)
+selected1 = flights.select("tailnum", "origin", "dest")
+
+flights.select((flights.air_time/60).alias("duration_hrs"))
+flights.selectExpr("air_time/60 as duration_hrs")
+
+All of the common aggregation methods, like .min(), .max(), and .count() are GroupedData methods. These are created by calling the .groupBy()
+	df.groupBy().min("col").show()
+	
+.agg()
+	lets you pass an aggregate column expression that uses any of the aggregate functions from the pyspark.sql.functions submodule.
+	
+.join()
+		

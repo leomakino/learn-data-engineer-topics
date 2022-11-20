@@ -1,0 +1,117 @@
+In this chapter, you'll learn what object-oriented programming (OOP) is, how it differs from procedural-programming, and how it can be applied. You'll then define your own classes, and learn how to create methods, attributes, and constructors.
+
+\--Operator overloading: comparison
+The reason why Python doesn't consider two objects with the same data equal by default has to do with how the objects and variables representing them are stored.
+
+When we compare variables customer1 and customer2, we are actually comparing references, not the data.
+Because customer1 and customer2 point to different chunks in memory they are not considered equal.
+
+When comparing two objects of a custom class using ==, Python by default compares just the object references, not the data contained in the objects. To override this behavior, the class can implement the special __eq__() method, which accepts two arguments -- the objects to be compared -- and returns True or False.
+
+<__main__.ClassName at memory>
+
+__hash__() to use objects as dictionary keys and in sets
+Operator - methods
+    == - __eq__()
+    != - __ne__()
+    >= - __ge__()
+    <= - __le__()
+    > - __gt__()
+    < - __lt__()
+
+__eq__    
+    __eq__() is called when 2 objects of a class are compared using ==
+    accepts 2 arguments, self and other - objects to compare
+    returns a boolean
+
+\--Operator overloading: string representation
+There are two special methods that we can define in a class that will return a printable representation of an object
+
+__str__()
+    informal, for end user (user-friendly output)
+    string representation
+    method is executed when we call print or str on an object
+
+__repr__()
+    formal for developer
+    reproducible representation
+    fallback for print()
+    method is executed when we call print or repr on an object
+
+If you only choose to implement one of them, chose repr
+because it is also used as a fall-back for print when str is not defined.
+repr returns the string that can be used to reproduce the object, in this case,
+the exact initilization call
+
+Implementation: str
+```
+def __str__(self):
+    cust_str = """
+    Customer:
+        name: {name}
+        balance: {balance}
+    """.format(name = self.name, balance = self.balance)
+    return cust_str
+```
+
+Implementation: repr
+```
+def __repr__(self):
+    # Notice the '...' around name
+    return "Customer('{name}', {balance})".format(name = self.name, balance = self.balance)
+cust = Customer("Maryam Azar", 3000)
+cust # <--- # Will implicitly call __repr__()
+```
+
+Differents ways to print
+```
+my_num = 5
+my_str = "Hello"
+
+f = "my_num is {0}, and my_str is {1}.".format(my_num, my_str) #1
+f = "my_num is {}, and my_str is \"{}\".".format(my_num, my_str) #2
+f = "my_num is {n}, and my_str is '{s}'.".format(n=my_num, s=my_str) #3
+
+print(f)
+```
+
+to format a string with variables, you can either use keyword arguments in .format ('Insert {n} here'.format(n=num)),
+refer to them by position index explicitly (like 'Insert {0} here'.format(num))
+or implicitly (like 'Insert {} here'.format(num)).
+You can use double quotation marks inside single quotation marks and the way around,
+but to nest the same set of quotation marks, you need to escape them with a slash like \"
+
+\--Exceptions
+Exception handling
+    Prevent the program from terminating when an exception is raised
+    try: Try to running some code
+    except ExceptionNameHere: Run this code if ExceptionNameHere happens
+    except AnotherExceptionHere: Run this code if AnotherExceptionHere happens
+    finally: optional, run this code no matter what
+Raising Exceptions
+    raise ExceptionNameHere('Error message here')
+    example:
+    ```
+    def make_list_of_ones(length):
+        if length <= 0:
+        raise ValueError("Invalid length!")# <--- Will stop the program and raise an error
+        return [1]*length
+    ```
+Exceptions are classes
+    Standard exceptions are inherited from BaseException or Exception
+Custom exceptions
+    Custom exceptions classes are useful because they can be specific to your application and can provide more granular handling of errors
+    To define a cstom exception, just define a class that inherits from the built-in Exception class or one of its subclasses
+    Inherit from Exception or one of its subclasses
+    Usually an empty class
+    ```
+    class BalanceError(Exception): pass
+    class Customer:
+        def __init__(self, name, balance):
+            if balance < 0 :
+            raise BalanceError("Balance has to be non-negative!")
+        else:
+            self.name, self.balance = name, balance
+    ```
+
+    except blocks in the increasing order of specificity, i.e. children before parents, otherwise the child exception will be called in the parent except block.

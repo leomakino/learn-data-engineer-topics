@@ -1,0 +1,48 @@
+Fetch: 
+	(GET): to go get something or someone and bring the thing or person back
+Rank: 
+	(Position): A particular position, higher or lower than others
+Pag:
+	(Computer): The text of an electronic document that can see on a computer screen
+Chunk: a thick, solid piece of something
+	
+	
+
+\--Fetching functions
+Relative Functions - the value they fetch is always relative to the current row
+	LAG(column, n) returns column's values at the row n before the current row (desloca para baixo)
+	LEAD(column, n) returns column's value at the row n rows after the current row (desloca para cima)
+		useful to compare a current value to a future value
+Absolute Functions
+	FIRST_VALUE(column) returns the first value in the table or partition
+	LAST_VALUE(column) returns the last value in the table or partition
+
+By default, a window starts at the beginning of the table or partition and ends at the current row
+RANGE BETWEEN... clause extends the window to the end of the table or partition
+
+RANGE BETWEEN UNBOUNDED PRECEDING AND   f UNBOUNDED FOLLOWING
+It's is the same as RANGE BETWEEN the first line until the last line
+
+\--Ranking functions
+ROW_NUMBER() always assigns unique numbers, even if two rows' values are the same
+RANK() assigns the same number to rows with identical values, skipping over the next numbers in such cases
+DENSE_RANK() also assigns the same number to rows with identical values, but doesn't skip over the next numbers
+
+ROW_NUMBER and RANK will have the same last rank, the count of rows
+DENSE_RANK's last rank is the count of unique values being ranked
+
+\--Paging
+Paging is splitting data into (approximately) equal chunks
+
+Uses
+	Many APIs return data in "pages" to reduce data being sent
+	Separating data into quartiles or thirds (top middle 33%, and bottom thirds) to judge performance
+
+NTILE 
+	splits the data into n approximately equal pages
+	allows you to make the size of the dataset you're working with more manageable
+
+NTILE (3) OVER () AS Third to paging and labeling the top, middle and bottom of the data
+
+Splitting your data into thirds or quartiles is often useful to understand how the values in your dataset are spread.
+Getting summary statistics (averages, sums, standard deviations, etc.) of the top, middle, and bottom thirds can help you determine what distribution your values follow.

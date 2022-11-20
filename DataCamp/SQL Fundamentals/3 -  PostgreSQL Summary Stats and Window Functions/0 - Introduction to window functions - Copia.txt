@@ -1,0 +1,29 @@
+Introduction to window functions
+
+Numbering rows: Number the rows
+	SELECT
+	  *,
+	  -- Assign numbers to each row
+	  ROW_NUMBER() OVER () AS Row_N
+	FROM Summer_Medals
+	ORDER BY Row_N ASC;
+
+ORDER BY: If you want to assign 1 to the last row
+
+SELECT
+	  Year,
+	  -- Assign the lowest numbers to the most recent years
+	  ROW_NUMBER() OVER (ORDER BY Year DESC) AS Row_N
+	FROM (
+	  SELECT DISTINCT Year
+	  FROM Summer_Medals
+	) AS Years
+	ORDER BY Year;
+
+PARTITION BY splits the table into partitions based on a column's unique values
+ if you have multiple events, genders, or other metrics as columns, you'll need to split your table into partitions
+
+Partition by likes divides the rows by categories and apply sql statements rules for each category such as:
+	ROW NUMBER will reset for each partition
+	LAG will only fetch a row's previous value if its previous row is in the same partition
+

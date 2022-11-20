@@ -1,0 +1,105 @@
+Catered party
+cater: to provide food and drinks for an occasion or event 
+teardown: the act of pulling down the code so so that another code can be built in its place: 
+
+\--Using context managers
+with <context-manager>(<args>) as <variable-name>:
+	# Run your code here
+	# This code is running "inside the context"
+
+
+# This code runs after the context is removed
+
+Example: The open() function is a context manager
+with open('my_file.txt') as my_file:
+text = my_file.read()
+length = len(text)
+print('The file is {} characters long'.format(length))
+
+Comparison with Python for everybody couse:
+
+with open('alice.txt') as file:
+  text = file.read()
+for word in text.split():
+
+Is better than: in memory comsuption because when you were done reading the text, the context manager closed the file for you. (validate this)
+
+fh = open(fname)
+for lx in fh:
+
+fh = open(fname)
+for lx in fh:
+
+
+timer(): print out how long the code inside the context block takes to run
+
+with timer():
+  print('Numpy version')
+  process_with_numpy(image)
+
+*notice there was no as <variable name> at the end of the with statement in timer() context manager. That is because timer() is a context manager that does not return a value, so the as <variable name> at the end of the with statement isn't necessary. 
+
+\--Writing context managers
+yield: common when creating generators, In fact a
+context manager function is technically a generator that yields a single value
+
+
+@contextlib.contextmanager
+def my_context():
+	# Add any set up code you need
+	yield
+	# Add any teardown code you need
+
+Example:
+@contextlib.contextmanager
+def my_context():
+	print('hello')
+	yield 42
+	print('goodbye')
+	
+with my_context() as foo:
+	print('foo is {}'.format(foo))	
+Output:
+	hello
+	foo is 42
+	goodbye
+	Writing context managers as function
+	
+@contextlib.contextmanager
+def database(url):
+	# set up database connection
+	db = postgres.connect(url)
+	yield db
+	# tear down database connection
+	db.disconnect()
+
+url = 'http://datacamp.com/data'
+with database(url) as my_db:
+	course_list = my_db.execute(
+	'SELECT * FROM courses'
+	)
+\--Advanced topics
+def copy(src, dst):
+	"""Copy the contents of one file to another.
+	Args:
+	src (str): File name of the file to be copied.
+	dst (str): Where to write the new file.
+	"""
+	# Open both files
+	with open(src) as f_src:
+	with open(dst, 'w') as f_dst:
+	# Read and write each line, one at a time
+	for line in f_src:
+	f_dst.write(line)
+
+You might consider using context manager when:
+
+Open Close
+Lock Release
+Change Reset
+Enter Exit
+Start Stop
+Setup Teardown
+Connect Disconnect
+
+

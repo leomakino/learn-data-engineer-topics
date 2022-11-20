@@ -1,0 +1,16 @@
+Aggregate (TOTAL): Something formed by adding together several amounts of things 
+\--AGGREGATE FUNCTIONS
+aggregate functions to perform some calculation on the data
+	AVG(budget) gives you the average value
+	MAX() function returns the highest value
+	MIN() function returns the lowest value
+	SUM() function returns the result of adding up the numeric values in a column
+	
+SELECT MAX(gross)
+FROM films
+WHERE release_year BETWEEN 2000 AND 2012;
+
+
+\--AS AS
+AS assign a temporary name to something. 
+

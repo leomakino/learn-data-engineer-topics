@@ -1,0 +1,97 @@
+fetch (GET): to go to another place to get something and bring it back.
+engine: 
+	a computer program that performs a particular task
+	something that makes something happen, or that influences it strongly.
+downstream: Used to describe something that happens later in a process or series of events
+Dataframe:
+\--Databases
+What are databases?
+A: Las bases de datos son una herramienta esencial para el ingeniero de datos. It's a usually large collection of data organized especially for rapid search and retrieval. 
+
+SQL: uses database schemas to define relations
+	Es esquema de la base de datos define las relaciones entre tablas;
+	Relational databases
+NoSQL: allows you to work with less structured data.
+	Non-relational databases:
+	Structured or unstructured;
+	Key-value stores
+	Document DB
+	
+Datawarehouse: Star schema
+	The star schema consists of one or more fact tables referencing any number of dimension tables.
+		Facts: things that happened (e.g. Product Orders)
+		Dimensions: information on the world (eg. Customer Information)
+
+read_sql() function from pandas to query the database.
+
+\--What it parallel computing
+Idea behind parallel computing: Basis of modern data processing tools
+
+from_pandas(data, npartitions=None, chunksize=None, sort=True, name=None)
+
+\--Parallel computation frameworks
+What is the Apache Hadoop?
+A: Hadoop es una colección de proyectos de código abierto, mantenida por Apache Software Foundation.
+
+What is HDFS?
+A: HDFS es un sistema de archivos distribuido. Es similar al sistema de archivos que tiene en su computadora, la única diferencia es que los archivos residen en varias computadoras diferentes. (Amazon S3 replaces the Hadoop HDFS)
+What is MapReduce?
+
+A: Fue uno de los primeros paradigmas de procesamiento de big data popularizados. Funciona de manera similar al ejemplo que vio en el video anteriorm donde el programa se divide tareas en subtareasm distribuyendo la carga de trabajo y los datos entre varias unidades de procesamiento. Para MapReduce, estas unidades de procesamiento son varias computadoras en el clúster.
+
+What is Hive?
+Fue un de los programas que aparecieron para abordar problemas de Map Reduce hadoop. Is built from the need to use structured queries for parallel processing. 
+Hive es una capa sobre el ecosistema de Hadoop que genera datos a partir de varias fuentes consultables de forma estructurada utilizando la variante SQL de Hive: Hive SQL
+Hive is a data warehouse system that supports fast data summarization and querying over very large datasets. Hive supports SQL-like queries over unstructured data. 
+
+
+What is Spark?
+Spark también fue una respuesta a las limitaciones de MapReduce.
+Spark ditribuye las tareas de procesamiento de datos entre grupos de computadoras. Mientras que los sistemas basados en MapReduce tienden a necesitar costosas escrituras en disco entre trabajos, Spark intenta mantener la mayor cantidad de procesamiento posible en la memoria.
+	Avoid disk writes
+
+Resilient Distributed Datasets (RDD): es una estructura de datos que mantiene datos que se distribuyen entre varios nodos. A diferencia de DataFrames, los RDD no tienen columnas con nombre. 
+	Spark relies on them
+	Similar to list of tuples
+	Podemos hacer dos tipos de operaciones sobre estas estructuras de datos:
+		Transformations: .map() or filter(): dan como resultado RDD transformados
+		Actions: .count() or .first(): dan como resultado un único resultado
+		
+PySpark: Python interface for the Spark framework 
+una interfaz de lenguaje de programación basada en Python para encender Spark softwares. También hay interfaces para Spark en otros lenguajes, como R o Scala.
+Pyspark aloja una abstracción de DataFrame, lo que significa que puede realizar operaciones muy similares a las de Pandas DataFrames. 
+
+Hive example:
+	SELECT year, AVG(age)
+	FROM views.athlete_events
+	GROUP BY year
+
+It's equal to seek using Pyspark:
+	(athlete_events_spark
+	.groupBy('Year')
+	.mean('Age')
+	.show())
+
+\--Workflow scheduling frameworks
+DAG (Directed Acyclic Graph): It's a set of nodes, directed edges with no cycles que representa un tipo de flujo de trabajo y se pueden ejecutar en una programación diaria.
+
+	Airflow;
+	Luigi;
+	Cron.
+
+Apache Airflow se está convirtiendo en el marco de programación de flujo de trabajo de facto.
+	Airbnb creó Airflow como una herramienta interna para la gestión del flujo de trabajo.
+	Construyeron Airflow en torno al concepto de DAG
+Airflow example:
+	#Create the DAG Object
+	#Define operations (para definir cada uno de los trabajos)
+		tipos: BashOperator, PythonOperator que ejecutan código bash o Python
+		Esccribir su propio operador: SparkJobOperator, StartClusterOperator 
+	#Set up dependency flow
+
+*In Airflow, a pipeline is represented as a Directed Acyclic Graph or DAG.
+
+What are the limitations of the cron?
+Can I program in Pythoon in cron? NO
+Can I use a directed acyclic graph as a model for dependency resolving? No
+Do I have the exact control over the time at which jobs run? YES

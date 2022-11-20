@@ -1,0 +1,139 @@
+Inheritance and polymorphism are the core concepts of OOP that enable efficient and consistent code reuse. Learn how to inherit from a class, customize and redefine methods, and review the differences between class-level data and instance-level data.
+
+\--Instance and class data
+Inheritance: Extending functionality of existing code
+Polymorphism: Creating a unified interface
+Encapsulation: Bundling of data and methods
+	bundle: a number of things that are held together
+
+Instance-level data
+```
+class Employee:
+	def __init__(self, name, salary):
+		self.name = name
+		self.salary = salary
+```
+name, salary are instance attribute
+self binds to an instance
+
+Class-level data
+```
+class Myclass:
+	#Define a class attribute
+	CLASS_ATTR_NAME = attr_value
+```
+Class attributes store data that is shared among all the class instances.
+They are assigned values in the class body
+"Global variable" within the class
+Don't use self to define class attribute,
+Instead, use ClassName.ATTR_NAME to access the class attribute value
+They are referred to using the ClassName.
+E.g.:
+```
+class Employee:
+	# Define a class attribute
+	MIN_SALARY = 30000
+	def __init__(self, name, salary):
+		self.name = name
+		# Use class name to access class attribute
+		if salary >= Employee.MIN_SALARY:
+			self.salary = salary
+		else:
+			self.salary = Employee.MIN_SALARY
+```
+Why use class attributes? A: Global constants related to the class
+	minimal/maximal values for attributes
+	commonly used values and constants, e.g. pi for a Circle class
+	
+Class methods
+define class methods using the @classmethod decorator and a special first argument cls
+The main use of class methods is defining methods that return an instance of the class, but aren't using the same code as __init__()
+Methods are already "shared": same code for every instance
+	Regular methods are aleady shared between instances: the same code gets executed for every instance,
+	The only difference is the data that is fed into it.
+	It is possible to define methods bound to class rather than an instance,
+	but they have a narrow application scope, because these methods will not be able to use any instance-level data.
+Class methods can't use instance-level data
+```
+class MyClass:
+	
+	@classmethod # use decorator to declare a class method
+	def my_awesome_method(cls, args...):
+		# Do stuff here
+		# Can't use any instance attributes :(
+```
+MyClass.my_awesome_methods(args...)
+Why would we ever need class methods at all? 
+A: The main use case is alternative constructors
+	A class can only have one init method, but there might be multiple ways to initialize an object.
+	i.e. We might want to create an Employee object from data stored in a file, We..
+	can't use a method, because it would require an instance, and there isn't one yet
+Use class methods to create objects
+Use return to return an object
+cls(...) will call __init__(...)
+
+Distinction between self and cls
+	Always use self for the first argument to instance methods
+	Always use cls for the first argument to class methods
+
+\--Class inheritance
+Object-oriented programming is fundamentally about code reuse
+Code reuse:
+	1. Someone has already done it.
+	2. So, DRY: Don't Reapeat Yourself
+	Modules are great for fixed functionality
+	OOP is great for customizing functionality
+
+Inherintance
+	New class functionality = Old functionality + extra
+E.g.
+The class BankAccount has the attribute balance and the method withdraw()
+If a class called SavingsAccount inheritances the BankAccount,
+So, the SavingAccount has the BankAccount attributes and methods + the extra ones
+which are the interest_rate attribute and compute_interest() method
+
+Implementing class inheritance
+It is only write the class between parenthesis after the class name. E.g.
+```
+class MyChild(MyParent):
+	# Do stuff here
+```
+MyParent: class whose functionality is being extended/inherited
+MyChild: class that will inherit funcionality and add more
+
+Child class has all the parent data
+Inheritance: "is-a" relationship
+	A SavingAccount is a BankAccount
+	
+Subclass (Childclass)
+The purpose of child classes -- or sub-classes -- is to customize and extend functionality of the parent class
+
+\--Customizing functionality via inheritance
+Customizing constructors
+```
+class SavingsAccount(BankAccount):
+	# Constructor speficially for SavingsAccount with an additional parameter
+	def __init__(self, balance, interest_rate):
+	# Call the parent constructor using ClassName.__init__()
+		BankAccount.__init__(self, balance)
+		# <--- self is a SavingsAccount but also a BankAccount
+		# Add more functionality
+		self.interest_rate = interest_rate
+```
+Can run constructor of the parent class fisrt by Parent.__init__(self, args...)
+Add more functionality
+Don't have to call the parent constructors
+
+
+Create objects with a customized constructor
+	Construct the object using the new constructor
+	E.g.: acct = SavingsAccount(1000, 0.03)
+
+Adding functionality
+	Add methods as usual
+	Can use the data from both the parent and the child class
+
+Customizing functionality
+	Can change the signature (add parameters)
+	Use Parent.method(self,args) to call a method from the parent class
+	

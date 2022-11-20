@@ -1,0 +1,75 @@
+Course Description
+This course will provide you an understanding of how to use built-in PostgreSQL functions in your SQL queries to manipulate different types of data including strings, character, numeric and date/time. We'll travel back to a time where Blockbuster video stores were on every corner and if you wanted to watch a movie, you actually had to leave your house to rent a DVD! You'll also get an introduction into the robust full-text search capabilities which provides a powerful tool for indexing and matching keywords in a PostgreSQL document. And finally, you'll learn how to extend these features by using PostgreSQL extensions.
+
+Overview of Common Data Types 
+Learn about the properties and characteristics of common data types including strings, numerics and arrays and how to retrieve information about your database.
+
+\--Text data types
+Common data types
+	Text data types
+		CHAR, VARCHAR, TEXT
+	Numeric data types
+		INT and DECIMAL
+	Date/time data types
+		DATE, TIME, TIMESTAMP, INTERVAL
+	Arrays
+
+Determining data types from existing tables
+	PostgreSQL stores information about all database objects in a system database called INFORMATION_SCHEMA
+	By querying certain tables in this database, you can determine information about the database including data types of columns
+```
+SELECT
+	column_name,
+	data_type
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE column_name in ('title','description')
+AND table_name = 'film';
+```
+
+\--Date and time data types
+TIMESTAMP
+	It contains boh date value and a time value with microsecond precision
+	ISO 8601 format: yyyy-mm-dd
+DATE
+	Date value
+TIME
+	Time value
+INTERVAL
+	It stores date and time data as a period of time in years, months, days, hours, seconds, etc.
+	
+\--Working with arrays
+Table with two array columns
+```
+CREATE TABLE grades (
+	student_id int,
+	email text[][],
+	test_scores int[]
+);
+```
+
+Insert statment example
+```
+INSERT INTO grades
+VALUES (1,
+'{{"work","work1@datacamp.com"},{"other","other1@datacamp.com"}}',
+'{92,85,96,88}' );
+```
+
+Acessing and searching arrays
+```
+SELECT
+	email[1][1] AS type,
+	email[1][2] AS address,
+	test_scores[1],
+FROM grades
+WHERE email[1][1] = 'work';
+```
+Note that PostgreSQL array indexes start with one and not zero.
+
+Array functions and operators
+```
+WHERE 'search text' = ANY(array_name);
+WHERE array_name @> ARRAY['search text'] :: type[]
+```
+ANY function allows you to search for a value in any index position of an ARRAY
+@> operator is alternative syntax to the ANY function and matches data in an ARRAY using the following syntax. 

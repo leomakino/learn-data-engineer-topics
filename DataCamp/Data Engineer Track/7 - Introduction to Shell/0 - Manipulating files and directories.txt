@@ -1,0 +1,63 @@
+Where am I?
+A: print working directory
+How can I identify files and directories?
+A: listing
+How else can I identify files and directories?
+A: relative path. The shell decides if a path is absolute or relative by looking at its first character: If it begins with /, it is absolute. If it does not begin with /, it is relative. Example: Absolute /home/repl/seasonal, the relative path from /home/repl is seasonal.
+How to move around filesystems? How can I move to another directory?
+A: change directory
+How can I copy files?
+A: copy
+How can I move a file?
+A: move
+How can I rename files?
+A: move
+How can I delete files?
+A: remove
+How can I create and delete directories?
+A: move/makeDirectory and remove directory
+
+
+\--Commands:
+pwd
+	print working directory
+	prints the absolute path
+	tells you where you are
+ls
+	listing
+	To find out what's there
+	lists the contents of your current directory
+	if you add the names of directories, it will list their contents
+		For example, ls /home/repl
+cd
+	change directory
+	move around in the filesystem
+cp
+	cp existingFileName copiedFileName directory
+		cp original.txt duplicate.txt
+		creates a copy of original.txt called duplicate.txt
+mv
+	moves a file from one directory to another
+	To move multiple files using the mv command pass the names of the files or a pattern followed by the destination
+	*just like cp, mv will overwrite existing files.
+	Also used to rename files, e.g.: mv course.txt old-course.txt
+	Treats directories the same way it treats files
+rm
+	remove
+	you can give rm the names of as many files as you'd like
+	*the shell doesn't have a trash can
+	
+rmdir (alternative: rm -r directory)
+	remove directory
+	It only works when the directory is empty
+mkdir
+	Make directory
+	create a new (empty) directory
+
+
+\--Directories:
+	/ root directory
+	/home/repl is the directory repl in the directory home
+	.. (two dots with no spaces) means "the directory above the one I'm currently in"
+	A single dot on its own, ., always means "the current directory"
+	~ (the tilde character), means "your home directory", such as /home/repl

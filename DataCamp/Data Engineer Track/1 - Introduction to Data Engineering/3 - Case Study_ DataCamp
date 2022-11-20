@@ -1,0 +1,19 @@
+\--Course ratings
+Exploring the DB schema
+Querying the table
+Average rating per course
+
+\--From ratings to recommendations
+ Recommendation transformation:
+ 	Use technology that user has rated most
+ 	Don't recommend courses that user already rated
+ 	Recommend three highest rated courses from ramaining combinations
+
+Filter out corrupt data:
+
+Using the recommender transformation
+
+\--Scheduling daily jobs
+"postgresql://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]
+"postgresql://repl:password@localhost:5432/pagila"
+\--

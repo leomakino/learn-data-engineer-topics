@@ -1,0 +1,111 @@
+In this chapter, you'll learn what object-oriented programming (OOP) is, how it differs from procedural-programming, and how it can be applied. You'll then define your own classes, and learn how to create methods, attributes, and constructors.
+
+How do you design classes for inheritance? Does Python have private attributes? Is it possible to control attribute access? You'll find answers to these questions (and more) as you learn class design best practices.
+
+\--Designing for inheritance and polymorphism
+Polymorphism
+	Using a unified interface to operate on objects of different classes
+	
+Example: batch_withdraw() doesn't need to check the object to know which withdraw() to call
+```
+# Withdraw amount from each of accounts in list_of_accounts
+def batch_withdraw(list_of_accounts, amount):
+for acct in list_of_accounts:
+acct.withdraw(amount)
+b, c, s = BankAccount(1000), CheckingAccount(2000), SavingsAccount(3000)
+batch_withdraw([b,c,s]) # <-- Will use BankAccount.withdraw(),
+# then CheckingAccount.withdraw(),
+# then SavingsAccount.withdraw()
+```
+
+Liskov Substitution Principle (LSP)
+	From example: Wherever BankAccount works, CheckingAccount should work as well.
+	
+	Base class should be
+	interchangeable with any of its
+	subclasses without altering any
+	properties of the program
+	
+	Syntactically
+		Function signature are compatible
+		arguments, returned values
+	
+	Semantically
+		The state of the object and the program remains consistent
+		subclass method doesn't strengthen input conditions
+		subclass method doesn't weaken output conditions
+		no additional exceptions
+Violating LSP
+	Syntactic incompatibility:
+		BankAccount.withdraw() requires 1 parameter, but CheckingAccount.withdraw() requires 2
+	Subclass strengthening input conditions
+		BankAccount.withdraw() accepts any amount, but
+		CheckingAccount.withdraw() assumes that the amount is limited
+	Subclass weakening output conditions
+		BankAccount.withdraw() can only leave a positive balance or
+		cause an error, CheckingAccount.withdraw() can leave balance negative
+	Changing additional attributes in subclass's method
+	Throwing additional exceptions in subclass's method
+	
+\--Managing Data access: private attributes
+In Python, all data is public. Instead of access modifiers common in languages like Java, Python uses naming conventions to communicate the developer's intention to class users, shifting the responsibility of safe class use onto the class user.
+Use @property to customize access
+Python uses underscores extensively to signal the purpose of methods and attributes.
+
+_name: Internal attributes
+	is a convention for internal details of implementation.. E.g.: obj._att_name, obj._method_name
+	As a class user: "don't touch this"
+	As a class developer: use for implementation details, helper functions
+	A helper method that checks validity of an attribute's value but isn't considered a part of class's public interface. E.g: df._is_mixed_type, datetime._ymd2ord()
+	
+__name: pseudoprivate attributes
+	Private. E.g. obj.__attr_name, obj.__method_name()
+	Not inherited
+	A 'version' attribute that stores the current version of the class and shouldn't be passed to child classes, who have their own versions
+	Name mangling: obj.__attr_name is interpreted as obj._MyClass__attr_name
+	for attributes that should not be inherited to aviod name clashes in child classes.
+__name__
+	Are only used for built-in Python methods(__init__(), __repr__())
+	A method that is run whenever the object is printed
+	are reserved for built-in methods.
+
+\--Properties
+Properties
+	It's a special kind of attribute that allow customized access.
+	You could think of properties as attributes with built-in access control.
+	can be used to implement "read-only" attributes
+	can not prevent creation of new attributes via assignment
+	can be accessed using the dot syntax just like regular attributes
+	allow for validation of values that are assigned to them
+
+
+Changing attribute values
+	Use dot syntax and = to alter atributes
+Control attribute access?
+	check the value for validity
+	make attributes read-only modifying set_salary() wouldn't prevent emp.salary = -100
+
+@property
+	Use protected attribute with leading _ to store data
+	Use @property on a method whose name is exactly the name of the restricted attribute;
+	return the internal attribute
+	Use @attr.setter on a method attr() that will be called on obj.attr = value
+	the value to assign passed as argument
+Why use @property?
+	User-facing: behave like attributes
+	Developer-facing: give control of access
+Other possibilities
+	If you do not define a @attr.setter method, the property will be read-only
+	Create a read-only property
+		Add @attr.getter
+	Use for the method that is called when the property's value is retrieved
+		Add @attr.deleter
+	Use for the method that is called when the property is deleted using del
+
+Create and set properties
+There are two parts to defining a property: 
+	first, define an "internal" attribute that will contain the data;
+	then, define a @property-decorated method whose name is the property name, and that returns the internal attribute storing the data.
+If you'd also like to define a custom setter method, there's an additional step:
+	define another method whose name is exactly the property name (again), and decorate it with @prop_name.setter where prop_name is the name of the property. The method should take two arguments -- self (as always), and the value that's being assigned to the property.
+	

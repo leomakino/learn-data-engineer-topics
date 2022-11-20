@@ -1,0 +1,48 @@
+\--Course Description
+This course will provide you an understanding of how to use built-in PostgreSQL functions in your SQL queries to manipulate different types of data including strings, character, numeric and date/time. We'll travel back to a time where Blockbuster video stores were on every corner and if you wanted to watch a movie, you actually had to leave your house to rent a DVD! You'll also get an introduction into the robust full-text search capabilities which provides a powerful tool for indexing and matching keywords in a PostgreSQL document. And finally, you'll learn how to extend these features by using PostgreSQL extensions.
+
+Parsing and Manipulating Text
+Learn how to manipulate string and text data by transforming case, parsing and truncating text and extracting substrings from larger strings.
+
+\--Reformatting string and character data
+Concatenation
+	|| - The string concatenation operator
+	CONCAT(str_1, str_2, ...) - function to concatenate
+Letter Case Functions - Changing the cae of string
+	UPPER(string) - Transform the string to upper case
+	LOWER(string) - Transform the string to lower case
+	INITCAP(string) - Transform the string to title case
+
+REPLACE(source, old_text, new_text)
+	finds a substring in a string and replace it with a different substring
+REVERSE(string)
+	Return reversed string.
+	
+first_name || ' ' || last_name || ' <' || email || '>'
+
+\--Parsing string and character data
+LENGTH(string) or CHAR_LENGTH(string)
+	Return the number of characters in a string
+Position(string) OR STRPOS
+	Finds the position of a characer in a string
+	E.g.: POSTION(‘B’ in ‘A B C’)
+
+Parsing string data
+	LEFT(string, n) - Return the first n character in a string
+	RIGHT(string, n)) - Return last n characters in the string. When n is negative, return all but first |n| characters.
+	SUBSTRING ( string ,start_position , length )  
+		returns a part of string
+		It can be combined with other functions to provide additional capabilities
+
+\--Truncating and padding string data
+Removing whitespace from strings
+TRIM([leading | trailing | both] [characters] from string)
+	Removes the longest string that contains a specific character from a string
+	By default, the TRIM() function remove spaces (‘ ‘)
+	LEADING - remove spaces from the beginning of a string
+	TRAILING - Removes spaces from the end of a string
+	BOTH - Removes all spaces at the beginning and ending of a string
+	
+	LTRIM() removes all characters, spaces by default from the beginning of a string
+	RTRIM() removes all characters, spaces by default from the end of a string
+	LPAD - Pad on the left a string with character to a certain lengh

@@ -1,0 +1,84 @@
+\--State of the UNION
+What's the difference between JOIN and UNION?
+UNION puts lines from queries after each other, while
+JOIN makes a cartesian product and subsets it -- completely different operations
+
+UNION: SELECT 23 AS bah
+    -> UNION
+    -> SELECT 45 AS bah;
++-----+
+| bah |
++-----+
+|  23 | 
+|  45 | 
++-----+
+JOIN:SELECT * FROM 
+    -> (SELECT 23 AS bah) AS foo 
+    -> JOIN 
+    -> (SELECT 45 AS bah) AS bar
+    -> ON (33=33);
++-----+-----+
+| foo | bar |
++-----+-----+
+|  23 |  45 | 
++-----+-----+
+\--INTERSECTional data science
+INTERSECT solo incluye aquellos registros en común con las tablas y los campos seleccionados.
+Lo que isucedería si intentáramos seleccionar dos columnas en lugar de una? 
+A: Empty table
+Por qué?
+Cuando INTERSECT mira dos columnas, incluye ambas columnas en la búsqueda. INTERSECT busca Registros en común, no campos clave individuales 
+
+\--EXEPTional
+EXCEPT le permite incluir solo los registros que están en una tabla, pero no la otra.
+
+-- Select field
+SELECT capital
+  -- From countries
+  FROM countries
+	-- Set theory clause
+	EXCEPT
+-- Select field
+SELECT name
+  -- From cities
+  FROM cities
+-- Order by ascending capital
+ORDER BY capital;
+
+\--Semi-joins and Anti-joins
+1. INNER JOIN: only includes records in which the key is in both tables
+2. SELF JOIN: CASE with WHEN, THEN, ELSE, and END to define a new grouping field. Comparar valores en un campo con otros valores del mismo campo dentro de la misma tabla.
+3. LEFT JOIN: maintain the left table, join the right table only where the both ids matches and marks the values as missing in the cells of the right table that don't match.
+4. RIGHT JOIN: does the reverse. It maitains the right table, join the left table only where the both ids maches and marks the values as missing in the cells of the left table that don't match. 
+5. FULL JOIN: combines a left join and a right join. All the values of both tables are included in the new table
+6. CROSS JOIN: create all possible combinations of two tables
+Las dos últimas uniones que cubriremos usan una tabla derecha para determinar qué registros mantener en la tabla izquierda
+7. Semi-join: chooses records in the first table where a condition IS met in a second table
+8. anti-join: chooses records in the first table where a condition IS NOT met in a second table
+
+semi-join Vs INNER JOIN
+
+SELECT DISTINCT name
+FROM languages
+WHERE code IN
+  (SELECT code
+   FROM countries
+   WHERE region = 'Middle East')
+ORDER BY name;
+
+SELECT DISTINCT languages.name AS language
+FROM languages
+INNER JOIN countries
+ON languages.code = countries.code
+WHERE region = 'Middle East'
+ORDER BY language;
+
+Diagnosing problems using anti-join: It is particularly useful in identifying which records are causing an incorrect number of records to appear in join queries.
+19
+15
+a)Countries has 19 countries names with the Oceania as continent
+b)countries+currencies INNER JOIN have 15 countries names with the Oceania as continent
+c) 4 countries were not listed in the second query, why? Because the code is missing
+
+Semi-joins: When you would like to filter your first table based on conditions set on a second table, you should use a semi-join to accomplish your task.
+Anti-joins: When you would like to filter your first table based on conditions not being met on a second table.

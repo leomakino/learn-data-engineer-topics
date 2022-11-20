@@ -1,0 +1,129 @@
+\--Processing data
+What does mean processing data?
+A: The convertion of raw data into meaningful information. Data pipelines are used to process data. Most of the data processing steps are transformation steps
+
+Why is it necessary?
+(Actionable tasks examples): 
+	Remove unwanted data;
+	Optimize memory (Almacenamiento y el procesamiento de datos no es gratuito), process and retwork costs;
+	Convert data from one type to another;
+	Organize data;
+	Reorganize data from the data lake to data warehouses;
+	Fit data into a schema/structure;
+	Increase productivity
+
+How data engineers process data? 
+A: Data manipulation, cleaning, and tidying tasks
+	Reject corrupt song files;
+	Decide what happens with missing metadata; -> e.g. What happens when the genre is missing? Should we  reject the file? Do we leave the genre blank? Or do we provide one by default?
+	Optimize the performance od the database
+	
+
+What does it consists in? 
+Batch processing tools:
+	hadoop
+	amazon EMR
+	TEZ
+	apache giraph
+	mahout
+	presto
+	
+Stream processing tools:
+	beam;
+	samza
+	apache nifi.
+	apache storm
+	spring cloud data flow
+	Flink
+
+\--Scheduling data
+
+What is scheduling?
+A: La programación (agendamento) puede se aplicar a cualquier tarea de procesamiento de datos: actualizar tablas y bases de datos. It runs tasks in a sprcific order and resolves all dependencies.
+
+What are the different ways to set it up?
+A: 1. Manual: Manually update the employee table
+2. Automatically run at a specific time
+3. Automatically run if a specific condition is met: sensor scheduling
+
+
+
+What are the differences between batches and streams?
+A: Batch se envían por grupos a intervalos específicos, often cheaper; 
+	Employee table and Revenue table can be updated once a day
+	Offline music (musics are batched/downloaded at cellphone)
+
+Stream los registros se envían a través de la canalización tan pronto como se actualizan.
+	New users singing in: Hoy en día es inconcebible que un usuario espere veinticuatro horas para poder utilizar un servicio al que acaba de registrarse.
+	Online music (musics are streamed one by one)
+	
+How scheduling is implemented at Spotflix?
+A:
+
+Tools to schedule data engineering systems: Airflow, Luigi
+
+\--Parallel computing
+La computación paralela constituye la base de casi todas las herramientas modernas de procesamiento de datos. Cuando las herramientas de procesamiento de big data realizan una tarea de procesamiento, lo dividieron en varias subtareas más pequeñas. Luego, estas subtareas se distribuyen entre varios unidades de procesamientos.
+
+What are the benefits and risks of parallel computing?
+	Advantages: 
+		Extra processing power
+		Reduced memory footprint
+	Disadvantages:
+		Mover datos tiene un costo
+		Dividir una tarea en subtareas y fusionar los resultados de las subtareas en un resultado final requiere cierta comunicación entre procesos, lo que lleva un tiempo adicional 
+
+How it's implemented at Spotflix?
+	Utilizamos la computación paralela para convertir canciones de formato sin perdida .ogg, nos evita tener que cargar todas las canciones nuevas en una computadora y beneficiarse de la potencia de procesamiento adicional para ejecutar los scripts de conversión
+
+\--Cloud computing
+
+Servers on premises: procesar datos en su proprio centro de datos en racks de servidores. It needs space. It has electrical and maintenance cost. Las empresas trendrían que proporcionar suficiente potencia de procesamiento para peak moments. Y en momentos más tranquilos, gran parte de la potencia de procesamiento quedaría sin utilizar. (Processing power unused at quieter times)
+
+
+What are the benefits and risks of cloud computing?
+Es para evitar el desperdicio de recursos acima que hace que la computación en la nube sea tan atractiva.
+Benefits of the Servers on the cloud:
+	Servers rented;
+	Don't need space;
+	Use just the resources we need When we need them;
+	Optimización de costos comparado a Servers on premises;
+	Database reliability: data replication.
+Risks of cloud computing:
+	Sentive or confidential data: Existe un riesgo asociado con otra persona que lo aloja y con la vigilancia del gobierno.
+
+
+What are the main cloud providers and their services?
+Amazon Web Services (AWS) 32.4%,  Microsoft Azure 17.6%, Google Cloud 6%.
+	File storage:
+		AWS S3
+		Azure Blob Storage
+		Google Cloud Storage
+	Computation:
+		AWS EC2
+		Azure Virtual Machines
+		Google Compute Engine
+	Databases:
+		AWS RDS
+		Azure SQL Database
+		Google Cloud SQL
+
+How is it implemented at Spotflix?
+AWS S3 para almacenar la cubierta álbumes (cover albums);
+AWS EC2 para procesar canciones;
+AWS RDS para almacenar información de empleados.
+
+Multicloud: 81% of companies have implemented a multicloud approach according to Gartner.
+Pros:
+	Reducir la dependencia de un solo proveedor;
+	Optimiza costos;
+	Militar contra desastres;
+Cons:
+	Cloud providers try to lock in consumers by integrating as many services as they can;
+	Algunos servicios de un proveedor pueden no ser compatibles con servicios de otro;
+	Dificulta la gestión de la seguridad y la gobernanza;
+
+\--We are the champions
+
+
+

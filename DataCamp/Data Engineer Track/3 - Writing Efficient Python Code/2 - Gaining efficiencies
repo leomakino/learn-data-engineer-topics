@@ -1,0 +1,163 @@
+---Gaining efficiencies---
+
+
+\--Efficiently combining, counting, and iterating
+
+names = ['Bulbasaur', 'Charmander', 'Squirtle']
+hps = [45, 39, 44]
+
+Example 1: combining/indexing two lists. Enumarate vs. zip
+
+combined = []
+for i,pokemon in enumerate(names):
+combined.append((pokemon, hps[i]))
+
+It is equal to:
+
+combined_zip = zip(names, hps)
+combined_zip_list = [*combined_zip] #unpacking built-in into a list
+
+The zip function it's more efficient than the for loop
+
+Example 2 - collections module: Counting elements of a dict. count += 1 vs. count(dict)
+
+poke_types = ['Grass', 'Dark', 'Fire', 'Fire', ...]
+type_counts = {}
+
+for poke_type in poke_types:
+if poke_type not in type_counts:
+type_counts[poke_type] = 1
+else:
+type_counts[poke_type] += 1
+
+It is equal to:
+
+from collections import Counter
+type_counts = Counter(poke_types)
+
+Example 3 - itertools module: Combinations differents elements from a list. 
+
+poke_types = ['Bug', 'Fire', 'Ghost', 'Grass', 'Water']
+combos = []
+
+for x in poke_types:
+for y in poke_types:
+if x == y:
+continue
+if ((x,y) not in combos) & ((y,x) not in combos):
+combos.append((x,y))
+
+is equal to:
+
+from itertools import combinations
+combos_obj = combinations(poke_types, 2)
+
+Modules summary:
+
+Collections module - Part of Python's Standard Library (built-in module)
+	Alternatives to general purpose dict, list, set, and tuple; 
+	namedtuple : tuple subclasses with named fields
+	deque : list-like container with fast appends and pops
+	Counter : dict for counting hashable objects
+	OrderedDict : dict that retains order of entries
+	defaultdict : dict that calls a factory function to supply missing values
+
+itertools module - Part of Python's Standard Library (built-in module)
+	Functional tools for creating and using iterators
+	Infinite iterators: count , cycle , repeat
+	Finite iterators: accumulate , chain , zip_longest , etc.
+	Combination generators: product , permutations , combinations
+
+\--Set theory
+#syntax
+list = ['Abomasnow', 'Abra', 'Absol', ...]
+tuple = ('Abomasnow', 'Abra', 'Absol', ...)
+set = {'Abomasnow', 'Abra', 'Absol', ...}
+
+#converting a list into a set
+list_a = ['Bulbasaur', 'Charmander', 'Squirtle']
+set_a = set(list_a)
+
+#Methods:
+intersection() : all elements that are in both sets
+	It's like INTERSECT in SQL
+difference() : all elements in one set but not the other
+	It's like EXCEPT in SQL
+symmetric_difference() : all elements in exactly one set
+	It select all elements in both sets that aren't in commun
+union() : all elements that are in either set
+	It's like UNION in SQL
+	
+Intersect example:
+	in_common = []
+	for pokemon_a in list_a:
+		for pokemon_b in list_b:
+			if pokemon_a == pokemon_b:
+				in_common.append(pokemon_a)
+
+It's equal to: (And much more efficient than a for)
+	set_a = set(list_a)
+	set_b = set(list_b)
+	set_a.intersection(set_b)
+	
+To check if a item is in a set:
+	'Zubat' in names_set
+	*Search for a item in a set is much more efficient than a list or tuple
+
+Example - Uniques with sets: to extract only the items once
+	unique_types = []
+	for prim_type in primary_types:
+		if prim_type not in unique_types:
+			unique_types.append(prim_type)
+
+It's equal to: Porque un conjunto se define como una colección de elementos distintos
+unique_types_set = set(primary_types)
+
+\--Eliminating loops
+poke_stats = [
+[90, 92, 75, 60],
+[25, 20, 15, 90],
+[65, 130, 60, 75],
+...
+]
+
+Example 1: Sum
+
+# For loop approach
+totals = []
+for row in poke_stats:
+	totals.append(sum(row))
+
+It's the same as:
+
+totals_comp = [sum(row) for row in poke_stats]
+
+Also, It's same as:
+totals_map = [*map(sum, poke_stats)]
+
+Function map is more efficient than loop and list comprehension. It's benefical to try to eliminate loops
+
+Example 2: Eliminate loops with NumPy
+
+avgs = []
+for row in poke_stats:
+	avg = np.mean(row)
+	avgs.append(avg)
+print(avgs)
+
+It's the same as:
+
+avgs_np = poke_stats.mean(axis=1)
+
+
+\--Writting better loops
+
+Understand what is being done with each loop iteration
+	Anything that is done or can be done once should be outside the loop
+	Avoid unnecessary work in each iteration
+Move one-time calculations outside (above) the top
+Use holistic conversions outside (below the loop)
+	If a loop is converting data types with each iteration, it's possible that this conversion can be done outside (or below) the loop using a map function
+
+
+Tip: eliminate loops using NumPy broadcasting and list comprehension

@@ -1,0 +1,123 @@
+\--Introduction
+In this chapter, you will get introduced to the pytest package and use it to write simple unit tests. You'll run the tests, interpret the test result reports and fix bugs.
+
+\--Why unit test?
+Unit tests automate the repetitive testing process and save time.
+Suppose we have just implemented a Python function
+	How can we test whether our implementation is correct?
+		The easiest way is to open an interpreter,
+		test the function on a few arguments,
+		and check if the return value is correct
+	If correct we accept the implementation and move on
+	While testing on the interpreter is easy, it is actually very inefficient.
+	Every time we modify the function, either to fix bugs or implement new features, we have to test it
+
+Life cycle of a function
+	1. Implementation
+	2. Test
+	3.1 If FAIL Then 'Bugfix' -> Return to 2. Test
+	3.2 If PASS Then 'Accepted implementation' -> Feature request
+	4.1 Implementation to production environment
+	4.2 If 'Bug found' Then 'Bug fix' -> Return to 2. Test
+
+Manual testing vs. unit testing
+	8h - Manually testing on the interpreter
+	1h - Unit tests 
+
+Write unit tests for you projects. Example:
+	data/
+	src/
+		data/
+		features/
+		models/
+		visualization/
+	tests/
+		data/
+		features/
+		models/
+		visualization/
+
+\--Write a simple unit test using pytest
+Python unit testing libraries
+	pytest
+	unittest
+	nosetests
+	doctest
+Advantages of pytest
+	Has all essential features
+	Easiest to use
+	Most popular
+
+Step 1: Create a file
+	Create 'test_row_to_list.py'
+	'test_' indicate unit tests inside (naming convention)
+	Also called 'test modules'
+	
+Step 2: Imports
+	import pytest
+	import function_name (in this case, row_to_list)
+	
+Theoretical structure of an assertion
+Every test must contain an assert statement
+In Python assertions are statements that you can use to set sanity checks during the development process.
+Assertions allow you to test the correctness of your code by checking if some specific conditions remain true, which can come in handy while you're debugging code.
+
+assert boolean_expression; 
+If the assert statement passes (True) it returns a blank output
+If the expression is False, it raises an AssertionError
+
+Step 3: Assertion
+	import pytest
+	import row_to_list
+	
+	def test_for_clean_row():
+		assert row_to_list("2,081\t314,942\n") == ["2,081", "314,942"]
+	def test_for_missing_area():
+		assert row_to_list("\t293,410\n") is None
+	def test_for_missing_tab():
+		assert row_to_list("1,463238,765\n") is None
+
+Checking for None values
+	Correct: assert var is None
+	Incorrect: assert var == None
+
+Step 5: Running unit tests
+!pytest test_row_to_list.py
+
+\--Understanding test result report
+General information: test session starts
+	platform, rootdir, plugins
+Test result
+	F - Meaning: Failure - When an exception is raised when running unit test - Action: Fix the function or unit test
+		assert row_to_list("\t293,410") is None # AssertionError from this line
+		assert row_to_list("\t293,410") is none # NameError from this line
+	. - Meaning: Passed - When no exception raised when running unit test - Action: Everything is fine. Be happy
+Information on failed tests
+	The line raising the exception is marked by >
+	AssertionError: the exception is an AssertionError
+	the line containing where displays return values.
+Test result summary
+
+Spotting and fixing bugs: To find bugs in functions, you need to follow a four step procedure. 
+    1. Write unit tests.
+    2. Run them.
+    3. Read the test result report and spot the bugs.
+    4. Fix the bugs.
+
+\--More benefits and test types
+Benefits
+	Time savings
+	Unit tests serve as documentation
+		Write a Argument | Return value table can give a good hint about waht the function does.
+	More trust: Users can run tests and verify that the package works
+		Users can run the unit tests and verify that the functions work
+	Reduced downtime
+		1. Dev -> Git -> Productive system	 : If the devs push a bad code to a productive system
+		This will bring the system down and annoy users
+		2. Dev -> Github -> CI server running unit tests -> Productive system :
+		This architect cure the problem above;
+		CI runs all unit tests when any code is pushed
+		If any unit test fails, it rejects the change, preventing downtime
+What is a unit?
+	Small, independent piece of code
+	Python function or class

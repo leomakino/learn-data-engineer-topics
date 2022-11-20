@@ -1,0 +1,112 @@
+halves: plural of half
+stack: a way of storing data (=information) on a computer so that the last piece of data to be stored is the first one to be found by the computer
+
+\--Docstrings
+A docstring is a string written as the first line of a function to make easier for me and other engineers to use my code in the future;
+Because docstrings usually span multiple lines, they are enclosed in triple quotes, Python's way of writing multi-line strings.
+
+"""
+Description of what the function does.
+
+Description of the arguments, if any.
+
+Description of the return value(s), if any.
+
+Description of errors raised, if any.
+
+Optional extra notes or examples of usage.
+"""
+
+
+Docstring most popular formats:
+	Google Style
+		"""Description of what the function does.
+		
+		Args:
+			arg_1 (str): Description of arg_1 that can break onto the next line
+			if needed.
+			arg_2 (int, optional): Write optional when an argument has a default
+			value.
+			
+		Returns:
+			bool: Optional description of the return value
+			Extra lines are not indented.
+			
+		Raises:
+			ValueError: Include any error types that the function intentionally
+			raises.
+		Notes:
+		See https://www.datacamp.com/community/tutorials/docstrings-python
+		for more info.
+		"""
+	Numpydoc: It is the most common format in the scientific Python community
+		"""
+		Description of what the function does.
+		
+		Parameters
+		----------
+		arg_1 : expected type of arg_1
+			Description of arg_1.
+		arg_2 : int, optional
+			Write optional when an argument has a default value.
+			Default=42.
+		
+		Returns
+		-------
+		The type of the return value
+			Can include a description of the return value.
+			Replace "Returns" with "Yields" if this function is a generator.
+		"""
+
+\--Dry and "Do one Thing"
+Write functions to avoid repeat yourself(repetition):
+	You will only need correct the function instead of n places if there is necessity to change the code.
+	Avoid human errors.
+
+Do one thing functions:
+	More flexible;
+	More easily understood
+	Simpler to test
+	Simpler to debug
+	Easier to change	
+
+
+
+
+\--Pass by assignment
+def bar(x):
+    return x+90
+my_var = 3
+bar(my_var)
+OUTPUT: 3
+
+TO solve:
+my_var = 3
+result = bar(my_var)
+print(bar) - OUTPUT: 93
+
+Integers are immutable, they can't be changed. There is no way in Python to have changed "x" or "my_var" directly, because integers are immutable variables
+
+def foo(x):
+    x[0] = 99
+mylist = [*range(3)]
+print("mylist: ", mylist)
+foo(mylist)
+print(mylist) - OUTPUT: [99,1,2]
+
+Lists, dict, set are Mutable
+
+Mutable default arguments are dangerous
+
+def foo(var=[]):
+	var.append(1)
+	return var
+
+
+def foo(var=None):
+	if var is None:
+		var = []
+	var.append(1)
+	return var	
+		
+		

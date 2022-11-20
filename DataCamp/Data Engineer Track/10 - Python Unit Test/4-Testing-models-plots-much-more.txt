@@ -1,0 +1,212 @@
+\--Introduction
+In this chapter, You will pick up advanced unit testing skills like setup, teardown and mocking. You will also learn how to write sanity tests for your data science models and how to test matplotlib plots.
+
+\--Beyond assertion: setup and teardown
+In this lesson, we are going to look at functions whose tests require more than assert statements
+
+I.e. The preprocessing function
+preprocessing is different from other functions because it has a precondition to work properly
+The precondition is the presence of a raw data file in the environment
+	preprocess() needs a raw data file in the environment to run
+	preprocess() modifies the environment by creating a clean data file
+
+Testing the preprocessing function
+	Step 1: Setup
+		Setup brings the environment to a state where testing can begin
+	Step 2: Assert
+		We call the function and assert that with the expected result
+	Step 3: Teardown
+		Teardown brings environment to initial state
+
+The new workflow
+setup > assert > teardown
+
+Fixture
+In pytest, the setup and teardown is placed outside the test, in a function called a fixture.
+A fixture is a function which has the pytest
+The first section is the setup
+Then the function returns (yield) the data that the test needs
+The test can access this d1
+data by calling the fixture passed as an argument
+The next section is the teardown
+```
+import pytest
+@pytest.fixture
+def my_fixture():
+	# Do setup here
+	yield data # Use yield instead of return
+	# Do teardown here
+```
+```
+def test_something(my_fixture):
+	...
+	data = my_fixture
+	...
+```
+Difference between yield instead of return in Python
+Yield is generally used to convert a regular Python function into a generator. Return is generally used for the end of the execution and “returns” the result to the caller statement. It replace the return of a function to suspend its execution without destroying local variables.
+
+
+The built-in tmpdir fixture
+There is a built-in python fixture called tmpdir, which is useful when dealing with files
+	setup: create a temporary directory
+	teardown: delete the temporary directory along with contents
+We can pass this fixture as an argument to our fixture	
+this is called fixture chaining
+setup of tempdir() > setup of raw_and_clean_data_file() > test > teardown of raw_and_clean_data_file > teardown of tempdir()
+We can omit the teardown code in our fixture with the tmpdir fixture
+
+\--Mocking
+Mock means:
+	a model of something which is used when the real thing is not yet available
+In the preprocessing function, test result depend on dependencies
+
+If the tests for preprocess() were to pass, row_to_list() and convert_to_int() must also work as expected
+If any of them has a bug, the tests for preprocess() will not pass
+
+Test result should indicate bugs in
+	function under test not dependencies e.g. row_to_list() or convert_to_int()
+	
+In this lesson, we will learn a trick which will allow us to test a function independently of its dependencies	
+Generally, its best to mock all dependencies of the function under test. 
+
+Packages for mocking in pytest helps testing functions independently of dependencies
+pytest-mock: install using pip install pytest-mock
+unittest.mock: Python standard library package
+
+MagicMock() and mocker.patch()
+Theoretical structure of mocker.patch()
+	mocker.patch("<dependency name with module name>")
+	i.e.: mocker.patch("data.preprocessing_helpers.row_to_list")
+Normal chart
+raw > row_to_list() > convert_to_int() > clean
+
+Bug free replacement of dependency
+eaw > row_to_list_mock > convert_to_int() > clean
+
+Checking the arguments
+call_args_list attribute returns a list of arguments that the mock was called with
+
+\--Testing models
+
+The linear regression model
+from scipy.stats import linregress
+def train_model(training_set):
+	slope, intercept, _, _, _ = linregress(training_set[:, 0], training_set[:, 1])
+	return slope, intercept
+	
+slope = (y2 - y1 / (x2 - x1))
+intercept = y1 - slope * x1	
+
+If we don't know the expected return value, we cannot test the function.
+This is true for all data science models: 
+	regression
+	random forest
+	support vector machine
+	neural network
+
+Trick 1: Use dataset where return value is known
+
+import pytest
+import numpy as np
+from models.train import train_model
+	def test_on_linear_data():
+	test_argument = np.array([[1.0, 3.0],
+	[2.0, 5.0],
+	[3.0, 7.0]
+	]
+	)
+expected_slope = 2.0
+expected_intercept = 1.0
+slope, intercept = train_model(test_argument)
+assert slope == pytest.approx(expected_slope)
+assert intercept == pytest.approx(
+	expected_intercept
+	)
+	
+Trick 2: Use inequalities
+inequality: a lack of equality
+
+import numpy as np
+from models.train import train_model
+def test_on_positively_correlated_data():
+	test_argument = np.array([[1.0, 4.0], [2.0, 4.0],
+				[3.0, 9.0], [4.0, 10.0],
+				[5.0, 7.0], [6.0, 13.0],
+				]
+				)
+	slope, intercept = train_model(test_argument)
+	assert slope > 0
+Recommendations:
+1. Do not leave models untested just because they are complex
+2. Perform as many sanity checks as possible
+	This will save us lots of debugging effort in the long run
+
+Using the model
+from data.preprocessing_helpers import preprocess
+from features.as_numpy import get_data_as_numpy_array
+from models.train import (
+	split_into_training_and_testing_sets, train_model)
+	
+preprocess("data/raw/housing_data.txt",
+	"data/clean/clean_housing_data.txt"
+	)
+data = get_data_as_numpy_array(
+	"data/clean/clean_housing_data.txt", 2
+	)
+training_set, testing_set = (
+	split_into_training_and_testing_sets(data)
+	)
+slope, intercept = train_model(training_set)
+
+Testing model performance
+def model_test(testing_set, slope, intercept):
+"""Return r^2 of fit"""
+
+Usually, 0 ≤ r 2 ≤ 1.
+
+\--Testing plots
+This leson tests matplotlib visualizations
+The plotting function
+
+Testing strategy for plots
+One-time baseline generation:
+	1. Decide on test arguments
+	2. Call plotting function on test arguments
+	3. Convert Figure() to PNG image
+	4. Image looks OK? If no: fix plotting function and return to 2
+	5. PNG
+Testing:
+	1. Call plotting function on test arguments
+	2. Convert Figure() to PNG image
+	3. PNG
+Compare PNGs: One-time baseline generation and Testing
+
+Since images generated on different operating systems look slightly different
+We use a pytest plugin called pytest-mpl for images comparisons.
+pytest-mpl:
+	Knows how to ignore OS related differences
+	Makes it easy to generate baseline images
+	pip install pytest-mpl
+
+An example test
+import pytest
+import numpy as np
+from visualization import get_plot_for_best_fit_line
+
+@pytest.mark.mpl_image_compare # Under the hood baseline generation and comparison
+def test_plot_for_linear_data():
+	slope = 2.0
+	intercept = 1.0
+	x_array = np.array([1.0, 2.0, 3.0])
+	# Linear data set
+	y_array = np.array([3.0, 5.0, 7.0])
+	title = "Test plot for linear data"
+	return get_plot_for_best_fit_line(slope, intercept, x_array, y_array, title)
+	
+Generating the baseline image
+!pytest -k "test_plot_for_linear_data" --mpl-generate-path visualization/baseline
+
+Reading failure reports
+!pytest -k "test_plot_for_linear_data" --mpl
+

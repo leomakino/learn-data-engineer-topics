@@ -1,0 +1,40 @@
+
+
+\--Correlated subqueries
+Correlated subqueries are subqueries that reference one or more columns in the main query. 
+
+Uses values from the outer query to generate a result
+Re0run for every row generated in the final data set
+Are used for special types of calculations: advanced joining, filtering, and evaluating data
+
+
+\--Nested subqueries
+
+
+\--Common Table Expressions (CTEs)
+Common Table Expressions is a solution for reading complex query.
+It improves readability and accessibility of information in subqueries
+It is a special type of subquery that is declared ahead of your main query
+
+Why use CTEs?
+	Executed once
+		CTE is then stored in memory
+		Improves query performance
+	Improving organization of queries
+
+\--Deciding on techniques to use
+JOINs: 
+	allow you to directly combine information from 2 or more tables, and on their own;
+	They are mostly limited to simple combinations and aggegations of tables already present in your database;
+Correlated Subqueries:
+	Allows you to combine information between a subquery and a table, or another subquery;
+	Helps simplify your syntax and circumbent the limits of a join
+	High processing time
+Multiple/Nested Subqueries:
+	Useful when your data requires multi-step transformations before it's in the form you need for your final query;
+	Improve accuracy and reproducibility
+Common Table Expressions (CTEs):
+	Allow you to organize your subqueries sequentially by declaring them at the beginning of your query;
+
+
+

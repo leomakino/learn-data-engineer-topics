@@ -1,0 +1,40 @@
+parsing: parsing is defined as the processing of a piece of python program and converting these codes into machine language. In general, we can say parse is a command for dividing the given program code into a small piece of code for analyzing the correct syntax.
+
+\--Introduction to Spreadsheets
+A diferencia de los marcos de datos y los archivos planos, las hojas de cálculo pueden tener fórmulas con resultados que se actualizan automáticamente
+
+Las spreadsheets suelen contener información no tabular, como metadate headers, small tables.
+
+Leer Excel, como leer CSV, tiene argumentos de palabras clave para seleccionar columnas y omitir o limite filas para obtener solo las celdas que desee.
+
+read_excel():
+	nrows: limit number of rows to load
+	skiprows: specify number of rows or row numbers to skip
+	usecols: choose columns by name, positional number, or letter (e.g. "A:P")
+	
+\--Getting data from multiple worksheets
+read_excel():
+	sheet_name: argument to load other sheets.
+		Specify spreadsheets by name and/or (zero-indexed) position number
+		Pass a list of names/numbers to load more than one sheet at a time
+		sheet_name=None reads all sheets in a workbook
+
+\--Modifying imports: true/false (boolean) data
+pandas loads True/False columns as float data by default
+NA/missing values in Boolean columns are changed to True
+Unrecognized values in a boolean columsn are also changed to True
+
+Boolean Considerations:
+	Are there missing values, or could there be in the future?
+	How will this columns be used in analysis?
+	Could the data be modeled another way? (e.g., as floats or integers)
+
+\--Modifying imports: parsing dates (fecha y horas)
+pandas does not infer that columns contain datetime data; it interprets them as object or string data unless told otherwise. 
+Datatime values can be translated into string representations
+Datetime columns are loaded as objects (strings) by default
+parse_dates doesn't work with non-standard datetime formats 
+pd.to_datetime() to convert to parse_dates after loading data
+
+
+

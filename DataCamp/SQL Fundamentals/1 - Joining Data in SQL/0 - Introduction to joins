@@ -1,0 +1,92 @@
+\--Introduction to INNER JOIN
+INNER JOIN only includes records in which the key is in both tables
+
+-- Select fields
+-- Select fields
+SELECT c.code, name, region, e.year, fertility_rate, unemployment_rate
+  -- From countries (alias as c)
+  FROM countries AS c
+  -- Join to populations (as p)
+  INNER JOIN populations AS p
+    -- Match on country code
+    ON c.code = p.country_code
+  -- Join to economies (as e)
+  INNER JOIN economies AS e
+    -- Match on country code and year
+    ON c.code=e.code AND e.year=p.year;
+
+\--INNER JOIN via USING
+When the key field you'd like to join on is the same name in both tables, you can use a USING clause intead of the ON clause.
+USING (id)
+
+
+This code:
+
+  SELECT *
+  FROM countries
+  INNER JOIN economies
+  USING(code)
+  
+is equal to:
+  
+  SELECT *
+  FROM countries
+  INNER JOIN economies
+  ON countries.code = economies.code
+
+\--Self-ish joins, just in CASE
+Self-ish join se utilizan para comparar valores en un campo con otros valores del mismo campo dentro de la misma tabla
+CASE dividir un campo numérico en categorías; hacer múltiples declaraciones if-then-else de una manera simplificada en SQL. 
+CASE with WHEN, THEN, ELSE, and END to define a new grouping field.
+
+-- Select fields with aliases
+SELECT p1.country_code,
+       p1.size AS size2010, 
+       p2.size AS size2015,
+       -- Calculate growth_perc
+       ((p2.size - p1.size)/p1.size * 100.0) AS growth_perc
+-- From populations (alias as p1)
+FROM populations AS p1
+  -- Join to itself (alias as p2)
+  INNER JOIN populations AS p2
+    -- Match on country code
+    ON p1.country_code = p2.country_code
+        -- and year (with calculation)
+        AND p1.year = p2.year - 5;
+        
+SELECT name, continent, code, surface_area,
+    -- First case
+    CASE WHEN surface_area > 2000000 THEN 'large'
+        -- Second case
+        WHEN surface_area > 350000 AND surface_area < 2000000 THEN 'medium'
+        -- Else clause + end
+        ELSE 'small' END
+        -- Alias name
+        AS geosize_group
+-- From table
+FROM countries;
+
+
+INTO to save the result of the previous query as 'pop_plus'
+
+SELECT country_code, size,
+  CASE WHEN size > 50000000
+            THEN 'large'
+       WHEN size > 1000000
+            THEN 'medium'
+       ELSE 'small' END
+       AS popsize_group
+INTO pop_plus       
+FROM populations
+WHERE year = 2015;
+
+-- Select fields
+SELECT 
+-- From countries_plus (alias as c)
+FROM countries_plus AS c
+  -- Join to pop_plus (alias as p)
+  INNER JOIN pop_plus AS p
+    -- Match on country code
+    ON c.code = p.country_code
+-- Order the table    
+ORDER BY size DESC;

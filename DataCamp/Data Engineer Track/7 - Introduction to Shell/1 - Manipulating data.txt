@@ -1,0 +1,86 @@
+\--Introduction
+The commands you saw in the previous chapter allowed you to move things around in the filesystem. This chapter will show you how to work with the data in those files. The tools we’ll use are fairly simple, but are solid building blocks.
+
+\--Questions
+How can I view a file's contents?
+A: concatenate
+How can I view a file's contents piece by piece?
+A: less
+How can I look at the start of a file?
+A: head
+How can I type less?
+A: tab completion
+	If you start typing the name of a file and then press the tab key, the shell will do its best to auto-complete the path.
+	If the path is ambiguous, such as seasonal/s, pressing tab a second time will display a list of possibilities. Typing another character or two to make your path more specific and then pressing tab will fill in the rest of the name.
+How can I control what commands do?
+A: flags
+	Change command's behavior giving it a flag
+	A flag's name usually indicates its purpose
+	*it's considered good style to put all flags before any filenames,
+How can I list everything below a directory?
+a: listing -recursive
+How can I get help for a command?
+A: manual
+How can I select columns from a file?
+A: cut
+How can I repeat commands?
+A:  up-arrow key
+    history will print a list of commands you have run recently
+	Each one is preceded by a serial number to make it easy to re-run particular commands: just type !55 to re-run the 55th command
+    !head or !cut will re-run the most recent use of that command
+
+\--Commands
+cat
+	Its name is short for "concatenate", meaning "to link things together"
+	prints the contents of files onto the screen
+less
+	to page the output
+	one page is displayed at a time
+	you can press spacebar to page down or type q to quit
+	If you give less the names of several files
+		:n (colon and a lower-case 'n') to move to the next file
+		:p to go back to the previous one
+		:q to quit.	
+head
+	prints the first 10 lines of a file
+man
+	manual
+	brings up information about the command
+	SYNOPSIS lists all the flags it understands
+	Anything that is optional is shown in square brackets [...]
+	Either/or alternatives are separated by |
+	things that can be repeated are shown by ...
+		
+tail
+	output the last part of files
+	-q 
+cut
+	remove sections from each line of files
+	Print selected parts of lines from each FILE to standard output
+grep
+	selects lines according to what they contain
+	takes a piece of text followed by one or more filenames and prints all of the lines in those files that contain that text.
+	-c: print a count of matching lines rather than the lines themselves
+	-h: do not print the names of files when searching multiple files
+	-i: ignore case (e.g., treat "Regression" and "regression" as matches)
+	-l: print the names of files that contain matches, not the matches
+	-n: print line numbers for matching lines
+	-v: invert the match, i.e., only show lines that don't match
+paste
+	 combine data files instead of cutting them up
+
+\--Flags
+	-d
+		delimiter (specify the separator)
+	-n
+		number of lines
+ 	-R
+		Recursive
+		shows every file and directory in the current level, then everything in each sub-directory, and so on.
+	-F
+		prints a / after the name of every directory and a * after the name of every runnable program.
+	-f
+		fields
+		
+
+things that can be repeated are shown by ...

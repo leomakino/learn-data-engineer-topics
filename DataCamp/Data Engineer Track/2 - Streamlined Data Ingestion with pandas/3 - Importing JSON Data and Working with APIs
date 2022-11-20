@@ -1,0 +1,65 @@
+\--Introduction to JSON
+JSON - Javascript Object Notation
+
+Common web data format;
+Not tabular: esto hace que el almacenamiento de datos sea más eficiente. Porque el atributo se puede omitir en lugar de almacenarlo con un valor nulo.
+	Record don't have to all have the same set of attributes;
+Data organized into collections of objects;
+Objects are collections of attribute-value pairs;
+Nested JSON: Object within objects.
+
+read_json()
+	dtype - specify the data type. Puede especificarlos con un diccionario de nombres y valores de columna y el argumento dtype
+	orient - to flag uncommon JSON data layouts
+
+Most common JSON arrangement consta de una lista de diccionarios, cada uno de los cuales se traduce en un registro de tabla.
+JSON puede estar orientado a columnas para reducir el tamaño del archivo al no repetir los nombres de los atributos
+	Las claves son nombres de columna, los valores son listas de valores para esa columna o diccionarios de índices de fila.
+Otras orientaciones son posibles: split orientation
+
+\--Introduction to APIs
+APIs define how a application communicates with other programs
+Way to get data from an application without knowing database details
+Usar una API para obtener datos es como usar un catálogo para pedir productos. El catálogo muestra lo que está disponible y proporciona instrucciones de pedido
+
+Requests library to send and get data from websites
+requests.get(url_string) to get data from a URL
+	params: takes a dictionary of parameters and values to customize API request.
+	headers: takes a dictionary, can be used to provide user authentication to API
+response: results in an object containing data and metadata
+	response.json() will return just the JSON data, returns a dictionary but
+	read_json() expects strings, not dictionaries
+	Load the response JSON to a data frame with pd.DataFrame() because read_json() will give an error
+
+\--Working with nested JSONs
+Nested example:
+	another dictionary inside:
+		"coordinates":{
+			"latitude": 37.999,
+			"longitude" : -122.42	
+		} 
+pandas.io.json
+	json_normalize():
+		Takes a dictionary/list of dictionaries(like pd.DataFrame() does)
+		Returns a flattened data frame
+		
+		record_path: string/list of string attributes to nested data
+		meta: list of other attributes to load to data frame
+
+\--Combining multiple datasets
+append() to add rows from one data frame to another
+	df1.append(df2)
+	ignore_index=True to renumber rows
+
+*Las APIs suelen limitar la cantidad de registros devueltos en una sola llmada para administrar el uso de recursos. 
+->If you were putting multiple data frames together, one option would be to start with an empty data frame and use a for or while loop to append additional ones.
+
+merge() to add related columns (like SQL JOINs); It returns only values that are in both datasets
+	Arguments:
+		Second data frame to merge
+		Columns to merge on
+			on - if names are the same in both data frames
+			left_on and right_on - if key names differ
+			Key columns should be the same data type
+
+

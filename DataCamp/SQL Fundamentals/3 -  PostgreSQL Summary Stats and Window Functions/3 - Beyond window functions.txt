@@ -1,0 +1,72 @@
+In this last chapter, you'll learn some techniques and functions that are useful when used together with window functions
+
+Pivot:
+	to turn or twist
+	A fixed point supporting something which turns or balances, or a person or thing on which something else depends
+
+ROLL UP:
+	to arrive at a particular place or event, usually late
+Cube(Number):
+	If you cube a number, you multiply it twice by itself
+
+\--Pivoting
+Pivoting
+	transforms a table by making columns out of the unique values of one of its columns
+	After pivoting a table, the unique rows values become columns in the after table
+	is useful when preparing data for visualization and reporting
+
+In general, pivoted tables are easier to scan, especially if pivoted by a chronologically ordered column. 
+
+Pivoting -> CROSSTAB
+CROSSTAB allows you to pivot a table by a certain column
+
+CREATE EXTENSION IF NOT EXISTS tablefunc;
+
+CREATE EXTENSION makes extra functions in an extension available for use
+
+After the CREATE EXTENSION statement, the before query is placed entirely between the two dollar sign pairs
+
+SELECT * FROM CROSSTAB($$
+source_sql TEXT
+$$) AS ct (Column_1 DATA_TYPE_1,
+		Column_2 DATA_TYPE_2,...)
+
+\--ROLLUP and CUBE (Group-level totals)
+What if you want to calculate group-level and grand totals?
+
+ROLLUP
+
+	is a GROUP BY subclause that includes extra rows for group-level aggregations
+	is hierarchical, the order of the columns in the ROLLUP clause affects the output
+
+Example:
+	GROUP BY Country, ROLLUP(Medal) will count all Country - and Medal -level totals, then count only Country -level totals and fill in Medal with null's for these rows
+	ROLLUP(Country, Medal) includes Country -level totals
+	ROLLUP(Medal, Country) includes Medal -level totals
+	Both include grand totals
+
+CUBE
+	is a non-hierarchical ROLLUP
+	It generates all possible group-level aggregations
+
+Example:
+	CUBE(Country, Medal) counts Country -level, Medal -level, and grand totals.
+
+ROLLUP vs CUBE
+	Use ROLLUP when you have hierarchical data (e.g., date parts) and don't want all possible group-level aggregations
+	Use CUBE when you want all possible group-level aggregations
+
+
+\--A survey of useful functions
+COALESCE: Annihilating nulls 
+	takes a list of values and returns the first non-null value, going from left to right
+	COALESCE(null, null, 1, null, 2) ? 1
+	Useful when using SQL operations that return nulls
+		ROLLUP and CUBE
+		Pivoting
+		LAG and LEAD
+
+STRING_AGG(columsn, separator): Compressing data
+	Takes all the values of a column and concatenates them, with separator in between each value
+	Useful when tou want to reduce the number of rows returned
+	

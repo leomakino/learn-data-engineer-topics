@@ -1,0 +1,65 @@
+
+
+\--Questions
+How does the shell store information?
+A: environment variables
+How can I print a variable's value?
+A: echo
+How else does the shell store information?
+A: shell variable
+How can I repeat a command many times?
+A: loops
+How can I repeat a command once for each file?
+A: Wildcards -> shell expands, e.g., seasonal/*.csv to be a list
+How can I record the names of a set of files?
+A: using a wildcard expression into a local variable to record a list of names.
+How can I run many commands in a single loop?
+A: use pipe (|) in the body
+Why shouldn't I use spaces in filenames?
+A: it causes problems when you are working in the shell
+	solve it with quotes ('' or "")
+How can I do many things in a single loop?
+A: separate command lines in the body with semi-colons;
+
+\--Commands
+set
+	print the environment variables
+	combine set | grep COMMAND - to search for a command
+	Or use echo
+echo
+	prints the variable arguments
+	echo COMMAND print the variable's name
+	echo $COMMAND get the variable's value
+
+\--Environment variables
+
+HOME
+	User's home directory
+	/home/repl
+PWD
+	Present working directory
+	Same as pwd command
+SHELL
+	Which shell program is being used
+	/bin/bash
+USER
+	User's ID
+	repl
+
+\--Shell variable
+Local variable in a programming language. 
+Usually I identify local variables when it starts with $. Also, I will access its values using $
+creating a shell variable
+	training=seasonal/summer.csv
+	*without any spaces before or after the = sign
+
+\--Loops
+for ...variable... in ...list...; do ...body...; done
+
+Ex1:
+	for filetype in gif jpg png; do echo $filetype; done
+Ex2:
+	datasets=seasonal/*.csv
+	for filename in $datasets; do echo $filename; done
+
+

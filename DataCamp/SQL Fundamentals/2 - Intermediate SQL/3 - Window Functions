@@ -1,0 +1,44 @@
+
+
+\--It's OVER
+GROUP BY requires you to use with all non-aggregate columns. (Another limitation)
+Thus, you can't compare aggregate values to non-aggregate data
+Solution: Window functions!
+Window functions
+	are a class of functions that perform calculations on an already generated result set;
+	can be used to perform aggregate calculations without having to group data
+	Are processed after the entire query except the final ORDER BY statement
+	Uses the result set to calculate infomartion (as opposed to using the database directly)
+OVER()
+	pass this aggregate value over this existing result set
+	Simpler syntax
+	Faster processing time
+RANK()
+	allow you to create a RANK of information according to any variable you want to use to sort your data.
+	
+
+\--OVER with PARTITION
+PARTITION BY
+	allows you to calculate separate values for different categories established in a partition
+	Calculate different calculations in the same column
+	Can partition data by 1 or more columns
+	Can partition aggregate calculations, ranks, etc.
+
+\--Sliding windows
+Sliding windows:
+	Used to calculate information that changes with each subsequent row in a data set;
+	Perform calculations relative to the current row of a data set (totals, sums, avg);
+
+Used to specificy the number of rows:
+	FOLLOWING
+	PRECEDING	
+Tell SQL that you want to include every row since the beginning, or the end, of the data set in your calculations
+	UNBOUNDED PRECEDING
+	UNBOUNDED FOLLOWING
+Tells SQL that you want to stop your calculation at the current row
+	CURRENT ROW	
+
+\--Bringing it all together
+
+
+

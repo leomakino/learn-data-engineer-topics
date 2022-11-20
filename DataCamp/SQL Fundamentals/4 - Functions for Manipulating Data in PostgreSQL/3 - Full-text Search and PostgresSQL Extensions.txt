@@ -1,0 +1,57 @@
+\--Course Description
+This course will provide you an understanding of how to use built-in PostgreSQL functions in your SQL queries to manipulate different types of data including strings, character, numeric and date/time. We'll travel back to a time where Blockbuster video stores were on every corner and if you wanted to watch a movie, you actually had to leave your house to rent a DVD! You'll also get an introduction into the robust full-text search capabilities which provides a powerful tool for indexing and matching keywords in a PostgreSQL document. And finally, you'll learn how to extend these features by using PostgreSQL extensions.
+
+Full-text Search and PostgresSQL Extensions
+An introduction into some more advanced capabilities of PostgreSQL like full-text search and extensions. 
+
+\--Introduction to full-text search
+LIKE
+	It allows to filter our queries by matching one or more characters in text data.
+	It is a simple pattern matching tool in your SQL toolbox.
+	It is an expensive operation in terms of performance. A better approach is the full-text search
+	_ wildcard: Used to match exactly one character
+	% wildcard: Used to match zero or more characters
+
+Full-text search
+	It provides a means for performing natural language queries of text data in your database
+		Steam: the part of a word that is left after you take off the ending
+		Spelling mistake: fuzzy string matching to handle spelling mistakes
+		Rank: rank results by a similarity
+	to_tsvector
+		converts a text column to a tsvector
+		It parses a textual document into tokens, reduces the tokens to lexemes, and returns a tsvector which lists the lexemes together with their positions in the document
+	to_tsquery
+	The search will return the same result as a query that uses the LIKE operator with the % wildcard at the beginning and end of the string, but will perform much better
+
+\-- Extending PostgreSQL - PostgreSQL PL/pgSQL
+Procedure Language/PostgreSQL (PL/pgSQL)
+PL/pgSQL procedural language adds many procedural elements.
+It allows to develop PostgreSQL user-defined functions and stored procedures.
+It is similar to the Oracle PL/SQL
+The user-defined functions and stored procedures developed in PL/pgSQL can be used like any built-in functions and stored procedures.
+
+User-defined data types
+	When you want to learn about a column or data type in your database the best place to start is the INFORMATION_SCHEMA
+	```CREATE TYPE data_type AS ENUM (
+	'data_1',
+	'data_2'
+	);```
+	
+Getting information about user-defined data types
+```
+SELECT typename, typecategory
+FROM pg_type
+WHERE typename='data_type'
+```
+
+User-defined functions
+The double dollar sign syntax specifies that the function will be using SQL as the language
+
+```
+CREATE FUNCTION function_name(function_argument data_type) RETURNS data_type AS $$
+	BEGIN
+		Code here;
+	END;
+$$ LANGUAGE plpgsql;
+```
+	

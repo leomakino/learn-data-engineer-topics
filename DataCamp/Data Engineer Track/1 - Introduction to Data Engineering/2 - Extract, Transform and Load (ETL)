@@ -1,0 +1,87 @@
+assign: to put a value in a particular position in the memory of a computer.
+\--Extract
+Extracting data: what does it mean?
+A: Significa extraer datos del almacenamiento persistente(e.g. Amazon S3), que nos es adecuado para el procesamiento de datos, en la memoria.
+
+Extract from:
+	Unstructured:
+		Plain text: .moby, .dick
+	structured - Flat files (Tabular format):
+		each row is a record, each column an attribute: .tsv, .csv
+	semi-structured:
+		JSON
+			4 tipos de datos atómicos: number, string, boolean, null.
+			2 tipos de datos compuestos: array y object
+	Web through APIs(application programming interface):
+		Send data in JSON format
+	Applications databases:
+		La  forma más común de extracción de datos
+		Transactions: e.g. agregar un cliente a la base de datos o cambiar su dirección.
+		Inserts or changes
+		OLTP
+		Row-oriented
+	Analytical databases:
+		OLAP
+		Column-oriented
+
+Extraction from databases using python requires conection string/URI (It's a string that holds the information of how to connect to the database)
+e.g.: postgresql://user:password@host:port/database
+	
+	# Function to extract table to a pandas DataFrame
+	def extract_table_to_pandas(tablename, db_engine):
+	    query = "SELECT * FROM {}".format(tablename)
+	    return pd.read_sql(query, db_engine)
+
+	# Connect to the database using the connection URI
+	connection_uri = "postgresql://repl:password@localhost:5432/pagila" 
+	db_engine = sqlalchemy.create_engine(connection_uri)
+
+	# Extract the film table into a pandas DataFrame
+	extract_table_to_pandas("film", db_engine)
+
+	# Extract the customer table into a pandas DataFrame
+	extract_table_to_pandas("customer", db_engine)
+	
+\--Transform
+Kind of transformations:
+	Selection of attribute (e.g. 'email')
+	Translation of code values (e.g. 'New York' -> 'NY')
+	Data validation (e.g. date input in 'created_at')
+	Splitting columns into multiple columns
+	Joining from multiple sources
+
+	# Use groupBy and mean to aggregate the column
+	ratings_per_film_df = rating_df.groupBy("film_id").mean("rating")
+
+	# Join the tables using the film_id column
+	film_df_with_ratings = film_df.join(
+	    ratings_per_film_df,
+	    film_df.film_id==ratings_per_film_df.film_id
+	)
+
+	# Show the 5 first results
+	print(film_df_with_ratings.show(5))
+
+\--Loading
+Hay una clara separación entre bases de datos para análisis y bases de datos para applicaciones.
+	Analytics databases:
+		Aggregate queries (debemos optimizalarlas para consultas agregadas complejas)
+		Column-oriented:
+			óptimo para la analítica,
+			Al almacenas datos por columna, es más rápido recorrer estas columnas específicas para resolver una consulta,
+			better for Parallelization -> MPP Data Bases - Massively Processing Databases: son bases de datos orientadas a columnas optimizadas para análisis, que se ejecutan de forma distribuida. E.g.: Amazon Redshift, Azure SQL Data Warehouse, Google BigQuery.
+	
+	Applications databases:
+		Lots of transactions por segundo (debemos optimizarlas para eso)
+		->OLTP (Online transaction processing)
+		Row-oriented: Store data per record, added per transaction
+
+	# Write the pandas DataFrame to parquet
+	film_pdf.to_parquet("films_pdf.parquet")
+
+	# Write the PySpark DataFrame to parquet
+	film_sdf.write.parquet("films_sdf.parquet")
+
+\--Putting it all together
+https://crontab.guru
+

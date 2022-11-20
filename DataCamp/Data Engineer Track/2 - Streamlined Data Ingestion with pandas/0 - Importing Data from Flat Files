@@ -1,0 +1,56 @@
+chunks: (i) a roughly cut piece (ii) a part of something, especially a large part
+\--Introduction to flat files
+Data Frames are estructuras de datos bidimensionales. This means they have column labels and row labels (Index)
+
+Flat files:
+	Data stored as plain text (no formatting)
+	One row per line
+	Values for different fileds are separated by a delimiter
+	Most common flat file type: comma-separated values (CSV)
+Loading CSV files: read_csv
+	example = pd.read_csv("csv_example_file.csv")
+Loading other flat files:
+	Specify a different delimiter with sep
+	example = pd.read_csv("csv_example_file.tsv", sep ="\t")
+	*\t is the tab space
+
+read_csv() has lots of parameters for customizing imports, but many CSVs can be loaded as data frames just by passing the file path. It even works with URLs that end in '.csv'.
+
+\--Modifying flat file imports
+A veces, solo desea una parte del archivo. En esta lección, veremos formas de limitar la cantidad de datos y nombrar columnas.
+
+usecols choose columns to load.
+	Choose columns to load by name
+	Choose columns to load by number
+nrows limit the number of rows loaded
+skiprows accepts a list of row numbers, a number of rows, or a function to filter rows.
+nrows+skiprows together to process a file in chunks
+header=None means there are no column names
+
+Assigning Column Names:
+names
+
+	# Create list of columns to use
+	cols = ["zipcode", "agi_stub", "mars1", "MARS2", "NUMDEP"]
+
+	# Create data frame from csv using only selected columns
+	data = pd.read_csv("vt_tax_data_2016.csv", usecols=cols)
+
+	# View counts of dependents and tax returns by income level
+	print(data.groupby("agi_stub").sum())
+\--Handling errors and missing data
+Common Flat File Import Issues:
+	Column data types are wrong;
+	Values are missing
+	Records that cannot be read by pandas
+
+pandas infers the best data type for each column. Sometimes its guesses are off, particularly for numbers that represent groups or qualities instead of quantities. 
+
+dtype to specify column data type
+dtype takes a dictionary of column names and data types
+
+Line with Errors:
+	error_bad_lines=False to skip unparseable records
+	warn_bad_lines=True to see messages when records are skipped
+
+na_values to set custom missing values

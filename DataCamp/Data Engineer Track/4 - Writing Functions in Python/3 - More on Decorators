@@ -1,0 +1,53 @@
+*args, **kwargs: 
+	Only the * (asterisk) is necessary;
+	Writing *args and **kwargs is just a convention;
+	*args and **kwargs allow you to pass an unspecified number of arguments to a function;
+	*args is used to send a non-keyworded variable length argument list to the function;
+	**kwargs allows you to pass keyworded variable length of arguments to a function
+
+\--Real-world examples
+All decorators have fairly similar-looking docstrings because they all take and return a single function.
+	Examples:
+		timer
+		momeize
+		Counter - to know how many times each of the functions in it gets called.
+		Run_n_times
+		Timeout
+		Tag/label functions
+
+When is appropriate to use decorators?
+	When you want to add some common bit of code multiple functions
+
+\--Decorators and metadata
+Preserving docstrings when decorating functions:
+	When trying to use the function+metadata, python returns the metadata of the decorator instead
+of the function being decorated. Because decorators overwhite these functions.
+	A solution to this is to use
+	from functools import wraps
+
+\--Decorators that take arguments
+Run 3 time decorator
+
+def run_three_times(func):
+	def wrapper(*args, **kwargs):
+		for i in range(3):
+			func(*args, **kwargs)
+	return wrapper
+
+Run n time decorator. 
+Decorator is only supposed to take just one argument - the function it is decorating
+We have to turn into a function that returns a decorator
+
+def run_n_times(n):
+"""Define and return a decorator"""
+	def decorator(func):
+		def wrapper(*args, **kwargs):
+			for i in range(n):
+				func(*args, **kwargs)
+		return wrapper
+	return decorator
+
+\--Timeout(): a real world example
+
+
+

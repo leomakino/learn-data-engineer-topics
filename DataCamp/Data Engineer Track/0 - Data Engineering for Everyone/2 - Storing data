@@ -1,0 +1,42 @@
+\--2.1 Data structures
+What is Structured data? 
+A: Is a model data constructed by rows and columns. It has defined types as text, data or decimal. It is stored in relational (SQL) databases.
+
+What is semi-structured data?
+A: It seems like structured data but offers more flexibility. Consistent model and less-ridig implementation. It has different types of data. It is stored in NoSQL databases. 
+
+What is unstructured data?
+A: It does not follow a model, can't be contained in rows and columns. Usually text, sound, pictures or videos. Usually sored in data lakes, can appear in data warehouses or databases. Most of the data is unstructured and it can be extremely valuable.
+Examples of unstructured data on spotflix: lyrics, songs, albums pictures and music videos.
+Adding some structure on unstructured data: 
+	-Use AI to search and organize unstructured data;
+	-Add information to make it semi-strucuted.
+
+\--2.2 SQL databases
+Structured Query Language (SQL) is the indutry standard to create, update, maintain and query databases.
+Relational Database Management System (RDBMS)
+Allows you to access many records at once, and group, filter or aggregate them
+Databases are made of tables;
+The database schema governs how tables are related
+SQL Implementation softwares:
+	-SQLite;
+	-MySQL;
+	-PostgreeSQL;
+	-Oracle SQL;
+	SQL Server;
+
+\--Data warehouses and data lakes
+
+What are data lakes?
+A: It stores all the raw data , its size can be very large (1 milion GBs), stores all data structures, cost-effective, very difficult to analyze, required an up-to-date data catalog, used by data scientists, related to big data and real time analytics
+
+What are data warehouse?
+A: It store specific data for specific use, its size is relatively small (but more than 2T), stores mainly structured data, more costly to update, optimized for data analysis, Also used by data analysts and business analysts, Ad-hoc, read-only queries
+
+
+What is data catalog?
+A: Is a source of truth that compensates for the lack of structure in a data lake. It tracks where is the data from (What is the source of this data?), How it is used (Where is this data used?), Who is responsible for mantaining it (Who is the owner), and how often is this data updated. It is a good practice in terms of data governance. Ensure reproducibility
+Obs: No catalog -> data swamp
+
+What are databases?
+A: It is a very general term, which can be loosely defined as organized data stored and accessed on a computer. Thus Datawarehouse is a type of database

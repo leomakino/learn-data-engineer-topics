@@ -1,0 +1,68 @@
+\--What is data engineering
+Data engineer reasons:
+	Data is scattered
+	Not optimized for analyses
+	Legacy code is causing corrupt data
+	facilitar la vida de los científicos de datos
+El ingeniero de datos extrae datos de fuentes diferentes y los carga en una sola base de datos (Analytical database) lista para usar. Al mismo tiempo, han optimizado el esquema de la base de datos para que sea más rápido realizar consultas.
+
+What is a data engineer?
+A: An engineer that develops, constructs, tests, and maintains architectures such as databases and large-scale processing systems.
+
+Their focus:
+	Processing large amounts of data
+	Set up clusters of machines to do the computing
+	Develop scalable data architecture
+	Streamline data acquisition
+	Set up processes to bring together data
+	Clean corrupt data
+	Weel versed in cloud technology
+
+
+\--Tools of the data engineer
+Los ingenieros de datos utilizan herramientas que procesan datos rápidamente. El procesamiento de datos puede ser necesario para limpiar o agregar datos o unirlos de diferentes fuentes. En lugar de procesar los datos en una computadores, los ingenieros de datos usan grupos de máquinas para procesar los datos.
+
+Processing: before loading it into a destination analytics database.
+	Clean data
+	Aggregate data
+	Join data
+	Organize
+	
+Scheduling: Asegúrase de que los datos se muevan de un lugar a otro en el momento correcto, con un intervalo específico.
+	Plan jobs with specific intervals
+	Resolve dependency requirements of jobs
+	
+Existing tools
+Databases:
+	MySQL, PostgreSQL.
+
+Processing:
+	Apache Spark, Hive
+
+Scheduling:
+	Apache Airflow, Oozie, Cron
+
+\-- Cloud providers
+Data processing in the cloud because of the cons of the self-host data-center (cover electrical and maintenance costs; Peaks vs quiet moments, disaster will strike; need differente geographical location)
+
+Cloud service pros: Optimización de costos; Confiabilidad de la base de datos.
+
+Servicios de Cloud providers:
+	Storage (Almacenamiento): Permite cargar archivos de todo tipo a la nube.
+		AWS S3
+		Azure Blob Storage
+		Google Cloud Storage
+	Computation (Computación): Permite realizar cálculos en la nube; Puede iniciar una máquina virtual y usarla como desee. Ex: Alojar servidores web
+		AWS EC2
+		Azure Virtual Machines	
+		Google Compute Engine
+	Databases (Base de datos): Alojar bases de datos
+		AWS RDS
+		Azure SQL Database
+		Google Cloud SQL
+
+Resumén: 
+	
+    Storage: use the cloud to store unstructured data, like files.
+    Compute: use virtual machines in the cloud to do complex calculations.
+    Database: use databases, typically SQL, in the cloud to hold structured data.

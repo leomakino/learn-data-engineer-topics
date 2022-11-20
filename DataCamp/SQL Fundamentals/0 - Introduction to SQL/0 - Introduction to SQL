@@ -1,0 +1,19 @@
+row, or record
+column, or field,
+
+To select multiple columns from a table, simply separate the column names with commas
+
+* a shortcut to select all columns from a table (All details)
+LIMIT to limit the number of rows returned
+
+DISTINCT select all the unique values from a column,
+
+COUNT count the number of rows in one or more columns.
+	COUNT(*) tells you how many rows are in a table.
+	COUNT() tells you how many rows are on just that column.
+	COUNT(DISTINCT birthdate) to count the number of distinct values in a column.
+	
+Ex:
+	SELECT COUNT(release_year)
+	FROM films
+	WHERE release_year < 2000;

@@ -1,0 +1,17 @@
+\-- OUTER JOINS: LEFT and RIGHT JOINs
+Outer joins reaches OUT to another table while keeping all of the records of the original table. On other hand, Inner joins keep only the records IN both tables
+Outer joins types:
+	(i) Left joins
+	(ii) Right joins
+	(iii) Full joins
+
+LEFT JOIN maintain the left table, join the right table only where the both ids matches and marks the values as missing in the cells of the right table that don't match.
+
+RIGHT JOIN does the reverse. It maitains the right table, join the left table only where the both ids maches and marks the values as missing in the cells of the left table that don't match.
+\--FULL JOINs
+FULL JOINS combines a left join and a right join. All the values of both tables are included in the new table
+
+\--CROSSing the rubicon
+CROSS JOIN create all possible combinations of two tables
+
+

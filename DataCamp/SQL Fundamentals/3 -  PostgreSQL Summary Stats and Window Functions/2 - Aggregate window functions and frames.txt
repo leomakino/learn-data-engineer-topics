@@ -1,0 +1,48 @@
+In this chapter, you'll learn how to use aggregate functions you're familiar with, like `AVG()` and `SUM()`, as window functions, as well as how to define frames to change a window function's output.
+
+\--Aggregate window functions
+You can use MAX, SUM, COUNT, MIN, AVG, as window functions
+
+MAX(Medals) OVER (ORDER BY Year ASC) AS Max_Medals
+
+Difference using MAX normally and using as window functions:
+Normally: It calculates the whole table and show the max number of all table (It will be always a constant)
+As window function: It calculates row by row. The Max column may not be constant and will constantly being updated depending on the row's numbers. 
+
+\--Frames
+Another way to change a window function's behavior is to define a frame
+
+By default, a frame starts at the beginning of a table or partition and ends at the current row.
+Frame: 
+	RANGE BETWEEN...
+	ROWS BETWEEN...
+
+ROWS BETWEEN [START] AND [FINISH]
+	n PRECEDING: n rows before the current row
+	CURRENT ROW: the current row
+	n FOLLOWING: n rows after the current row
+
+Examples:
+	ROWS BETWEEN 3 PRECEDING AND CURRENT ROW
+	ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING
+
+Frames allow you to "peek" forwards or backward without first using the relative fetching functions, LAG and LEAD, to fetch previous rows' values into the current row.
+
+
+\--Moving averages and totals (Média móvel)
+Lindo demais:
+AVG(Medals) OVER
+(ORDER BY Year ASC
+ROWS BETWEEN
+2 PRECEDING AND CURRENT ROW)
+
+Moving average is useful
+	to indicate momentum and trends
+	to eliminate seasonality
+
+ROWS vs RANGE
+	Range treats duplicates in OVER's ORDER BY subclause as a single entity. It treates duplicate values as single rows
+
+In practice, ROWS BETWEEN is almost always used over RANGE BETWEEN
+
+

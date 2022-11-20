@@ -1,0 +1,59 @@
+The real power of the Unix shell lies not in the individual commands, but in how easily they can be combined to do new things. This chapter will show you how to use this power to select the data you want, and introduce commands for sorting values and removing duplicates.
+
+\--Questions
+How can I store a command's output in a file?
+A: redirection (>)
+How can I use a command's output as an input?
+A: redirect to a new file, use a new command to this new file
+	disadvantage: It leaves a lot of intermediate files lying around
+What's a better way to combine commands?
+A: pipe (|)
+How can I combine many commands?
+A: more than one pipe
+How can I count the records in a file?
+A: word count
+How can I specify many files at once?
+A: match zero or more characters wildcard -> *
+What other wildcards can I use?
+A: *, ?, [...], {...}
+How can I sort lines of text?
+A: sort
+How can I remove duplicate lines?
+A: uniq
+How can I save the output of a pipe?
+A: > at the end of the pipeline
+ > redirection at the front of a pipeline as in
+How can I stop a running program?
+A: Ctrl + C (^C)
+
+
+\--Commands
+> 
+	The greater-than sign > tells the shell to redirect commands' output to a file
+|
+	The pipe symbol tells the shell to use the output of the command on the left as the input to the command on the right
+&&
+	is used to chain commands together, such that the next command is run if and only if the preceding command exited without errors
+wc
+	word count
+	prints the number of characters, words, and lines in a file
+	You can make it print only one of these using -c, -w, or -l respectively
+sort
+	-n sort numerically
+	-r reverse the order of its output
+	-b ignore leading blanks
+	-f tells it to fold case (i.e., be case-insensitive)
+uniq
+	removes adjacent duplicated lines
+	-c display unique lines with a count of how often each occurs
+
+\--Wildcards
+* match zero or more characters wildcard - seasonal/s*
+? matches a single character - 201?.txt
+[...] matches any one of the characters inside the square brackets - 201[78].txt
+{...} matches any of the comma-separated patterns inside the curly brackets - {*.txt, *.csv}
+
+Pipeline example: use grep to get rid of unwanted records and then sort to put the remaining records in order.
+
+
+

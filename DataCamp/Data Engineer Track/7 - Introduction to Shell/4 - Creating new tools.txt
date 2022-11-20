@@ -1,0 +1,38 @@
+History lets you repeat things with just a few keystrokes, and pipes let you combine existing commands to create new ones. In this chapter, you will see how to go one step further and create new commands of your own.
+
+\--Questions
+How can I edit a file?
+A: Nano
+How can I record what I just did?
+A: 1. Run history; 2. Pipe its output to tail -n 10 (or however many recent steps you want to save). 3 - Redirect that to a file called something like figure-5.history.
+How can I save commands to re-run later?
+A: bash filename.sh
+How can I re-use pipes?
+A: bash files, which are scripts
+How can I pass filenames to scripts?
+A: "all of the command-line parameters given to the script" - $@
+How can I process a single argument?
+A: refer to specific command-line parameters. $1, $2
+How can one shell script do many things?
+A: with pipe or split them across lines
+How can I write loops in a shell script?
+A: write loops using semi-colons, or split them across lines without semi-colons
+What happens when I don't provide filenames?
+A: It waits to read input from your keyboard
+
+\--Commands
+nano filename.extension
+	Ctrl + K: delete a line.
+	Ctrl + U: un-delete a line.
+	Ctrl + O: save the file ('O' stands for 'output'). You will also need to press Enter to confirm the filename!
+	Ctrl + X: exit the editor.
+bash filename.sh
+	$@
+	bash commands.sh filename.csv
+	if commands.sh contains $@
+	shell replaces $@ with filename.csv and processes one file.
+#
+	comment 
+
+*I can use nano commands.sh to create the commands.sh files, write the code inside, and run it using bash
+\--

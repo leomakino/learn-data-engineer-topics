@@ -1,0 +1,41 @@
+\--Introduction to Databases
+Relational Databases:
+	Data about entities is organized into tables
+	Each row or record is an instance of an entity
+	Each column has information about an attribute
+	Tables can be linked to each other via unique keys
+	Support more data, multiple simultaneous users, and data quality controls
+	Data types are specified for each column
+	SQL to interact with databases
+
+Common Relational Databases:
+	Microsoft SQL Server
+	Oracle
+	Postgree
+	SQLite: SQLite databases are computer files
+Connecting to Databases:
+	Two-step process:
+		1. Create way to connect to database;
+		2. Query database with SQL and pandas.
+	Para hacer esto, usaremos la biblioteca SQLAlchemy, que tiene herramientas para trabajar con muchas de las principales bases de datos relacionales
+	 create_engine() makes an engine to handle database connections; SQLite URL format: sqlite:///filename.db
+	pd.read_sql(query, engine) to load in data from a database. query: string containing SQL query to run or table to load; engine: Connection/database engine object
+
+
+\--Refining imports with SQL queries
+SELECT, FROM, WHERE, mathematical operators: =, >, >=, <, <=, <>
+*los operadores de igualdad y desigualdad de SQL difieren de los de Python
+""" """ comillas triples nos permite dividirla entre varias líneas para que sea más fácil de leer.
+AND OR operator 
+
+\--More complex SQL queries
+ Getting DISTINCT values: es posible que necesite valores únicos en una columna o combinaciones únicas de valores en varias columnas.
+ DISTINCT: get unique values for one or more columns with SELECT DISTINCT
+ Aggregate Functions: SUM, AVG, MAX, MIN, COUNT
+ GROUP BY
+
+
+\--Loading multiple tables with joins
+
+
+

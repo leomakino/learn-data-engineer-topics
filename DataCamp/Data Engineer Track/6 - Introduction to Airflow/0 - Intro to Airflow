@@ -1,0 +1,60 @@
+inherent: existing as a natural or basic part of something.
+
+\--Introduction to Airflow
+What is a workflow?
+	A set of steps to accomplish a given data engineering task
+	E.g. Download data->clean data->run ML pipeline->upload results to webserver->generate report
+	
+What is Airflow?
+	Airflow is a platform to program workflows, including:
+		Creation
+		Scheduling
+		Monitoring
+	It can implement programs from any language, but workflows are written in Python
+	Implements workflows as Directed Acyclic Graphs (DAGs)
+	Accessed via code, command-line, or via web interface
+	Other workflow tools:
+		Luigi
+		SSIS
+		Bash scripting
+
+Airflow implements workflows as Directed Acyclic Graph (DAGs):
+	Represents the set of tasks that make up the workflow
+	Consists of the tasks and dependecies between tasks
+	Created with various details about the DAG
+		name
+		start date
+		owner, etc.
+
+
+\--Airflow DAGs
+Directed
+	There is an inherent flow representing dependencies between components
+	provide context to the tools on how to order the running of components
+Acyclic
+	It does not loop/cycle/repeat
+Graph
+	Represents of components and the relationships between them
+
+DAGs
+	Are written in Python(but can use components written in other languages)
+	Are made up of components (typically tasks) to be executed
+		operators
+		sensors, etc.
+	Contain dependencies defined explicitly or implicitly
+	
+Command line vs Python
+	Use Command line tool to:
+		Start Airflow processes
+		Manually run DAGs/Tasks
+		Get logging information from Airflow
+	Use Python to:
+		Create a DAG
+		Edit the individual properties of a DAG
+
+
+
+\--Airflow web interface
+
+
+

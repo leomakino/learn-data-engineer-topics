@@ -1,0 +1,48 @@
+\--1.1 Data engineering and big data
+What is data engineering? 
+A: data engineers create pipelines, they deliver the correct data, in the right form, to the right people as efficiently as possible
+How data flows through an organization? 
+A: Four general steps for data workflow:
+	1. Data collection & Storage - from web, surveys, and other sources. Data is storaged in raw formart, because of that, we need to manipulate/prepare it.
+	2. Data preparation (cleaning data, check duplicates or missing values, etc.)
+	3. Exploration and Visualization - with dashboards
+	4. Experimentation & Prediction - of some questions that people want to know what comes next.
+
+What are their responsibilities?
+A: They ingest data from different sources, optimize databases for analysis, remove corrupted data. Data Engineers develop, construct, test and maintain data architectures
+
+Big data sources:
+	-Sensors and devices;
+	-Social media;
+	-Enterprise data;
+	-VoIP (voice communication, multimedia sessions).
+
+The five Vs of big data:
+	-Volume (How much data points)
+	-Variety (What kind? The type and nature of the data: text, image, video, audio)
+	-Velocity (How frequent? How fast the data is generated and processed?)
+	-Veracity (How accurate? How trustworthy the sources are?)
+	-Value (How useful? How actionable the data is?)
+Data engineers have to considere these five Vs
+	
+How data engineering relates to big data? A: increase of date implics: data engineers are more and more needed to think about how to deal with its size, because it's difficult to process using traditional data managements methods
+
+\--1.2 Data engineers vs data scientists
+At which stages data engineers and data scientists intervene?
+Data engineers focus on Data Collection & Storage, In some companys also data preparation. Data Scientists intervene on the rest of the workflow.
+
+How data engineers enable data scientists?
+A: Data engineers (i) store data in their databases, (ii) set up databases to ensure databases are optimized for analysis, (iii) Build data pipelines, (iv) are softwares experts. Then data scientist can (i) expolit the data, (ii) Access databases, (iii) use the pipeline outputs, (iv) Are analytics experts;
+
+\--1.3 The data pipeline
+What is a data pipeline? Its like a virtual pipeline that move data from one system to another.
+A:  Companys ingest data from many different sources, which needs to be processed and stored in various ways. To handle that, we need data pipelines that efficiently automate the flow from one station to the next.
+
+What does it?
+A: Data pipelines ensure the data flows efficiently through the organization
+
+Why is it important? Because they AUTOMATE: Extracting, transforming, combining, validating loading data to REDUCE Human inverntion, errors, time it takes data to flow
+
+What is ETL and its nuances?
+A: Popular framework for designing data pipelines. It breaks the flow into three sequential steps. Extract, Transform, and Load. The data is processed before it is stored 
+

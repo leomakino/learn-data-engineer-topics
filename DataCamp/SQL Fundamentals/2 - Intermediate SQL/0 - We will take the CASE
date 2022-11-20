@@ -1,0 +1,112 @@
+
+
+\--We'll take the CASE
+Topics covered: Case statements, simple subqueries, correlated subqueries, and window functions
+
+Case Statements:
+	CASE WHEN x = 1 THEN 'a'
+	WHEN x = 2 THEN 'b'
+	ELSE 'c' END AS new_column
+
+You were able to identify two teams using CASE statement instead of a join,
+
+SELECT 
+	m.date,
+	--Select the team long name column and call it 'opponent'
+	t.team_long_name AS 'opponent',
+	-- Complete the CASE statement with an alias
+	CASE WHEN m.home_goal > m.away_goal THEN 'Home win!'
+        WHEN m.home_goal < m.away_goal THEN 'Home loss :('
+        ELSE 'Tie' END AS outcome
+FROM matches_spain AS m
+-- Left join teams_spain onto matches_spain
+LEFT JOIN teams_spain AS t
+ON m.awayteam_id = t.team_api_id;
+
+\--In CASE things get more complex
+CASE statements allow you to categorize data that you're interested in -- and exclude data you're not interested in.
+
+You can use the CASE statement as a filtering column like any other column in your database.
+
+-- Select the season, date, home_goal, and away_goal columns
+SELECT 
+	season,
+    date,
+	home_goal,
+	away_goal
+FROM matches_italy
+WHERE 
+-- Exclude games not won by Bologna
+	CASE WHEN hometeam_id = 9857 AND home_goal > away_goal THEN 'Bologna Win'
+		WHEN awayteam_id = 9857 AND away_goal > home_goal THEN 'Bologna Win' 
+		END IS NOT NULL;
+
+
+
+
+\--CASE WHEN with aggregate functions
+CASE statements are great for:
+	Categorizing data;
+	Filtering data;
+	Aggregating data.
+
+COUNT, OR SUM:
+	SELECT
+		season,
+		COUNT(CASE WHEN hometeam_id = 8650 AND home_goal > away_goal
+		THEN id END) AS home_wins,
+		COUNT(CASE WHEN awayteam_id = 8650 AND away_goal > home_goal
+		THEN id END) AS away_wins
+		FROM match
+	GROUP BY season;
+	
+AVG: you can use this function with CASE in two key ways
+	Commom mean:
+		SELECT
+			season,
+			AVG(CASE WHEN hometeam_id = 8650
+			THEN home_goal END) AS home_goals,
+			AVG(CASE WHEN awayteam_id = 8650
+			THEN away_goal END) AS away_goals
+		FROM match
+		GROUP BY season;
+	
+	Percentage:
+		SELECT
+			season,
+			AVG(CASE WHEN hometeam_id = 8455 AND home_goal > away_goal THEN 1
+			WHEN hometeam_id = 8455 AND home_goal < away_goal THEN 0
+			END) AS pct_homewins,
+			AVG(CASE WHEN awayteam_id = 8455 AND away_goal > home_goal THEN 1
+			WHEN awayteam_id = 8455 AND away_goal < home_goal THEN 0
+			END) AS pct_awaywins
+		FROM match
+		GROUP BY season;
+		
+ROUND: Example ROUND(3.141592653589,2), OUTPUT 3.14
+	SELECT
+		season,
+		AVG(CASE WHEN hometeam_id = 8455 AND home_goal > away_goal THEN 1
+		WHEN hometeam_id = 8455 AND home_goal < away_goal THEN 0
+		END) AS pct_homewins,
+		AVG(CASE WHEN awayteam_id = 8455 AND away_goal > home_goal THEN 1
+		WHEN awayteam_id = 8455 AND away_goal < home_goal THEN 0
+		END) AS pct_awaywins
+	FROM match
+	GROUP BY season;
+	
+In R or Python, you have the ability to calculate a SUM of logical values (i.e., TRUE/FALSE) directly. In SQL, you have to convert these values into 1 and 0 before calculating a sum. This can be done using a CASE statement.
+
+SELECT 
+	c.name AS country,
+    -- Sum the total records in each season where the home team won
+	SUM(CASE WHEN m.season = '2012/2013' AND m.home_goal > m.away_goal 
+        THEN 1 ELSE 0 END) AS matches_2012_2013,
+ 	SUM(CASE WHEN m.season = '2013/2014' AND m.home_goal > m.away_goal THEN 1 ELSE 0 END) AS matches_2013_2014,
+	SUM(CASE WHEN m.season = '2014/2015' AND m.home_goal > m.away_goal THEN 1 ELSE 0 END) AS matches_2014_2015
+FROM country AS c
+LEFT JOIN match AS m
+ON c.id = m.country_id
+-- Group by country name alias
+GROUP BY country;
+

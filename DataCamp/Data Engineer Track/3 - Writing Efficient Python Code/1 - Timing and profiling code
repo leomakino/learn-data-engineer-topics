@@ -1,0 +1,40 @@
+profiling: The activity of collecting important and useful details about someone or something
+
+\--Examining runtine
+Why should we time our code? 
+A: Allows us to pick the optimal coding approach. *Faster code == more efficient code!
+
+How can we time our code?
+A: Calculate runtime with IPython magic command %timeit.
+See all available magic commands with %lsmagic
+
+
+
+\--Code profiling for runtime
+%timeit and %%timeit works well with bite-sized code
+What if we wanted to time a large code base or see the line-by-line runtimes within a function?
+A: Code profiling allows us to analyze code more efficiently
+	It is a technique used to describe how long, and how often, various parts of a program are executed;
+	It details stats on frequency and duration of function calls
+	Line-by-line analyses without using magic commands like %timeit
+	Package used: line_profiler
+	
+%load_ext line_profiler
+
+%lprun -f convert_units convert_units(heroes, hts, wts)
+
+\--Code profiling for memory usage
+
+inspeccionar el consumo de memoria -> import sys
+sys.getsizeof() para ver el tamaño de un objeto en bytes, pero esto solo nos da el tamaño de un objeto individual
+
+Analizar la asignación de memoria para cada línea de código:
+	Package used: memory_profiler
+
+
+%mprun solo se puede usar en funciones definidas en archivos físicos y no en la sesión de IPython
+	from hero_funcs import convert_units
+	%load_ext memory_profiler
+	%mprun -f convert_units convert_units(heroes, hts, wts)
+	
+Results may differ between platforms and runs but can still observe how each line of code compares to others based on memory consumption
