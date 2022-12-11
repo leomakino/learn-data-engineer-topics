@@ -365,7 +365,6 @@ Amazon Resource Names (ARNs) uniquely identify AWS resources. We require an ARN 
 
 ```
 # Create SNS Client
-
 sns = boto3.client('sns',
     region_name='us-east-1',
     aws_access_key_id=AWS_KEY_ID,
@@ -380,6 +379,50 @@ response = sns.list_topics()
 
 
 # Delete topic
-
 sns.delete_topic(TopicArn='arn:aws:sns:us-east-1:320333787981:city_alerts')
 ```
+
+### SNS Subscriptions
+After created SNS topics, it's time to manage subscriptions to those topics. 
+Managing subscriptions means how we choose who gets the notifications and how they get them.
+Every subscription has a unique ID, an end point, a protocol and a status.
+- ID: Unique ID
+- Endpoint: the endpoint that you want to receive notifications, varying by protocol. 
+- Status: Confirmed or pending confirmation status.
+- Protocol: The protol that you want to use. Examples:
+    - http and https
+    - email and sms
+    - application, lambda, and firehose.
+```
+# Create a SMS subscription
+response = sns.subscribe(
+    TopicArn = 'arn:aws:sns:us-east-1:320333787981:city_alerts',
+    Protocol = 'SMS',
+    Endpoint = '+554899999999')
+
+# Create an email subscription
+response = sns.subscribe(
+    TopicArn = 'arn:aws:sns:us-east-1:320333787981:city_alerts',
+    Protocol='email',
+    Endpoint='email@address.com')
+
+# List subscriptions
+sns.list_subscriptions()['Subscriptions']
+
+# Delete subscription
+sns.unsubscribe(
+    SubscriptionArn='arn:aws:sns:us-east-1:320333787921:subscription_example:0f2dad1d-8844-4fe8
+)
+
+# Delete Multiple subscriptions
+# First, get list of subscriptions
+response = sns.list_subscriptions_by_topic(
+    TopicArn='arn:aws:sns:us-east-1:320333787921:subscription_example') 
+subs = response['Subscriptions']
+
+# Then, unsubscribe SMS subscriptions
+for sub in subs:
+    if sub['Protocol'] == 'sms':
+        sns.unsubscribe(sub['SubscriptionArn'])
+```
+
