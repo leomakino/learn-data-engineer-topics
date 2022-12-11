@@ -426,3 +426,35 @@ for sub in subs:
         sns.unsubscribe(sub['SubscriptionArn'])
 ```
 
+### Send Messages
+Publishers send a message to an Amazon SNS topic, a text message (SMS message) directly to a phone number, or a message to a mobile platform endpoint 
+
+To publish to a topic, call the publish method with TpicArn, message, and subject as arguments.
+
+```
+# Publish to a topic
+response = sns.publish(
+    TopicArn = 'arn:aws:sns:us-east-1:320333787981:subscription_example',
+    Message = 'Body text of SMS or e-mail',
+    Subject = 'Subject Line for Email'
+)
+
+# Send a single SMS
+response = sns.publish(
+    PhoneNumber = '+554899999999',
+    Message = 'Body text of SMS or e-mail'
+)
+```
+There are two ways to send a message. 
+1. Publish a message to a topic
+2. Send a one-off SMS
+
+Publish to topic vs Single SMS
+
+| Publish to a topic            | Send a single SMS                      |
+|-------------------------------|----------------------------------------|
+| Need a topic created          | Don't need a topic                     |
+| Need to have subscribers      | Don't need subscriptions               |
+| Better for multiple receivers | Just sends a message to a phone number |
+| Easier list management        | Email option not available             |
+
