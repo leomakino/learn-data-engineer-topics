@@ -458,3 +458,24 @@ Publish to topic vs Single SMS
 | Better for multiple receivers | Just sends a message to a phone number |
 | Easier list management        | Email option not available             |
 
+
+## Pattern Rekognition
+
+### Comprehending text
+
+```
+# Initialize client
+translate = boto3.client('translate',
+    region_name='us-east-1',
+    aws_access_key_id=AWS_KEY_ID, aws_secret_access_key=AWS_SECRET)
+
+# Translate text
+response = translate.translate_text(
+    Text='Olá, tudo bem?',
+    SourceLanguageCode='auto',
+    TargetLanguageCode='es')
+
+# Detect dominant language
+response = comprehend.detect_dominant_language(
+    Text="Hoy es un buen dia para tener un gran dia.")
+```
