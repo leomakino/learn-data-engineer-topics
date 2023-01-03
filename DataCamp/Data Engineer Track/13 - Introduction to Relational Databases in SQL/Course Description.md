@@ -4,3 +4,17 @@ You’ve already used SQL to query data from databases. But did you know that th
 
 # First Database
 In this chapter, you'll create your very first database with a set of simple SQL commands. Next, you'll migrate data from existing flat tables into that database. You'll also learn how meta-information about a database can be queried. 
+
+## Introduction to relational databases
+
+Advantages over flat files like CSVs or Excel sheets:
+- real-life entities become tables
+- reduced redundancy: each table only contains data from a single entity type
+- data integrity by relationships: relationships between entities
+
+How to look at the columns of a certain table (PostgreSQL)
+```
+SELECT table_name, column_name, data_type
+FROM information_schema.columns
+WHERE table_name = 'table_name'
+```
