@@ -8,11 +8,17 @@ In this chapter, you'll create your very first database with a set of simple SQL
 ## Introduction to relational databases
 
 Advantages over flat files like CSVs or Excel sheets:
-- real-life entities become tables
-- reduced redundancy: each table only contains data from a single entity type
-- data integrity by relationships: relationships between entities
+- real-life entities become tables: store different real-world entities in different tables;
+- reduced redundancy: each table only contains data from a single entity type;
+- data integrity by relationships: relationships between entities;
+- use constraints, keys and referential integrity in order to assure data quality.
 
-How to look at the columns of a certain table (PostgreSQL)
+Query information_schema with SELECT (PostgreSQL)
+
+information_schema:
+- is a meta-database that holds information about your current database
+- has multiple tables you can query with the known SELECT * FROM
+
 ```
 SELECT table_name, column_name, data_type
 FROM information_schema.columns
