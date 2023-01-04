@@ -24,7 +24,7 @@ IAM keys
 
 Connect to S3 Using Boto
 **boto3.client** Create a low-level service client by name using the default session.
-```
+```PYTHON
 import boto3
 s3_client = boto3.client('s3',
     region_name='us-east-1',
@@ -46,7 +46,7 @@ The main components of S3 are Buckets and Objects:
 
 
 Creating a bucket
-```
+```PYTHON
 # Create boto3 client
 import boto3
 s3 = boto3.client('s3', region_name='us-east-1',
@@ -58,7 +58,7 @@ bucket = s3.create_bucket(Bucket='bucket_name')
 ```
 
 Listing buckets
-```
+```PYTHON
 bucket_response = s3.list_buckets()
 # Get buckets dictionary
 buckets = bucket_response['Buckets']
@@ -66,7 +66,7 @@ print(buckets)
 ```
 
 Delete Buckets
-```
+```PYTHON
 response = s3.delete_bucket('bucket_name')
 ```
 
@@ -88,7 +88,7 @@ Object rules
 - Object key naming guidelines
 
 Upload file
-```
+```PYTHON
 s3.upload_file(
 Filename='sample.csv',
 Bucket='bucket_name',
@@ -96,7 +96,7 @@ Key='sample.csv')
 ```
 
 List objects
-```
+```PYTHON
 response = s3.list_objects(
 Bucket='bucket_name',
 MaxKeys=2,
@@ -104,14 +104,14 @@ Prefix='sample' # optional)
 ```
 
 Head objects
-```
+```PYTHON
 response = s3.head_object(
     Bucket='bucket_name',
     Key='sample.csv')
 ```
 
 Download file
-```
+```PYTHON
 s3.download_file(
     Filename='sample.csv',
     Bucket='bucket_name',
@@ -119,7 +119,7 @@ s3.download_file(
 ```
 
 Delete Object
-```
+```PYTHON
 s3.delete_object(
     Bucket='bucket_name',
     Key='sample.csv')
@@ -142,13 +142,13 @@ There is four ways we can control permissions in S3.
 *Note: AWS defaults to denying permission*
 
 Set ACL
-```
+```PYTHON
 s3.put_object_acl(
 Bucket='bucket_name', Key='sample.csv', ACL='public-read')
 ```
 
 Setting ACLs on upload
-```
+```PYTHON
 s3.upload_file(
 Bucket='bucket_name',
 Filename='sample.csv',
@@ -161,14 +161,14 @@ The Public Object URL format is 'https://{bucket}.s3.amazonaws.com/{key}'
 
 ### Accessing private objects in S3
 Use '.get_object()' to acess private files
-```
+```PYTHON
 obj = s3.get_object(Bucket='bucket_name', Key='sample.csv')
 ```
 
 **Pre-signed URLs**
 The pre-signed URLS expires after a certain timeframe and it is grat for temporary access
 Generating presigned URL
-```
+```PYTHON
 share_url = s3.generate_presigned_url(
         ClientMethod='get_object',
         ExpiresIn=3600,
@@ -206,7 +206,7 @@ Example:
 | json | application/json | [RFC8259]                |
 
 Uploading an HTML page to S3
-```
+```PYTHON
 s3.upload_file(
     Filename='home_page.html',
     Bucket='BUCKET_NAME',
@@ -239,7 +239,7 @@ Steps:
 
 1.1 Read raw data files
 
-```
+```PYTHON
 # Create list to hold our DataFrames
 df_list = []
 
@@ -263,31 +263,31 @@ df_list.append(obj_df)
 ```
 
 1.2 Concatenate them into one csv
-```
+```PYTHON
 # Concatenate all the DataFrames in the list
 df = pd.concat(df_list)
 ```
 
 1.3 Create an aggregated Dataframe
-```
+```PYTHON
 # No code yet
 ```
 
 
 2.1 Write the DataFrame to CSV and HTML
-```
+```PYTHON
 # Perform some aggregation
 df.to_csv('jan_final_report.csv')
 df.to_html('jan_final_report.html')
 ```
 
 3.1 Create the report-bucket
-```
+```PYTHON
 bucket = s3.create_bucket(Bucket='bucket-reports')
 ```
 
 3.2 Upload all the files for the month to S3
-```
+```PYTHON
 # Upload Aggregated CSV to S3
 s3.upload_file(Filename='./jan_final_report.csv',
     Key='2019/jan/final_report.csv',
@@ -304,7 +304,7 @@ s3.upload_file(Filename='./jan_final_report.html',
 ```
 
 2.2 Generate a Bokeh plot, save as HTML
-```
+```PYTHON
 # Assume that the Bokeh plot was generated
 # Upload Aggregated Chart to S3
 s3.upload_file(Filename='./jan_final_chart.html',
@@ -317,7 +317,7 @@ s3.upload_file(Filename='./jan_final_chart.html',
 
 Create home_page.html
 
-```
+```PYTHON
 # List the bucket-reports bucket objects starting with 2019/
 r = s3.list_objects(Bucket='bucket-reports', Prefix='2019/')
 
@@ -363,7 +363,7 @@ Amazon Simple Notification Service (SNS) is a notification service that
 
 Amazon Resource Names (ARNs) uniquely identify AWS resources. We require an ARN when you need to specify a resource unambiguously across all of AWS, such as in IAM policies, Amazon Relational Database Service (Amazon RDS) tags, and sns topics
 
-```
+```PYTHON
 # Create SNS Client
 sns = boto3.client('sns',
     region_name='us-east-1',
@@ -393,7 +393,7 @@ Every subscription has a unique ID, an end point, a protocol and a status.
     - http and https
     - email and sms
     - application, lambda, and firehose.
-```
+```PYTHON
 # Create a SMS subscription
 response = sns.subscribe(
     TopicArn = 'arn:aws:sns:us-east-1:320333787981:city_alerts',
@@ -431,7 +431,7 @@ Publishers send a message to an Amazon SNS topic, a text message (SMS message) d
 
 To publish to a topic, call the publish method with TpicArn, message, and subject as arguments.
 
-```
+```PYTHON
 # Publish to a topic
 response = sns.publish(
     TopicArn = 'arn:aws:sns:us-east-1:320333787981:subscription_example',
@@ -463,7 +463,7 @@ Publish to topic vs Single SMS
 
 ### Comprehending text
 
-```
+```PYTHON
 # Initialize client
 translate = boto3.client('translate',
     region_name='us-east-1',
