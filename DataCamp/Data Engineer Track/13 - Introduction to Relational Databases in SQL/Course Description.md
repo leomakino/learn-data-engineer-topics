@@ -169,3 +169,59 @@ SET id = CONCAT(c_1, c_2);
 ALTER TABLE mytable
 ADD CONSTRAINT id_pk PRIMARY key(id);
 ```
+
+# Glue table with foreign keys
+Use foreign keys to connect tables and establish relationships that will greatly benefit your data quality. And you'll run ad hoc analyses on your new database.
+
+Foreign Keys (FK):
+- Implement relationship between tables
+- A foreign key points to the primary key of another table
+- Domain of FK must be equal to domain of PK
+- Each value of FK must exist in PK of the other table (referencial integrity)
+- FKs are not actual keys
+
+*Naming convention employed here: Usually, a foreign key referencing another primary key with name id is named x_id, where x is the name of the referencing table in the singular form.*
+
+```SQL
+-- Specifying foreign keys
+CREATE TABLE table1 (
+a varchar(255) PRIMARY KEY);
+INSERT INTO table1
+VALUES ('a1'), ('a2'), ('a3');
+CREATE TABLE table2 (
+id varchar(255) PRIMARY KEY,
+b_a varchar(255) REFERENCES table1 (a));
+INSERT INTO table2
+VALUES ('b11', 'b22'), ('b21', 'b22');
+
+-- Specifying foreign keys to existing tables
+ALTER TABLE table1
+ADD CONSTRAINT table1_fkey FOREIGN KEY (table2_id) REFERENCES table2 (id) 
+```
+
+N:M relationships
+1. Create a table
+1. Add foreign keys for every connected table
+1. Add additional attributes
+1. No Primary key
+1. Possible PK = {a_id, b_id}
+```SQL
+CREATE TABLE c (
+a_id integer REFERENCES a (id),
+b_id varchar(256) REFERENCES b (id),
+c_description varchar(256)
+);
+```
+
+Referential integrity
+- A record referencing another table must refer to an existing record in that table
+- Specified between two tables
+- Enforced through foreign keys
+
+Dealing with violations: ON DELETE
+- NO ACTION: Throw an error
+- CASCADE: DELETE all referencing records
+- RESTRICT: Throw an error
+- SET NULL: SET the referencing column to null
+- SET DEFAULT: set the referencing column to its default value
+- *default option is no action*
