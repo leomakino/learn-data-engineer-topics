@@ -37,6 +37,9 @@ Example tasks:
 | Size    | snapshot, gigabytes                    | archive, terabytes                           |
 | Queries | simple transactions & frequent updates | complex, aggregate queries & limited updates |
 | Users   | thousands                              | hundreds                                     |
+| Normalization| Highly normalized| less normalized|
+| Write/Read | Write-intensive | Read-intensive |
+| Prioritize |  quicker and safer insertion of data| quicker queries for analytics|
 
 ## Structuring data
 1. Structured data
@@ -120,6 +123,49 @@ Normalization is a technique that divides tables into smaller tables and connect
 - Goal: reduce redundancy and increase data integrity
 
 How to normalize data? A: Identify repreating groups of data and create new tables for them.
+
+Normalized data, usually snowflake schema, needs more join to query a information than denormalized data.
+
+*So why we want to normalize a database? (Advantages)*
+
+1. Normalization saves space, denormalized databases enable data redundancy
+1. Enforces data consistency: Must respect naming conventions because of referential integrity.
+1. Safer updating, removing, and inserting: Less data redundancy = less records to alter
+1. Easier to redesign by extending: Smaller tables are easier to extend than larger tables
+
+Disadvantages
+1. complex queries require more CPU
+
+
+The Goals of normalization are to:
+- Be able to characterize the level of redundancy in a relational schema
+- Provide mechanisms for transforming schemas in order to remove redundancy
+
+Normal forms (NF)
+- First normal form (1NF)
+    - Each record must be unique - no duplicate rows
+    - Each cell must hold one value
+- Second normal form (2NF)
+    - Must satisfy 1NF AND
+        - If PK is one column, then automatically satisfies 2NF
+        - If there is a composite PK, then each non-key column must be dependent on all the keys
+- Third normal form (3NF)
+    - requires 2NF to satisfied
+    - No transitive dependencies: non key columns can't depend on other non-key columns
+- Elementary key normal form (EKNF)
+- Boyce-Codd normal form (BCNF)
+- Forth normal form (4NF)
+- Essential tuple normal form (ETNF)
+- Fifth normal form (5NF)
+- Domain-key Normal form (DKNF)
+- Sixth normal form (6NF)
+
+*What is risked if we on't normalize enough?* A: Data anomalies
+
+A database that isn't normalized enough is prone to three types of anomaly errors: 
+1. update, 
+1. insertion, and 
+3. deletion.
 
 
 # Database Views
