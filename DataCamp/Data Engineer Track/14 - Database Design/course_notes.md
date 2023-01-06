@@ -171,6 +171,104 @@ A database that isn't normalized enough is prone to three types of anomaly error
 # Database Views
 Get ready to work with views! In this chapter, you will learn how to create and query views. On top of that, you'll master more advanced capabilities to manage them and end by identifying the difference between materialized and non-materialized views. 
 
+In a database, a view is the result set of a stored query on the data, which the database users can query just as they would in a persistent database collection object.
+
+Virtual table that is not part of the physical schema
+- Query, not data, is stored in memory
+- Data is aggregated from data in tables
+- Can be queried like a regular database table
+- No need to retype common queries or alter schemas
+
+Benefits of views:
+- Doesn't take up storage
+- A form of access control.
+    - E.g.: Hide sensitive columns and restrict what user can see
+- Masks complexity of queries
+    - Useful for highly normalized schemas
+
+Granting and revoking access to a view. To give and remove user permissions, we use the SQL GRANT and REVOKE command
+
+A user can update a view if they have the necessary privilege.
+
+Even a view isn't a physical table, when you run an update, you are updating the tables behind the view.
+
+**Not** all views are updatable. The conditions to an updatable view are:
+1. It needs to be made up of one table
+1. It can't rely on a window or aggregate function.
+
+*The same criteria for the insertable tables*
+
+Drop view parameters:
+- RESTRICT (Default): returns an error if there are objects that depend on the view.
+- CASCADE: drop the view and any object that depends on that view
+
+```SQL
+-- Create a view
+CREATE VIEW view_name AS (SELECT column_name FROM table_name)
+
+-- Viewing views
+SELECT * FROM INFORMARTION_SCHEMA.views;
+
+-- Grant privilege
+GRANT UPDATE ON table_name to PUBLIC;
+
+-- REVOKE privilege
+REVOKE INSERT ON table_name FROM db_user;
+
+-- Drop view
+DROP VIEW view_name [RESTRICT | CASCADE]
+
+-- Alter view
+Alter view view_name ...
+```
+**Materialized views**
+- Materialized views are physically materialized, in other words, materialized views stores the query results, not the query.
+- Querying a materialized view means accessing the stored query results
+- They are refreshed or rematerialized when prompted.
+
+When to use materialized views
+- They are great if you have queries with long execution time but that not is being updated ofeten.
+- They allow data scientists and analysts to run long queries and get results very quickly.
+
+Managing dependencies
+- Materialized views often depend on other materialized views
+- Creates a dependency chain when refreshing views
+- Not the most efficient to refresh all views at the same time
+- **Excelent Solution**: Airflow, Luigi
+
+
+```SQL
+-- Create MATERIALIZED VIEW
+CREATE MATERIALIZED VIEW mv_name as SELECT * FROM table_name
+
+-- refreshed/rematerialized MATERIALIZED VIEW
+REFRESH MATERIALIZED VIEW mv_name
+```
+
 
 # Database Management
 This final chapter ends with some database management-related topics. You will learn how to grant database access based on user roles, how to partition tables into smaller pieces, what to keep in mind when integrating data, and which DBMS fits your business needs best. 
+
+Granting and revoking access to a view
+
+**GRANT** or **REVOKE** privilege **ON** object **To** or **FROM** role
+
+- Privileges: SELECT, INSERT, UPDATE, DELETE
+- Objects: table, view, schema, etc.
+- Roles: a database user or a group of database users
+
+Database roles
+- Manage database access permissions
+- A batabase role is an entity that contains information that (i) Defines the role's privilges (ii) Interact with the client authentication system.
+- Roles can be assigned to one or more users
+- Roles are global across a database cluster installation
+
+Benefits of roles
+- Roles live on after users are deleted
+- Roles can be created before user accounts
+- Save DBAs time
+
+
+```SQL
+-- Create role
+CREATE Role role_name;
