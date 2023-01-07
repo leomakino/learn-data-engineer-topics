@@ -272,3 +272,45 @@ Benefits of roles
 ```SQL
 -- Create role
 CREATE Role role_name;
+
+```
+
+**Data partitioning**
+Split a table up into multiple smaller parts is the process of partitioning.
+
+
+Why partition?
+When tables grow, hundreds of gigabytes or even terabytes, queries tend to become slow.
+
+Even when we-ve set indices correctly, these indices can become so large they don't fit into memory.
+
+**Problem**: queries/upates become slower
+**Because**: e.g. indicates don't fit memory
+**Solution**: split table into smaller parts (=partitioning)
+
+Data modeling refresher
+1. Conceptual data model
+2. Logical data model (*For partitioning, logical data model is the same*)
+3. Physical data model (*Partitioning is part of physucal data model*)
+
+## Vertical and Horizontal partitioning
+
+### Vertical partitioning
+
+For vertical partitioning, there is no specific syntax in PostgreSQL. You have to create a new table with particular columns and copy the data there. Afterward, you can drop the columns you want in the separate partition.
+
+Vertical partitioning goes one step further and splits up a table vertically by its columns, even when it's already fully normalized. After a vertical partitioning, you could end up with two tables which can be linked through a shared key.
+- Split table even when fully normalized
+
+### Horizontal partitioning: slipt tables up over the rows.
+
+Pros of horizontal partitioning
+- Indices of heavily-used partitions fit in memory
+- Move to specific medium: slower vs faster
+- Used for both OLAP as OLTP
+
+Cons
+- Partitioning existing table can be a hassle
+- Some constraints can not be set
+
+**Sharding**: Distribute the partitions over several machines.

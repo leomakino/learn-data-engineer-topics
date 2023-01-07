@@ -225,3 +225,14 @@ Dealing with violations: ON DELETE
 - SET NULL: SET the referencing column to null
 - SET DEFAULT: set the referencing column to its default value
 - *default option is no action*
+
+## Data Integration
+What if your data is apread across different databases, formats, schemas and technologies?
+
+Data Integration combines data from different sources, formats, technologies to provide users with a translated and unified view of that data.
+
+Business case examples:
+
+- 360-degree customer view
+- Acquisition
+- Legacy systems
