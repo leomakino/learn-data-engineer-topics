@@ -9,6 +9,8 @@ What is Scala?
 - Designed to be concise.
 - Scala source code is intended to be compled to Java bytecode, so that the resulting executable code runs on a Java virtual machine
 - Scala is like a newer, improved Java
+- Scala combines object-oriented and functional programming in one concise, high-level language.
+- Scala's static types help avoid bugs in complex applications, and its JVM and JavaScript runtimes let you build high-performance systems with easy access to huge ecosystems of libraries.
 
 Why use Sala?
 - **SCA**lable **LA**nguage
@@ -18,3 +20,48 @@ Why use Sala?
 Who uses Scala?
 - Roles: Software Engineers, Data Engineers, Data Scientiss, ML Engineers...
 - Industries: Finance, Tech, Healthcare
+
+Scala is Object-oriented programming (OOP)
+- Every value is an object
+- every operation is a method call
+
+Scala is functional
+1. Functions are first-class values
+2. Operations of a program should map input values to output values rather than change data in place
+
+Scala Variables
+- val: immutable
+- var: mutable
+- java.lang.Double
+- java.lang.Float
+- java.lang.Long
+- java.lang.Int
+- java.lang.Short
+- java.lang.Byte
+- java.lang.Char
+- java.lang.Boolean
+- java.lang.Unit
+
+Scala value types have equivalent Java types
+
+| Scala types   | Java types        |
+|---------------|-------------------|
+| scala.Double  | java.lang.Double  |
+| scala.Float   | java.lang.Float   |
+| scala.Long    | java.lang.Long    |
+| scala.Int     | java.lang.Int     |
+| scala.Short   | java.lang.Short   |
+| scala.Byte    | java.lang.Byte    |
+| scala.Char    | java.lang.Char    |
+| scala.Boolean | java.lang.Boolean |
+| scala.Unit    |   |
+
+```Scala
+// Define an immutable int 
+val two: Int = 2
+// or simply
+val two = 2
+
+// Define an immutable string
+val name: String = Leo
+```
