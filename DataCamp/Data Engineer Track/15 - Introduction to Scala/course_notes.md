@@ -131,7 +131,7 @@ Functions:
 
 ```scala
 // Define a function
-def bust(number: Int): Boolean = {
+def function_name(number: Int): Boolean = {
     number > 10
 }
 ```
@@ -182,3 +182,162 @@ val players = "name0" :: "name1" :: "name2" :: Nil
 val newPlayers = playerlist1 ::: playerlist2
 ```
 - *Note: Concatenation demonstrates immutability because it's necessary to create a new list to receive them*
+
+# Type Systems, Control Structures, Style
+
+After learning how to control your program with if/else, while loops, and the foreach method, you’ll convert imperative-style code to the Scala-preferred functional style.
+
+Scala's static type system
+-**Type**: restricts the possible values to which a variable can refer, or an expression can produce, at run time.
+- **Compile time**: when source code is translated into machine code. When scala code is compiled to Java bytecode.
+- **Run time**: time executing commands after compilation.
+
+## Type Systems
+Static type systems: A language is statically typed if the type of a variable is known at compile time. That is, types checked before run-time. E.g.:
+- C/C++
+- Fortran
+- Java
+- Scala
+
+Dynamic type systems: A language is dynamically typed if types are checked on fly. That is, types are checked during execution (i.g., run time)
+- JavaScript
+- Python
+- Ruby
+- R
+
+Pros of static type systems
+- Increased performance at run time
+- Properties of your program verified (i.e., prove the absence of common type-related bugs)
+- Safe refactorings
+- Documentation in the form of type annotations (: Int in val val_name: Int = 1)
+
+Cons of static type systems
+- It takes time to check types (i.g., dalay before execution)
+- Code is verbose (i.e., code is longer/more annoying to write)
+- The language is not flexible
+
+Compiled, statically-typed languages
+- **Compiled languages**: Increased performance at run time
+- **Statically-typed languages**: Increased performance at run time
+
+## If else
+
+if expressions result in values, they can be the result of functions, which also result in values.
+
+
+```scala
+// Scala 3 If else example 1
+if x < 0 then
+  println("negative")
+else if x == 0 then
+  println("zero")
+else
+  println("positive")
+
+// Scala if else example
+// Inform a player where their current hand stands
+val informPlayer: String = {
+  if (hand>21) 
+    "Bust! :("
+  else if (hand == 21)
+    "Twenty-One! :)"
+  else
+    "Hit or stay?"
+}
+```
+
+| Relational operators description | Symbol         | Logical operators description | Symbol |
+|----------------------------------|----------------|-------------------------------|--------|
+| Greater than                     | >              | And                           | &&     |
+| Less than                        | <              | Or                            | \|\|   |
+| Greater than or equal to         | >=             | Not                           | !      |
+| Less than or equal to            | <=             |                               |        |
+| Equal to                         | ==             |                               |        |
+| Not equal                        | !=             |                               |        |
+
+
+
+## While
+
+A while loop is another control structure, like if/else. while lets us automate the repetition of instructions to make our code more readable and concise.
+
+```scala
+// scala2 while 
+// Define counter variable
+var i = 0
+// Define the number of times for the cheer to repeat
+val numRepetitions = 3
+// Loop to repeat the cheer
+while (i < numRepetitions) {
+// BODY OF LOOP
+// example
+    println("Hip hip hooray!")
+    i += 1 // i = i + 1
+}
+```
+
+```scala
+// Loop with while over a collection
+// Define counter variable
+var i = 0
+// Create an array with each player's hand
+var hands = Array(17, 24, 21)
+// Loop through hands and see if each busts
+while (i < hands.length) {
+println(bust(hands(i)))
+i = i + 1
+}
+```
+
+Scala is a imperative/functional hybrid. Scala Usually is functional but can also be imperative sometimes
+
+Scala can be imperative:
+
+- One command at a time
+- Iterate with loops
+- Mutate shared state (e.g. mutating variables out of scope)
+
+**Signs of style**
+
+Scala is a hybrid imperative/functional language. Imperative-style Scala code often has the following traits:
+
+- One command at a time
+- Iterate with loops
+- Mutate shared state (e.g., mutating variables out of scope)
+
+Functional-style Scala code often has the following traits:
+
+- Functions are used as first-class values
+- Operations of a program map input values to output values rather than change data in place
+
+
+Imperative:
+- var
+- side effects
+- unit
+
+Functional
+- val
+- No side effects
+- Non-Unit value types
+    - Int
+    - Boolean
+    - Double
+
+
+Scala is functional, functions are first-class values. 
+- One aspect of functions being first-class values is that functions can be passed as arguments to functions
+- side effects should be avoided, where a side effect means code modifying some variable outside of its local scope
+
+
+A common way to iterate over a Scala List is with the foreach method. 
+
+The foreach method promotes concise code by allowing a function (pointsToBust) to be passed into it as an argument, which is a feature of Scala being a functional language. Note that if the function had more than one argument, simply writing the function name wouldn't work. 
+
+foreach takes a procedure — a function with a result type Unit — as the right operand. It simply applies the procedure to each List element. The result of the operation is again Unit; no list of results is assembled.
+
+
+```scala
+array_name.foreach(INSERT FUNCTION HERE)
+```
+
