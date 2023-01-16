@@ -154,6 +154,44 @@ list(filter(lambda x: x%2 != 0, items))
 # Programming in PySpark RDD’s 
 Chapter description: The main abstraction Spark provides is a resilient distributed dataset (RDD), which is the fundamental and backbone data type of this engine. This chapter introduces RDDs and shows how RDDs can be created and executed using RDD Transformations and Actions. 
 
+RDDs
+- resilient distributed dataset
+- It is an immutable collection of data distributed across the cluster
+- Spark's core abstraction for working with data
+- Resilient: the ability to withstand failures and recompute missing or damaged partitions 
+- Distributed: spanning the jobs across multiple nodes in the cluster (for efficient computation)
+- Datasets: a collection of partitioned data
+
+When Spark starts processing data, it divides the data into partitions and distributes the data across cluster nodes, with each node containing a slice of data.
+
+How to create RDDs
+- Parallelizing an existing collection of objects
+    - RDDs are created from a list or a set using SparkContext's parallelize method (parallelize())
+- External datasets
+    - A more common way to do it is to load data from external datasets such as files stored in HDFS or objects in buckets
+    - textFile() for creating RDDs from external datasets
+    - lines in a text file:
+- From existing RDDs
+
+```python
+# RDD created from a Python list
+num_RDD = sc.parallelize([1,2,3,4])
+
+# RDD created from a Python string
+str_RDD = sc.parallelize("This is a string")
+
+# RDD created using textFile method
+file_RDD = sc.textFile("README.md")
+
+# getNumPartitions()
+file_RDD.getNumPartitions()
+```
+
+Partitions
+- A partition is a logical division of a large distributed data set
+
+
+
 # PySpark SQL & DataFrames 
 In this chapter, you'll learn about Spark SQL which is a Spark module for structured data processing. It provides a programming abstraction called DataFrames and can also act as a distributed SQL query engine. This chapter shows how Spark SQL allows you to use DataFrames in Python. 
 
