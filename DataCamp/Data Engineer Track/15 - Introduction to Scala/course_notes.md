@@ -190,7 +190,52 @@ file_RDD.getNumPartitions()
 Partitions
 - A partition is a logical division of a large distributed data set
 
+## Spark Operation
+Pyspark supports two different tyepes of operations:
+- Transformations (create new RDDs)
+- Actions (perform computation on the RDD)
 
+Basic RDD Transformations
+- map(): applies a function to all elements in the RDD
+- filter() returns a new RDD with only the elements that pass the confition
+- flatMap() returns multiple values for each element in the original RDD
+- union() union two or more RDDs
+
+```python
+# map() Transformation
+RDD = sc.parallelize([1,2,3,4])
+RDD_map = RDD.map(lambda x: x * x)
+
+# filter() Transformation
+RDD = sc.parallelize([1,2,3,4])
+RDD_filter = RDD.filter(lambda x: x > 2)
+
+# flatMap() Transformation
+RDD = sc.parallelize(["hello world", "how are you"])
+RDD_flatmap = RDD.flatMap(lambda x: x.split(" "))
+
+# union() Transformation
+inputRDD = sc.textFile("logs.txt")
+errorRDD = inputRDD.filter(lambda x: "error" in x.split())
+warningsRDD = inputRDD.filter(lambda x: "warnings" in x.split())
+combinedRDD = errorRDD.union(warningsRDD)
+```
+
+```mermaid
+graph LR;
+    A[Storage]-->B[RDD 1];
+    B--> D[RDD 2];
+    D-->E[Result]
+```
+
+RDD Actions
+Actions are the operations that are applied on RDDs to return a value after running a computation
+- Operator return a vale after running a computation
+- Basic RDD Actions
+    - collect(): returns all the elements of the dataset as an array
+    - take(N): returns an array with the first N elements of the dataset
+    - first(): print the first element of the RDD
+    - count(): return the number of elements in the RDD
 
 # PySpark SQL & DataFrames 
 In this chapter, you'll learn about Spark SQL which is a Spark module for structured data processing. It provides a programming abstraction called DataFrames and can also act as a distributed SQL query engine. This chapter shows how Spark SQL allows you to use DataFrames in Python. 
