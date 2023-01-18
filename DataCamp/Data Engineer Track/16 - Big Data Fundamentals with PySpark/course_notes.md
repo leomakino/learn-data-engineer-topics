@@ -367,5 +367,92 @@ output: {1: 2, 3: 4}
 # PySpark SQL & DataFrames
 In this chapter, you'll learn about Spark SQL which is a Spark module for structured data processing. It provides a programming abstraction called DataFrames and can also act as a distributed SQL query engine. This chapter shows how Spark SQL allows you to use DataFrames in Python. 
 
+What are Pypark Dataframes?
+- PySpark SQL is a **Spark library for structured data**. It provides more information about the structure of data and computation.
+- PySpark DataFrames is an **immutable** distributed collection of data with named columns
+- Designed for processing both structured (relational database) and semi-structured data (e.g. JSON)
+- Dataframe API is available in Python, R, Scala, and Java
+- DataFrames in Pypark **support** both SQL **queries** (SELECT * from table) **or** expression **methods**(df.select())
+
+SparkSession - Entry point for DataFrame API
+- **SparkContext** is the **main entry point** for creating RDDs
+- **SparkSession** provides a **single point of entry** to interact with Spark DataFrames
+- SparkSession is used to create DataFrames, register DataFrames, execute SQL queries
+- The SparkSession does for DataFrames what the SparkContext does for RDDs
+- SparkSession is available in PySpark shell as ```spark```
+
+Creating DataFrames in PySpark
+1. From existing RDDs using SparkSession's createDataFrame() method
+1. From various data sources (CSV, JSON. TXT) using SparkSession's read method
+- Schema controls the data and helps DataFrames to optimize queries
+- Schema provides information about column name, type of data in the column, empty values etc.
+
+```python
+# Create a DF from RDD
+iphones_RDD = sc.parallelize([
+("XS", 2018, 5.65, 2.79, 6.24),
+("XR", 2018, 5.94, 2.98, 6.84),
+("X10", 2017, 5.65, 2.79, 6.13),
+("8Plus", 2017, 6.23, 3.07, 7.12)
+])
+names = ['Model', 'Year', 'Height', 'Width', 'Weight']
+iphones_df = spark.createDataFrame(iphones_RDD, schema=names)
+
+# Create a DF from reading a CSV/JSON/TXT
+df_csv = spark.read.csv("people.csv", header=True, inferSchema=True)
+df_json = spark.read.json("people.json", header=True, inferSchema=True)
+df_txt = spark.read.txt("people.txt", header=True, inferSchema=True)
+```
+
+## DataFrames Operations
+DataFrame operations:
+1. Transformations: transformations creates new dataframes
+1. Actions
+
+DataFrame oTransformations:
+- select(): extracts one or more columns from a dataFrame
+- filter(): filters  out the rows based on a condition
+- groupby(): group a variable
+- orderby(): sorts the DataFrame based on one or more columns
+- dropDuplicates(): removes the duplicate rows of a DataFrame
+- withColumnRenamed(): rename an existing column
+
+```python
+# select()
+df_if_age = test.select('Age')
+
+# show
+df_if_age.show(3)
+
+# filter
+new_df_age21 = new_df.filter(new_df.Age > 21)
+
+# groupby() and count()
+test_df_age_group = test_df.groupby('Age')
+test_df_age_group.count().show(3)
+
+# orderby
+test_df_age_group.count().orderBy('Age').show(3)
+
+# withColumnRenamed
+test_df_sex = test_df.withColumnRenamed('Gender', 'Sex')
+
+# Prints the types of columns in the DataFrame
+test_df.printSchema()
+
+# columns operator
+test_df.columns
+
+# describe()
+test_df.describe().show()
+```
+
+DataFrame Actions:
+- show(): prints the first 20 rows by default
+- head()
+- count()
+- describe(): compute summary statistics of numerical columns in the DataFrame
+- Columns actions: prints the columns of a DataFrame
+
 # Machine Learning with PySpark MLlib 
 PySpark MLlib is the Apache Spark scalable machine learning library in Python consisting of common learning algorithms and utilities. Throughout this last chapter, you'll learn important Machine Learning algorithms. You will build a movie recommendation engine and a spam filter, and use k-means clustering. 
