@@ -237,7 +237,134 @@ Actions are the operations that are applied on RDDs to return a value after runn
     - first(): print the first element of the RDD
     - count(): return the number of elements in the RDD
 
-# PySpark SQL & DataFrames 
+## Working with Pair RDDs in Pyspark
+Introduction to pair RDDs in Pyspark:
+- Real life datasets are usually key/value pairs
+- Each row is a key and maps to one or more values
+- **Pair RDD is a special data structure to work with this kind of datasets**
+- Pair RDD: Key is the identifier and value is data
+
+Two common ways to create pair RDDs
+1. From a list of key-value tuple
+1. From a regular RDD (Array)
+
+```python
+# Get the data into key/value form for paired RDD
+my_tuple = [('Leo', 29), ('Ananda', 27), ('Mauricio', 53), ('Rosa', 59)]
+pairRDD_tuple = sc.parallelize(my_tuple)
+
+my_list = ['Leo 29', 'Ananda 27', 'Mauricio 53', 'Rosa 59']
+regularRDD = sc.parallelize(my_list)
+PairRDD_RDD = regularRDD.map(lambda s: (s.split(' ')[0], s.split(' ')[1]))
+```
+Transformations on pair RDDs
+- All regular transformations work on pair RDD
+- Have to **pass** functions that operate on **key value pairs** rather than on individual elements
+- Examples of paired RDD Transformations
+  - reduceByKey(func): Combine values with the same key
+  - groupByKey(): Group values with the same key
+  - sortByKey(): Return an RDD sorted by the key
+  - join(): Join two pair RDDs based on their key
+
+reduceByKey()
+- it combines values with the same key
+- It runs parallel operations for each key in the dataset
+- In other words, operates on key, value (k,v) pairs and merges the values for each key.
+- It is a transformation and not action
+
+sortByKey()
+- it orders pair RDD by key
+- it returns and RDD sorted by key in ascending or descending order
+
+groupByKey()
+- groups all the values with the same key in the pair RDD
+
+join()
+- it joins the two pair RDDs based on their key
+
+```python
+# reduceByKey() example
+regularRDD = sc.parallelize([("Messi", 23), ("Ronaldo", 34),
+("Neymar", 22), ("Messi", 24)])
+pairRDD_reducebykey = regularRDD.reduceByKey(lambda x,y : x + y)
+pairRDD_reducebykey.collect()
+
+output: [('Neymar', 22), ('Ronaldo', 34), ('Messi', 47)]
+
+# sortByKey() example
+pairRDD_reducebykey_rev = pairRDD_reducebykey.map(lambda x: (x[1], x[0]))
+pairRDD_reducebykey_rev.sortByKey(ascending=False).collect()
+
+output: [(47, 'Messi'), (34, 'Ronaldo'), (22, 'Neymar')]
+
+# groupByKey() example
+airports = [("US", "JFK"),("UK", "LHR"),("FR", "CDG"),("US", "SFO")]
+regularRDD = sc.parallelize(airports)
+pairRDD_group = regularRDD.groupByKey().collect()
+for cont, air in pairRDD_group:
+print(cont, list(air))
+
+output:
+FR ['CDG']
+US ['JFK', 'SFO']
+UK ['LHR']
+
+# join() example
+RDD1 = sc.parallelize([("Messi", 34),("Ronaldo", 32),("Neymar", 24)])
+RDD2 = sc.parallelize([("Ronaldo", 80),("Neymar", 120),("Messi", 100)])
+RDD1.join(RDD2).collect()
+
+output: 
+[('Neymar', (24, 120)), ('Ronaldo', (32, 80)), ('Messi', (34, 100))]
+```
+## More actions
+reduce()
+- reduce(func) action is used for aggregating the elements of a regular RDD
+- THe function should be commutative (changing the order of the operands does not change the result) and associative
+
+saveAsTextFile()
+- It saves RDD into a text file inside a directory with each partition as a separate file
+
+coalesce()
+- it is used to save RDD as a single text file
+- returns a new RDD that is reduced into a single partition
+
+countByKey() action
+- it is only available for type (k,v)
+- it counts the number of elements for each key
+
+collectASMap()
+- It returns key key-value pairs in the RDD as a dictionary
+
+```python
+# reduce example: calculates the sum of all the elements in an RDD
+x = [1,3,4,6]
+RDD = sc.parallelize(x)
+RDD.reduce(lambda x, y: x + y)
+output: 14
+
+# saveAsTextFile() example
+RDD.saveAsTextFile("tempFile")
+
+# coalesce() example
+RDD.coalesce(1).saveAsTextFile("tempFile")
+
+# countByKey example
+rdd = sc.parallelize([("a", 1), ("b", 1), ("a", 1)])
+for key, val in rdd.countByKey().items():
+print(key, val)
+
+output: 
+('a', 2)
+('b', 1)
+
+# collectAsMap() example
+sc.parallelize([(1, 2), (3, 4)]).collectAsMap()
+
+output: {1: 2, 3: 4}
+```
+
+# PySpark SQL & DataFrames
 In this chapter, you'll learn about Spark SQL which is a Spark module for structured data processing. It provides a programming abstraction called DataFrames and can also act as a distributed SQL query engine. This chapter shows how Spark SQL allows you to use DataFrames in Python. 
 
 # Machine Learning with PySpark MLlib 
