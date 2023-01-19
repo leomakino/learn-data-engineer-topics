@@ -373,6 +373,7 @@ What are Pypark Dataframes?
 - Designed for processing both structured (relational database) and semi-structured data (e.g. JSON)
 - Dataframe API is available in Python, R, Scala, and Java
 - DataFrames in Pypark **support** both SQL **queries** (SELECT * from table) **or** expression **methods**(df.select())
+- PySpark DataFrame is a perfect for data visualization compared to RDDs because of its inherent structure and schema.
 
 SparkSession - Entry point for DataFrame API
 - **SparkContext** is the **main entry point** for creating RDDs
@@ -417,6 +418,13 @@ DataFrame oTransformations:
 - dropDuplicates(): removes the duplicate rows of a DataFrame
 - withColumnRenamed(): rename an existing column
 
+DataFrame Actions:
+- show(): prints the first 20 rows by default
+- count()
+- describe(): compute summary statistics of numerical columns in the DataFrame
+- Columns actions: prints the columns of a DataFrame
+
+
 ```python
 # select()
 df_if_age = test.select('Age')
@@ -447,12 +455,73 @@ test_df.columns
 test_df.describe().show()
 ```
 
-DataFrame Actions:
-- show(): prints the first 20 rows by default
-- head()
-- count()
-- describe(): compute summary statistics of numerical columns in the DataFrame
-- Columns actions: prints the columns of a DataFrame
+DataFrame API vs SQL queries
+
+DataFrames can easily be manipulated using SQL queries in PySpark. 
+
+The sql() function on a SparkSession enables applications to run SQL queries programmatically and returns the result as another DataFrame.
+
+Spark SQL operations generally return DataFrames. This means you can freely mix DataFrames and SQL.
+
+Summary:
+- In Pyspark it's possible to interact with SparkSQL through DataFrame API and SQL queries.
+- The DataFrame API provides a programmatic domain-specific language (DSL) for data
+- DataFrame transformations and actions are easier to construct programmatically
+- SQL queries can be concise and easier to understand and portable
+- The operations on DataFrames can also be done using SQL queries.
+
+Executing SQL Queries
+- The SparkSession sql() method executes SQL query
+- sql() method takes a SQL statement as an argument and returns the result as DataFrame
+
+```python
+# Create or replace a temporary view
+df.createOrReplaceTempView("table1")
+
+# Query
+df2 = spark.sql("SELECT field1, field2 FROM table1")
+df2.collect()
+```
+
+Data Visualization in Pyspark using DataFrames
+- Data visualization is a way of representing your data in graphs or charts
+- Open source plotting tools to aid visualization in Python
+    - Matplotlib
+    - Seaborn
+    - Bokeh
+    - Streamlit
+    - *None of these libraries can be used directily with Pyspark's dataframes*
+- Plotting graphs using Pyspark DataFrames is done using three methods
+    1. pyspark_dist_explore library
+    1. toPandas()
+    1. handySpark library: is a package designed to improve PySpark user experience
+
+Pyspark_dist_explore
+- It is a library that provides quick insights into DataFrames
+- Currently three functions available: hist(), distplot() and pandas_histogram()
+
+**Pandas df vs Pyspark df**
+Pandas won't work in every case. It is a single machine tool and constrained by single machine limits. Their size is limited by the server memory, which process with the power of a single server.
+
+- Pandas df are in-memory, single server based structures and operations on PySpark run in parallel
+- The result is generated as we apply any operation in Pandas whereas operations in Pyspark df are lazy evaluation
+- Pandas df are mutable and Pyspark df are immutable
+- Pandas API support more operations than Pyspark Dataframe API.
+
+```python
+# pyspark_dist_explore
+test_df = spark.read.csv("test.csv", header=True, inferSchema=True)
+test_df_age = test_df.select('Age')
+hist(test_df_age, bins=20, color="red")
+
+# Pandas
+test_df_sample_pandas = test_df.toPandas()
+test_df_sample_pandas.hist('Age')
+
+# HandySpark
+hdf = test_df.toHandy()
+hdf.cols["Age"].hist()
+```
 
 # Machine Learning with PySpark MLlib 
 PySpark MLlib is the Apache Spark scalable machine learning library in Python consisting of common learning algorithms and utilities. Throughout this last chapter, you'll learn important Machine Learning algorithms. You will build a movie recommendation engine and a spam filter, and use k-means clustering. 
