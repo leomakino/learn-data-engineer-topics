@@ -525,3 +525,105 @@ hdf.cols["Age"].hist()
 
 # Machine Learning with PySpark MLlib 
 PySpark MLlib is the Apache Spark scalable machine learning library in Python consisting of common learning algorithms and utilities. Throughout this last chapter, you'll learn important Machine Learning algorithms. You will build a movie recommendation engine and a spam filter, and use k-means clustering. 
+
+PySpark MLlib:
+PySpark MLlib is a machine learning library. According to Wikipedia, machine learning is a scientific discipline that explores the construction and study of algorithms that can learn from data.
+- It is a component of Apache Spark for machine learning
+- Its goal is to make practical machine learning scalable and easy
+- Various tools provided by MLlib include:
+    - ML Algorithms: collaborative filtering, classification, and clustering
+    - Featurization: feature extraction, transformation, dimensionality reduction, and selection
+    - Pipelines: tools for constructing, evaluating, and tuning ML Pipelines.
+
+Why PySPark MLlib?
+- Scikit-learn is a popular Python library for data mining and machine learning
+- Scikit-learn algorithms only work for small datasets on a single machine
+- Spark's MLlib algorithms are designed for parallel processing on a cluster
+- Supports languages such as Scala, Java, and R
+- Provides a high-level API to build machine larning pipelines
+
+PySpark MLlib Algorithms
+- Classification (Binary and Multiclass) and regression, e.g: decision trees naive bayes, ridge regression
+- Collaborative filtering: Alternating least squares (ALS)
+- Clustering: K-means, Gaussian mixture, Bisecting K-means and Streaming K-Means
+
+The three C's of machine learning in PySpark MLlib
+- Collaborative filtering (recommender engines): produce recommendations
+- Classification: Identifying to which of a set of categories a new observation
+- Clustering: Groups data based on similar characteristics
+
+Imports:
+
+```python
+from pyspark.mllib.recommendation import ALS # Alternating Least Squares class
+from pyspark.mllib.classification import LogisticRegressionWithLBFGS
+from pyspark.mllib.clustering import KMeans
+```
+
+*pyspark.mllib can only support RDDs unless you change DataFrames to RDDs. pyspark.mllib is the builtin library for RDD-based API.*
+
+## Collaborative filtering
+- Collaborative filtering is finding users that **share common interests**
+- Collaborative filtering is commonly used for **recommender systems**
+- Collaborative fitering approaches
+    - User-User Collaborative filtering: Finds users that are similar to the target user
+    - Item-Item Collaborative filtering: Finds and recoomends items that are similar to items with the target user
+
+Rating class in pyspark.mllib.recommendation submodule
+- The rating class is a weapper around tuple (user, product and rating)
+- Useful for parsing the RDD and creating a tuple of user, product and rating
+
+Splitting the data using randomSplit()
+- Splitting data into training and testing sets is important for evaluating predictive modeling
+- Typically a large portion of data is assigned to training compared to testing data
+- PySpark's ```randomSplit()``` method randomly splits with the provided wights and returns multiple RDDs
+
+Alternating Least Squares (ALS)
+- It provides collaborative filtering
+- ALS.train(ratings, rank, iterations)
+
+predictAll() – Returns RDD of Rating Objects
+- The predictAll() method returns a list of predicted ratings for input user and product pair
+- The method takes in an RDD without ratings to generate the ratings
+
+Model evaluation using MSE
+The MSE is the average value of the square of (actual rating - predicted rating)
+
+
+```python
+# Rating
+from pyspark.mllib.recommendation import Rating
+r = Rating(user = 1, product = 2, rating = 5.0)
+(r[0], r[1], r[2])
+
+# randomSplit()
+data = sc.parallelize([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+traning, test=data.randomSplit([0.6], [0.4])
+training.collect()
+test.collect()
+
+# Recommendation ALS
+r1 = Rating(1, 1, 1.0)
+r2 = Rating(1, 2, 2.0)
+r3 = Rating(2, 1, 2.0)
+ratings = sc.parallelize([r1, r2, r3])
+ratings.collect()
+model = ALS.train(ratings, rank=10, iterations=10)
+
+# predictAll()
+unrated_RDD = sc.parallelize([(1, 2), (1, 1)])
+predictions = model.predictAll(unrated_RDD)
+predictions.collect()
+
+# MSE
+rates = ratings.map(lambda x: ((x[0], x[1]), x[2]))
+rates.collect()
+
+preds = predictions.map(lambda x: ((x[0], x[1]), x[2]))
+preds.collect()
+
+rates_preds = rates.join(preds)
+rates_preds.collect()
+
+MSE = rates_preds.map(lambda r: (r[1][0] - r[1][1])**2).mean()
+```
