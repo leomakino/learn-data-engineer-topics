@@ -563,6 +563,7 @@ from pyspark.mllib.clustering import KMeans
 *pyspark.mllib can only support RDDs unless you change DataFrames to RDDs. pyspark.mllib is the builtin library for RDD-based API.*
 
 ## Collaborative filtering
+Collaborative filtering is a method of making automatic predictions about the interests of a user by collecting preferences or taste information from many users
 - Collaborative filtering is finding users that **share common interests**
 - Collaborative filtering is commonly used for **recommender systems**
 - Collaborative fitering approaches
@@ -581,13 +582,15 @@ Splitting the data using randomSplit()
 Alternating Least Squares (ALS)
 - It provides collaborative filtering
 - ALS.train(ratings, rank, iterations)
+    - rank (the number of latent factors in the model)
+    - iterations (number of iterations to run)
 
 predictAll() – Returns RDD of Rating Objects
 - The predictAll() method returns a list of predicted ratings for input user and product pair
 - The method takes in an RDD without ratings to generate the ratings
 
-Model evaluation using MSE
-The MSE is the average value of the square of (actual rating - predicted rating)
+Model evaluation using Mean Square Error (MSE)
+The MSE measures the average value of the square of the errors between what is estimated and the existing data (actual rating - predicted rating)
 
 
 ```python
@@ -627,3 +630,53 @@ rates_preds.collect()
 
 MSE = rates_preds.map(lambda r: (r[1][0] - r[1][1])**2).mean()
 ```
+
+## Classification
+
+Classification is a supervised machine learning algorith for sorting the input data into different categories
+
+Logistic regression predicts a binary response based on some variables
+
+Working with Vectors
+- PySPark MLlib contains specific data types Vectors and LabelledPoint
+- Two types of Vectors
+    - Dense Vector: store all their entries in an array of floating point numbers
+    - Sparse Vector: store only the nonzero values and their indices
+
+LabeledPoint()
+- A labeledPoint is a wrapper for input features and predicted value
+- For binary classification of Logistic Regression, a label is either 0 (negative) or 1 (positive)
+
+HashingTF()
+- This algorithm is used to map feature value to indices in the feature vector
+
+Logistic Regression using LogisticRegressionWithLBFGS
+- Logistic Regression using Pyspark MLlib is achieved using LogisticRegressionWithLBFGS
+class
+
+```python
+# LabeledPoint
+positive = LabeledPoint(1.0, [1.0, 0.0, 3.0])
+negative = LabeledPoint(0.0, [2.0, 1.0, 1.0])
+
+# HashingTF
+from pyspark.mllib.feature import HashingTF
+sentence = "hello hello world"
+words = sentence.split()
+tf = HashingTF(10000)
+tf.transform(words)
+
+# Logistic Regression
+data = [
+LabeledPoint(0.0, [0.0, 1.0]),
+LabeledPoint(1.0, [1.0, 0.0]),
+]
+RDD = sc.parallelize(data)
+
+lrm = LogisticRegressionWithLBFGS.train(RDD)
+
+lrm.predict([1.0, 0.0])
+lrm.predict([0.0, 1.0])
+```
+
+
