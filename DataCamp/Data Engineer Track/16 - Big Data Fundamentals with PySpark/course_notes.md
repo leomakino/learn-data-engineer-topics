@@ -633,7 +633,10 @@ MSE = rates_preds.map(lambda r: (r[1][0] - r[1][1])**2).mean()
 
 ## Classification
 
-Classification is a supervised machine learning algorith for sorting the input data into different categories
+Classification
+- is a supervised machine learning algorith for sorting the input data into different categories
+- in other words, it identifies which category an item belongs to.
+    - E.g.: Whether an email is spam or non-spam, based on labeled examples of other items
 
 Logistic regression predicts a binary response based on some variables
 
@@ -679,4 +682,52 @@ lrm.predict([1.0, 0.0])
 lrm.predict([0.0, 1.0])
 ```
 
+## Clustering
 
+Clustering 
+- is the unsupervised learning task to organize a collection of data into groups
+- involves grouping objects into clusters of high similarity with no labels
+- Unlike the supervised tasks, where data is labeled, clustering can be used to make sense of unlabeled data.
+
+PySpark MLlib library currently supports the following clustering models:
+- K-means
+- Gaussian mixture
+- Power iteration clustering (PIC)
+- Bisecting k-means
+- Streaming k-means
+
+Train a K-means clustering model
+- K-means is an unsupervised method that takes data points in an input data and will identify which data points belong to each one of the clusters
+- Training K-means model is done using ```KMeans.train()``` method
+
+
+```python
+# K-means with Spark MLlib
+RDD = sc.textFile("WineData.csv"). \
+map(lambda x: x.split(",")).\
+map(lambda x: [float(x[0]), float(x[1])])
+
+# K-means clustering model
+from pyspark.mllib.clustering import KMeans
+model = KMeans.train(RDD, k = 2, maxIterations = 10)
+model.clusterCenters
+
+# Evaluating the K-means Model
+from math import sqrt
+def error(point):
+    center = model.centers[model.predict(point)]
+    return sqrt(sum([x**2 for x in (point - center)]))
+
+WSSSE = RDD.map(lambda point: error(point)).reduce(lambda x, y: x + y)
+print("Within Set Sum of Squared Error = " + str(WSSSE)) # Within Set Sum of Squared Error (WSSSE)
+
+# Visualizing clusters
+wine_data_df = spark.createDataFrame(RDD, schema=["col1", "col2"])
+wine_data_df_pandas = wine_data_df.toPandas()
+
+cluster_centers_pandas = pd.DataFrame(model.clusterCenters, columns=["col1", "col2"])
+cluster_centers_pandas.head()
+
+plt.scatter(wine_data_df_pandas["col1"], wine_data_df_pandas["col2"]);
+plt.scatter(cluster_centers_pandas["col1"], cluster_centers_pandas["col2"], color="red", marker="x"
+```
