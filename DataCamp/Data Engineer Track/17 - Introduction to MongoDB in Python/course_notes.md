@@ -54,6 +54,7 @@ stateDiagram-v2
     }
 ```
 
+
 ```python
 # The Nobel Prize API data (base)
 import requests
@@ -107,7 +108,25 @@ print(db_names)
 nobel_coll_names = client.nobel.list_collection_names()
 print(nobel_coll_names)
 
+# Count documents by providing a filter document to match
+filter_doc = {
+'born': '1845-03-27',
+'diedCountry': 'Germany',
+'gender': 'male',
+'surname': 'Röntgen'
+}
+db.laureates.count_documents(filter_doc)
 
+# Query operators
+    # value in a list
+db.laureates.count_documents({
+'diedCountry': {
+'$in': ['France', 'USA']}})
+
+    # not equal
+db.laureates.count_documents({
+'diedCountry': {
+'$ne': 'France'}})
 ```
 
 # Working with Distinct Values and Sets
