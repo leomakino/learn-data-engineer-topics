@@ -54,6 +54,11 @@ stateDiagram-v2
     }
 ```
 
+Dot notation
+- query arrays and subdocuments
+- It is how MongoDB allows us to query document substructured
+
+Exists operator allows to query for the existence or non-existence of fields
 
 ```python
 # The Nobel Prize API data (base)
@@ -127,6 +132,9 @@ db.laureates.count_documents({
 db.laureates.count_documents({
 'diedCountry': {
 '$ne': 'France'}})
+
+    # exists
+db.laureates.count_documents({"prizes.1": {"$exists": True}})
 ```
 
 # Working with Distinct Values and Sets
