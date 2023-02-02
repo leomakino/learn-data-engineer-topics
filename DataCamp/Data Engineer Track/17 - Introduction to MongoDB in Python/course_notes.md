@@ -140,6 +140,14 @@ db.laureates.count_documents({"prizes.1": {"$exists": True}})
 # Working with Distinct Values and Sets
 This chapter is about dipping your toes into the pools of values for various fields. You'll collect distinct values, test for membership in sets, and match values to patterns. 
 
+Distinct()
+- Collect distinct values of a certain field passed as argument
+
+```python
+# Distinct
+db.laureates.distinct("prizes.category")
+```
+
 # Get Only What You Need, and Fast 
 You can now query collections with ease and collect documents to examine and analyze with Python. But this process is sometimes slow and onerous for large collections and documents. This chapter is about various ways to speed up and simplify that process. 
 
