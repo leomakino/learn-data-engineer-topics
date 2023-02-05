@@ -146,7 +146,35 @@ Distinct()
 ```python
 # Distinct
 db.laureates.distinct("prizes.category")
+
+# Pre-filtering distinct values
+db.laureates.distinct("prizes.category", {"prizes.share": '4'})
+    # or 
+db.laureates.count_documents({"prizes.1": {"$exists": True}})
+
+# Matching array fields
+db.laureates.count_documents({
+    "prizes": {"$elemMatch":
+        {"category": "physics", "share": "1"}}})
+
+# Regex
+case_sensitive = db.laureates.distinct(
+    "bornCountry",
+    {"bornCountry": {"$regex": "Poland"}})
+
+# Flag options for regular expressions
+case_insensitive = db.laureates.distinct(
+    "bornCountry",
+    {"bornCountry": {"$regex": "poland", "$options": "i"}})
+
+# Regex beginning
+from bson.regex import Regex
+
+db.laureates.distinct("bornCountry",
+    {"bornCountry": Regex("^Poland")})
 ```
+
+
 
 # Get Only What You Need, and Fast 
 You can now query collections with ease and collect documents to examine and analyze with Python. But this process is sometimes slow and onerous for large collections and documents. This chapter is about various ways to speed up and simplify that process. 
