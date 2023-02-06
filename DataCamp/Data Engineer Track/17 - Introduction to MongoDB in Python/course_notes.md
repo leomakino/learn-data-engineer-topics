@@ -179,5 +179,43 @@ db.laureates.distinct("bornCountry",
 # Get Only What You Need, and Fast 
 You can now query collections with ease and collect documents to examine and analyze with Python. But this process is sometimes slow and onerous for large collections and documents. This chapter is about various ways to speed up and simplify that process. 
 
+Projection:
+- The term projection is about reducing multidimensional data
+- We do this passing a dictionary as a second argument to the find method
+- reducing data to fewer dimensions
+- Projection as a dictionary:
+    - Include fields: ```"field_name" : 1```
+    - "_id" is included by default
+    - list the fields: ```["field_name1, "field_name2"]```
+
+```python
+# include only prizes.addiliations and exclude _id
+docs = db.laureates.find(
+            filter={},
+            projection={"prizes.affiliations": 1,
+                "_id": 0})
+
+# convert to list and slice
+list(docs)[:3]
+
+# only projected fields that exist are returned
+docs = db.laureates.find({}, ["favoriteIceCreamFlavor"])
+
+# Missing fields
+docs = db.laureates.find(
+    filter={"gender": "org"},
+    projection=["bornCountry", "firstname"])
+
+# Aggretation example
+docs = db.laureates.find({}, ["prizes"])
+n_prizes = 0
+for doc in docs:
+    # count the number of pizes in each doc
+    n_prizes += len(doc["prizes"])
+print(n_prizes)
+
+# Same example above using comprehension
+sum([len(doc["prizes"]) for doc in docs])
+```
 # Aggregation Pipelines: Let the Server Do It For You 
 You've used projection, sorting, indexing, and limits to speed up data fetching. But there are still annoying performance bottlenecks in your analysis pipelines. You still need to fetch a ton of data. Thus, network bandwidth and downstream processing and memory capacity still impact performance. This chapter is about using MongoDB to perform aggregations for you on the server. 
