@@ -217,5 +217,30 @@ print(n_prizes)
 # Same example above using comprehension
 sum([len(doc["prizes"]) for doc in docs])
 ```
+
+## Sorting
+- It means sort the results on the server before they get returned to us
+- The built-in Python ```sorted``` function sorts the documents in ascending order
+```python
+# Sorting post-query with Python
+docs = list(db.prizes.find({"category": "physics"}, ["year"]))
+docs_sorted = sorted(docs, key=itemgetter("year"), reverse=True)
+
+# Sorting in-query with MongoDB
+cursor = db.prizes.find({"category": "physics"}, ["year"],
+    sort=[("year", 1)]) # ASC
+
+cursor = db.prizes.find({"category": "physics"}, ["year"],
+    sort=[("year", -1)]) #DESC
+
+# Primary and secondary sorting
+for doc in db.prizes.find(
+    {"year": {"$gt": "1966", "$lt": "1970"}},
+    ["category", "year"],
+    sort=[("year", 1), ("category", -1)]):
+        print("{year} {category}".format(**doc)
+)
+```
+
 # Aggregation Pipelines: Let the Server Do It For You 
 You've used projection, sorting, indexing, and limits to speed up data fetching. But there are still annoying performance bottlenecks in your analysis pipelines. You still need to fetch a ton of data. Thus, network bandwidth and downstream processing and memory capacity still impact performance. This chapter is about using MongoDB to perform aggregations for you on the server. 
