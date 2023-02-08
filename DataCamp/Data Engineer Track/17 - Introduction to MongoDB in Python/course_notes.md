@@ -242,5 +242,77 @@ for doc in db.prizes.find(
 )
 ```
 
+## Indexes
+An index in MongoDB is like a book's index. 
+E.g.:
+1. I grab a text book. 
+1. I want information about "something"
+1. I could flip through the book but instead I go to the index
+1. I see an alphabetical ordering of terms, with page numbers for each
+1. I find the information that I want ("something"), which directs me to page X
+1. Finally, I go there.
+
+**With MongoDB, imagine each collection as a book, each document as a page, and each field as a type of content**
+
+
+Indexes
+- When to use:
+    - Queries with high specificity
+        - When it is expected to get only one or a few documents back
+    - Large documents
+    - Large collections
+
+Gauging performance before indexing: Jupyter Notebok %%timeit magic (same as python -m timeit "expression")
+
+
+Adding a single field index
+- index model: list of (field, direction) pairs
+- directions: 1 (ascending) and -1 (descending)
+
+Adding a compound (multiple-field) index
+
+
+```python
+# Gauging performance
+%%timeit
+docs = list(db.prizes.find("year":"1901"))
+    # output: 524 μs ± 7.34 μs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+
+%%timeit
+docs = list(db.prizes.find({}, sort=[("year", 1)]))
+    # output: 5.18 ms ± 54.9 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+
+# Add a single-field index
+db.prizes.create_index([("year", 1)])
+
+# Compare with the previously results
+%%timeit
+docs = list(db.prizes.find("year":"1901"))
+    # output: 379 μs ± 1.62 μs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+
+%%timeit
+docs = list(db.prizes.find({}, sort=[("year", 1)]))
+    # output: 4.28 ms ± 95.7 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+
+# Add a compound (multiple-field) index
+db.prizes.create_index([("category", 1), ("year", 1)])
+
+%%timeit
+db.prizes.find_one({"category": "economics"},
+    {"year": 1, "_id": 0},
+    sort=[("year", 1)])
+# Before
+673 μs ± 3.36 μs per loop
+(mean ± std. dev. of 7 runs, 1000 loops each)
+# After
+407 μs ± 5.51 μs per loop
+(mean ± std. dev. of 7 runs, 1000 loops each)
+
+# Getting more information about index
+db.laureates.index_information() # always an index on "_id" field
+    # output: {'_id_': {'v': 2, 'key': [('_id', 1)], 'ns': 'nobel.laureates'}}
+db.laureates.find( {"firstname": "Marie"}, {"bornCountry": 1, "_id": 0}).explain()
+```
+
 # Aggregation Pipelines: Let the Server Do It For You 
 You've used projection, sorting, indexing, and limits to speed up data fetching. But there are still annoying performance bottlenecks in your analysis pipelines. You still need to fetch a ton of data. Thus, network bandwidth and downstream processing and memory capacity still impact performance. This chapter is about using MongoDB to perform aggregations for you on the server. 
