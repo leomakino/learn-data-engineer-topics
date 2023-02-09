@@ -314,5 +314,31 @@ db.laureates.index_information() # always an index on "_id" field
 db.laureates.find( {"firstname": "Marie"}, {"bornCountry": 1, "_id": 0}).explain()
 ```
 
+## Limits and Skips
+Limits and skips help us ispect a few documents at a time and page through a collectionWhen you use the skip parameter in conjunction with limits you can get pagination, with the number of results per page set by the limit parameter.
+
+
+```python
+# limit
+for doc in db.prizes.find({"laureates.share": "3"}. limit=3):
+    print("{year} {category}".format(**doc) )
+
+# Skip lines
+for doc in db.prizes.find({"laureates.share": "3"}, skip=6, limit=3):
+    print("{year} {category}".format(**doc))
+
+# Using cursor for sort, skip, and limit
+for doc in (db.prizes.find({"laureates.share": "3"})
+    .sort([("year", 1)])
+    .skip(3)
+    .limit(3)):
+        print("{year} {category}".format(**doc))
+
+# Sorts of sort - Same result
+cursor1 = (db.prizes.find({"laureates.share": "3"}).skip(3).limit(3).sort([("year", 1)]))
+cursor2 = (db.prizes.find({"laureates.share": "3"}).skip(3).limit(3).sort("year", 1))
+cursor3 = (db.prizes.find({"laureates.share": "3"}).skip(3).limit(3).sort("year"))
+```
+
 # Aggregation Pipelines: Let the Server Do It For You 
 You've used projection, sorting, indexing, and limits to speed up data fetching. But there are still annoying performance bottlenecks in your analysis pipelines. You still need to fetch a ton of data. Thus, network bandwidth and downstream processing and memory capacity still impact performance. This chapter is about using MongoDB to perform aggregations for you on the server. 
