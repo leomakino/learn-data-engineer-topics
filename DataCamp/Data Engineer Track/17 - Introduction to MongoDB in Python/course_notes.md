@@ -342,3 +342,44 @@ cursor3 = (db.prizes.find({"laureates.share": "3"}).skip(3).limit(3).sort("year"
 
 # Aggregation Pipelines: Let the Server Do It For You 
 You've used projection, sorting, indexing, and limits to speed up data fetching. But there are still annoying performance bottlenecks in your analysis pipelines. You still need to fetch a ton of data. Thus, network bandwidth and downstream processing and memory capacity still impact performance. This chapter is about using MongoDB to perform aggregations for you on the server. 
+
+
+Queries have implicit stages.
+
+```python
+# Code 1 Method 1 - Fetch data
+cursor = db.laureates.find(
+    filter={"bornCountry": "USA"},
+    projection={"prizes.year": 1},
+    limit=3
+)
+
+# Code 2 Method 2 - Fetch data
+cursor = db.laureates.aggregate([
+    {"$match": {"bornCountry": "USA"}},
+    {"$project": {"prizes.year": 1}},
+    {"$limit": 3}
+])
+
+# Code 3 Method 1 - Count
+list(db.laureates.aggregate([
+{"$match": {"bornCountry": "USA"}},
+{"$count": "n_USA-born-laureates"}
+]))
+
+# Code 4 Method 2 - Count
+db.laureates.count_documents({"bornCountry": "USA"})
+
+```
+
+The code 1 above has three stages:
+2. The first stage filters for documents that match an expression
+1. The second stage projects out fields I need downstream for ouput
+1. The last stage limits the number of documents retrieved
+
+
+With an aggregation pipeline, The stages will be explicit.
+
+An aggregation pipeline is a list, a sequence of stages. Each stage involves a stage operator.
+
+The Code 2 procuces the same result as the Code 1.
