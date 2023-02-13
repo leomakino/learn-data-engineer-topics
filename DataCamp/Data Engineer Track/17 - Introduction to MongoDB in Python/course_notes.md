@@ -383,3 +383,21 @@ With an aggregation pipeline, The stages will be explicit.
 An aggregation pipeline is a list, a sequence of stages. Each stage involves a stage operator.
 
 The Code 2 procuces the same result as the Code 1.
+
+
+Aggregation stages can use expressions that contain field paths. An expression object has the form ```{field1:<expression>}```;
+
+Expressions are used into a "project" stage object
+
+It's possible to create new fields or overwrite old ones, during aggregation.
+
+The expression applies the operator to one or more argumens and returns a value
+
+```python
+# project of a field called n_prizes
+db.laureates.aggregate([
+    {"$project": {"n_prizes": {"$size": "$prizes"}}}
+    ]).next()
+    # expression: {"$size": "$prizes"}
+    # field: $prizes
+```
