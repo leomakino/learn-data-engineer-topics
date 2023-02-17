@@ -400,4 +400,51 @@ db.laureates.aggregate([
     ]).next()
     # expression: {"$size": "$prizes"}
     # field: $prizes
+
+# sizing
+list(db.prizes.aggregate([
+    {"$project": {"n_laureates": {"$size": "$laureates"},
+        "year": 1, "category": 1, "_id": 0}}
+]))
+
+# Sizing and summing
+list(db.prizes.aggregate([
+    {"$project": {"n_laureates": {"$size": "$laureates"},
+        "category": 1}},
+    {"$group": {"_id": "$category", "n_laureates":
+        {"$sum": "$n_laureates"}}},
+    {"$sort": {"n_laureates": -1}},
+]))
+
+# $unwind
+list(db.prizes.aggregate([
+    {"$unwind": "$laureates"},
+    {"$project": {
+        "_id": 0, "year": 1, "category": 1,
+        "laureates.surname": 1, "laureates.share": 1}},
+    {"$limit": 3}
+]))
+
+# Renormalization
+list(db.prizes.aggregate([
+    {"$unwind": "$laureates"},
+    {"$project": {"year": 1, "category": 1, "laureates.id": 1}},
+    {"$group": {"_id": {"$concat": ["$category", ":", "$year"]},
+        "laureate_ids": {"$addToSet": "$laureates.id"}}},
+    {"$limit": 5}
+]))
+
+# Lookup
+list(db.prizes.aggregate([
+    {"$match": {"category": "economics"}},
+    {"$unwind": "$laureates"},
+    {"$lookup": {"from": "laureates", "foreignField": "id",
+        "localField": "laureates.id", "as": "laureate_bios"}},
+    {"$unwind": "$laureate_bios"},
+    {"$group": {"_id": None,
+        "bornCountries":
+        {"$addToSet": "$laureate_bios.bornCountry"}
+    }},
+]))
 ```
+
