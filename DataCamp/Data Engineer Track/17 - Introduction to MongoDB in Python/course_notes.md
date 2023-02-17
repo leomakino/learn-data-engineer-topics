@@ -393,6 +393,15 @@ It's possible to create new fields or overwrite old ones, during aggregation.
 
 The expression applies the operator to one or more argumens and returns a value
 
+
+A tool to access array elements during aggregation  
+
+**Unwind** outputs one pipeline document per array element. We can use stages following an unwind to recompress data.
+
+**Lookup** pulls in documents from another collection via what's termed a left outer join.
+
+The **$expr** operator allows embedding of aggregation expressions in a normal query (or in a $match stage).
+
 ```python
 # project of a field called n_prizes
 db.laureates.aggregate([
@@ -446,5 +455,21 @@ list(db.prizes.aggregate([
         {"$addToSet": "$laureate_bios.bornCountry"}
     }},
 ]))
+
+# Addfields and concat
+docs = list(db.laureates.aggregate([
+    {"$match": {"died": {"$gt": "1700"}, "born": {"$gt": "1700"}}},
+{"$addFields": {"bornArray": {"$split": ["$born", "-"]},
+"diedArray": {"$split": ["$died", "-"]}}},
+{"$addFields": {"born": {"$cond": [
+{"$in": ["00", "$bornArray"]},
+{"$concat": [{"$arrayElemAt": ["$bornArray", 0]}, "-01-01"]},
+"$born"
+]}}},
+{"$project": {"died": {"$dateFromString": {"dateString": "$died"}},
+"born": {"$dateFromString": {"dateString": "$born"}},
+"_id": 0}}
+]))
+
 ```
 
