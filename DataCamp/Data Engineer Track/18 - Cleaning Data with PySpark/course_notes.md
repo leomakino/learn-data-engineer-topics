@@ -122,6 +122,71 @@ print(spark.read.parquet('AA_DFW_ALL.parquet').count())
 # Dataframe details
 This chapter is a review of DataFrame fundamentals and the importance of data cleaning. 
 
+## DataFrame column operations
+DataFrame recap:
+- Made up of rows and columns
+- Immutable
+- Use various transformation operations to modify data
+
+Common DataFrame transformations
+- Filter/where
+- Select
+- withColumn
+- drop
+
+ArrayType() column functions
+- Various utility functions / transformations to interact with ArrayType()
+- .size(<column>) - returns length of arrayType() column
+- .getItem(<index>) - used to retrieve a specific item at index of list column.
+
+```python
+# Return rows where name starts with "L"
+voter_df.filter(voter_df.name.like('M%'))
+
+# Return name and position only
+voters = voter_df.select('name', 'position')
+
+
+# Filter/where
+voter_df.filter(voter_df.date > '1/1/2019') # or voter_df.where(...)
+
+# Select
+voter_df.select(voter_df.name)
+
+# withColumn
+voter_df.withColumn('year', voter_df.date.year)
+
+# drop
+voter_df.drop('unused_column')
+
+# Remove nulls
+voter_df.filter(voter_df['name'].isNotNull())
+
+# Remove odd entries
+voter_df.filter(voter_df.date.year > 1800)
+
+#Split data from combined sources
+voter_df.where(voter_df['_c0'].contains('VOTE'))
+
+# Negate with ~
+voter_df.where(~ voter_df._c1.isNull())
+
+
+# Contained in pyspark.sql.functions
+import pyspark.sql.functions as F
+
+# Applied per column as transformation
+voter_df.withColumn('upper', F.upper('name'))
+
+# create intermediary columns
+voter_df.withColumn('splits', F.split('name', ' '))
+
+# cast to other types
+voter_df.withColumn('year', voter_df['_c4'].cast(IntegerType()))
+
+```
+
+
 # Manipulating Dataframes in the real world
 A look at various techniques to modify the contents of DataFrames in Spark.
 
