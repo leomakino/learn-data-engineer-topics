@@ -186,6 +186,19 @@ voter_df.withColumn('year', voter_df['_c4'].cast(IntegerType()))
 
 ```
 
+## Conditional DataFrame column operations
+
+Conditional clauses are:
+- inline version of if then and else
+- ```.when({if condition}, {then x})```. The when() clause lets you conditionally modify a Data Frame based on its content. 
+- ```.otherwise()```; it's like else.
+
+```python
+df.select(df.Name, df.Age,
+    .when(df.Age >= 18, "Adult")
+    .otherwise("Minor"))
+```
+
 
 # Manipulating Dataframes in the real world
 A look at various techniques to modify the contents of DataFrames in Spark.
