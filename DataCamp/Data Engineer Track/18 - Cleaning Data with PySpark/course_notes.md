@@ -199,6 +199,32 @@ df.select(df.Name, df.Age,
     .otherwise("Minor"))
 ```
 
+## User Defined Functions (UDFs)
+
+User defined functions:
+- Python method
+- Wrapped via the pypark.sql.functions.udf method
+- Stored as a variable
+- Called like a normal Spark function
+
+```python
+# Step 1 Define a Python method
+def reverseString(mystr):
+    return mystr[::-1]
+
+# Step 2 Wrap the function and store as a variable
+udfReverseString = udf(reverseString, StringType())
+
+# Step 3 Use with Spark
+user_df = user_df.withColumn('ReverseName',
+    udfReverseString(user_df.Name))
+
+# Other example:
+def sortingCap():
+    return random.choice(['G', 'H', 'R', 'S']) # Step 1
+udfSortingCap = udf(sortingCap, StringType()) # Step 2
+user_df = user_df.withColumn('Class', udfSortingCap()) # Step 3
+```
 
 # Manipulating Dataframes in the real world
 A look at various techniques to modify the contents of DataFrames in Spark.
