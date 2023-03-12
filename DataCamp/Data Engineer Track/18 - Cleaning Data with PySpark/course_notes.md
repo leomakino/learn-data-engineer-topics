@@ -226,6 +226,30 @@ udfSortingCap = udf(sortingCap, StringType()) # Step 2
 user_df = user_df.withColumn('Class', udfSortingCap()) # Step 3
 ```
 
+## Partitioning and lazy processing
+
+Partitioning:
+- DataFrame are broken up into partitions
+- Partition size can vary
+- Each partition is handled independently
+
+Lazy processing
+- Transformations are lazy
+- **Nothing is actually done until an action is performed**
+- Transformation can be re-ordered for best performance
+- Sometimes causes unexpected behavior 
+
+Adding IDs (Monotonically increasing IDs)
+- ```pyspark.sql.functions.monotonically_increasing_id()```
+- Integer (64-bit), increases in value, unique
+- Not necessarily sequential (gaps exist)
+- Completely parallel
+- Occasionally out of order
+- If performing a join, ID may be assigned after the join
+- Test your transformations
+
+
+
 # Manipulating Dataframes in the real world
 A look at various techniques to modify the contents of DataFrames in Spark.
 
