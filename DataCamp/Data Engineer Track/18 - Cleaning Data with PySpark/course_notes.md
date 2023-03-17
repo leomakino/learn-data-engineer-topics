@@ -2,125 +2,15 @@
 
 Working with data is tricky - working with millions or even billions of rows is worse. Did you receive some data processing code written on a laptop with fairly pristine data? Chances are you’ve probably been put in charge of moving a basic data process from prototype to production. You may have worked with real world datasets, with missing fields, bizarre formatting, and orders of magnitude more data. Even if this is all new to you, this course helps you learn what’s needed to prepare data processes using Python with Apache Spark. You’ll learn terminology, methods, and some best practices to **create a performant, maintainable, and understandable data processing platform**.
 
-What is Data Cleaning?
-- Preparing raw data for use in data processing pipelines.
-- Possible tasks in data cleaning
-    - Reformatting or replacing text
-    - Performing calculations
-    - Removing garbage or incomplete data
-- It is a necessary part of any production data system, *because if your data isn't clean, it's not trustworthy and could cause problemas later on*
 
-Why perform data cleaning with Spark?
-- Performance
-- Organizing data flow
-- Scalable (The primary limit to Spark's abilities is the level of RAM in the Spark cluster)
-- Powerful framework for data handling
-- *Most data cleaning systems have two big problems: optimizing performance and organizing the flow data*
-
-Spark Schemas:
-- Define the format of a DataFrame
-- May contain various data types:
-    - strings, dates, integers, arrays...
-- Can filter garbage data during import
-- improves read performance
-
-```python
-# Import schema
-import pyspark.sql.types
-peopleSchema = StructType([
-    # Define the name field
-    StructField('name', StringType(), True),
-    # Add the age field
-    StructField('age', IntegerType(), True),
-    # Add the city field
-    StructField('city', StringType(), True)
-])
-
-# read csv file containing data
-people_df = spark.read.format('csv').load(name='rawdata.csv', schema=peopleSchema)
-```
-
-## Immutability and Lazy Processing
-Python mutable variables:
-- Mutable: the values can be changed at any given time
-- Potential for issues with concurrency
-
-*Unlike typical Python variables, Spark DFs are immutables*. Immutability: 
-- A component of functional programming
-- Spark DFs are Defined once and are not modifiable after initialization
-- Unable to be directly modified
-- Re-created if reassigned ( if the variable name is reused, the original data is removed, and the variable name is reassigned to the new data)
-- Able to be shared efficiently
-
-Lazy Processing
-- In Spark, it is the idea that very little actually happens until an action is performed
-- This functionality allows Spark to perform the most efficient set of operations to get the desired result.
-- Transformations (update the instructions for what we wanted Spark do; No data was read/added/modified)
-- Actions (e.g. ```voter_df.count()```)
-- *Lazy processing operations will usually return in about the same amount of time regardless of the actual quantity of data. Remember that this is due to Spark not performing any transformations until an action is requested.*
-
-```python
-# Immutability example
-
-# Define a new data frame
-voter_df = spark.read.csv('voterdata.csv')
-
-# Making changes
-voter_df = voter_df.withColumn('fullyear',
-    voter_df.year + 2000)
-voter_df = voter_df.drop(voter_df.year)
-```
-
-## Understanding Parquet
-Difficulties with CSV files
-- No defined schema
-- Nested data requires special handling
-- Enconding format limited
-
-Spark and CSV files
-- Slow to parse.*The file cannot be shared between workers during the import process*
-- Files cannot be filtered (no "predicate pushdown")
-    - *pushdown: This means Spark will only process the data necessary to complete the operations you define versus reading the entire dataset./*
-- Any intermediate use requires redefining schema
-
-The Parquet Format
-- A columnar data format
-- Supported in Spark and other data processing frameworks
-- Supports predicate pushdown
-- Automatically stores schema information
-- Parquet files are a binary file format and can only be used with the proper tools
-
-```python
-# Reading parquet files
-df = spark.read.format('parquet').load('filename.parquet')
-df = spark.read.parquet('filename.parquet')
-
-# writing parquet files
-df.write.format('parquet').save('filename.parquet')
-df.write.parquet('filename.parquet')
-
-# Parquet and SQL
-flight_df = spark.read.parquet('flights.parquet')
-flight_df.createOrReplaceTempView('flights')
-short_flights_df = spark.sql('SELECT * FROM flights WHERE flightduration < 100')
-```
-
-```python
-# View the row count of df1 and df2
-print("df1 Count: %d" % df1.count())
-print("df2 Count: %d" % df2.count())
-
-# Combine the DataFrames into one
-df3 = df1.union(df2)
-
-# Save the df3 DataFrame in Parquet format
-df3.write.parquet('AA_DFW_ALL.parquet', mode='overwrite')
-
-# Read the Parquet file into a new DataFrame and run a count
-print(spark.read.parquet('AA_DFW_ALL.parquet').count())
-```
 # Dataframe details
 This chapter is a review of DataFrame fundamentals and the importance of data cleaning. 
+
+
+
+# Manipulating Dataframes in the real world
+A look at various techniques to modify the contents of DataFrames in Spark.
+
 
 ## DataFrame column operations
 DataFrame recap:
@@ -249,13 +139,51 @@ Adding IDs (Monotonically increasing IDs)
 - Test your transformations
 
 
-
-# Manipulating Dataframes in the real world
-A look at various techniques to modify the contents of DataFrames in Spark.
-
-
 # Improving performance
 Improve data cleaning tasks by increasing performance or reducing resource requirements. 
+
+## Caching
+
+
+What is caching? 
+- Caching in Spark refers to storing the results of a DataFrame in memory or on disk of the processing nodes in a cluster
+- It improves speed on later transformations/actions because the data no longer needs to be retrieved from the original data source.
+- Using caching reduces the resource utilization of the cluster. There is less need to access the storage, networking, and CPU of the Spark nodes.
+
+What is the disavantages of caching?
+- Very large data sets may not fit in memory
+- Depending on the later transformations requested, the cache may not do anything to help performance.
+    - If you're reading from a local network resource and have slow local disk I/O, it may better to avoid caching the objects
+- Cached objects may not be available. The lifetime of a cached object is not guaranteed
+
+When developing Spark tasks:
+- Caching is incredibly useful, but only if you plan to use the DataFrame again
+- Try caching DataFrames at several configurations and determine if your performance improves
+- Cache in memory and fask SSD/NVM3 storage
+- Cache to slow local disk if needed
+- Use intermediate files
+- Stop caching objects when finished
+
+Implementing caching
+- Call ```.cache()``` on the DataFrame before Action
+
+
+
+```python
+# Implementing caching
+voter_df = spark.read.csv('voter_data.txt.gz')
+voter_df.cache().count()
+
+voter_df = voter_df.withColumn('ID', monotonically_increasing_id())
+voter_df = voter_df.cache()
+voter_df.show()
+
+# Determine cache status
+print(voter_df.is_cached)
+
+# Call .unpersist() when finished with DataFrame
+voter_df.unpersist()
+```
 
 # Complex processing and data pipelines 
 Learn how to process complex real-world data using Spark and the basics of pipelines.
