@@ -286,7 +286,6 @@ Implementing caching
 - Call ```.cache()``` on the DataFrame before Action
 
 
-
 ```python
 # Implementing caching
 voter_df = spark.read.csv('voter_data.txt.gz')
@@ -301,6 +300,40 @@ print(voter_df.is_cached)
 
 # Call .unpersist() when finished with DataFrame
 voter_df.unpersist()
+```
+
+## Improve import performance
+
+Spark clusters are made of two types of processes
+- Driver process
+    - The driver handles task assignments and consolidation of the data results from the workers
+- Worker processes
+    - The workers typically handle the actual transformation/action tasks of a Spark job
+
+Important parameters to import performance:
+- Number of objects (Files, Network locations, etc)
+    - More objects better than largr ones
+    - Can import via wildcard: ```airport_df = spark.read.csv('airports-*.txt.gz')```
+- General size of objects
+    - Spark performs better if objects are of similar size
+
+
+A well-defined schema will drastically improve import performance
+- Avoids reading the data multiple times
+- Provides validation on import
+
+How to split objects
+- Use OS utilities/scripts (e.g.: split, cut, awk)
+    ```bash
+    split -l 10000 0d 00additional-suffix=.csv largefile largefile_output_name
+
+    ```
+- Use custom scripts
+- Write out to Parquet
+```python
+df_csv = spark.read.csv('singlelargefile.csv')
+df_csv.write.parquet('data.parquet')
+df = spark.read.parquet('data.parquet')
 ```
 
 # Complex processing and data pipelines 
