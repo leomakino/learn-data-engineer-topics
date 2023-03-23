@@ -312,7 +312,8 @@ Spark clusters are made of two types of processes
 
 Important parameters to import performance:
 - Number of objects (Files, Network locations, etc)
-    - More objects better than largr ones
+    - More objects better than larger ones. Using split files runs more quickly than using one large file for import. 
+        *Note that in certain circumstances the results may be reversed. This is a side effect of running as a single node cluster.*
     - Can import via wildcard: ```airport_df = spark.read.csv('airports-*.txt.gz')```
 - General size of objects
     - Spark performs better if objects are of similar size
@@ -334,6 +335,58 @@ How to split objects
 df_csv = spark.read.csv('singlelargefile.csv')
 df_csv.write.parquet('data.parquet')
 df = spark.read.parquet('data.parquet')
+```
+
+## Cluster sizing tips
+The configurations are available in the configuration files, via the Spark web interface, and via the run-time code
+Configuration options
+- Spark contains many configuration settings
+- These can be modified to match needs
+- Reading configuration settings ```spark.conf.get(<configuration name>)```
+- Writing configuration settings ```spark.conf.set(<configuration name>)```
+
+Cluster Types
+- Single node
+- Standalone
+- Managed (components are handled by a third party cluster manager such the items below)
+    - YARN
+    - Mesos
+    - Kubernetes
+
+Driver
+The driver is responsible for several things, including:
+- Handling task assignment to the various nodes/processes in the cluster
+- The driver monitors the state of all processes and tasks and handles any task retries
+- also responsable for consolidating results from the other processes in the cluster.
+- The driver handles any access to shared data and verifies each worker process has the necessary resources (code, data, etc.)
+- Tips:
+    - Driver node should have double the memory of the worker
+    - Fast local storage helpful
+
+Worker
+A Spark worker handles running tasks assigned by the driver and communicates those results back to the driver
+- Runs actual tasks
+- Ideally has all code, data, and resources for a given task. *If any of these are unvailable, the worker must pause to obtain the resources*
+- Recommendations
+    - More worker nodes is often better than larger workers
+    - Test to find the balance
+    - Fast local storage extremely useful
+
+Using the spark.conf object allows you to validate the settings of a cluster without having configured it initially. This can help you know what changes should be optimized for your needs.
+```python
+# Name of the Spark application instance
+app_name = spark.conf.get('spark.app.name')
+
+# Driver TCP port
+driver_tcp_port = spark.conf.get('spark.driver.port')
+
+# Number of join partitions
+num_partitions = spark.conf.get('spark.sql.shuffle.partitions')
+
+# Show the results
+print("Name: %s" % app_name)
+print("Driver TCP port: %s" % driver_tcp_port)
+print("Number of partitions: %s" % num_partitions)
 ```
 
 # Complex processing and data pipelines 
