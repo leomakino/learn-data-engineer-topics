@@ -454,8 +454,92 @@ print("Normal count:\t\t%d\tduration: %f" % (normal_count, normal_duration))
 print("Broadcast count:\t%d\tduration: %f" % (broadcast_count, broadcast_duration))
 ```
 
-
-
-
 # Complex processing and data pipelines 
 Learn how to process complex real-world data using Spark and the basics of pipelines.
+
+## Introduction to data pipelines
+What is a data pipeline?(Focus on Spark)
+- A set of steps to process data from source(s) to final output
+- Can consist of any number of steps or components
+- Can span many systems
+
+What does a data pipeline look like?
+1. Inputs
+    - csv, json, web services, databases
+1. Transformations
+    - withColumn(), filter(), drop()
+1. Outputs
+    - csv, parquet, database
+1. Validation
+1. Analysis
+
+Pipeline details
+- Not formally defined in Spark
+- Typically all normal Spark code required for task. E.g:
+
+
+```python
+# Example 1
+schema = StructType([
+StructField('name', StringType(), False),
+StructField('age', StringType(), False)
+])
+df = spark.read.format('csv').load('datafile').schema(schema)
+df = df.withColumn('id', monotonically_increasing_id())
+...
+df.write.parquet('outdata.parquet')
+df.write.json('outdata.json')
+
+# Example 2
+# Import the data to a DataFrame
+departures_df = spark.read.csv('2015-departures.csv.gz', header=True)
+
+# Remove any duration of 0
+departures_df = departures_df.filter(departures_df['Actual elapsed time (Minutes)'] != 0)
+
+# Add an ID column
+departures_df = departures_df.withColumn('id', F.monotonically_increasing_id())
+
+# Write the file out to JSON format
+departures_df.write.json('output.json', mode='overwrite')
+```
+
+## Data handling techniques
+parse meaning: to examine computer data and change it into a form that can be easily read or understood 
+
+Situations of data parses:
+- Incorrect data
+    - Empty rows
+    - Commented lines
+    - Headers
+- Nested structures
+    - Multiple delimiters
+- Non-regular data
+    - Differing numbers of columns per row
+
+Removing blank lines, headers, and comments. Spark's CSV parser:
+- Automatically removes blank lines
+- Can remove comments using an optional argument
+- Handles header fields
+    - Defined via argument
+    - Ignored if a schema is defined
+
+
+
+Automatic column creation. Spark will:
+- Automatically create columns in a DataFrame based on sep argument
+- Can still successfully parse if sep is not in string
+- Stores data in column defaulting to _c0
+- Allows you to properly handle nested separators
+- *Spark's CSV parser can't handle advanced types (Arrays or Maps) so it wouldn't process correctly. Use a schema to define the content layout*
+
+```python
+# Remove comments
+df1 = spark.read.csv('datafile.csv.gz', comment='#')
+
+# Handle header field
+df1 = spark.read.csv('datafile.csv.gz', header='True')
+
+# Automatically create columns
+df1 = spark.read.csv('datafile.csv.gz', sep=',')
+```
