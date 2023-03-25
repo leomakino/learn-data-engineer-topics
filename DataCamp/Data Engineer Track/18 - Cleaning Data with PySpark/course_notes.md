@@ -389,5 +389,73 @@ print("Driver TCP port: %s" % driver_tcp_port)
 print("Number of partitions: %s" % num_partitions)
 ```
 
+## Performance improvement
+Explaining the Spark execution plan. Learning to parse a query plan will help you understand what Spark is doing and when.
+
+The easiest way to see what the Spark is doing under the hood is using the explain() function on a Dataframe. 
+The results is the estimated plan that will be run to generate results from the DataFrame
+
+
+What is shiffling?
+Spark distributes data amongst the variours nodes in the clster. A side effect of this is what is known as shuffling.Shuffing refers to moving data fragments to various workers to complete a task
+- Hides complexity from the user ( The user doesn't have to know which nodes have what data)
+- Can be slow to complete
+- Lowers overall throughput
+- If often necessary but try to minimize
+
+How to limit shuffling?
+Repartitioning requires a full shuffle of data between nodes & processes and is quite costly.
+- Limit use of .repartition(num_partitions)
+    - Use .coalesce(num_partitions) instead, if you need to reduce the number of partitions
+    - coalesce function takes a number of partitions smaller than the current one and consolidates the data without requiring a full data shuffle
+- Use care when calling .join. Calling join() indiscriminately can often cause shuffle operations leading to increased cluster load & slower processing times.
+- Use broadcast() to avoid some of the suffle operations when joining Spark DataFrames
+- May not need to limit it
+
+
+Broadcasting
+- Provides a copy of an object to each worker
+- Prevents undue/excess communication between nodes
+    - When each worker has its own copy of the data, there is less need for communication between nodes
+- Can drastically speed up .join() operations
+- Broadcasting can drastically speed up join operations, especially if one of the DataFrames being joined is much smaller than the other.
+- Broadcasting can slow operations when using very small DataFrames or if you broadcast the larger DataFrame in a join.
+
+
+A couple tips:
+
+- Broadcast the smaller DataFrame. The larger the DataFrame, the more time required to transfer to the worker nodes.
+- On small DataFrames, it may be better skip broadcasting and let Spark figure out any optimization on its own.
+- If you look at the query execution plan, a broadcastHashJoin indicates you've successfully configured broadcasting
+
+```python
+# Use the .broadcast(<DataFrame>) method
+from pyspark.sql.functions import broadcast
+combined_df = df_1.join(broadcast(df_2))
+
+
+# Show the query plan
+normal_df.explain()
+
+
+# Comparing broadcast vs normal joins
+start_time = time.time()
+# Count the number of rows in the normal DataFrame
+normal_count = normal_df.count()
+normal_duration = time.time() - start_time
+
+start_time = time.time()
+# Count the number of rows in the broadcast DataFrame
+broadcast_count = broadcast_df.count()
+broadcast_duration = time.time() - start_time
+
+# Print the counts and the duration of the tests
+print("Normal count:\t\t%d\tduration: %f" % (normal_count, normal_duration))
+print("Broadcast count:\t%d\tduration: %f" % (broadcast_count, broadcast_duration))
+```
+
+
+
+
 # Complex processing and data pipelines 
 Learn how to process complex real-world data using Spark and the basics of pipelines.
