@@ -543,3 +543,56 @@ df1 = spark.read.csv('datafile.csv.gz', header='True')
 # Automatically create columns
 df1 = spark.read.csv('datafile.csv.gz', sep=',')
 ```
+
+## Data Validation
+Let's look at how to implement validation steps in a data cleaning pipeline.
+
+The definition of data validation  is:
+- Verifying that a dataset complies with the expected format
+- Number of rows / columns is as expected
+- Data types
+- Complex validation rules
+
+Validating via joins:
+
+Validating  via join will compare data against a set of known values
+- Compares data against known values
+- Easy to find data in a given set
+- Joins are also comparatively fast, especially vs validating individual rows against a long list of entries.
+    - The simplest example of this is using an inner join of two DataFrames to validate the data.
+    - In the # validating via join code, only rows from parsed_df with company names that are present in company_df would be included in the verified_df DataFrame. This has the effect of automatically filtering out any rows that don't meet the specified criteria.
+- Another example of filtering data is using joins to remove invalid entries.
+
+**Complex rule validation** is the idea of using Spark components to validate logic:
+- Calculations
+- Verifying against external source
+- Likely uses a UDF to modify/verify the DataFrame
+
+Analysis calculations are the process of using the columns of data in a dataframe to compute some useful value using Spark's functionality
+
+```python
+# validating via joins
+parsed_df = spark.read.parquet('parsed_data.parquet')
+company_df = spark.read.parquet('companies.parquet')
+verified_df = parsed_df.join(company_df, parsed_df.company == company_df.company)
+# This automatically removes any rows with a company not in the valid_df !
+
+
+#Analysis calculations (UDF)
+def getAvgSale(saleslist):
+    totalsales = 0
+    count = 0
+    for sale in saleslist:
+        totalsales += sale[2] + sale[3]
+        count += 2
+    return totalsales / count
+udfGetAvgSale = udf(getAvgSale, DoubleType())
+df = df.withColumn('avg_sale', udfGetAvgSale(df.sales_list))
+
+
+# inline calculations
+df = df.read.csv('datafile')
+df = df.withColumn('avg', (df.total_sales / df.sales_count))
+df = df.withColumn('sq_ft', df.width * df.length)
+df = df.withColumn('total_avg_size', udfComputeTotal(df.entries) / df.numEntries)
+```
