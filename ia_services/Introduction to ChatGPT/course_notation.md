@@ -48,7 +48,24 @@ Why utilize ChatGPT?
 - AI doing the legwork and a human providing the finishing touches saves a substantial amount of time and money
 - Greater personalization
 
+## Limitations of ChatGPT
+Although ChatGPT is valuable tool that can perform a huge variety of tasks, there are some limitations to be aware of the use it effectively.
 
+1. ChatGPT was trained on data up to a certain data and the model isn't connected to the internet or other external sources, so it isn't aware of events beyonf this date.
+2. Training data bias: the potential bias in the training data.
+    - It was trained on a massive text dataset from a variaty of sources including books, articles and websites but this data could contain biases.
+    - The model may learn these biases and produce biased responses.
+3. Context tracking: ChatGPT has the ability to build on information and context from earlier in the conversation, so follow-up corrections can be made.
+    - If the content of the conversation shift multiple times, it can keep track of the context and generate inaccurate or irrelevant responses.
+    - A good rule is to keep a conversation to one topic and create new conversations for different topics
+4. Hallucination: which is when the model confidently tells us inaccurate information.
+    - This often occurs when attempting to go beyond ChatGPT's knowledge cutoff or abilities.
+    - E.g.: "Provide a summary of this Linkedin profile: link here"
+    - Instead of telling us that it isn't able to open URLs. ChatGPT confidently provides a summary of entirely false information.
+5. Legal and ethical considerations
+    - Example: Create a song in the style of and existing band.
+        - It will generate a song that resembles the style of this artist based on the song lyrics that were present in the training data, but who owns this new song?
+    - It's easy to fall into one of these legal gray areas if the use casesChatGPT aren't properly scoped.
 
 ## What is ChatGPT?
 ChatGPT, by OpenAI, is a **conversational language model**, which means it can **answer questions** or perform tasks that **yield a text-based response**.
