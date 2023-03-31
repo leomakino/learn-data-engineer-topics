@@ -4,6 +4,9 @@ From text summarization, explaining complex concepts, drafting engaging marketin
 # Interacting with ChatGPT
 Learn how to interact with ChatGPT effectively to produce high-quality content. In this chapter, you'll learn about ChatGPT's capabilities and limitations, and how to write prompts that maximize the quality of the generated content. 
 
+## What is ChatGPT?
+ChatGPT, by OpenAI, is a **conversational language model**, which means it can **answer questions** or perform tasks that **yield a text-based response**.
+
 Difference between standard chatbots and chatGPT:
 - Standard Chatbots
     - They are usually designed to return a **predetermined response** to a **limited number of questions**
@@ -67,8 +70,42 @@ Although ChatGPT is valuable tool that can perform a huge variety of tasks, ther
         - It will generate a song that resembles the style of this artist based on the song lyrics that were present in the training data, but who owns this new song?
     - It's easy to fall into one of these legal gray areas if the use casesChatGPT aren't properly scoped.
 
-## What is ChatGPT?
-ChatGPT, by OpenAI, is a **conversational language model**, which means it can **answer questions** or perform tasks that **yield a text-based response**.
+## Writing effective prompts
+Prompts are the one piece of the ChatGPT interaction that the user has control over, and because of this, writing effective prompts has become a field in its own right—prompt engineering.
+
+
+Garbage in, garbage out:
+- If the prompt we provide doesn't contain sufficient context or isn't written in an easily-interpretable way, chances are it will lower the quality of the response.
+
+How does ChatGPT interpret a prompt? E.g.: Please write a job description for a data engineer based in Florianópolis
+1. Identify the topic
+    - First, ChatGPT identifies the broad topic of the prompt
+    - In this case, the phrases job description, data engineer and Florianópolis help the model identify that the prompt is about a job description for a specific role and location.
+2. Understand the prompt
+    - It attempts to understand what the prompt is requiring
+    - In this example, the verb write and job description indicate the task **being** given to ChatGPT
+    - Data engineer and Florianópolis provide **additional context** to help populate the response with *relevant information*.
+3. The response is generated
+*Obs:More content could be added to the prompt for greater personalization, such as key role-specific skills and company culture information*
+
+How to talk the language of AI: Prompt engineering
+- Prompt engineering is the process of writing prompts to maximize the quality and relevance of the response
+- It is the foundational best practices to get the most out of our ChatGPT prompts
+
+Writing tips for prompt engineering
+- Be clear and specific
+- Include all of the necessary context to create the desired response
+    - E.g.: In a summarizing task, specify the desired length
+- Keep prompts concise
+    - short and clear, expressing what needs to be said without unnecessary words
+    - Extra words will only dilute the important information and keywords
+- Use correct grammar and spelling
+    - ChatGPT uses grammar to interpret the task, so make sure to include it in all the right places
+- Provide examples if necessary
+    - It can be a much quicker way of providing context
+    - E.g.: Please write a list of example names, ages and cities. For example: Leonardo Makino, 29 (Data Engineer)
+
+
 
 # Adopting ChatGPT
 Due to the wide range of potential applications of ChatGPT and its ease of use, one of its major challenges is deciding when to use it. In this chapter, you'll learn about common use cases of ChatGPT to begin streamlining your own workflows. You'll understand how to evaluate a use case as a suitable application and consider the legal and ethical implications. Finally, you'll learn about the key factors that will decide the future of generative AI models like ChatGPT. 
