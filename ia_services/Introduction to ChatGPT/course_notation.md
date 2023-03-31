@@ -110,3 +110,17 @@ Writing tips for prompt engineering
 # Adopting ChatGPT
 Due to the wide range of potential applications of ChatGPT and its ease of use, one of its major challenges is deciding when to use it. In this chapter, you'll learn about common use cases of ChatGPT to begin streamlining your own workflows. You'll understand how to evaluate a use case as a suitable application and consider the legal and ethical implications. Finally, you'll learn about the key factors that will decide the future of generative AI models like ChatGPT. 
 
+## Enabling people to use ChatGPT
+In this chapter, we'll focus on when to use ChatGPT and how to scale its adoption safely and responsibly.
+
+Augmenting workflows
+- **Workflows:** Standardized series of tasks to achieve an end goal
+- Workflows (Goals) contain some time-consuming and repetitive tasks, but many of these can now be performed by ChatGPT
+
+
+All industries and roles can benefit from integrating ChatGPT into their workflows.
+- **Leaders:** Compose emails, draft presentations, brainstorm strategic ideas, and summarize meeting notes.
+- **Technical roles (roles that spend a lot of their time writing code)**: The typical workflow often includes repetitive taks like looking up code syntax and writing documentation
+    - Use cases: Recall code syntax and generate examples, explain code, troubleshoot errors and even write documentation to accompany the code.
+- **HR and people teams:** brainstorm initiatives for improving employee engagement and well-being
+- **Marketing:** Write social media posts, help with copyediting human-written content, and creating all types of text-based marketing copy.
