@@ -124,3 +124,21 @@ All industries and roles can benefit from integrating ChatGPT into their workflo
     - Use cases: Recall code syntax and generate examples, explain code, troubleshoot errors and even write documentation to accompany the code.
 - **HR and people teams:** brainstorm initiatives for improving employee engagement and well-being
 - **Marketing:** Write social media posts, help with copyediting human-written content, and creating all types of text-based marketing copy.
+
+
+## Identifying use cases for ChatGPT
+Deciding when it's appropriate to use ChatGPT isn't easy and requires considering ChatGPT's capabilities and limitations.
+
+1. The first question to ask ourselves is if we require a high degree of accuracy in the response. If the task: **Require accurate results**?
+    - Because it can be inaccurate
+    - and there's no predictability in this response (two people providing the same prompt often get different responses)
+2. Can the response qualify be verified?
+    - This is where subject matter expertise still plays a huge part in the workflow
+    - A good rule of thumb is to **not ask** ChatGPT **to do something that we couldn't do** ourselves given enough time
+3. The use case may require inputting sensitive data?
+    - Need consent to process the data
+    - Must adhere to data governance laws, such as LGPD
+    - Legal counsel may be able to enable the use case
+4. Require ownership of content?
+    - OpenAI's terms of use claim ownershio over ChatGPT output in many cases
+        - Other considerations such as copyright infringement may prevent ownership
