@@ -142,3 +142,28 @@ Deciding when it's appropriate to use ChatGPT isn't easy and requires considerin
 4. Require ownership of content?
     - OpenAI's terms of use claim ownershio over ChatGPT output in many cases
         - Other considerations such as copyright infringement may prevent ownership
+
+## Ownership and privacy
+- Ownership and privacy are key considerations when scoping ChatGPT's suitability for a particular use case.
+- Neglecting to consider there factors, especially for companies, can bring with it financial penalties, lawsuits, and damage to customer trust and brand image.
+- Establishing ownership over the response is crucial, mainly if we intend on integrating ChatGPT into revenue-generating products.
+
+Who owns the response?
+- Assuming compliance, users can claim ownership over the response
+- We can not claim ownership over responses that are considered non-unique, as they can also be generated for other users.
+- Factual questions or generating small text cannot claim ownership
+- We can't claim that responses from ChatGPT were human-generated.
+- For products or tools built on top of ChatGPT, we'll need to ensure that customers aren't under the misapprehension that the generated content is human-generated.
+- ChatGPT can't be used to infringe on a person's rights, which includes copyright infringement
+- **OpenAI update their terms of use regularly, so be sure to double-check them before giving the green light**
+
+Prompt privacy
+- ChatGPT is being continuously developed and improved
+- OpenAI may use prompts and responses for performance improvements
+- If we're interacting with ChatGPT via the webpage and don't want this data being used for performance improvements, we'll need to contact OpenAI to opt out of this usage agreement.
+- Inputting sensitive data without the proper consent could risk breaching data governance laws.
+- **ChatGPT must not only satisfy OpenAI's terms of use but must also adhere to the applicable data governance laws**
+
+Data ethics
+- Data echics is a field dedicated to ensuring that data is used with people and society's best interests in mind.
+- So, ask whether the use will negatively or positively impact people.
