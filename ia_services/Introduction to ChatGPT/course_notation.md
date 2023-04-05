@@ -167,3 +167,19 @@ Prompt privacy
 Data ethics
 - Data echics is a field dedicated to ensuring that data is used with people and society's best interests in mind.
 - So, ask whether the use will negatively or positively impact people.
+
+## Advancements in generative AI
+What's to come in generative AI? What challenges need to be overcomer?
+- Performance improvements
+- More human-like content
+- Handle more complexity
+- deep understanding of language, including complex language expressions, such as sarcasm and idioms
+
+Building balanced datasets
+- Challenge: ensuring data is high quality and balanced
+- Reducing bias before training model is difficult
+- Goal: Develop more robust bias mitigation procedures
+
+AI for everyone
+- Accessibility is key to ChatGPT's success
+- One crucial requirement to continue the adoption of generative AI is ensuring the democratization of AI tools so everyone has access to the benefits of this amazing technology
