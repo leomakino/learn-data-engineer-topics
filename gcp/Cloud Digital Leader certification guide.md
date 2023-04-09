@@ -7,6 +7,8 @@ To help profissionals to highlight their skills in using these services, Google 
 A Cloud Digital Leader can articulate the capabilities of Google Cloud core products and services and how they benefit organizations. The Cloud Digital Leader can also describe common business use cases and how cloud solutions support an enterprise. The Cloud Digital Leader exam is job-role agnostic and does not require hands-on experience with Google Cloud.
 
 ## Sections
+This exam guide provides a section-by-section overview of how you will be assessed. 
+
 ### Section 1: Introducion to digital transformation with Google Cloud (appoximately 10% of the exam)
 1. Explain why cloud technology is revolutioning business
     - Define key terms such as cloud, cloud tecnology, data, and digital transformation
@@ -70,8 +72,12 @@ Reference:
 [Cloud Digital Leader Guide](https://cloud.google.com/certification/guides/cloud-digital-leader)
 
 # Expand the knowledge with training
-1. [Google Cloud Digital Leader Certification Course - Pass the Exam!](https://www.youtube.com/watch?v=UGRDM86MBIQ)
+1. [Google Cloud Digital Leader Certification Course - Pass the Exam! (YouTube)](https://www.youtube.com/watch?v=UGRDM86MBIQ)
 1. [Cloud Digital Leader Learning Path](https://www.cloudskillsboost.google/paths/9)
+    1. Digital Transformation with Google Cloud
+    1. Innovating with Data and Google Cloud
+    1. Infrastructure and application Modernization with Google Cloud
+    1. Understanding Google Cloud Security and Operations
 
 
 # Prepare with questions (Practice tests)
