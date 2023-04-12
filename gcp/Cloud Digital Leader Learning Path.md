@@ -24,6 +24,18 @@ Some interesting questions about the course:
 - How does cloud technology help you or your organization?
 - Where do you even begin?
 
+Cloud technology is transforming how organizations create value how people work, and ultimately, how people live. 
+
+The key components of a digital transformation are:
+- a
+
+Google defines digital transformation as when an organization uses new digital technologies, such as public, private, and hybrid cloud platforms to create or modify business processes, culture, and customer experiences to meet the needs of changing business and market dynamics. Digital transformation helps organizations change how they operate.
+
+Understanding the scale and power of the cloud is more critical than ever before.
+
+> Look the advantages in the slides
+
+
 ## Fundamental Cloud Concepts
 
 ## Cloud Computing Models and Shared Responsibility
