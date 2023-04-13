@@ -104,7 +104,35 @@ Although hybrid cloud and multicloud are related, they aren’t interchangeable 
 According to the “Flexera 2022 State of the Cloud Report,”, 89% of respondents reported having a multicloud strategy, and 80% of them take a hybrid approach by combining public and private cloud.
 
 
+### The benefits of cloud computing
+The main benefit of cloud computing compared to traditional on-premises infrastructure is the scalability. 
 
+- Scalable
+    - Acess to scalable resources
+    - Latest technology on-demand
+    - Accelerates deployment time
+    - don’t need to worry about capital expenditures and limited fixed infrastructure.
+- Flexible
+    - Access cloud services from anywhere
+    - Scale services up or down as needed to meet business requirements
+- Agile
+    - Organizations can develop new applications and rapidly get them into production, without worrying about the underlying infrastructure.
+    - No infrastructure worries
+- Strategic value
+    - Competitive advantages: cloud providers stay updated with the latest innovations and offer them as services
+    - Higher return on investment
+    - Innovate and try new ideas
+- Secure
+    - Cloud computing security is recognized as stronger than that in enterprise data centers *because of the depth and breadth of the security mechanisms and dedicated teams that cloud providers implement.*
+- Cost-effective
+    - Pay for what is used
+    - No overbuilding data centers capacity to handle sudden spikes in demand
+    - IT staff can work on strategic initiatives
+
+### Nintendo and Encyclopedias companies example: Why it's critical to transform and embrace new technology
+The digital transformation is an **ongoing process**, not a one-time effort
+
+It's critical that organizations **embrace new technology as an opportunity** to evolve, serve their customers better, and gain a competitive advantage. This is where cloud computing plays a significant role.
 
 ## Fundamental Cloud Concepts
 
