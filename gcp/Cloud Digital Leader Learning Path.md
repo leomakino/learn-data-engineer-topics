@@ -134,6 +134,41 @@ The digital transformation is an **ongoing process**, not a one-time effort
 
 It's critical that organizations **embrace new technology as an opportunity** to evolve, serve their customers better, and gain a competitive advantage. This is where cloud computing plays a significant role.
 
+### Cloud eras
+The cloud eras are:
+1. Virtual Machine (VM) Era
+1. Infrastructure Cloud Era
+1. Transformation Cloud Era
+
+#### VM Era
+New organizations, realized that they could forgo ever buying or operating hardware and just start in the cloud.
+- No need to buy or operate hardware
+- Major catalyst for cloud-native companies
+
+#### Infrastructure Cloud Era
+It's when organizations migrated their IT infrastructure to the cloud
+- This migration **saved costs** *because infrastructure could scale up and down more quickly and easily*
+- Faster development was possible *because companies didn't need long-term infrastructure planning.*
+- **Better security**
+- It reduced the management load on IT staff and let organizations direct more people and resources to docus on buildsing new capabilities
+
+
+The VM and cloud infrastructure eras didn't provide transformative or disruptive results, or fundamentally change how people worked outside of IT. Because:
+> "Digital transformation is more than simply migrating and shifting systems to the cloud for cost saving and convenience"
+
+Reinventing the future means changing not only where business is done, but how it is done, bring innovation to the business.
+
+#### Transformation cloud era
+This era is about spreading transformation among all teams in an organization. 
+
+A transformation cloud is a new approach to digital transformation. It provides an environment for **app and infrastructure modernization**, **data democratization** ,**people connections** and **trusted transactions**.
+
+It’s built on an easy-to-use platform with customized industry solutions that gives organizations the confidence that they are saving money and creating a more sustainable future for everyone.
+
+The result is an organization that benefits from cloud computing to drive innovation, generate new revenue streams, and adapt quickly to market changes and customer needs.
+
+
+
 ## Fundamental Cloud Concepts
 
 ## Cloud Computing Models and Shared Responsibility
