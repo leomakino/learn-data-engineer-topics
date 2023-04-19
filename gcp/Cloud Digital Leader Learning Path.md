@@ -167,6 +167,19 @@ It’s built on an easy-to-use platform with customized industry solutions that 
 
 The result is an organization that benefits from cloud computing to drive innovation, generate new revenue streams, and adapt quickly to market changes and customer needs.
 
+### Challenges to lead to digital transformation
+- Instead of asking infrastructure questions about *where* their *apps* and services *should run*, ask about **how to build** an environment that helps every thing to adapt to changing business needs.
+
+By the way, the top drives that lead to digital transformations and their respective challenges are:
+1. understanding and using data
+2. best technology infrastructure.
+    - *challenge: The search for a cloud platform that will serve as their foundation for growth and has the flexibility to innovate securely and adapt quickly based on market needs*
+3. create the best hybrid workplace.
+    - *challenge: The shift in how and where work happens requires new, stronger connections and collaboration*
+4. data security
+5. sustainability
+    - *challenge: create a more sustainable future through products and services that minimize environmental impact*
+
 
 
 ## Fundamental Cloud Concepts
