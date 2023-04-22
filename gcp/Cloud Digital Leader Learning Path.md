@@ -276,6 +276,51 @@ After cloud maturity has been assessed and actions have been recommended, it's e
 9. GCP Cloud is a metaphor for a network of data centers
 
 ## Fundamental Cloud Concepts
+It’s important to first recognize some of the fundamental cloud concepts, such as:
+1. Describe the benefits of moving to cloud infrastructure through customer business use cases.
+1. Explain how moving to the cloud shifts an organization's spending from capital expenditure to operational expenditure
+1. How moving to the cloud affects their total cost of ownership.
+1. Identify when private, hybrid, or multicloud infrastructures best apply to different business use cases. 
+1. Define basic network infrastructure terminology.
+1. Explain how Google Cloud supports digital transformation with global infrastructure and data centers connected by a fast, reliable network.
+
+#### Loblaw and HSBC examples
+Loblaw is Canada’s largest retailer. The Vice President of Technology at Loblaw explained: 
+> ”We want our tech talent focused on creating better experiences for our customers, not maintaining infrastructure.”
+
+Loblaw took a lift-and-shift approach (moving a copy of an existing application and data to cloud infrastructure with minimal or no redesignin) to accelerate the initial migration to Google Cloud.
+
+They designed the cloud architecture to be easily converted to using Google Kubernetes Engine for automated deployment and scaling later.
+
+This is an example of how the **cloud provided flexibility and improved performance** for a company. 
+
+HSBC is one of the world’s largest banking and financial services organizations. They committed to a cloud-first strategy, in January 2021, HSBC embarked on an ambitious project to enhance and future-proof their risk management on the cloud.
+
+> Their previous on-premises system was not capable of meeting future regulatory and business demands.
+
+HSBC built a cloud-native risk management solution that boosts calculation speed to be ten times faster while lowering costs.
+
+The power of a data cloud is that it has almost unlimited resources to **process large volumes of data** and reduce time to insights.
+
+### Total Cost of Ownership
+Organizations often perform a cloud Total Cost of Ownership (or TCO) analysis when they are considering moving to the cloud.
+
+This analysis aims to weigh the cost of cloud adoption against the cost of running their current on-premises systems.
+
+*Predicting future cots can be challenging*
+
+A common mistake that organizations make when attempting to calculate cloud TCO is to directly compare the running costs of the cloud against their on-premises system. There costs are not equivalent.
+
+For on-premises:
+- The cost is dominated by the initial purchase of hardware and software
+- Consider all the operational costs of running your own data center, such as power, cooling, maintenance, and other support services.
+- Intangible costs, such as the opportunity cost of not migrating to cloud and the missed benefits, should be considered
+- It is associated with assessing the cost of static resources throughout their lifetime
+
+For cloud: 
+- Cloud computing costs are based on monthly subscriptions or pay-per-use models.
+
+
 
 
 ## Cloud Computing Models and Shared Responsibility
