@@ -180,7 +180,87 @@ By the way, the top drives that lead to digital transformations and their respec
 5. sustainability
     - *challenge: create a more sustainable future through products and services that minimize environmental impact*
 
+### Google's Transformation Cloud
+There are five primary capabilities that form the basis of the transformation cloud:
+1. Data
+1. Open infrastructure
+1. Collaboration
+1. Trust
+1. Sustainable tecnology and solutions
 
+#### Data
+Data is the key to unlocking value from AI. But becoming a data-driven company can be difficult if datasets are siloed across operational and analytical data stores. *Solution: A data cloud is a unified solution to manage data across the entire data lifecycle, regardless of whether it sits in Google Cloud or in other clouds. It lets organizations identify and process data with great scale, speed, security, and reliability.*
+
+#### Open Infrastructure
+Open infrastructure cloud brings Google Cloud services to **different physical locations**, while leaving the operation, governance, and evolution of the services to Google Cloud. It gives companies freedom to securely innovate and scale from on-premises, to edge, to cloud on an easy, transformative, and open platform. An open infrastructure embraces a partner ecosystem, instead of competing with it.
+
+Organizations can run applications in the place that makes the most sense. An open infrastructure cloud facilitates faster innovation and reduces lock-in to a single cloud provider by giving organizations the choice by giving organizations the choice and flexibility to build, migrate, and manage their applications across on-premises and multiple clouds.
+
+
+1. **Open standard:** is a standard that is openly accessible and usable by anyone. Typically, anybody can participate in the development. There is no single definition, and interpretations vary with usage. Examples:
+    - System: World Wide Web
+    - Hardware: IEEE, ISA, PCI, AGP, USB
+    - File format: HTML, XML, PNG
+    - Protocols: IP, TCP, IoT, HTTP
+    - Programming Languages: SQL
+1. Open source refers to software whose source code is publicly accessible and free for anyone to use, modify, and share.
+- Conclusion: Open source and open standards are not the same thing. Open source refers to software whose source code is freely available to users for reference, debugging, modification, and/or extension. Open standards are, typically, specifications: formal descriptions of software or software interfaces.
+
+Google has a long history of sharing technology through open source: 
+- Kubernetes
+- TensorFlow
+- Android
+- Angular
+- Apache Beam
+- Bazel
+- Dart
+- Chromium OS
+- Firebase SDK
+- Flutter
+- Forseti Security
+- Gerrit
+- Go
+- Istio
+- Knative
+
+#### Collaboration
+A transformation cloud isn’t just about technology. People and culture are just as important.
+
+Hybrid work cames to stay since the COVID-19 pandemic.
+
+
+This new hybrid work environment needs to support a mix of in-person and remote interactions, including immersive digital and mobile experiences.
+
+Google offers a collaboration cloud through Google Workspace. Workspace brings together communication and collaboration apps including:
+- Gmail
+- Chat
+- Calendar
+- Drive
+- Docs
+- Sheets
+- Meet 
+
+#### Trust
+A trusted cloud helps organizations protect what's important with advanced security tools. 
+
+Organizations see the cloud as more secure than on-premises, and they want to make it simple so that employees, customers, and contractors can safely access their services.
+
+#### Sustainable Foundation
+According to IDC, cloud computing is estimated to save 1 billion metric tons of CO2 emissions by 2024.
+
+At Google Cloud, for example, we partner with customers to decarbonize their digital apps and infrastructure with our sustainable technology and solutions. Google operates the cleanest cloud in the industry, with the smartest data centers that are 2 times as energy-efficient as a typical enterprise data center. 
+
+
+### Google Cloud Adoption Framework
+The Google Cloud Adoption framemore is more than just a model. It's also a map to real, tangible tasks that organizations need to adopt the cloud.
+
+Moving to the cloud offers enormous benefits for transforming businesses. Yet there are also risks. The challenge is multi-dimensional, with far reaching implications for the solutions that will run in the cloud and also for the technologies that support them. The people who must implement them and the processes that govern them. 
+
+The value of the Google Cloud adoption Framework is that it serves as a map to help organizations adopt the cloud quickly and effectively by creating a comprehensive action plan for accelerating cloud adoption.
+
+It does this by structuring and aligning short term tactical, mid-term, strategic, and long term transformational business objectives. It provides a solid assessment of where an organization is in its cloud journey and actionable programs that get it to where it wants to be.
+
+After cloud maturity has been assessed and actions have been recommended, it's easy to scope and structure a cloud adoption program using the framework.
 
 ## Fundamental Cloud Concepts
 
