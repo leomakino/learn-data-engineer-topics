@@ -194,7 +194,7 @@ Data is the key to unlocking value from AI. But becoming a data-driven company c
 #### Open Infrastructure
 Open infrastructure cloud brings Google Cloud services to **different physical locations**, while leaving the operation, governance, and evolution of the services to Google Cloud. It gives companies freedom to securely innovate and scale from on-premises, to edge, to cloud on an easy, transformative, and open platform. An open infrastructure embraces a partner ecosystem, instead of competing with it.
 
-Organizations can run applications in the place that makes the most sense. An open infrastructure cloud facilitates faster innovation and reduces lock-in to a single cloud provider by giving organizations the choice by giving organizations the choice and flexibility to build, migrate, and manage their applications across on-premises and multiple clouds.
+Organizations can run applications in the place that makes the most sense. An open infrastructure cloud facilitates faster innovation and reduces lock-in to a single cloud provider by giving organizations the choice and flexibility to build, migrate, and manage their applications across on-premises and multiple clouds.
 
 
 1. **Open standard:** is a standard that is openly accessible and usable by anyone. Typically, anybody can participate in the development. There is no single definition, and interpretations vary with usage. Examples:
@@ -262,7 +262,21 @@ It does this by structuring and aligning short term tactical, mid-term, strategi
 
 After cloud maturity has been assessed and actions have been recommended, it's easy to scope and structure a cloud adoption program using the framework.
 
+### Quiz Answers
+1. **Private cloud** would best suit when an organization has made significant investments in their own infrastructure and has regulatory requirements for their data to be hosted on-premises.
+2. A benefit of implementing a transformation cloud that is based on open infrastructure is that *open source software reduces the chance of vendor lock-in*.
+3. Two capabilities that form the basis of a transformation cloud are: 
+    - Open infrastructure gives the freedom to innovate by running applications in the place that makes the most sense.
+    - Data cloud provides a unified solution to manage data across the entire data lifecycle.
+4. One of the benefit of the cloud to an organization that has a new application, and user subscriptions are growing faster than on-premises infrastructure can handle is that cloud is scalable, so the organization could shorten their infrastructure deployment time.
+5. The definition of digital transformation is when an organization uses new digital technologies to create or modify business process, culture, and customer experiences.
+6. The risks that an organization might face by not transforming as their market evolves is: Focusing on ‘how’ they operate can prevent organizations from seeing transformation opportunities.
+7. A item that describes a goal of an organization seeking digital transformation is **break down data silos and generate real time insights.**
+8. A limitation of on-premises infrastructure, when compared to cloud infrastructure is: The on-premises hardware procurement process can take a long time
+9. GCP Cloud is a metaphor for a network of data centers
+
 ## Fundamental Cloud Concepts
+
 
 ## Cloud Computing Models and Shared Responsibility
 
