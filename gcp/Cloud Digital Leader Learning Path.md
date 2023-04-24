@@ -320,6 +320,41 @@ For on-premises:
 For cloud: 
 - Cloud computing costs are based on monthly subscriptions or pay-per-use models.
 
+### Capital expenditures (CapEx) vs operating expenses (OpEx)
+There are a variety of costs and expenses which companies have to pay in order to continue running their businesses. These costs can be one-off or they can be recurring, and it can often be challenging to keep up with all of these expenses.
+
+One way to keep track of all of them is to divide them up into different categories. The most common of which are *capital expenditures (CapEx) and operating expenses (OpEx).*
+
+**Capital expenditures are** a company's major, **long-term expenses** while *operating expenses are a company's day-to-day expenses*. 
+Examples of CapEx:
+- Manufacturing plants, equipment, and machinery
+- Building improvements
+- Computers
+- Vehicles and trucks
+
+Examples of OpEx:
+- Rent and utilities
+- Wages and salaries
+- Accounting and legal fees
+- Overhead costs such as selling, general, and administrative expenses
+
+Cloud differs from traditional IT in how managing costs.
+
+With organizations moving from on-premises infrastructure to on-demand cloud services, there’s a major shift in spending from capital expenditures to operating expenses.
+
+CapEx in on-premises:
+- Buying hardware like servers, printers, or cooling systems
+- Maintaining the assets above is also considered CapEx
+- The more money you put toward CapEx means less free cash flow for the rest of the business.
+- Data centers require a huge CapEx investment up front as organizations purchase space, equipment, and software and hire a workforce to run and maintain everything.
+
+OpEx in Cloud:
+- Costs match actual usage and are now operational expenses.
+- enables organizations to pay only for what they use and only when they use it.
+- Budgeting is no longer a one-time operational process completed annually.
+- any employee can create resources in seconds on infrastructure owned and managed by a cloud provider.
+- Cloud gives organizations the ability to start small and grow organically instead of having to guess at what is needed next week, next month, and next year.
+
 
 
 
