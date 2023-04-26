@@ -355,8 +355,43 @@ OpEx in Cloud:
 - any employee can create resources in seconds on infrastructure owned and managed by a cloud provider.
 - Cloud gives organizations the ability to start small and grow organically instead of having to guess at what is needed next week, next month, and next year.
 
+### Private cloud, hybrid cloud, and multi-cloud strategies
+Let’s explore the definitions of private, hybrid, and multi-cloud, and when an organization might choose each approach.
+
+#### Private cloud
+It is when an organization has virtualized servers in its own data centers, or those of a private cloud provider, to create its own private dedicated environment.
+
+On-premises servers are also often referred to as private clouds, but generally the distinction can be made that on-premises software runs in a local environment, whereas a private cloud is accessed through the internet.
+
+Private cloud computing gives an organization many of the benefits of a public cloud — including self-service, scalability, and elasticity — with more customization available than from dedicated on-premises infrastructure.
+
+Running apps on-premises Organizations may have regulated applications that must remain on-premises or mainframe systems that are difficult to move to the cloud.
 
 
+
+
+
+#### Hybrid cloud
+It is when applications are running in a combination of different environments. The most common example is combining a private and public cloud environment.
+
+It is one of the most common infrastructure setups today because organizations can continue to use their on-premises servers while also taking advantage of public cloud. 
+
+This approach is often used when an organization has already made significant infrastructure investments, or if, for regulatory reasons, data must be kept on-premises.
+
+With a hybrid cloud, organizations can migrate applications to the cloud at the pace that makes sense for their business and transform their technical infrastructure over time.
+
+Adopting a hybrid solution is an effective way for an organization to ensure compliance with regional data governance, residency, or digital sovereignty requirements.
+
+A hybrid approach provides the freedom to innovate while still meeting 
+
+#### Multicloud
+It when there is a combination of at least two public cloud providers.
+
+An organization might choose multicloud if they want to take advantage of the key strengths of different public cloud providers. Organizations may also operate a combination of on-premises and multiple public cloud environments, effectively being both hybrid and multicloud simultaneously. 
+
+ Running workloads in multiple clouds empowers organizations to leverage the latest innovations and capabilities from each cloud provider, thus taking a best-in-class approach to cloud features and obtaining the scale, security, and agility to innovate fast.
+
+ It also avoids vendor lock-in concerns. Improve reliability and resiliency Organizations can distribute core workloads across multiple cloud and on-premises infrastructures to reduce downtime and and concerns about over-dependence on a single source of failure. 
 
 ## Cloud Computing Models and Shared Responsibility
 
