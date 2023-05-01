@@ -410,6 +410,17 @@ Internet Protocol
 - A domain name is an easy-to-remember name that maps directly to an IP address or set of IP addresses on the internet.
 - A DNS server stores a database of domain names mapped to IP addresses that can be queried and used by computers to communicate with each other.
 
+### Network performance: Bandwidth and latency
+Bandwidth
+- measure of how much data a network can transfer in a given amount of time.
+- typically measured in terms of “megabits per second” (or Mbps) or “gigabits per second” (or Gbps).
+- Eg The bandwidth would be the volume of water a pipe can handle flowing through per second. A wider pipe can handle more water. 
+
+Network latency 
+- It is the amount of time it takes for data to travel from one point to another.
+- It is the delay in network communication. It shows the time that data takes to transfer across the network.
+- Often measured in milliseconds
+- It’s a result of the physical distance that data must travel
 
 
 ## Cloud Computing Models and Shared Responsibility
