@@ -368,9 +368,6 @@ Private cloud computing gives an organization many of the benefits of a public c
 Running apps on-premises Organizations may have regulated applications that must remain on-premises or mainframe systems that are difficult to move to the cloud.
 
 
-
-
-
 #### Hybrid cloud
 It is when applications are running in a combination of different environments. The most common example is combining a private and public cloud environment.
 
@@ -389,9 +386,31 @@ It when there is a combination of at least two public cloud providers.
 
 An organization might choose multicloud if they want to take advantage of the key strengths of different public cloud providers. Organizations may also operate a combination of on-premises and multiple public cloud environments, effectively being both hybrid and multicloud simultaneously. 
 
- Running workloads in multiple clouds empowers organizations to leverage the latest innovations and capabilities from each cloud provider, thus taking a best-in-class approach to cloud features and obtaining the scale, security, and agility to innovate fast.
+Running workloads in multiple clouds empowers organizations to leverage the latest innovations and capabilities from each cloud provider, thus taking a best-in-class approach to cloud features and obtaining the scale, security, and agility to innovate fast.
 
- It also avoids vendor lock-in concerns. Improve reliability and resiliency Organizations can distribute core workloads across multiple cloud and on-premises infrastructures to reduce downtime and and concerns about over-dependence on a single source of failure. 
+It also avoids vendor lock-in concerns. Improve reliability and resiliency Organizations can distribute core workloads across multiple cloud and on-premises infrastructures to reduce downtime and and concerns about over-dependence on a single source of failure. 
+
+### How a network supports digital transformation
+how does a reliable networking architecture support a digital transformation strategy? A fast, reliable, and low-latency global network ensures exceptional user experience and high performance.
+
+Fiber-optic cables
+- contain one or more optical fibers
+- The fibers are used to transmit data as pulses of light over long distances.
+
+Subsea fiber-optic cables
+- carry 99% of international network traffic
+- a single cable can deliver a whopping 340 Terabits per second. So, almost everyhting depends on data traffic that moves through international network infrastructure
+
+Internet service providers (or ISPs)
+- provide access to the internet to both personal and business customers, handling the traffic between the customer and the internet as a whole.
+- Google has it own network of fiber-optic cables that run on both land and sea. This network connects Google's data centers and points of presence like highways connect major cities.
+
+Internet Protocol
+- It is a series of numbers that can identify a network or the location of a particular device on a network
+- A domain name is an easy-to-remember name that maps directly to an IP address or set of IP addresses on the internet.
+- A DNS server stores a database of domain names mapped to IP addresses that can be queried and used by computers to communicate with each other.
+
+
 
 ## Cloud Computing Models and Shared Responsibility
 
