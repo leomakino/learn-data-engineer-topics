@@ -422,6 +422,22 @@ Network latency
 - Often measured in milliseconds
 - It’s a result of the physical distance that data must travel
 
+### Regions and zones
+Google Cloud’s infrastructure is based in five major geographic locations: North America, South America, Europe, Asia, and Australia.
+
+Having multiple service locations is important because choosing where to locate applications affects qualities like availability, durability, and latency, the latter of which measures the time a packet of information takes to travel from its source to its destination. 
+
+Each of these locations is divided into several different regions and zones. 
+
+**Regions** represent independent geographic areas and are composed of zones.
+- For example, London, or europe-west2, is a region that currently comprises three different zones.
+
+A **zone** is an area where Google Cloud resources are deployed.
+
+### Edge network
+A network's edge is defined as a place where a device or an organization's network connects to the Internet.
+
+It's called "the edge" because it's the entry point to the network. Google's Edge Network is how we connect with ISPs to get traffic to and from users.
 
 ## Cloud Computing Models and Shared Responsibility
 
