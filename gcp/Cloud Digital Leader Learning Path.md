@@ -440,5 +440,22 @@ A network's edge is defined as a place where a device or an organization's netwo
 It's called "the edge" because it's the entry point to the network. Google's Edge Network is how we connect with ISPs to get traffic to and from users.
 
 ## Cloud Computing Models and Shared Responsibility
+### Cloud computing service models
+Cloud computing service models:
+1. Infrastructure as a Service (IaaS): offers infrastructure resources
+2. Platform as a Service (PaaS): offers a develop-and-deploy environment to build cloud apps
+3. Software as a Service (SaaS): delivers complete applications 
 
+”As a service” refers to the way IT resources are consumed in these models, and is a key difference between cloud computing and traditional IT.
+
+When it's completely *on-premises*, the organizations are responsible for all of their IT infrastructure. In *cloud computing*, the cloud service provider owns, manages, and maintains the resources.
+
+As you move up the layers from one model to another, each model requires less knowledge and management of the underlying infrastructure.
+This concept is called abstraction. In cloud architecture, as the level of abstraction increases, less is known about the underlying implementation. The goal of "abstracting away” infrastructure is to reduce complexity by removing unnecessary information and simplifying operations. 
+
+Abstraction is one of the core features of cloud computing.
+
+### Shared responsability
+
+The levels of **responsibility** between an organization and their cloud service provider **vary depending on which model is used**.
 ## Course Summary
