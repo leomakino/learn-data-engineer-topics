@@ -489,4 +489,4 @@ what scenarios would IaaS be good for? Organizations that :
 - Build flexible solutions that aren't possible with PaaS or SaaS.
 
 ### PaaS - Platform as a Service
-
+Platform as a Service, or PaaS, is a computing model that offers a cloud-based platform for developing, running, and managing applications.
