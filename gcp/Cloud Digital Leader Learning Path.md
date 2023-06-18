@@ -488,3 +488,5 @@ what scenarios would IaaS be good for? Organizations that :
 - Have high business growth that outpaces infrastructure capabilities.
 - Build flexible solutions that aren't possible with PaaS or SaaS.
 
+### PaaS - Platform as a Service
+
