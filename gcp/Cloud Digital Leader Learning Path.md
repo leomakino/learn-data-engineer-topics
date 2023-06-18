@@ -459,3 +459,32 @@ Abstraction is one of the core features of cloud computing.
 
 The levels of **responsibility** between an organization and their cloud service provider **vary depending on which model is used**.
 ## Course Summary
+
+### IaaS - Infrastructure as a service
+IaaS is a computing model that offers the on-demand availability of scalable infrastructure resources, such as:
+- compute, e.g.: Compute Engine;
+- networking;
+- storage, e.g.: Cloud Storage;
+- databases.
+
+IaaS allows organizations to lease the resources they need without having to physically maintain or manage all of it, and they only pay for what they use.
+
+
+
+Advantages:
+- One of the main reasons businesses choose IaaS is to reduce their capital expenditures and transform them into operational expenses.
+- allows organizations to lease the resources they need without having to physically maintain or manage all of it, and they only pay for what they use.
+- Offered as individual services.
+- traditional way is challenging to scale when demand spikes or business grows. Cloud compute can scale the resources up and down rapidly rapidly according to business needs.
+- It’s economical, efficient, reliable, and boosts productivity.
+- flexibility to use the hardware as developers want, e.g. VM to install whatever the project needs, to achieve the solution.
+
+Notes:
+- Even being economical, unexpected cost can happen. It can be because of the intense use of the service, which are simple and easy to deploy.
+
+what scenarios would IaaS be good for? Organizations that :
+- Have unpredictable workload volumes or need to move quickly in response to business fluctuations.
+- Require more infrastructure scalability and agility
+- Have high business growth that outpaces infrastructure capabilities.
+- Build flexible solutions that aren't possible with PaaS or SaaS.
+
