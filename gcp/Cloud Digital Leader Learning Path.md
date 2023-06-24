@@ -489,4 +489,20 @@ what scenarios would IaaS be good for? Organizations that :
 - Build flexible solutions that aren't possible with PaaS or SaaS.
 
 ### PaaS - Platform as a Service
-Platform as a Service, or PaaS, is a computing model that offers a cloud-based platform for developing, running, and managing applications.
+Platform as a Service (PaaS) is a computing model that offers a cloud-based platform for developing, running, and managing applications. 
+
+it provides a platform for developers to develop, run, and manage their own apps without having to build and maintain the associated infrastructure.
+
+It is possible to use built-in software components to build their applications, which reduces the amount of code they have to write. Examples: Cloud Run and BigQuery.
+
+benefits of PaaS: 
+- It reduces development time: Developers can go straight to coding instead of spending time setting up and maintaining a development environment;
+- Scalable: additional capacity for building, testing, staging, and running applications whenever they need it
+- It reduces management.
+- it's flexible: support for different programming languages and easy collaboration for distributed teams
+
+
+what scenarios would PaaS be good for?
+- PaaS is suitable for organizations that: Want to create unique and custom applications without investing a lot in owning and managing infrastructure.
+- Want to rapidly test and deploy applications.
+- Have many legacy applications and want to reduce the cost of operations.
