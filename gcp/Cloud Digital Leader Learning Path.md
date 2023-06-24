@@ -506,3 +506,17 @@ what scenarios would PaaS be good for?
 - PaaS is suitable for organizations that: Want to create unique and custom applications without investing a lot in owning and managing infrastructure.
 - Want to rapidly test and deploy applications.
 - Have many legacy applications and want to reduce the cost of operations.
+
+### SaaS - Software as a Service
+Software as a service (SaaS) is a computing model that offers an entire application, managed by a cloud provider, through a web browser.
+
+SaaS is appealing because it abstracts technology completely from the consumer;
+
+Organizations simply pay a subscription fee for access to a ready-to-use software product.
+
+Examples, Google Workspace: Gmail, Google Drive, Google Docs, and Google Meet.
+
+It's low maintenance. It's cost-effective. It's flexible.
+
+what scenarios would SaaS be good for?
+SaaS is suitable for organizations that: Want to use standard software solutions that require minimal customization
