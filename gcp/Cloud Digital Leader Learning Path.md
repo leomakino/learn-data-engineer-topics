@@ -520,3 +520,20 @@ It's low maintenance. It's cost-effective. It's flexible.
 
 what scenarios would SaaS be good for?
 SaaS is suitable for organizations that: Want to use standard software solutions that require minimal customization
+
+### Choosing a cloud computing model
+How does an organization decide which cloud computing model is the best option for them?
+- depends on their business **needs**;
+- required **functionality**;
+- and available **expertise**.
+
+**IaaS** matches with highly flexible, scalable service while maintaining control of their infrastructure; It offers the most control and customization, but also requires the most management responsibilities and technical expertise.
+
+**PaaS** matches with building software products through a designed platform; It offers a cost-effective way to build applications but still requires some technical expertise and less management; complete control over application features.
+
+**SaaS** matches with  features that are ready to use, without installations; It is the option with the least management responsibilities and technical expertise, but also offers the least control and customization; No control over features and functionality
+
+Depending on the the use case, orgnizations will use **combinations of all three** to solve different business needs.
+
+Some relevant cloud computig model variables for choosing are:
+- management level, control, responsibility, flexibility, and expertise needed.
