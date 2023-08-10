@@ -537,3 +537,24 @@ Depending on the the use case, orgnizations will use **combinations of all three
 
 Some relevant cloud computig model variables for choosing are:
 - management level, control, responsibility, flexibility, and expertise needed.
+
+### Shared responsibility model
+It is when an organization moves its infrastructure to the cloud and consequentially shifts some aspects of the responsibility to the cloud provider.
+
+**Security** in the cloud is a **shared responsibility** between the cloud provider and the customer.
+
+Organizations are awayes in control of securing their data, and the cloud provider is always responsible for securing the infrastructure.
+
+Security **of the** cloud and security **in the** cloud are two **different** things: 
+- Provider is responsible for the security **of the** cloud
+- Customer is responsible for the security **in the** cloud
+
+According to a Gartner report, 99% of all cloud security failures will result from user error through the year 2025.
+
+It's possible to note where the cloud provider's responsibility ends and where the customer's responsibility begins. A general guideline is "if you configure or store it, you're responsible for securing it."
+
+There are ratios of responsibilities between service provider and customers. In the Google Cloud the customer resposabilities follows as below:
+- SaaS: Content, Access Policies
+- PaaS: Content, Access Policies, Usage, Deployment, Web app security
+- IaaS: Content, Access Policies, Usage, Deployment, Web app security, Identify, Operations, Access and authentication, Network security, Gust OS, data & content.
+- On-prem: Content, Access Policies, Usage, Deployment, Web app security, Identify, Operations, Access and authentication, Network security, Gust OS, data & content, Audit logging, Network, Storage + encryption, Hardned Kernel + IPC, Boot, Hardware, Physical security.
