@@ -554,7 +554,7 @@ According to a Gartner report, 99% of all cloud security failures will result fr
 It's possible to note where the cloud provider's responsibility ends and where the customer's responsibility begins. A general guideline is "if you configure or store it, you're responsible for securing it."
 
 There are ratios of responsibilities between service provider and customers. In the Google Cloud the customer resposabilities follows as below:
-- SaaS: Content, Access Policies
+- SaaS: Content, Access Policies. *Note: Customers still have security responsibilities, such as application usage, access policies like authentication settings to prevent phishing attacks, and the user content.*
 - PaaS: Content, Access Policies, Usage, Deployment, Web app security
 - IaaS: Content, Access Policies, Usage, Deployment, Web app security, Identify, Operations, Access and authentication, Network security, Gust OS, data & content.
 - On-prem: Content, Access Policies, Usage, Deployment, Web app security, Identify, Operations, Access and authentication, Network security, Gust OS, data & content, Audit logging, Network, Storage + encryption, Hardned Kernel + IPC, Boot, Hardware, Physical security.
