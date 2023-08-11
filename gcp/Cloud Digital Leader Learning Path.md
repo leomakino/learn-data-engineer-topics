@@ -564,3 +564,5 @@ There are ratios of responsibilities between service provider and customers. In 
 2. Customers is always responsible for securing anything that they create within the cloud.
 3. low maintenance needs matches with Software as a Service
 4. PaaS offers a develop-and-deploy environment to build cloud applications
+
+[Badge/certificate link](https://www.cloudskillsboost.google/public_profiles/df12cccb-f9e9-4496-b1bb-4535c570aeed/badges/4652829)
