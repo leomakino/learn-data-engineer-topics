@@ -558,3 +558,9 @@ There are ratios of responsibilities between service provider and customers. In 
 - PaaS: Content, Access Policies, Usage, Deployment, Web app security
 - IaaS: Content, Access Policies, Usage, Deployment, Web app security, Identify, Operations, Access and authentication, Network security, Gust OS, data & content.
 - On-prem: Content, Access Policies, Usage, Deployment, Web app security, Identify, Operations, Access and authentication, Network security, Gust OS, data & content, Audit logging, Network, Storage + encryption, Hardned Kernel + IPC, Boot, Hardware, Physical security.
+
+### Quiz Answers
+1. IaaS is efficient, as IaaS resources are available when needed and resources aren’t wasted by overbuilding capacity.
+2. Customers is always responsible for securing anything that they create within the cloud.
+3. low maintenance needs matches with Software as a Service
+4. PaaS offers a develop-and-deploy environment to build cloud applications
