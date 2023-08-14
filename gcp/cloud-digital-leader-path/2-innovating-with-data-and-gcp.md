@@ -11,13 +11,13 @@ Course summary:
 ## The Value of Data
 
 Traditional IT infrastructures faces several limitations about data, like:
-- Processing volumes and varieties of new data,
-- finding cost effective solutions,
-- scaling resourcecapacity up and down,
-- accessing historical data,
+- Processing volumes and varieties of new data;
+- finding cost effective solutions, e.g. setting up and maintaining data centers;
+- scaling resource capacity up and down, e.g. regulating their capacity globally, especially during peak demand times throughout the year;
+- accessing historical data;
 - and deriving insights from historical and new data.
 
-Businesses now have access to data like never before, internal information and external information and capturing and leveraging internal and external data is central to unlock business value.
+Businesses now have access to data like never before, internal information (e.g. organization digitized operations) and external information (e.g. benchmarking reports) and capturing and leveraging internal and external data is central to unlock business value (e.g. accurate insights and predict behavior to solve problems).
 
 With Cloud technology, businesses can consume, store and process terabytes of data in real-time, and run queries instantly. Google Cloud offers:
 - Economies of scale
