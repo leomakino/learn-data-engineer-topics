@@ -27,6 +27,9 @@ With Cloud technology, businesses can consume, store and process terabytes of da
 - data centers across a global network, which creates resilience against data loss or service disruption.
 
 A data map is a chart of all the data used in end-to-end business processes.
+- User data: This category contains all data from customers who use or purchase your services and products.
+- corporate data: This category includes data about the company such as sales patterns and operations. E.g. overall sales performance of each store, and store staffing structure.
+- industry data: it is the data found outside of an individual organization that everyone in the sector needs to view or access to gain knowledge about a specific domain. E.g. trends, purchasing patterns, and publicly available research papers
 
 Data can be categorized in two main types:
 1. Structured: Can be easily stored and managed in databases, it's tabular data.
