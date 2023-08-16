@@ -37,9 +37,13 @@ Data can be categorized in two main types:
     1. Semi-structured: it contains fields, which don't have to be the same in every entity and are defined according of use. E.g.: JSON, ORC, Parquet
     1. Unstructured data is the data that doesn't naturally contain fields. E.g. video, audio; they are stored in a format called BLOB (Binary Large OBject).
 
+Data is stored as objects (blobs) in the data lake. An object consists of the data itself, a variable amount of metadata, and a globally unique identifier.
+
 With the right cloud tools, businesses can extract value from unstructured data by using APIs to create structure.
 
 APIs are a set of functions that integrate different platforms, with different types of data.
+
+Any conversation about data needs to include a reference to security, privacy, compliance, and ethics.
 
 Personal or sensitive data about a customer or an employee need to be securely collected, encrypted when stored in the cloud, and protected from external threats.
 
