@@ -45,8 +45,12 @@ APIs are a set of functions that integrate different platforms, with different t
 
 Any conversation about data needs to include a reference to security, privacy, compliance, and ethics.
 
-Personal or sensitive data about a customer or an employee need to be securely collected, encrypted when stored in the cloud, and protected from external threats.
+Personal or sensitive data about a customer or an employee need to be securely collected, encrypted when stored in the cloud, and protected from external threats. Further, only a subset of users should be granted permission to view or access the private data.
+
+Regional or industry-specific regulations often guide data policies. GCP offers a range of solutions and best practice resources that companies can leverage.
 
 Ethical and fair considerations are important when working with AI and machine learning.
 
 Human bias can influence the way datasets are collected, combined and used. It's important to include strategies to remove unconsicious biases when leveraging data to build business value
+
+## Data Consolidation and Analytics
