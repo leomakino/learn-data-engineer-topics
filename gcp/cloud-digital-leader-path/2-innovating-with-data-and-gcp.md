@@ -53,4 +53,11 @@ Ethical and fair considerations are important when working with AI and machine l
 
 Human bias can influence the way datasets are collected, combined and used. It's important to include strategies to remove unconsicious biases when leveraging data to build business value
 
+Quiz Answer:
+1. It is required to operate efficiently at all the time. The alternative that corroborate with this requirement is "Evaluate real-time data to predict maintenance requirements"
+1.  For traditional enterprises, the key benefits of using cloud technology to unlock value from data are: process terabytes of data in real-time; query data and retrieve results instantly
+1. Learner demographics, their purchases, and browsing history can be stored in the corporate data
+1. Education and Years of experience are appropriate and relavant data to improve recruitment efficiency using machine learning.
+1. Images and videos are example of unstrustured data.
+
 ## Data Consolidation and Analytics
