@@ -61,3 +61,48 @@ Quiz Answer:
 1. Images and videos are example of unstrustured data.
 
 ## Data Consolidation and Analytics
+
+### Migrating data to the cloud
+
+When the company stores data on-premises
+    - It is responsible for the IT infrastructure, security, processing the data, maintaining and expading the capacity of the IT infrastructure.
+    - Risk downtime, resulting in dissatisfied users.
+When the company stores data on cloud
+    - The company 'rent' space from Google Cloud
+    - Data storage and compute power is elastic
+    - Cloud provides speed to ingest and use data.
+
+### Databases, data warehouses, and data lakes
+#### *What is a database?*
+A organized (relational) collection of data, generally stored in tables. Databases are built and optimized to enable ingesting large amounts of data from many different sources.
+
+Data management priorities:
+- Data integrity: 
+    - Data integrity, also transactional integrity, refers to the accuracy and consistency of data stored in a database.
+    - It is achieved by implementing a set of rules when a database is first designed and through ongoing error checking and validation routines as data is collected.
+- Scale
+
+The **Cloud SQL** is a fully managed relational database management service (RDBMS). It offers security, availability, and durability, and **storage scales up automatically** *when enabled*.
+
+The **Cloud Spanner** is another fully managed database service, and it's designed for global scale. With this service, data is automatically copied across regions. This replication means that if one region goes offline, the data can still be retrieved from another region.
+
+With Google Cloud databases, businesses can build and deploy faster, deliver applications, and maintain portability and control their data.
+
+#### *What is Data warehouse?*
+Data warehouse is a system used for reporting and data analysis, Also:
+- It is used for creating analytical reports.
+- Data warehouses can assemble data from multiple sources including databases.
+- It is build to enable rapid analysis of large and multi-dimensional datasets.
+- In other words, it is a central hub for all business data.
+- Different types of data can be transformed and consolidated into the warehouse so that they are useful for analysis.
+- It allows consolidating data that is structured and semi-structured. 
+    - When combined with connector tools, DW can transform unstructured data into semi-structured data that can be used for analysis
+    - Pub/Sub and DataFlow can work together to bring unstructured data into the cloud and transform it into semi-structured data.
+
+Most data warehouse providers link storage and compute together, so customers are charged for compute capacity whether they are running a query or not.
+
+The BigQuery is serveless, it means that resources are automatically provisioned behind the scenes as needed to run queries. So businesses do not pay for compute power unless they are actually running a query.
+
+#### *What is a Data lake?*
+A Data lake is a repository for raw data and tend to serve many purposes, such as:
+- Hold 'back-up' data which helps businesses
