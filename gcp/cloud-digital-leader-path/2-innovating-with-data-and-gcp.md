@@ -105,4 +105,23 @@ The BigQuery is serveless, it means that resources are automatically provisioned
 
 #### *What is a Data lake?*
 A Data lake is a repository for raw data and tend to serve many purposes, such as:
-- Hold 'back-up' data which helps businesses
+- Hold 'back-up' data which helps businesses build resilience against unexpected harm affecting the data.
+- protect against data loss
+
+Cloud Storage:
+- Any amount of data
+- Low latency
+- Accessible from anywhere
+- Multi-regional storage
+- Regional storage is ideal when an organization wants to use the data locally.
+
+One way to classify an organization's requirements for storage is by how often they need to access the data.
+
+For data that will be accessed less often:
+- Nearline
+- Coldline
+- Archive storage
+
+Looker:
+- It is the Google Cloud BI solution.
+- Analyse, explore and create visualiations
