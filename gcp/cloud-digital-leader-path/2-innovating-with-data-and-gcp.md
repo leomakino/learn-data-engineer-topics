@@ -61,7 +61,15 @@ Quiz Answer:
 1. Images and videos are example of unstrustured data.
 
 ## Data Consolidation and Analytics
+In the previous module, I learned that unlocking the value of data is central to digital transformation.
 
+It was discussed the different types of data that businesses can access, and how you can combine them to generate insights and take intelligent action.
+
+This module will start by considering where data is now and the benefits of migrating your data to the Cloud.
+
+Then it will define key terms related to data storage, including database, data warehouse, and data lake.
+
+Finally, it will close the module by exploring business intelligence solutions like Looker
 ### Migrating data to the cloud
 
 When the company stores data on-premises
