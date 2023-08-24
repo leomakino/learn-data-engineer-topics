@@ -88,9 +88,11 @@ Data management priorities:
 - Data integrity: 
     - Data integrity, also transactional integrity, refers to the accuracy and consistency of data stored in a database.
     - It is achieved by implementing a set of rules when a database is first designed and through ongoing error checking and validation routines as data is collected.
-- Scale
+- Scale: transactional integrity at scale
 
 The **Cloud SQL** is a fully managed relational database management service (RDBMS). It offers security, availability, and durability, and **storage scales up automatically** *when enabled*.
+
+Cloud SQL is recommended for  databases that serve websites, for operational applications for e-commerce, and to feed into report and chart creation that informs BI.
 
 The **Cloud Spanner** is another fully managed database service, and it's designed for global scale. With this service, data is automatically copied across regions. This replication means that if one region goes offline, the data can still be retrieved from another region.
 
@@ -98,7 +100,7 @@ With Google Cloud databases, businesses can build and deploy faster, deliver app
 
 #### *What is Data warehouse?*
 Data warehouse is a system used for reporting and data analysis, Also:
-- It is used for creating analytical reports.
+- It is used for creating analytical reports, unlocking insights, and taking itelligent actions.
 - Data warehouses can assemble data from multiple sources including databases.
 - It is build to enable rapid analysis of large and multi-dimensional datasets.
 - In other words, it is a central hub for all business data.
