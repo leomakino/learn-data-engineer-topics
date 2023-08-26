@@ -88,15 +88,22 @@ Data management priorities:
 - Data integrity: 
     - Data integrity, also transactional integrity, refers to the accuracy and consistency of data stored in a database.
     - It is achieved by implementing a set of rules when a database is first designed and through ongoing error checking and validation routines as data is collected.
-- Scale: transactional integrity at scale
+- Scale: transactional integrity at scale.
+    - Three different types of data management systems, databases, data warehouses and data lakes. Each delivers value to businesses in different ways, enabling them to leverage data at **scale**.
 
-The **Cloud SQL** is a fully managed relational database management service (RDBMS). It offers security, availability, and durability, and **storage scales up automatically** *when enabled*.
+The **Cloud SQL** is a fully managed relational database management service (RDBMS). 
+- It offers security, availability, and durability, and **storage scales up automatically** *when enabled*.
+- It is compatible with common database management systems and methodologies.
 
 Cloud SQL is recommended for  databases that serve websites, for operational applications for e-commerce, and to feed into report and chart creation that informs BI.
 
-The **Cloud Spanner** is another fully managed database service, and it's designed for global scale. With this service, data is automatically copied across regions. This replication means that if one region goes offline, the data can still be retrieved from another region.
+The **Cloud Spanner** is another fully managed database service, and it's designed for global scale. 
+- With this service, data is automatically copied across regions. This replication means that if one region goes offline, the data can still be retrieved from another region.
+- It provides strong consistency, massive scalability, and enterprise-grade security.
+- It is ideal for mission-critical **online transaction** processing because it's all managed
+- It dramatically reduces the operational overhead needed to keep the database online and serving traffic.
 
-With Google Cloud databases, businesses can build and deploy faster, deliver applications, and maintain portability and control their data.
+With Google Cloud databases, businesses can build and deploy faster, deliver applications, and maintain portability and control their data. Cloud Storage and Cloud Spanner are databases that enable customers to manage high volume of transactional data.
 
 #### *What is Data warehouse?*
 Data warehouse is a system used for reporting and data analysis, Also:
@@ -111,27 +118,62 @@ Data warehouse is a system used for reporting and data analysis, Also:
 
 Most data warehouse providers link storage and compute together, so customers are charged for compute capacity whether they are running a query or not.
 
-The BigQuery is serveless, it means that resources are automatically provisioned behind the scenes as needed to run queries. So businesses do not pay for compute power unless they are actually running a query.
+Bigquery:
+- is a fully-managed data warehouse with downtime free upgrades and maintence and seamless scaling.
+- it allows to analyze petabytes of data
+- It is serveless, it means that resources are automatically provisioned behind the scenes as needed to run queries. So businesses do not pay for compute power unless they are actually running a query.
+
 
 #### *What is a Data lake?*
 A Data lake is a repository for raw data and tend to serve many purposes, such as:
+- store, process, and secure large amounts of structured, semi-structured and unstructured data.
 - Hold 'back-up' data which helps businesses build resilience against unexpected harm affecting the data.
 - protect against data loss
 
-Cloud Storage:
+Data lakes are often made up of many different products. When determinating which product to use for the data lake, it's important to consider the nature of the data being ingested. The summary below shows the appropriate Google cloud storage products based on data type:
+- **Structured**: Cloud SQL, Cloud Spanner, BigQuery
+- **Semi-structured**: Cloud datastore, Cloud BigTable
+- **Unstructured**: Cloud storage.
+
+Cloud Storage is a service that enables the company to store and serve binary large object (Blob data). Some of the key benefits of Google cloud storage are :
 - Any amount of data
 - Low latency
 - Accessible from anywhere
 - Multi-regional storage
 - Regional storage is ideal when an organization wants to use the data locally.
 
+
+Cloud storage provides organizations with different options of storing objects.
 One way to classify an organization's requirements for storage is by how often they need to access the data.
 
-For data that will be accessed less often:
-- Nearline
-- Coldline
-- Archive storage
+For data that will be accessed less often, cloud storage offers nearline, coldline, and archive storage classes.
+1. **Nearline**: It's best for data you don't expect to access more than once per month.
+1. **Coldline**: It's best for data you plan to access at most once per 90 days or quarter.
+1. **Archive**: It's best for data you plan to access at most once per year.
 
-Looker:
-- It is the Google Cloud BI solution.
-- Analyse, explore and create visualiations
+#### Some ingest tools
+**Pub/Sub** is a service for real-time ingestion of data
+**Dataflow** is a service for large scale processing of data
+
+Pub/Sub and Dataflow, can work together to bring unstructured data into the Cloud and transform it into semi-structured data.
+
+This transformed data can then be sent directly from Dataflow to BigQuery, where it becomes immediately available for analysis.
+
+
+#### BI solutions
+business intelligence solutions serves data in the form of insights.
+
+The challenge businesses often face is identifying the right business intelligence solution.
+
+
+Looker is a Google Cloud business intelligence solution.
+-  it's a data platform that sits on top of an analytics database and makes it simple to describe your data and define business metrics.
+- Analyse, explore, create visualiations, etc.
+
+#### Quizz Notes
+1. Data integrity is achieved by implementing a set of rules when a database is first designed and through ongoing error checking and validation routines as data is collected
+1. Databases efficiently ingest large amounts of real-time data, while data wharehouses rapidly analyze multi-dimensional datasets.
+1. A data lake is a repository of raw data and tend to hold 'back up' data
+1. The advantages for storing and managing data in the public cloud are: Elasticity and speed.
+1. A solution for an organization that needs to store, do complex queries, and perform dataanalysis on large amounts of structured and semi-structured data is the Bigquery
+1. Looker can be used to use it to create real-time dashboards of a large hotel chain and serve it for its customers.
