@@ -165,7 +165,6 @@ business intelligence solutions serves data in the form of insights.
 
 The challenge businesses often face is identifying the right business intelligence solution.
 
-
 Looker is a Google Cloud business intelligence solution.
 -  it's a data platform that sits on top of an analytics database and makes it simple to describe your data and define business metrics.
 - Analyse, explore, create visualiations, etc.
@@ -177,3 +176,21 @@ Looker is a Google Cloud business intelligence solution.
 1. The advantages for storing and managing data in the public cloud are: Elasticity and speed.
 1. A solution for an organization that needs to store, do complex queries, and perform dataanalysis on large amounts of structured and semi-structured data is the Bigquery
 1. Looker can be used to use it to create real-time dashboards of a large hotel chain and serve it for its customers.
+
+## Innovation with Machine Learning
+
+### ML and AI definition
+
+Artificial Intelligence (AI) is the term that describes any kind of machine of acting autonomously.
+
+Machine Learning (ML) is a branch in the field of AI that computers can "learn" from data without using a complex set of rules. In this course, it is a way to use standard algorithms or standard models to analyze data in order to derive predictive insights and **make repeated decisions at scale**.
+
+The accuracy of those predictios depends on large volume of data that are free of bugs.
+
+Bugs in ML are often caused by bugs in the data. In ML, even though, there can be bugs in the implementation of an algorithm, bugs are far more common in data.
+
+
+
+### Data Quality
+
+### AI and ML with Google Cloud
