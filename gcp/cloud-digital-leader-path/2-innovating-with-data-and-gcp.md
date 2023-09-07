@@ -181,6 +181,8 @@ Looker is a Google Cloud business intelligence solution.
 
 ### ML and AI definition
 
+Most data analysis in s organization is probably backward looking analysis of historical data to calculate metrics or identify trends. The AI and ML allow business to create value using data to make decisions for **future business**. In other words, AI and ML, allow to make predictive insights.
+
 Artificial Intelligence (AI) is the term that describes any kind of machine of acting autonomously.
 
 Machine Learning (ML) is a branch in the field of AI that computers can "learn" from data without using a complex set of rules. In this course, it is a way to use standard algorithms or standard models to analyze data in order to derive predictive insights and **make repeated decisions at scale**.
@@ -193,4 +195,18 @@ Bugs in ML are often caused by bugs in the data. In ML, even though, there can b
 
 ### Data Quality
 
+1. Data Coverage refers to the domain scope and all possible scenarios the data can account for.
+1. Data cleanliness or data consistency involves "dirt" or "inconsistency" in data that can prevent the model from making accurate predictions or understanding data behavior.
+1. Data completeness refers to the availability of sufficient data about the world to replace human knowledge.
+
+
 ### AI and ML with Google Cloud
+Google Cloud AI Platform is a unified, simply managed platform that makes ML easy to adopt by analysts and developers.
+- **TensorFlow** has a comprehensive, flexible ecosystem of tools, libraries and community resources. It takes advantage of Tensor Processing Units (TPU), hardware devices designed to accelerate ML workloads. Pay only for what you use.
+- **AI Hub** is a hosted repository of plug-and-play AI components, including end-to-end AI pipelines and out-of-the-box Algorithms.
+
+ML is uniquely placed to create new business value when it can learn from data to automate action and processes, and to customize responses to behavior. The four common business problems that ML is particularly suited to solving are:
+- Replacing rule-based systems
+- Automating processes
+- Understanding unstructured data
+- Personalizing applications
