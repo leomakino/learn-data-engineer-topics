@@ -195,9 +195,30 @@ Bugs in ML are often caused by bugs in the data. In ML, even though, there can b
 
 ### Data Quality
 
-1. Data Coverage refers to the domain scope and all possible scenarios the data can account for.
-1. Data cleanliness or data consistency involves "dirt" or "inconsistency" in data that can prevent the model from making accurate predictions or understanding data behavior.
-1. Data completeness refers to the availability of sufficient data about the world to replace human knowledge.
+ML is a way to use standard algorithms or models to analyze data.
+
+The analyzed data can be used to derive predictive insights and make repeated decisions.
+
+The accuracy of those predictions, however, depend on large volumes of data that are free of bugs.
+
+In ML, bugs can occur in the implementation of an algorithm or in the data that has been used. 
+
+Bugs in data are far more common, that's why the importance of data quality.
+
+The best data has three qualities: (i) coverage, (ii) clean or consistent, and (iii) compleate.
+
+1. Data Coverage refers to the scope of a problem domain and all possible scenarios the data can account for. All the input and output data.
+1. Data cleanliness or data consistency. Data is considered "dirt" or "inconsistency" if it **includes or exclude** anything that might prevent an ML model from making accurate predictions or understanding data behavior. Examples:
+    - The simplest form of inconsistency in data is data format. 
+    - Images that are supposed to have shadows, that's ok. Otherwise the data is dirty.
+    - Incorrect labels
+    - If someone enters incorrect data in a date storage system.
+1. Data completeness refers to the availability of sufficient data about the world to replace human knowledge. Incomplete data, lack of information can limit the capability of the ML model results.** Anything the model can't see it assumes doesn't exist**. Examples:
+    - temperature is determinant to classify an defect, but the temperature is not provided.
+    - The lack of number of cases for all possible scenarios the data is intended to cover.
+
+Most of the data quality problems can be solved getting more data. Data is central to ML. It's necessary to account for as many possibilities when preparing the data before using ML.
+
 
 
 ### AI and ML with Google Cloud
