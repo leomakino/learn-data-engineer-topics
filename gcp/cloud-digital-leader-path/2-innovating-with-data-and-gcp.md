@@ -222,7 +222,33 @@ Most of the data quality problems can be solved getting more data. Data is centr
 
 
 ### AI and ML with Google Cloud
+ML is more accessible now than ever before. It's not necessary a robust technical team of data analysts, data engineers, and even ML engineers to leverage the capabilities of Cloud in ML.
+
 Google Cloud AI Platform is a unified, simply managed platform that makes ML easy to adopt by analysts and developers.
+
+There are a few questions to ask when starting a machine learning project.
+- Do you have your own training data?
+    - If not, you need to use some of **Google's pre-trained API** to solve your problem.
+    - If do, use services within **Vertex AI**, a unified managed platform for building ML using Google Cloud.
+- To identify what kind of models you're building, ask: Are you or your team writing the model code yourself?
+    - If not, then train an existing ML model with your own data.
+    - If you are, you will build a custom ML model and train it using your own data.
+
+Google Cloud pre-trained APIs
+- Fastest and lowest effort approach, but less customized.
+- It can be used used regardless of the level of ML expertise.
+- Access to ML models for common tasks like analyzing images, video and text.
+- Four categories: sight, language, conversation, and structured data.
+- E.g.:
+    1. **Vision API**. It offers pre-trained and ML models to automatically detect faces, objects, text, and even sentiment in images. Also, it can be used to assign labels to images and quickly classify them into millions of predefined categories.
+    1. **Natural Language API**. It discovers syntax entities in sentiment and text and classifies text into predefined categories.
+
+Vertex AI
+- It brings together Google Cloud Services for building ML under one unified user interface.
+- spend a little more time and effort on producing a more customized ML model.
+
+AutoML Natural Language lets you build and deploy custom machine-learning models that analyze and categorize documents and identify entities or assess attitudes within them.
+
 - **TensorFlow** has a comprehensive, flexible ecosystem of tools, libraries and community resources. It takes advantage of Tensor Processing Units (TPU), hardware devices designed to accelerate ML workloads. Pay only for what you use.
 - **AI Hub** is a hosted repository of plug-and-play AI components, including end-to-end AI pipelines and out-of-the-box Algorithms.
 
@@ -231,3 +257,11 @@ ML is uniquely placed to create new business value when it can learn from data t
 - Automating processes
 - Understanding unstructured data
 - Personalizing applications
+
+Quizz notes:
+1. Use ML to categorize product images and use it to make predictions without specialized data scientists or ML experts is a situation to use Google's API on Google Cloud's AI Hub.
+1. Use ML to predict when a new position would be filled is not suitable for ML because this is an infrequent decision for a specific role and department
+1. The three qualities of a bug-free data is coverage, completeness and cleanliness.
+1. ML is a subset of AI.
+1. Two common business problems that ML solves are (i) Creating personalized customer experiences and automating processes
+1. Completeness: The availability of sufficient data about the world to replace human knowledge.
