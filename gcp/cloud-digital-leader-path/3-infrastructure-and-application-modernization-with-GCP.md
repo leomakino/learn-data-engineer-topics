@@ -3,7 +3,9 @@ Many traditional enterprises use legacy systems and applications that often stru
 
 This course explores the challenges of an outdated IT infrastructure and how businesses can modernize it using cloud technology. It begins by exploring the different compute options available in the cloud and the benefits of each, before turning to application modernization and Application Programming Interfaces (APIs).
 
-## Infrastructure with GCP
+## Modernizing IT infrastructure
+
+### Introduction
 Consumer expectations over the last 20 years have radically changed. Customers now expect connected digital experiences in real time.
 
 Many businesses, especially large enterprises, built their IT infrastructure on premises.
@@ -21,3 +23,17 @@ Thw module three presents APIs and explain how they unlock value from legacy sys
 It will also cover Apache, a GCP for developing and managing APIs.
 
 Remember, it's not necessary to be an IT specialist to create new business value or to develop innovative services. By understanding how infrastructure, applications, and APIs work together, you can initiate conversations about new projects and be more knowledgeable about strategic planning for digital transformation.
+
+
+### Infrastructure modernization
+For most organizations, owning and operating infrastructure is often a burden. It limits an organization staff in several ways. For example, using legacy systems, the organization can not scale with any ease because the organization is locked into what its have on premises.
+
+One option for reducing this burden is to migrate to the cloud.
+
+### Available computer options
+
+
+### Private, hybrid and multi-cloud architectures
+
+
+### GCP Compute solutions
