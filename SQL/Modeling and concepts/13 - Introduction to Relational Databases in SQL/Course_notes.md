@@ -227,7 +227,7 @@ Dealing with violations: ON DELETE
 - *default option is no action*
 
 ## Data Integration
-What if your data is apread across different databases, formats, schemas and technologies?
+What if your data is spread across different databases, formats, schemas and technologies?
 
 Data Integration combines data from different sources, formats, technologies to provide users with a translated and unified view of that data.
 

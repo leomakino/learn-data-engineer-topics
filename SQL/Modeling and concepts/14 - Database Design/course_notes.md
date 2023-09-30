@@ -57,7 +57,7 @@ Example tasks:
 - Self-describing structure
 - e.g. NoSQL, XML, JSON
 
-**Traditional databases** for storing real-time relational structured data - OLPT
+**Traditional databases** for storing real-time relational structured data - OLTP
 
 **Data warehouses** for analyzing archived structured data - OLAP
 - Optimized for analytics (OLAP): organized for reading/aggregating data and usually read-only
@@ -291,7 +291,7 @@ Even when we-ve set indices correctly, these indices can become so large they do
 Data modeling refresher
 1. Conceptual data model
 2. Logical data model (*For partitioning, logical data model is the same*)
-3. Physical data model (*Partitioning is part of physucal data model*)
+3. Physical data model (*Partitioning is part of physical data model*)
 
 ## Vertical and Horizontal partitioning
 
