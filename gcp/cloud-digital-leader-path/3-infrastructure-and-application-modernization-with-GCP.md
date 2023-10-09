@@ -37,6 +37,8 @@ The first step in moving away from an on-premises infrastructure is colocation.
 
 A business sets up a large data center and then other organizations rent part of that data center. This means organizations no longer have to pay the costs associaited with hosting the infrastructure, but they still need to pay to maintain it.
 
+With both on premises and colocation, value creation only starts well after a substantial amount of capital expenditure or capex is committed.
+
 Hardware is often heavily under utilized, even in the colocation model, so engineers packaged applications and their operating systems into a virtual machine.
 
 Virtual machines share and optimize the same pool of computer processing, storage and networking resources. They enable businesses to have multiple applications running at the same time on a server.
