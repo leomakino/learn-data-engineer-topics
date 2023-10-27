@@ -54,16 +54,29 @@ Compute or computing refers to a machine's ability to process information (to st
 
 Hypervisor is the software layer that sits on top of physical hardware, and multiple VMs are built on top of it. It’s like having multiple computers that only use one piece of hardware.
 
-**VM**s recreate a full representation of the hardware. Containers only recreate, or virtualize, the OS.
+**Virtualization**:
+- It is a form of resource optimization that allows multiple systems to run on the same hardware. These systems are called virtual machines.
+
+**VMs**
+- recreate a full representation of the hardware. Containers only recreate, or virtualize, the OS.
+- enable businesses to have multiple applications running at the same time on a server in a way that is efficient and manageable.
 
 **Containers**:
 - only hold exactly what's needed for the particular application that they support. 
-- They start faster, use less memory, and allow developers to create predictable environments.
+- They're even more efficient: they start faster, use less memory, and allow developers to create predictable environments.
 - are like prefabricated units placed on top of each other. This means that any problem that arises is easier to isolate and fix.
 
 **Serveless computing**: 
 - resources, such as compute power, are automatically provisioned behind-the-scenes as needed.
 - This kind of solution are often called 'function-as-a-service'. Businesses provide the code for whatever function they want and the public cloud provider does everything else.
+
+**Resource pooling**:
+- If one data center is down due to a natural disaster, for instance, another data center is available to prevent service disruption.
+
+**Broad network access**:
+- This means that access to data and compute resources is no longer tied to a particular geography or location
+
+
 
 ### Private, hybrid and multi-cloud architectures
 Private cloud is where an organization has **virtualzed servers** in its own data centers to create its own private on-premises environment. This might be done when an organization has already made significant investments in its own infrastructure, or if, for regulatory reasons, data needs to be kept on-premises.
