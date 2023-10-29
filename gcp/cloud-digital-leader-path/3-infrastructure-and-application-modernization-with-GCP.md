@@ -76,9 +76,10 @@ Hypervisor is the software layer that sits on top of physical hardware, and mult
 **Broad network access**:
 - This means that access to data and compute resources is no longer tied to a particular geography or location
 
-
-
 ### Private, hybrid and multi-cloud architectures
+how do you modernize the infrastructure you have without jumping completely to the cloud? How do you bridge incompatible architectures while you transition?
+Answer: involve some on-premises infrastructure working in conjunction with public cloud services
+
 Private cloud is where an organization has **virtualzed servers** in its own data centers to create its own private on-premises environment. This might be done when an organization has already made significant investments in its own infrastructure, or if, for regulatory reasons, data needs to be kept on-premises.
 
 Hybrid cloud:
@@ -88,19 +89,28 @@ Multi-cloud:
 - using multiple public cloud providers as part of its architecture.
 The organization needs flexibility and secure connectivity between the different networks involved
 
+When organizations are considering a move to a hybrid cloud or multi-cloud situation, they are often concerned about how easy it will be to move an application from one cloud to another. Google believes in an open cloud where users have the rights to move their data as they choose and not being tied to a particular cloud.
+
+Examples: Google Cloud uses open APIs and Google services are compatible with open-source services and products. Because Google Cloud publishes key elements of its technology using open-source licenses, customers can use products both on-premises and on multiple clouds.
+
+Google Cloud matches 100% of the energy consumed by our global operations with renewable energy and maintains a commitment to carbon neutrality. So, by moving compute from a self-managed data center or colocation facility to Google Cloud, the net emissions directly associated with your company's compute and data storage will be zero. 
+
 ### GCP Compute solutions
 Leveraging cloud technology to truly transform a business requires new collaborative models, changing culture and processes, and enabling team productivity and innovation.
 
-Google Services:
+Let's look at some specific Google Cloud solutions for:
 - **Virtal Machines**: Compute Engine, VMWare Engine, Bare Metal
-- **Container**: Google Kubernets Engine 
+- **Container**: Google Kubernets Engine (GKE)
 - **Serveless computing**: Cloud Run, Cloud Function, App Engine. 
 
 Compute Engine:
 - Is a computing and hosting service that lets you create and run VMs on Google Infrastructure.
 - Vms boot quickly, come with persistent disk storage, and deliver consistent performance.
+- This solution is ideal if you need complete control over the virtual machine infrastructure.
+- It's also useful if you need to run a software **package that can't easily be containerized** or **have existing VM images to move to the cloud**.
 
 VMware Engine: 
+- It is a type of software that you can run on a virtual machine.
 - It is a fully managed service that lets you run the VMware platform in Google Cloud.
 
 Bare Metal:
@@ -115,7 +125,23 @@ Google App Engine:
 - It is a PaaS and cloud computing platform for developing and hosting web applications. It lets app developers build scalable web and mobile back ends in any programming language on a fully managed serverless platform.
 
 Cloud Run:
-- allows to build applications in several programming language, dependencies and tools. It abstracts away all the infrastructure management by automatically scaling up and down.
+- allows to build applications in several programming language, dependencies and tools. It abstracts away all the infrastructure management by automatically scaling up and down from zero almost instantly depending on user traffic.
+- benefits: automatic scaling, multiple route support, and fast deployments
 
 Cloud function:
 - is a serveless execution environment for building and connecting cloud services. It offers scalable, pay-as-you-go functions as a service to run code with zero server management.
+- write and run small code snippets that respond to events.
+
+Anthos: 
+- an open application modernization platform that enables to modernize your existing applications, build new ones, and run them anywhere.
+
+### Quiz
+1. Elasticity helps businesses serve their customers without service interruption and in a cost-effective way.
+
+1. App Engine, Cloud Functions and Cloud Run are all Serveless computing type of Google Cloud compute option
+
+1. A company is considering using public cloud services, specifically to modernize their IT infrastructure. With the modernization, the IaaS solution will be maintenance by the cloud provider
+
+1. Containers recreate or virtualize Operating systems.
+
+1. A company is using  combination of on-premises data centers and public cloud services for their IT infrastructure. This IT infrastructure model is called Hybrid-cloud because there is on-premises data centers. If the company uses several public cloud services without on-premises, it would be Multi-cloud.
