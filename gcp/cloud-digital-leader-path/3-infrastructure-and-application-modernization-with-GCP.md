@@ -145,3 +145,15 @@ Anthos:
 1. Containers recreate or virtualize Operating systems.
 
 1. A company is using  combination of on-premises data centers and public cloud services for their IT infrastructure. This IT infrastructure model is called Hybrid-cloud because there is on-premises data centers. If the company uses several public cloud services without on-premises, it would be Multi-cloud.
+
+## Modernizing Applications
+
+### Introduction
+What are applications?
+A: Applications are computer programs or software that help users do something
+
+Customers expect intuitive, well-functioning applications that enable them to do things faster.
+
+Applications have been developed on-premises for years and still are. But on-premises application development often slows businesses down. Because deploying an application on-premises can be time-consuming and require specialized IT teams, and any new changes can take six months or even more to implement.
+
+The module will explore how businesses can modernize their existing applications and build new ones in the cloud.
