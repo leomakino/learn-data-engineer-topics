@@ -157,3 +157,29 @@ Customers expect intuitive, well-functioning applications that enable them to do
 Applications have been developed on-premises for years and still are. But on-premises application development often slows businesses down. Because deploying an application on-premises can be time-consuming and require specialized IT teams, and any new changes can take six months or even more to implement.
 
 The module will explore how businesses can modernize their existing applications and build new ones in the cloud.
+
+### Cloud change patterns
+Moving an application to the cloud doesn't need to be done all at once.
+
+There are five common patterns that businesses can adopt hen they want to modernize their applications:
+1. Move applications to the cloud first and then change them
+    - Conservative approach. Over time, futher modernization can be explored.
+    - Brings minimal changes to the way of working within the organization
+    - E.g.: Legacy application moved to the cloud 
+1. Change the applications before they move
+    - More aggressive approach
+    - Re-architect applications first to make them more cloud ready before migrating them.
+1. Invent in greenfield
+    - Building an entirely new infrastruture and applications in the cloud
+    - Only applies when an organization needs to develop new products or offerings.
+1. Invent in brownfield
+    - Invent a new application in the cloud that will replace an existing legacy application that remains on premises
+    - The legacy application is only retired after the new application is built
+    - It is redundancy and expensive (running two applications at time) but can minimize risk
+1. Move application without any changes
+    - Leverage to the cloud just to modernize the infrastructure layer
+    - Use case 1: Use cloud storage instead of on premises data centers
+    - Use case 2: create virtualized environment for disaster recovery
+
+
+
