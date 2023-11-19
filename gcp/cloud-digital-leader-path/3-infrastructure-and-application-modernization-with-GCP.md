@@ -181,5 +181,14 @@ There are five common patterns that businesses can adopt hen they want to modern
     - Use case 1: Use cloud storage instead of on premises data centers
     - Use case 2: create virtualized environment for disaster recovery
 
+### Challenges in application development
+Creating a new application within an organization can be a challenge. It can take 18 months or maybe even tell you it's not possible with the legacy systems already in place.
+when business professionals want a new application, the tech or IT team has to do a lot of work to identify features, estimate capacity, define a technical architecture, consider integration with other systems, and allocate resources even before a line of code is written.
 
+New needs often compete with existing projects for time and resources.
 
+Whether building an app on premises or in the cloud, developers still need to make decisions about overall network architecture, choice of database, and type of server.
+
+The challenges for building apps using an on premises infrastructure can outnumber those of cloud native apps and can often be frustrating for developers and business professionals.
+
+Building a new application in the cloud means you can be more agile in your development.
