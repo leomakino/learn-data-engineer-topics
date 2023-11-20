@@ -100,7 +100,7 @@ Leveraging cloud technology to truly transform a business requires new collabora
 
 Let's look at some specific Google Cloud solutions for:
 - **Virtal Machines**: Compute Engine, VMWare Engine, Bare Metal
-- **Container**: Google Kubernets Engine (GKE)
+- **Container**: Google Kubernetes Engine (GKE)
 - **Serveless computing**: Cloud Run, Cloud Function, App Engine. 
 
 Compute Engine:
@@ -117,7 +117,7 @@ Bare Metal:
 - enables to migrate specialized workloads to the cloud, while maintaning your existing investments and architecture.
 - allows to access and integrate with Google Cloud services with minimal latency.
 
-Google Kubernets or GKE: 
+Google Kubernetes or GKE: 
 - provides a managed enviroment for deploying, managing, and scaling containerized applications using Google infrastructure. The GKE environment consists of multiple machines grouped together to form a cluster.
 - allows securely speed up app development, streamline operations, and manage infrastructure.
 
@@ -176,6 +176,7 @@ There are five common patterns that businesses can adopt hen they want to modern
     - Invent a new application in the cloud that will replace an existing legacy application that remains on premises
     - The legacy application is only retired after the new application is built
     - It is redundancy and expensive (running two applications at time) but can minimize risk
+    - E.g.: Legacy application moved to the cloud 
 1. Move application without any changes
     - Leverage to the cloud just to modernize the infrastructure layer
     - Use case 1: Use cloud storage instead of on premises data centers
@@ -192,3 +193,24 @@ Whether building an app on premises or in the cloud, developers still need to ma
 The challenges for building apps using an on premises infrastructure can outnumber those of cloud native apps and can often be frustrating for developers and business professionals.
 
 Building a new application in the cloud means you can be more agile in your development.
+
+### Google Kubernetes Engine (GKE)
+Containerization allows developer to divide an application design into individual compartments. It's an one-compute option for modernizing IT infrastructures. Parts of the code can be updated without affecting the whole application. Also, it builds resilience because one error doesn't impact the whole application.
+
+A way to manage or orchestrate the containers is using Kubernetes, an open source container orchestration system for automating computer application deployment,scaling, and management.
+
+Google Kubernetes Engine (GKE) is the Google Cloud manage service for container orchestration.
+
+GKE enables rapid application development and iteration by making it easy to deploy, update, and manage your applications and services.
+
+### App Engine
+App Engine is a platform for building scalable Web applications and mobile back ends. It's manage the infrastructure (hardware, networking) automatically in response to the amount of traffic. Moreover, the company only pays for the resources it uses. 
+
+It's possible to run multiple versions of the app to test new features or designs with end users.
+
+### Quizz
+1. GKE is a Google Cloud managed service for container orchestration
+1. App Engine is a platform for building scalable web applications and mobile backends.
+1. The primary value of using a CI/CD approach for the overall business is: "It increases application release velocity and reliability."
+1. An online apparel retail company can use microservice pattern in its architecture because it's modular and therefore easy to update.
+1. Migrating an existing application to the cloud reducing risk service downtime and building a new application in the cloud while continuing to run their old application on-premises (redundancy) refers to the invent in brownfield pattern.
