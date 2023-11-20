@@ -214,3 +214,84 @@ It's possible to run multiple versions of the app to test new features or design
 1. The primary value of using a CI/CD approach for the overall business is: "It increases application release velocity and reliability."
 1. An online apparel retail company can use microservice pattern in its architecture because it's modular and therefore easy to update.
 1. Migrating an existing application to the cloud reducing risk service downtime and building a new application in the cloud while continuing to run their old application on-premises (redundancy) refers to the invent in brownfield pattern.
+
+## The value of APIs
+When it comes to digital transformation, companies typically have the following three primary goals:
+1. Modernize IT systems
+1. Modernize Applications
+1. Leverage Application Programming Interfaces (APIs)
+
+APIs are a tool for both digital integration and digital transformation. 
+
+### Legacy system challenges
+A legacy system is outdated computing software and/or hardware that is still in use. It often is not equipped to deliver new services. Worse, a legacy system cannot connect to new systems.
+
+Legacy sustems are valuable to the business because they hold a large amount of data. But unlocking the value of that data is challenging. They were developed for a time when data was shared in batches or at specific time intervals. It means, legacy sytems are not designed to serve real time data.
+
+As a result, legacy sustems tend to hold organizations back from digital technologies to innovate or improve IT efficiency.
+
+Modernizing IT infrastructure is central to digital transformation. So, businesses no longer have to choose between maintenance and innovation.
+
+This means they need a well-designed integration strategy that leverages APIs
+
+Legacy systems struggle to meet the demands of the digital age.
+
+### How APIs can modernize legacy systems
+API can be a solution for legacy system challenges.
+
+API is a piece of software that connects different applications and enables information to flow between systems. In other words, APIs enable integration between systems. They do this by exposing data in a way that protects the integrity of the legacy systems and enables secure and govern access to the underlying data.
+
+This allows organizations with older systems to adapt to modern business needs and, more importantly, to quickly adopt new technologies and platforms.
+
+APIs enable businesses to unlock value without architecting all of those legacy applications. It's a way to build long term flexibility.
+
+Customers expect real time, seamless experiences across platforms. Businesses now have the opportunity to digitize experiences throughout their value chain to meet their customers expectations.
+
+APIs are therefore central to any business's digital transformation strategy. Because, they enable faster innovation. So, organizations can bring new services to market quickly and create new business value.
+
+### Using APIs to create new business value
+APIs started as a tool to facilitate access and integration. They still serve those functions, but now APIs can do so much more.
+
+When organizations start to think about and build an API first architecture, they can build new digital ecosystems and create new business value.
+
+A digital ecosystem is a group of interconnected companies and products. This includes vendors, third party suppliers, customers, and applications.
+
+A robust, well-connected, and multifaceted digital ecosystem enables businesses to create and monetize new digital experiences.
+
+**Example 1: Walgreens**
+
+Over the past decade, they embraced a culture of innovation. One service they historically provided was photo development from film. With the advent of digital cameras and then smartphones, consumer needs changed. People weren't bringing in film to be developed anymore.
+
+Walgreens asked themselves, "How do we re-engage smartphone users with photo printing?" 
+
+Walgreens built the photo printing API.
+
+instead of only having create, edit, and share buttons for what an end user can do with their photo, there's also a print button that connects to any Walgreens store.
+
+In this model, Walgreens is partnering with the developer community to serve customers in a new way. Walgreens treated the API as a product, not just a tool for integration.
+
+**Example 2: Monex**
+Monex couldn't upend their backend systems quick enough to deploy new services or even modify new ones. So, they developed an API to sabe them time and simplify processes of dveloping new products and services.
+
+
+### Apigee
+There's a widening gap between modern applications and legacy systems
+
+Legacy systems like CRMs, ERPs, SOAs, databases, data warehouses, and data lakes provide businesses data but don't provide features and capabilities at the rate of change demanded by today's users. Modern applications on the other hand provide connected experiences and can be rapidly updated to meet user demands.
+
+Applications that provide these connected experiences to end users must be able to do so securely and at scale.
+
+Developers therefore need to manage the entire application lifecycle, connect to different backend systems, including the legacy ones, and be able to track and analyze the interactions between consumers, data, and service producers.
+
+Also, the company's digital ecosystem becomes more complex, the required time and effort to manage hundreds of APIs securely and at scale becomes costly.
+
+That's where Apigee comes in.
+
+Apigee is a Google Cloud solution for developing and managing APIs. It includes an API Services layer that provides the runtime API gateway functionality, developer services, measuring and tracking services.
+
+### Quizz
+1. Apigee provides security policies for Michelle to manages her team's API.
+1. A critical outcome of API management is measuring and tracking business performance.
+1. The function of APIs is integration between systems.
+1. Legacy systems struggle to meet modern consumer expectations because they scale slowly.
+1. Businesses can use API to unlock value from their legacy system by gaining access to data stored in legacy systems.
