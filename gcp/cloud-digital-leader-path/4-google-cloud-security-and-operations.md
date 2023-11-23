@@ -32,6 +32,9 @@ The solution through three lenses:
 - Process
 - Technology
 
+It'll need a core team across technology, finance, and business functions to work together to make decisions in real time.
+
+Through this close collaboration, they'll be able to control and optimize cloud costs on an ongoing basis.
 ## Security in the cloud
 
 ## Monitoring Cloud IT Services and Operations
