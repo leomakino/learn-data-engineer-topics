@@ -29,12 +29,57 @@ Keeping costs within budget and limiting surprises were among the most critical 
 
 The solution through three lenses:
 - People
+    - partnership accross finance, technology, and business functions is required. This partnership would consist of several experts who ensure that best practices are in place across the organization and there is visibility into the ongoing cloud spend.
 - Process
-- Technology
+    - What could resources are being used and by whom? 
+    - What are the associated resource costs?
+    - How do these costs measure against the broader business strategy?
+- Technology - GCP brings its own native tools to help organizations monitor and manage their costs. The tools enable organizations to:
+    - gain greater **visibility**;
+    - drive a culture of **accountability** for cloud spending,
+    - **control** costs to reduce the risk of overspending.
+    - provide **intelligent** recommendations to optimize costs and usage.
+
 
 It'll need a core team across technology, finance, and business functions to work together to make decisions in real time.
 
 Through this close collaboration, they'll be able to control and optimize cloud costs on an ongoing basis.
+
+### Total cost of ownership - TCO
+In IT, the Total Cost of Ownership refers to a comprehensive assessment of all of the layers within the infrastructure. This includes:
+1. user expenses, and the cost of service downtime.
+1. communications
+1. management and support
+1. hardware and software
+
+Historically, companies spent a substantial amount of money upfront to set up their IT infrastructure, the **capital expenditure** (capex) **would include**:
+- paying for data center space and associated costs, such as power and cooling;
+- storage systems,
+- networking,
+- hardware,
+- software,
+- security systems.
+The TCO in this case would be the cost of setting up , managing, controlling, and optimizing every layer of the stack. In addition to the personnel required and skilled workers.
+
+When organizations run their business using public cloud services, much of their capital expenditure no longer applies.
+
+When organizations choose to keep some of their business running on-premises and some running on public cloud, the total cost of owneership for them would be more complex. TCO can vary depending on an organization's cloud adoptions goals.
+
+Cloud, is not just about assessing cost savings. There are values the company gain over time, e.g.: cloud absorbs the effort that organizations traditionally put into hosting their applications or data on-premises, allowing the company to shift focus from maintaining status quo to higher value work. Examples of indirect values are: efficiency, reliability, and security.
+
+Google Cloud provides tools to help monitor and control costs and maximize value. 
+
+### Best practices for managing Google Cloud costs
+
+### Quizz
+1. Google Cloud's tools offer four key benefits for managing cloud costs: Visibility, accountability, control, intelligent recommendations.
+1. Budgeting needs to be assessed on a daily, monthly, or weekly basis when a company starts using a service-based cloud architecture.
+1. Creating a custom dashboard would give her and her teammates greater visibility into costs.
+1. The primary factores that contribute to the complexity of calculating the TCO when migrating to the cloud are:
+    - Cloud architecture
+    - Qualified personnel
+1. Sharing cost views with the departments that are exceeding their IT budgets promotes a culture of accountability.
+
 ## Security in the cloud
 
 ## Monitoring Cloud IT Services and Operations
