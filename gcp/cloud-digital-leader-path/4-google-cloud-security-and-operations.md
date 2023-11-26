@@ -70,6 +70,52 @@ Cloud, is not just about assessing cost savings. There are values the company ga
 Google Cloud provides tools to help monitor and control costs and maximize value. 
 
 ### Best practices for managing Google Cloud costs
+1. Organizations need to identify the individual or team that manage costs. 
+    - If it's a team, it should ideally be a mix of IT team managers and financial controlles
+1. Learn the difference between invoices and cost tools.
+    - Understand what kind information can be found in an invoice versus cost management tools.
+    - An invoice and a Google Cloud tool are not the same thing
+1. Use cost management tools for accountability
+    - gain visibility, control, and intelligence.
+
+An invoice contains how much the company is spending over a period of time.
+Cost management tools are more effective for answering the why of the spendings.
+    - It helps get more granular data, find trends, and identify actions.
+
+Before organizations can optimize their cloud costs. They first need to understand:
+1. what they're currently spending;
+1. whether there are any trends;
+1. what their forecasted costs are.
+
+An organization needs to start capturing:
+- what Cloud resources are being used, 
+- by whom, 
+- for what purpose, 
+- and at what costs.
+
+The organization also needs to think about:
+- who is going to be responsible for monitoring this,
+- who needs to be involved in managing costs, 
+- how they will communicate the results or report on spending on an ongoing basis.
+
+It's important to review the business priorities and establishing partnership between financial and IT teams, perhaps through a centralized team. Also, it's important to set up the cadence and format for ongoing communication with key cloud stakeholders.
+
+The centralized team can use Google Cloud built-in reporting tools and create custom dashboards to gain greater visibility into their costs. The team should review these reports at least weekly.
+
+Cloud spending is decentralized and variable. It's important to establish a culture of accountability for costs across the organization. Google Cloud offers flexible options to organize resources and allocate costs to individual departments and teams.
+
+Defining clear ownership for projects and sharing cost views with the departments and teams that are using Cloud resources will help us establish this accountability culture and more responsible spending. This team should use these tools to regularly identify and report on cost inefficiencies.
+
+In addition to making teams accountable for their spending, Google Cloud financial governance policies and permissions make it easy to control who has the ability to spend and view costs across your organization.
+
+Creating budgets and alerts to notify key stakeholders when spending is getting off track, it is an important practice to keep costs under control.
+
+Finally, organizations can make smart spending decisions with **intelligent** recommendations delivered by Google Cloud. It helps to:
+- optimize usage,
+- save time on management,
+- minimize costs. 
+
+An organization can see these recommendations which can easily be applied for immediate cost savings and greater efficiency.
 
 ### Quizz
 1. Google Cloud's tools offer four key benefits for managing cloud costs: Visibility, accountability, control, intelligent recommendations.
