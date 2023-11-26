@@ -127,5 +127,37 @@ An organization can see these recommendations which can easily be applied for im
 1. Sharing cost views with the departments that are exceeding their IT budgets promotes a culture of accountability.
 
 ## Security in the cloud
+Organizations that adopt cloud technology will inevitably need to fundamentally change some of their business operations. A fundamental operational shift is about security.
+From securing physical data centers to a global network, to private user data across the globe.
+
+In this module, the course will examine a new cloud-first security model and explain how it differs from traditional on-premises IT security models
+
+### Fundamental terms: Privacy, security, compliance and availabilty
+Privacy:
+- In the context of cloud technology, refers to the data an organization or an individual has access to and who they can share that data with.
+- With traditional technology, an organization would store private data **on-premises**, where it feels safe because they generally know where it is and trust that it will be kept private.
+- In the **cloud**, the private information is kept in a commercial storage facility. It's locked away just as before but now some of the control is relinquished to someone else.
+- The facilities in the cloud have a strong security controls
+- When moving data to the cloud, the facility and its employees only store or process the data. The data itself remains private.
+
+Security:
+- In the cloud refers to the policies, procedures, and controls put in place to keep data safe.
+
+Compliance:
+- It takes data security one step further. It's about meeting standards set by a third party. This third party might be a regulatory authority or might be an international standards organization.
+- Especially important in highly regulated industries. Industries that there's abundance of sensitive data.
+
+Availability:
+- It refers to how much time the cloud service provider guarantees data and services are running or accessible.
+- The availability of a service is typically documented as a percent of time per year. 
+- 99.999% <-> 5 minutes unavailable per year; 
+
+Google Cloud products terms:
+1. You own your data, not Google;
+1. Google dows not sell customer data to third parties. Neither for advertising;
+1. All customer data is encrypted by default;
+1. Google Cloud guards against insider access to your data. Insiders are only able to access customer data with their permission;
+1. Google never give any government entity backdoor access to your data.
+1. Google privacy practices are audited against international standards.
 
 ## Monitoring Cloud IT Services and Operations
