@@ -160,4 +160,35 @@ Google Cloud products terms:
 1. Google never give any government entity backdoor access to your data.
 1. Google privacy practices are audited against international standards.
 
+### Today's top cyber security challenges
+Cyber Attack are bigger than never. Many groups, might use sophisticated methods to gain access to an organization's data.
+
+Traditional on-premises systems or company own datacenters generally rely on perimeter-based security approach. The boundary around all of their data is protected by a firewall, for example, along with other security features. Once someone is inside that security perimeter, they're deemed trustworthy and therefore have access to everything.
+
+In the cloud, each object is individually protected.
+
+What are the common cybersecurity threats?
+- Phishing attacks
+    - attackers do research to gather information about you or anyone in your organization
+    - Attackers craft highly targeted e-mails to trick people into thinking that the messages are genuine.
+    - Employees can then be scammed into downloading malicious attachments, giving up their password, or sharing sensitive data.
+- Physical damage
+    - organizations can still be responsible for data losses even when there is damage to the physical hardware.
+    - power losses or natural disasters, such as floods, fires, and earthquakes
+- malware, viruses and ransomware attacks
+    - Data can be lost, damaged, or destroyed by viruses or malware.
+    - A set of files can be rendered unavailable to its intended users via ransomware until the ransom amount is paid.
+- Unsecured third-party systems
+    - Although third-party systems are often used to address common business needs like finance, inventory, or account management. Without adequate security measures and regular checks, these systems can pose a threat to data security.
+- Misconfiguration
+    - While this can be due to a lack of expert knowledge, even expert cloud engineers can misconfigure systems.
+    - It is the single biggest threat to cloud security
+    - This is why access should be limited following a least privilege zero trust model.
+
+How do you defend against security threats that can come from anywhere, at anytime from anyone?
+
+A perimeter security model is not enough anymore.
+
+Leveraging cloud technology for your organization can dramatically strengthen your organization's ability to secure a data against newer and more sophisticated threats. A collaborative approach with your cloud provider is crucial to keeping your organization's data secure.
+
 ## Monitoring Cloud IT Services and Operations
