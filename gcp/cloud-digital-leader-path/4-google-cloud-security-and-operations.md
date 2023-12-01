@@ -247,7 +247,21 @@ employees value convenience:
 - They write down simple passwords, plug infected USB flash drives into their computers, and delay software updates to avoid painfully long reboots.
 
 
+### Identity and access management
+Cloud Identity helps organizations control and manage access to resources in order to maintain the security and integrity of both data and systems.
 
+An Identity Access Management policy, or IAM policy, is made of three parts:
+- Who:
+    - Can be a google account, a Google group, a service account, or a Google Workspace or Cloud Identity domain
+- Can do what
+    - It is defined by an IAM role
+    - There are three kinds of roles in IAM: Basic, predefined and custom.
+        - Basic: Owner, Editor, and Viewer
+        - Predefined: sets of predefined roles that align with typical responsibilities of people using services. Each role is a collection of permissions.
+        - Custom: Even more granular. manage the permissions to specific resources. This means that users get access only to what they need to do their job
+- on which resource
+
+Google Cloud recommends using a “least-privilege” model, in which each person in your organization is given the minimal amount of privilege needed to do their job.
 
 ### Quiz
 1. Google Cloud Identity does a strong authentication for data acess.
