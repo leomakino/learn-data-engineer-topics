@@ -191,4 +191,13 @@ A perimeter security model is not enough anymore.
 
 Leveraging cloud technology for your organization can dramatically strengthen your organization's ability to secure a data against newer and more sophisticated threats. A collaborative approach with your cloud provider is crucial to keeping your organization's data secure.
 
+### Responsability Model
+
+### Quiz
+1. Google Cloud Identity does a strong authentication for data acess.
+1. An Identity Access Management policy is made of: "Who", "can do what", "on which resource"
+1. An e-mail saying: "We have identified that your account is vulnerable. Click this link to change your security settings" can bring cybersecurity risks such as Phishing for sensitive data and Malware attacks on files
+1. A Google Cloud's principle for granting access to users is "Least privilege"
+
+
 ## Monitoring Cloud IT Services and Operations
