@@ -191,7 +191,63 @@ A perimeter security model is not enough anymore.
 
 Leveraging cloud technology for your organization can dramatically strengthen your organization's ability to secure a data against newer and more sophisticated threats. A collaborative approach with your cloud provider is crucial to keeping your organization's data secure.
 
-### Responsability Model
+### Shared Responsability Model
+When using cloud technology, the responsibility to secure data is shared between a business and the cloud provider.
+
+When an organization adopts the cloud, the cloud service **provider** typically **becomes the data processor** and the **organization becomes the data controller**.
+
+The cloud service provider manages the security of its infrastructure and its data centers and the customers gain the benefits of their infrastructure's security layers.
+
+Google Cloud is responsible for securing the underlying infrastructure and the customer's core responsability is to secure access to data. It's is a partnership between the customer and the cloud provider.
+
+
+Google's responsibility in the  the shared responsibility model: Google protects its infrastructure using the "defense in depth" approach. There is a layer upon a layer of security built into Google Cloud products and services. They are:
+1. Operations
+    - global team of more than 900 security experts monitor the system 24 hours a day, 365 days a year.
+1. Network
+    - all data moving into and out of Google's infrastructure is encrypted in transit.
+    - Multi layers of defense are in place to help protect customers against network attacks like DDoS attacks.
+1. Identity
+    - operates a zero trust model. This means that every user and every machine that tries to access data or services must strongly authenticate at every stage for each file.
+1. Storage
+    - connected to the idea of data encryption at rest
+    - Encryption at rest protects data when it's stored on physical media
+    - When data is going to be stored on Google Cloud
+        1. It's broken into many pieces (chunks) in memory
+        1. These pieces are encrypted with their own data encryption key or DEK
+        1. These data encryption keys are then encrypted a second time generating another key which we call a key encryption key or KEK.
+        1. Encrypted chunks and wrapped encryption keys are distributed across Google's infrastructure.
+
+1. Software
+    - Titan microcontroller also verify the OS and the rest of the deploy software stack
+1. Hardware
+    - Google design its own servers, its storage, and its networking gear
+    - Third parties never see the overall process
+    - The hardware is housed in high security data centers
+    - embedded chip called Titan checks the integrity of the machine.
+
+organization's responsibility in the shared responsibility model: 
+
+The old ways of securing data have to change. 
+
+- Organizations need to reassess their existing security policies and practices and determine how to best use cloud products and solutions to maintain and potentially improve their security posture.
+1. IT teams need to control data access, maintain visibility, and be prepared for incidents.
+    - IT teams need to have a complete understanding of who can access what data
+    - Establish granular access policies. In other words, to define who can do what and on what cloud resource.
+    - Enable multi factor authentication to protect against phishing and other risks.
+1. IT teams and business decision makers need to ensure that they have visibility into what's happening, who is accessing what data and when.
+    - Logging and monitoring tools are used here
+1. Manage a data breach
+    - teams and business leaders need to have a plan in place to successfully deal with it
+    - organizations need to have a culture that allows teams to work in stressful situations.
+    - organizations need to be ready for what's coming; maintain operational readiness.
+
+employees value convenience: 
+- This means they often do things without keeping the security of their data top of mind.
+- They write down simple passwords, plug infected USB flash drives into their computers, and delay software updates to avoid painfully long reboots.
+
+
+
 
 ### Quiz
 1. Google Cloud Identity does a strong authentication for data acess.
