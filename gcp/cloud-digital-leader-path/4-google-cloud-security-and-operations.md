@@ -263,6 +263,29 @@ An Identity Access Management policy, or IAM policy, is made of three parts:
 
 Google Cloud recommends using a “least-privilege” model, in which each person in your organization is given the minimal amount of privilege needed to do their job.
 
+### Resource hierarchy
+Another facet to controlling and managing access is tied to the resource hierarchy. In other words, what resources users can access.
+
+Managing files, folders, and resources for projects is very similar to how teams would use and manage Google Cloud services.
+
+In the Cloud environment, a **project** is the basis for enabling and using Google Cloud capabilities
+
+Any resources consumed by the project are connected to the project in the hierarchy.
+
+Businesses usually have more than one Cloud project running, so projects can be organized into folders. A folder can contain projects, other folders, or combination of both.
+
+This means projects can be grouped into a hierarchy. In other words, it is the way the IT team can organize their business's Google Cloud environment.
+
+*a resource is any Google Cloud service, such as Compute Engine and BigQuery*
+
+Start from the top, everything managed in Google Cloud is under a domain and an organization. It is like an umbrella.
+
+Projects belong to the organization rather than the user who created them.
+
+Projects are used for grouping Google Cloud resources.
+
+Cloud **Billing** accounts live under the organization and track any charges for associated projects. Cloud Billing account users can associate projects and see spend, while Cloud Billing account administrators are able to unlink projects, set budgets, and contact billing support.
+
 ### Quiz
 1. Google Cloud Identity does a strong authentication for data acess.
 1. An Identity Access Management policy is made of: "Who", "can do what", "on which resource"
