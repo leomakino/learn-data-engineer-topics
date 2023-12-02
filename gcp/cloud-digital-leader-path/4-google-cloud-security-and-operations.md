@@ -294,3 +294,68 @@ Cloud **Billing** accounts live under the organization and track any charges for
 
 
 ## Monitoring Cloud IT Services and Operations
+Areas for operational change:
+- Cost management
+- Cybersecurity
+- **Monitoring Cloud IT Services and Operations**
+
+In this module, the course will explore the following topics:
+1. IT Operational challenges
+    - how IT teams are traditionally structured, and why that structure prevents organizations from quickly delivering updates to services or fresh customer experiences.
+1. DevOps and Site Reliability Engineering
+    - what DevOps and site reliability engineering are, and then use them as a framework for IT operational changes
+1. Google resource monitoring tools
+    - how they help organizations maintain control and visibility of their cloud environment.
+
+### IT development and operations challenges
+When a company wants to release updates to their webservice, they need to take their service offline while changes are being implemented.
+
+Unexpected or prolonged downtime can be irritating for end users and costly for businesses, including from loss of customers.
+
+Therefore, IT leaders want to avoid service downtime.
+
+But service downtime is unavoidable for IT teams, and it's also a source of two operational challenges:
+1. Developers agility
+2. Operators reliability
+
+Even though system updates are typically scheduled outside regular business hours, in today's global digital economy, service downtime can still be disruptive for some users. 
+
+If a service disruption happens unexpectedly, this may be the result of a team structure issue where developers and operators are working in silos.
+
+The structure of these teams restricts collaboration and obscures accountability.
+
+**Developers** are responsible for writing code for systems and applications.
+**Operators** are responsible for ensuring that those systems and applications operate reliably.
+
+In the other hand, **developers** are expected to be agile and are often pushed to write and deploy code quickly. **Operators** are expected to keep system stable, and so they often prefer to work more slowly to ensure reliability and consistency.
+
+Worse, accountability between the teams may be not always clear.
+
+For organizations to thrive in the cloud, they need to adapt their IT operations in two ways.
+1. Adjust their expectations for service availability from 100% to a lower percentage
+1. Adopt best practices from the developer operations or DevOps, and site reliability engineering (SRE)
+
+And so on, teams can be more agile and work more collaboratively with clearer accountability.
+
+100% of service availability is misleading. In order to roll out updates, operators have to take a system offline and ensuring 100% service availability is also incredibly expensive. 
+
+Cloud providers use standard practices to define and measure service availability for customers:
+- Service Level Agreement (SLA);
+    - It s a contractual commitment between the cloud service provider and the customer.
+    - It provides the baseline level for the quality, availability and reliability of that service.
+- Service Level Objectives (SLO);
+    - It is a key element within the SLA.
+    - It's the goal for the cloud service performance level.
+    - it's shared between the cloud provider and a customer.
+    - If service performance meets or exceeds the SLO, It means that end users, customers, and internal stakeholders are all happy.
+    - If the service performance is below the SLO and above the SLA or baseline performance expectation, it does not directly affect the end user or end customer, but it does give the cloud provider the signal to reduce service outages and increase service reliability instead of pushing out new updates.
+- Service Level Indicators (SLI).
+    - It is a measure of the service provided.
+    - It often include reliability and errors.
+    - Involved with Error budget. It is the space between the SLA and the SLO.
+
+An error budget is the amount of error that a service provider can accumulate over a certain period of time before end users start feeling unhappy. It is like a pain tolerance for end users.
+
+By adjusting service performance expectations, with an SLA, SLO, SLIs, and error budgets, businesses can optimize their cloud environment and create better, more seamless customer experiences.
+
+DevOps and site reliability help to adjust service availability expectations and improve their team's IT operations.
