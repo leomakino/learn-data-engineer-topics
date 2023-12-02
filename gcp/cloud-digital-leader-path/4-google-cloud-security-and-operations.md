@@ -359,3 +359,52 @@ An error budget is the amount of error that a service provider can accumulate ov
 By adjusting service performance expectations, with an SLA, SLO, SLIs, and error budgets, businesses can optimize their cloud environment and create better, more seamless customer experiences.
 
 DevOps and site reliability help to adjust service availability expectations and improve their team's IT operations.
+
+
+### DevOps and SRE
+When an organization needs to adapt their operations, team structure. IT leaders can use best practices from DevOps and Site Reliability Engineering.
+
+DevOps, or Developers Operations, is a philosophy that seeks to create a more collaborative and accountable culture within developer and operations teams. The philosophy highlights are:
+1. Reduce Silos
+    - Businesses can increase and foster collaboration by breaking down barriers across teams.
+    - the importance of establishing shared ownership of production between developers and operations to meet DevOps objective
+1. Accept failures as normal
+    - leaders can't expect perfect execution.
+1. Implement gradual change
+    - Small incremental changes are easier to review and in the event that a gradual change does release a bug in production, it allows teams to reduce their time to recover, making it simple to roll back.
+1. Leverage tooling and automation
+    - Identifying manual work that can be automated is key to working efficiently and focusing on the tasks that matter.
+1. Measure everthing
+    - measurement is a critical gauge for success
+    - There's no way to tell whether what you're doing is successful if you have no way to measure it.
+
+While **DevOps** is a **conceptual approach** to a collaborative and accountable data culture, **SRE** is about the **practical implementation** of that philosophy.
+
+Site Reliability Engineering, or SRE, is a discipline that applies aspects of software engineering to operations. The goals of SRE are to create ultra-scalable and highly reliable software systems. The SRE best practices are aligned with the five objectives of DevOps cited above.
+1. Reduce Silos
+    - Developers and Operations, together, they define service level objectives, or SLOS, calculate error budgets, and determine reliability and order work priorities.
+    - the shared ownership promotes shared vision and knowledge and the need for improved collaboration and communications.
+1. Accept failures as normal
+    - One way this is done is by holding a blameless 'lessons learned' discussion after an incident occurs.
+    - This practice helps SREs improve their understanding of system failures in order to identify preventative actions and ultimately reduce the likelihood or impact of a similar incident.
+1. Implement gradual change
+    - SREs aim to reduce the cost of failure by rolling out changes to a small percentage of users first.
+    - Culturally, this promotes more prototyping and launching iteratively.
+1. Leverage tooling and automation
+    - SREs focus on increasing efficiency through toil automation. Toil is a type of work that is tied to running a production service.
+    - Toil automation therefore reduces the amount of manual repetitive work.
+1. Measure everthing
+    - tracking everything related to toil, reliability and system health.
+
+To foster these practices, organizations need a culture of goal setting, transparency, and data-driven decision making. They also need the tools to monitor their cloud environment and to identify whether they're meeting their service level objectives.
+
+SRE shifts the mindset from 100% availability to 99.99%. This means that updates are pushed out iteratively and continually, but only require seconds or minutes of downtime.
+
+DevOps and SRE have the same intended outcome: designed to break down organizational barriers to help deliver better customer experiences faster.
+
+### Quiz
+1. the expectation for 100% service availability is misleading because service maintenance is inevitable and requires downtime
+1. Site reliability engineering (SRE) refers to breaking down silos and closing gaps between developer and operations teams
+1. Service Level Objective (SLO) is the goal for your cloud service performance level.
+
+
