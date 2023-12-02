@@ -402,9 +402,50 @@ SRE shifts the mindset from 100% availability to 99.99%. This means that updates
 
 DevOps and SRE have the same intended outcome: designed to break down organizational barriers to help deliver better customer experiences faster.
 
+### Google Cloud resource monitoring tools
+In a traditional on-premises environment, where IT teams can access their physical data centers, whenever there is a service issue these teams can physically examine their servers.
+
+For example, if an application becomes unresponsive, anyone can inspect the server to uncover the problem.
+
+When using a cloud service provider, the customer IT teams don’t own the servers in use;
+
+So how can customer IT teams know what's happening within a server, or database, or application?
+
+One option is to use the tools in Google Cloud’s operations suite.
+
+Google Cloud’s operations suite offers a range of services and cloud computing resources to help **monitor**, **troubleshoot**, and **improve application performance** on an organization’s Google Cloud environment.
+
+The tools included in Google Cloud’s operations suite fall into two major categories: 
+1. Operations-focused tools
+    - Cloud Monitoring, Cloud Logging, Error Reporting, and Service Monitoring.
+    - These tools tend to be for users that want to keep their infrastructure up, running, and error-free.
+1. Performance management tools
+    - Cloud Trace, and Cloud Profiler.
+    - these features tend to be for developers who are trying to perfect or troubleshoot applications that are running in one of the Google Cloud compute services.
+
+The term monitoring refers to gathering predefined sets of metrics or logs.
+
+Cloud Monitoring provides visibility into the performance, uptime, and overall health of cloud-powered applications. Cloud Monitoring also evaluates the performance of the entire infrastructure on a modular level. Cloud Monitoring also provides a view of all Google Cloud metrics at zero cost and integrates with a variety of providers for non Google Cloud monitoring.
+
+A log file is a text file where applications, including the operating system, write events.
+
+Log files make it easier for developers, DevOps, and System Admins to get insights and identify the root cause of issues within applications and the infrastructure.
+
+Google Cloud Logging is a fully managed service that performs at scale and can ingest application and system log data from Google Cloud services.
+
+Cloud Trace helps monitor application performance.
+
+When an application architecture is chunked into small pieces, using either microservices or containers (or both!), finding the source of a ‘bug’ or problem can be challenging.
+
+Cloud Trace is a distributed tracing system that helps developers debug or fix and optimize their code.
+
+**With Google Cloud’s operations suite, organizations can trust that, even without physical access to servers, they can still gain precise insights into their cloud IT environment.**
+
 ### Quiz
 1. the expectation for 100% service availability is misleading because service maintenance is inevitable and requires downtime
-1. Site reliability engineering (SRE) refers to breaking down silos and closing gaps between developer and operations teams
+1. DevOps refers to breaking down silos and closing gaps between developer and operations teams
 1. Service Level Objective (SLO) is the goal for your cloud service performance level.
+1. Cloud Monitoring and Cloud Logging are Google Cloud operations-focused tools
+1. Application performance management tools and Operations-focused tools are the two major categories of the Google Cloud’s operations suite
 
 
