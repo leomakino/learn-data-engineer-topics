@@ -70,6 +70,7 @@ This module will start by considering where data is now and the benefits of migr
 Then it will define key terms related to data storage, including database, data warehouse, and data lake.
 
 Finally, it will close the module by exploring business intelligence solutions like Looker
+
 ### Migrating data to the cloud
 
 When the company stores data on-premises
