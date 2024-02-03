@@ -87,3 +87,7 @@ Reference:
 1. [Cloud Digital Leader Sample Questions](https://docs.google.com/forms/d/e/1FAIpQLSedAmf77MGS7FGEaylFzY51KtBd7kkIZJIMDsV5zSRSmpKIOA/viewform)
 
 # Schedule an exam
+1. [Cloud Digital Leader Certification Guide - Beta](https://cloud.google.com/learn/certification/cloud-digital-leader)
+1. [Cloud Digital Leader Exam Guide - Beta](https://cloud.google.com/learn/certification/guides/cloud-digital-leader)
+1. [Online Proctored Certification Testing](https://www.youtube.com/watch?v=8bc3jd9Z5Rw)
+1. [Schedule Exam](https://www.webassessor.com/wa.do?page=certInfo&branding=GOOGLECLOUD&tabs=13)
