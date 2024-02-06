@@ -59,3 +59,63 @@ Common cybersecurity threats faced by organizations:
 1. **malware, viruses, and ransomware**
 1. **vulnerable third-party systems**
 1. **configuration mishaps**: most prominent threat to cloud security.
+
+## Google's Trusted Infrastructure
+Google multilayered strategy builds progressive security layers, combining global data centers, purpose-built servers, custom security hardware and software, and two-step authentication. This approach provides true defense-in-depth.
+
+Google Data centers are more than just facilities filled with computers. They meticulously designed to deliver exceptional reliability, top-notch security, and outstanding efficiency, and availability. The security principles (zero-trust architecture, least privilege and security by defaut) are also implemented. Moreover, there are efficiency, Power Usage Effectiveness (PUE) and Scalability.
+
+When data is at rest, it's stored on physical devices like computers or servers. Google Cloud, automatically encrypt all customer content at rest, but if you prefer to manage your encryption keys yourself, you can use our Cloud Key Management Service (Cloud KMS) for added control.
+
+Encrypting data in use adds another layer of protection, especially against unauthorized users who might physically access the computer. Google uses a technique called memory encryption, which locks your data inside the computer's memory
+
+When it comes to encryption algorithms, the Advanced Encryption Standard (AES) takes center stage. AES is a powerful encryption algorithm trusted by governments and businesses worldwide.
+
+Whether your data is resting, traveling, or actively in use, encryption acts as your loyal guardian, because it ensures its confidentiality and protection.
+
+
+In cloud identity management, there are the three A’s 
+- authentication: it verifies the identity of users or systems that seek access using a unique credentials.
+    - two-factor authentication or multi-factor authentication, is a security feature that adds an extra layer of protection
+- authorization: determine what that user or system is allowed to do within the system.
+- auditing/accounting: monitoring and tracking user activities within a system
+
+With IAM, the admin can:
+- create and manage user accounts;
+- assign roles to users;
+- grant and revoke permissions to resources;
+- **audit user activity**;
+- **monitor your security position**.
+
+Network security:
+- zero trust;
+    - Google Cloud's BeyondCorp Enterprise.
+- secure connectivity across these environments;
+    - Cloud VPN and Cloud Interconnect to establish secure connections between your on-premises networks and Google Cloud resources
+- secure your perimeter:
+    - Google Firewall and Virtual Private Cloud (VPC)
+    - Shared VPC to separates each Google Cloud Project and work independently and safely
+- External web applications and services are often targeted by cyber threats,
+    - Google Cloud Armor comes to the rescue by providing robust DDoS protection.
+- Automate infrastructure provisioning for enhanced security.
+    - Create immutable infrastructure with Terraform, Jenkins, and Cloud Build
+    - It becomes a well-designed workspace
+
+Security Operations (SecOps):
+- is about protecting your organization's data and systems in the cloud.
+- It involves a combination of processes and technologies that help reduce the risk of data breaches, system outages, and other security incidents.
+
+SecOps essential activities:
+- **Vulnerability management**: process of identifying and fixing security vulnerabilities in cloud infrastructure and applications. 
+It’s like regularly checking.
+    - Google Cloud's Security Command Center (SCC) provides a centralized view of the security posture.
+- **Log management**: Cloud Logging allows to analyze security logs from your entire Google Cloud environment.
+- **Incident response**: being prepared for security incidents;
+    - Google Cloud has expert incident responders across various domains, who are equipped with the knowledge and tools to tackle any security incident swiftly and effectively.
+- **Education**: educating the employees on security best practices. Prevent incidents by raising awareness and empowering employees to protect themselves and the organization
+
+SecOps Benefits:
+- **Reduced risk of data breaches**;
+- **Increased uptime**: A swift and effective incident response minimizes the impact of outages on your business operations, which ensures smoother and uninterrupted services;
+- **Improved compliance**;
+- **Enhanced employee productivity**: minimizes the risk of human error and promotes a more secure and productive work environment.
