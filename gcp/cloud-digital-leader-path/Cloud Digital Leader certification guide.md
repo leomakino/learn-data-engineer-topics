@@ -82,9 +82,10 @@ Reference:
 
 # Prepare with questions (Practice tests)
 1. [Combined All Parts 1-5 | Cloud Digital Leader Exam new updated Questions to pass the exam | Google|](https://www.youtube.com/watch?v=Wysza4Coe64)
-1. [Google Cloud Digital Leader Real Exam Question and Answers | Pass the Exam!](https://www.youtube.com/watch?v=OQxM4tyYrlI)
 1. [Google Cloud Certified Cloud Digital Leader Practice Tests by Sathish VJ](https://www.udemy.com/course/google-cloud-certified-cloud-digital-leader-practice-tests/)
+1. [Cloud Digital Leader Study Guide - Beta version](https://services.google.com/fh/files/misc/c-cdlilt-b_study_guide_v2-0.pdf)
 1. [Cloud Digital Leader Sample Questions](https://docs.google.com/forms/d/e/1FAIpQLSedAmf77MGS7FGEaylFzY51KtBd7kkIZJIMDsV5zSRSmpKIOA/viewform)
+
 
 # Schedule an exam
 1. [Cloud Digital Leader Certification Guide - Beta](https://cloud.google.com/learn/certification/cloud-digital-leader)
