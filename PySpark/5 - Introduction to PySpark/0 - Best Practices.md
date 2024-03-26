@@ -1,4 +1,12 @@
-*cluster computing: A cluster is a group of inter-connected computers or hosts that work together to support applications and middleware (e.g. databases). In a cluster, each computer is referred to as a “node”.
+## Getting to know PySpark
+
+cluster computing: A cluster is a group of inter-connected computers or hosts that work together to support applications and middleware (e.g. databases). In a cluster, each computer is referred to as a “node”.
+
+Splitting up your data makes it easier to work with very large datasets because each node (separate computer) only works with a small amount of data. The data processing and computation are performed in parallel over the nodes in the cluster.
+
+Deciding whether or not Spark is the best solution for your problem:
+- Is my data too big to work with on a single machine?
+- Can my calculations be easily parallelized?
 
 sc - SparkContext - connection to the cluster
 spark - SparkSession - interface with that connection, platform for cluster computing.
@@ -12,9 +20,7 @@ SparkSession
 	lets you spread data and computations over clusters with multiple nodes (think of each node as a separate computer)
 	data processing and computation are performed in parallel over the nodes in the cluster
 
-Deciding whether or not Spark is the best solution for your problem:
-	Is my data too big to work with on a single machine?
-	Can my calculations be easily parallelized?
+
 
 Master & Worker concept
 	The master sends the workers data and calculations to run, and they send their results back to the master.
