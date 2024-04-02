@@ -1,4 +1,24 @@
-In this chapter, you'll learn about the pyspark.sql module, which provides optimized data queries to your Spark session.
+## Manipulating Data 
+In this chapter, the course explores the pyspark.sql module, which provides optimized data queries to your Spark session.
+
+--------------
+
+Updating a Spark DataFrame is somewhat different than working in pandas because the Spark DataFrame is immutable. This means that it can't be changed, and so columns can't be updated in place. To overwrite the original DataFrame you must reassign the returned DataFrame using the method like below:
+
+```python
+df = df.withColumn("newCol", df.oldCol + 1)
+```
+
+The withColumn method creates a DataFrame with the same columns plus a new column.
+
+```python
+# Create the DataFrame flights
+flights = spark.table("flights")
+
+```
+
+
+All the sql methods return new DataFrames. 
 
 in a nutshell: using as few words as possible
 
