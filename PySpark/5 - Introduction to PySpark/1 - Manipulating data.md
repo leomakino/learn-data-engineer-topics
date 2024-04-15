@@ -9,12 +9,20 @@ Updating a Spark DataFrame is somewhat different than working in pandas because 
 df = df.withColumn("newCol", df.oldCol + 1)
 ```
 
-The withColumn method creates a DataFrame with the same columns plus a new column.
+The withColumn method creates a DataFrame with the same columns plus a new column. The filter method correspond to the SQL's `WHERE` clause. The .filter() method takes either an expression that would follow the WHERE clause of a SQL expression as a string, or a Spark Column of boolean (True/False) values. In other words, Spark's .filter() can accept any expression that could go in the WHERE clause of a SQL query.
+
+
+The Spark variant of SQL's SELECT is the `.select()` method. The arguments can either be the column name as a string (one for each column) or a column object (using the df.colName syntax).
 
 ```python
 # Create the DataFrame flights
 flights = spark.table("flights")
 
+# Filter something case A: String that could go in the WHERE clause
+filtered_df = table_name.filter("column_name > 1000")
+
+# Filter something case B: Spark Column
+filtered_df2 = table_name.filter(table_name.sparkColumn > 1000)
 ```
 
 
