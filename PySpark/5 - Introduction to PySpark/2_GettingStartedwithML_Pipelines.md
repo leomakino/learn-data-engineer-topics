@@ -1,20 +1,25 @@
-PySpark has built-in, cutting-edge machine learning routines, along with utilities to create full machine learning pipelines. You'll learn about them in this chapter.
+## Getting started with machine learning pipelines
+PySpark has built-in, cutting-edge machine learning routines, along with utilities to create full machine learning pipelines. 
 
-\--
+At the core of the pyspark.ml module are the Transformer and Estimator classes. 
 
-.transform()
-	takes a DataFrame and returns a new DataFrame; usually the original one with a new column appended.
-	
-.fit()
-	take a DataFrame, but instead of returning another DataFrame they return a model object.
-	
-Data types:
-	Spark only handles numeric data. That means all of the columns in your DataFrame must be either integers or decimals (called 'doubles' in Spark).
-	Unfortunately, Spark doesn't always guess right and you can see that some of the columns in our DataFrame are strings containing numbers as opposed to actual numeric values.
-	You can put this call to .cast() inside a call to .withColumn() to overwrite the already existing column
-		To remedy this (convert string to numeric maybe)
-		integers -> "integer"
-		decimal numbers -> "double"
+**Transformer** classes have a `.transform()` method that takes a DataFrame and returns a new DataFrame; 
+
+
+**Estimator** classes all implement a `.fit()` method. These methods also take a DataFrame, but instead of returning another DataFrame they return a model object. 
+
+Spark only handles numeric data. That means all of the columns in your DataFrame must be either integers or decimals (called 'doubles' in Spark).
+
+Spark doesn't always infer corretly the data types. Therefore, there are methods to convert datatypes. `.cast()` is used to convert string to integer.
+
+```python
+# Cast the column to integers
+dataframe = dataframe.withColumn("col", dataframe.col.cast("new_type"))
+
+# Create a column that subtracts columnA from columnB
+model_data = model_data.withColumn("columnA_B", model_data.columnA - model_data.columnB)
+```
+
 
 Strings and factors:
 	Spark requires numeric data for modeling.
