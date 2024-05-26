@@ -19,20 +19,27 @@ dataframe = dataframe.withColumn("col", dataframe.col.cast("new_type"))
 # Create a column that subtracts columnA from columnB
 model_data = model_data.withColumn("columnA_B", model_data.columnA - model_data.columnB)
 ```
+Spark requires numeric data for modeling. When strings are needed to model, there isn't any obvious way to convert them to a numeric data type. PySpark has functions for handling this built into the `pyspark.ml.features`. With this submodule, it is possible to create a *one-hot vector*. It is a way of representing a categorical feature where every observation has a vector in which all elements are zero except for at most one element, which has a value of one (1).
 
+```python
+# Create a StringIndexer
+columnA_indexer = StringIndexer(inputCol="columnA", outputCol="columnA_index")
 
-Strings and factors:
-	Spark requires numeric data for modeling.
-	These are values coded as strings and there isn't any obvious way to convert them to a numeric data type
-	PySpark has functions for handling this built into the pyspark.ml.features submodule
-		You can create what are called 'one-hot vectors' 
-	A one-hot vector is a way of representing a categorical feature where every observation has a vector in which all elements are zero except for at most one element, which has a value of one (1).
-	The first step to encoding your categorical feature is to create a StringIndexer
-	Estimators that take a DataFrame with a column of strings and map each unique string to a number.
-	Estimator returns a Transformer
-	Transformer takes a DataFrame and returns a new DataFrame with a numeric column corresponding to the string column.
-	The second step is to encode this numeric column as a one-hot vector using a OneHotEncoder
-	All you have to remember is that you need to create a StringIndexer and a OneHotEncoder
-	
-VectorAssembler
-	takes all of the columns you specify and combines them into a new vector column.
+# Create a OneHotEncoder
+columnA_encoder = OneHotEncoder(inputCol="columnA_index", outputCol="columnA_fact")
+
+# Make a VectorAssembler
+vec_assembler = VectorAssembler(inputCols=["ColumnX", "columnY", "columnA_fact"], outputCol="features")
+
+# Import Pipeline
+from pyspark.ml import Pipeline
+
+# Make the pipeline
+flights_pipe = Pipeline(stages=[dest_indexer, dest_encoder, carr_indexer, carr_encoder, vec_assembler])
+
+# Fit and transform the data
+piped_data = flights_pipe.fit(model_data).transform(model_data)
+
+# Split the data into training and test sets
+training, test = piped_data.randomSplit([.6, .4])
+```
