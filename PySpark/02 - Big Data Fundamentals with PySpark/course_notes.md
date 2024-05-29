@@ -102,7 +102,7 @@ What are anonymous functions in Python?
 - Lambda functions are anonymous functions in Python
 - Very powerful and used in Python. Quite efficient with ```map()``` and ```filter```()
 - Lambda functions create functions to be called later similar to ```def```
-- It returns the functions instead of assigning it to a namew. It returns functions without any name (i.e. anonymous)
+- It returns the functions instead of assigning it to a name. It returns functions without any name (i.e. anonymous)
 - In practice, they are used as a way to inline a function definition or to defer execution of a code
 
 Lambda function syntax
