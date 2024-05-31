@@ -190,13 +190,13 @@ Partitions
 - A partition is a logical division of a large distributed data set
 
 ## Spark Operation
-Pyspark supports two different tyepes of operations:
+Pyspark supports two different types of operations:
 - Transformations (create new RDDs)
 - Actions (perform computation on the RDD)
 
 Basic RDD Transformations
 - map(): applies a function to all elements in the RDD
-- filter() returns a new RDD with only the elements that pass the confition
+- filter() returns a new RDD with only the elements that pass the condition
 - flatMap() returns multiple values for each element in the original RDD
 - union() union two or more RDDs
 
