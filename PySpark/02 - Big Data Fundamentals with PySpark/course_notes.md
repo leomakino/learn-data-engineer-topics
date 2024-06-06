@@ -238,10 +238,11 @@ Actions are the operations that are applied on RDDs to return a value after runn
 
 ## Working with Pair RDDs in Pyspark
 Introduction to pair RDDs in Pyspark:
-- Real life datasets are usually key/value pairs
+- Real life datasets are usually key/value pairs (dictionaries, json)
 - Each row is a key and maps to one or more values
 - **Pair RDD is a special data structure to work with this kind of datasets**
 - Pair RDD: Key is the identifier and value is data
+- Pair RDDs are still RDDs and thus use all the transformations available to regular RDDs.  
 
 Two common ways to create pair RDDs
 1. From a list of key-value tuple
@@ -319,7 +320,7 @@ output:
 ## More actions
 reduce()
 - reduce(func) action is used for aggregating the elements of a regular RDD
-- THe function should be commutative (changing the order of the operands does not change the result) and associative
+- The function should be commutative (changing the order of the operands does not change the result) and associative
 
 saveAsTextFile()
 - It saves RDD into a text file inside a directory with each partition as a separate file
@@ -333,7 +334,7 @@ countByKey() action
 - it counts the number of elements for each key
 
 collectASMap()
-- It returns key key-value pairs in the RDD as a dictionary
+- It returns key-value pairs in the RDD as a dictionary
 
 ```python
 # reduce example: calculates the sum of all the elements in an RDD
