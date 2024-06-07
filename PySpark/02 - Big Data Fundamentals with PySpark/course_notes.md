@@ -373,14 +373,14 @@ What are Pypark Dataframes?
 - Designed for processing both structured (relational database) and semi-structured data (e.g. JSON)
 - Dataframe API is available in Python, R, Scala, and Java
 - DataFrames in Pypark **support** both SQL **queries** (SELECT * from table) **or** expression **methods**(df.select())
-- PySpark DataFrame is a perfect for data visualization compared to RDDs because of its inherent structure and schema.
+- PySpark DataFrame is perfect for data visualization compared to RDDs because of its inherent structure and schema.
 
 SparkSession - Entry point for DataFrame API
 - **SparkContext** is the **main entry point** for creating RDDs
 - **SparkSession** provides a **single point of entry** to interact with Spark DataFrames
 - SparkSession is used to create DataFrames, register DataFrames, execute SQL queries
 - The SparkSession does for DataFrames what the SparkContext does for RDDs
-- SparkSession is available in PySpark shell as ```spark```
+- SparkSession is available in PySpark shell as `spark`
 
 Creating DataFrames in PySpark
 1. From existing RDDs using SparkSession's createDataFrame() method
@@ -410,7 +410,7 @@ DataFrame operations:
 1. Transformations: transformations creates new dataframes
 1. Actions
 
-DataFrame oTransformations:
+DataFrame Transformations:
 - select(): extracts one or more columns from a dataFrame
 - filter(): filters  out the rows based on a condition
 - groupby(): group a variable
@@ -461,7 +461,7 @@ DataFrames can easily be manipulated using SQL queries in PySpark.
 
 The sql() function on a SparkSession enables applications to run SQL queries programmatically and returns the result as another DataFrame.
 
-Spark SQL operations generally return DataFrames. This means you can freely mix DataFrames and SQL.
+**Spark SQL operations generally return DataFrames. This means you can freely mix DataFrames and SQL.**
 
 Summary:
 - In Pyspark it's possible to interact with SparkSQL through DataFrame API and SQL queries.
