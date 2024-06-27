@@ -568,7 +568,7 @@ Collaborative filtering is a method of making automatic predictions about the in
 - Collaborative filtering is commonly used for **recommender systems**
 - Collaborative fitering approaches
     - User-User Collaborative filtering: Finds users that are similar to the target user
-    - Item-Item Collaborative filtering: Finds and recoomends items that are similar to items with the target user
+    - Item-Item Collaborative filtering: Finds and recommends items that are similar to items with the target user
 
 Rating class in pyspark.mllib.recommendation submodule
 - The rating class is a weapper around tuple (user, product and rating)
