@@ -25,6 +25,30 @@ Professional Level Certification:
 
 
 ## Setting Up a Cloud Solution Environment
+Module 1 - Implementing the basic cloud infrastructure for the organization:
+1. Setting up cloud projects and accounts;
+    - Establishing a resource hierarchy
+    - Implemeting organizational policies
+    - Managing projects and quotas
+    - Managing users and groups
+    - Applying access management
+1. Managing billing configuration
+1. Installing and configuring the CLI
+
+
+Setting up products in Google Cloud Observability: provide metrics and logging services for all services, resources and projects.
+
+To monitor metrics from multiple project, you set up project scoping. If Cymbal Superstore’s Operations department decides to monitor metrics across all three supply chain projects in the staging environment project, you will set staging as a scoping project and then add dev and production as monitored projects.
+
+Interacting with Google Cloud:
+- **Web user interface**: Google Cloud Console
+- **Command-line interface**: Cloud SDK and Cloud Shell
+- **iOS and Android**: Cloud Mobile app
+- **Custom applications**: REST-based API
+
+
+Documentation to review:
+- a
 
 ## Planning and Configuring a Cloud Solution
 
