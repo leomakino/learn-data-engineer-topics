@@ -28,10 +28,12 @@ Professional Level Certification:
 Module 1 - Implementing the basic cloud infrastructure for the organization:
 1. Setting up cloud projects and accounts;
     - Establishing a resource hierarchy
-    - Implemeting organizational policies
+    - Implemeting organizational policies to the resource hierarchy
     - Managing projects and quotas
-    - Managing users and groups
+    - Managing users and groups in Cloud Identity (manually and automated)
     - Applying access management
+    - Enabling APIs within projects
+    - Provisioning and setting up products in GC Observability
 1. Managing billing configuration
 1. Installing and configuring the CLI
 
@@ -46,9 +48,44 @@ Interacting with Google Cloud:
 - **iOS and Android**: Cloud Mobile app
 - **Custom applications**: REST-based API
 
+### Resource Hierarchy
+1. Organization sits at the top of the Google Cloud resource hierarchy
+1. Folders are optional and come between organization and projects
+1. Projects
+1. Resources
 
-Documentation to review:
-- a
+When you give a user, group, or service account a role on a specific element of the resource hierarchy, the resulting policy applies to the element you chose, as well as to elements below it in the hierarchy.
+
+"""mermaid
+flowchart TB;
+A[Company] --> B[Dept 1]
+A[Company] --> C[Dept 2]
+C[Dept 2] --> D[Team X]
+C[Dept 2] --> E[Team Y]
+E[Team Y] --> F[Product 1]
+E[Team Y] --> F[Product 2]
+F[Product 1] --> G[Test Project]
+F[Product 1] --> G[PRD Project]
+"""
+
+### Managing users and groups in Cloud Identity (manually and automated)
+1. Users should be added to groups **and groups assigned roles** to simplify permissions management.
+    - Avoid to assign roles to an individual user
+1. Best practice is to manage role assignment by groups not by individual users.
+1. You assign members to roles through an IAM policy. Roles are combinations of permissions needed for a role.
+1. Members can be a Google account, a service account, a Google group, a Google Workspace domain, a cloud Identity domain, all authenticated users, and all users.
+1. A service account is an account for an application instead of an end user.
+
+### Applying access management
+IAM (Identity and Access Management):
+1. Who
+1. Can do what
+1. on which resource
+
+### Documentation to review:
+- [IAM Overview](!https://cloud.google.com/iam/docs/overview)
+- [Cloud Platform Resource hierarchy](!https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy)
+
 
 ## Planning and Configuring a Cloud Solution
 
