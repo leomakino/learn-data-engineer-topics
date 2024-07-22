@@ -58,14 +58,14 @@ When you give a user, group, or service account a role on a specific element of 
 
 ```mermaid
 flowchart TB;
-A[Company] --> B[Dept 1]
-A[Company] --> C[Dept 2]
-C[Dept 2] --> D[Team X]
-C[Dept 2] --> E[Team Y]
-E[Team Y] --> F[Product 1]
-E[Team Y] --> G[Product 2]
-F[Product 1] --> G[Test Project]
-F[Product 1] --> H[PRD Project]
+A[Company - Organization] --> B[Dept 1 - Folder]
+A[Company] --> C[Dept 2 - Folder]
+C[Dept 2 - Folder] --> D[Team X - Folder]
+C[Dept 2 - Folder] --> E[Team Y - Folder]
+E[Team Y - Folder] --> F[Product 1 - Folder]
+E[Team Y - Folder] --> G[Product 2 - Folder]
+F[Product 1 - Folder] --> H[Test - Project]
+F[Product 1 - Folder] --> J[PRD - Project]
 ```
 
 ### Managing users and groups in Cloud Identity (manually and automated)
