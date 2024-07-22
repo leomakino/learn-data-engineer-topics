@@ -63,9 +63,9 @@ A[Company] --> C[Dept 2]
 C[Dept 2] --> D[Team X]
 C[Dept 2] --> E[Team Y]
 E[Team Y] --> F[Product 1]
-E[Team Y] --> F[Product 2]
+E[Team Y] --> G[Product 2]
 F[Product 1] --> G[Test Project]
-F[Product 1] --> G[PRD Project]
+F[Product 1] --> H[PRD Project]
 ```
 
 ### Managing users and groups in Cloud Identity (manually and automated)
