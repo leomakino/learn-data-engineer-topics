@@ -56,7 +56,7 @@ Interacting with Google Cloud:
 
 When you give a user, group, or service account a role on a specific element of the resource hierarchy, the resulting policy applies to the element you chose, as well as to elements below it in the hierarchy.
 
-"""mermaid
+```mermaid
 flowchart TB;
 A[Company] --> B[Dept 1]
 A[Company] --> C[Dept 2]
@@ -66,7 +66,7 @@ E[Team Y] --> F[Product 1]
 E[Team Y] --> F[Product 2]
 F[Product 1] --> G[Test Project]
 F[Product 1] --> G[PRD Project]
-"""
+```
 
 ### Managing users and groups in Cloud Identity (manually and automated)
 1. Users should be added to groups **and groups assigned roles** to simplify permissions management.
