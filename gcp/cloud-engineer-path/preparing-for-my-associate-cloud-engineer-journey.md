@@ -124,6 +124,109 @@ Installing and configuring the command line interface (CLI), specifically the Cl
 
 
 ## Planning and Configuring a Cloud Solution
+After implementing the basic cloud infrastructure (Previous section), the next steps are:
+- Planning and estimating Google Cloud princing using the Pricing Calculator
+- Planning and configuring compute resources
+- Planning and configuring data storage options
+- Planning and configuring nesources
+
+There are some common questions to ask while you are analyzing the data needs.
+1. Are your data processing needs transactional or analytical?
+1. Do you need to query your data in a relational way?
+1. Do you want large groups of related data to be returned through 
+a non-relational get operation?
+1. Does it require access to the internet, or do you just need to provide connectivity to internal components on your private network?
+1. Are you going to configure the connectivity of multiple application servers by load balancing incoming traffic across them?
+1. How are you going to protect your app against network or system outages?
+
+
+
+
+### Planning and estimating Google Cloud princing using the Pricing Calculator
+The Pricing Calculator is a multi-section form that lets you estimate the costs of different cloud services based on how you are going to use and configure them.
+
+Obs:
+- *Egress is the amount of data read from the bucket and is also chargeable.*
+
+### Planning and configuring compute resources
+A cloud architect will typically design a cloud solution. As an Associate Cloud Engineer, it’s important for you to be able to plan and configure compute resources to align with Google recommended practices. That means you should be comfortable with the different compute options available in Google Cloud and when to use each one.
+
+
+Considerations include:
+- Selecting appropriate compute choices for a given workload
+    - (e.g., Compute Engine, Google Kubernetes Engine, Cloud Run, Cloud Functions)
+- Using preemptible VMs and custom machine types as appropriate
+
+
+There are five distinct ways to interact with compute resources in Google Cloud. They can be divided into server-based services (IaaS), where manage and pay for infrastructure, and serverless options (PaaS), where you just pay for execution time. The options are:
+- Infraestructure as a Service (IaaS):
+    - Compute Engine
+    - GKE - Google Kubernetes Engine
+- Platform as a Service (PaaS):
+    - App Engine
+    - Cloud Run
+    - Cloud Functions
+
+
+PaaS options, you focus on code and Google manages the underlying hardware and OSs for you.
+
+
+When you need to use:
+- Compute Engine: 
+    - Complete controle,
+    - Ability to make OS level changes, 
+    - To be able to move to the cloud without rewriting the code
+    - To use custom VM images
+- GKE
+    - No dependencies on a specific OS
+    - Increased velocity and operability
+    - To manage containers in production
+- App Engine
+    - To just focus on writting code
+    - Developer velocity
+    - Minimize operational overhead
+- Cloud Run
+    - Scales to meet demand
+    - Pay for what you use
+    - Supports API endpoints
+- Cloud Functions
+    - For event-driver workloads
+    - Scales to meet demand
+    - Minimal configuration
+
+Typical Uses Cases:
+- Compute Engine: 
+    - Any workload requiring a specific OS or configuration
+    - On premises software that you want to run in the cloud
+- GKE
+    - Containerized workloads
+    - Cloud-native distributed systems
+    - Hybrid applications
+- App Engine
+    - Web sites
+    - Apps
+    - Gaming back ends
+    - IoT applications
+- Cloud Run
+    - Web frameworks
+    - Microservices
+- Cloud Functions
+    - Statiscal analysis
+    - Image trumbnail generation
+    - Post a comment to a Slack channel after a GitHub commit
+
+
+App Engine has two environments: standard and flexible. Standard provides a sandbox environment and totally abstracts the infrastructure for you. The flexible environment gives you more choices for deploying your app. It supports more languages, supports different runtimes, and lets you load dependencies you need in the underlying architecture.
+
+
+Cloud Run, which is also serverless, enables you to run stateless containers via web requests and Google Cloud service events. Cloud Run operates using Knative, an open-source, Kubernetes-based platform. It builds, deploys, and manages modern serverless workloads. Cloud Run gives you the choice of running your containers either fully-managed or in your own GKE cluster.
+
+### Documentation to review:
+Planning and estimating Google Cloud princing using the Pricing Calculator
+- [Choosing the Right Compute option in GCP](!https://cloud.google.com/blog/products/compute/choosing-the-right-compute-option-in-gcp-a-decision-tree)
+Planning and configuring compute resources
+- [Resource hosting options](!https://cloud.google.com/hosting-options)
+
 
 ## Deploying and Implementing a Cloud Solution
 
