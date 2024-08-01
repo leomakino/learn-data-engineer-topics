@@ -221,11 +221,60 @@ App Engine has two environments: standard and flexible. Standard provides a sand
 
 Cloud Run, which is also serverless, enables you to run stateless containers via web requests and Google Cloud service events. Cloud Run operates using Knative, an open-source, Kubernetes-based platform. It builds, deploys, and manages modern serverless workloads. Cloud Run gives you the choice of running your containers either fully-managed or in your own GKE cluster.
 
+### Planning and configuring data storage options
+Along with compute resources, an Associate Cloud Engineer needs to be able to plan and configure data storage in Google Cloud. that requires understanding of the different product choices (Cloud SQL, BigQuery, Firestore, Spanner, Bigtable) and storage options (Zonal persistent disk, regional balanced persistent disk, standard, nearline, coldline, archive), and how to make recommended choices for a given use case.
+
+Differentiate between relational databases and data warehouses:
+- relational databases can be transactional, while data warehouses are analytical and based on historical data.
+
+Product choices:
+- Cloud SQL: It is is optimized for **transactional** reads and writes. It is a managed version of databases you can implement on-premises,
+- BigQuery: It is Google Cloud’s implementation of a modern data warehouse. BigQuery analyzes historical data and uses a SQL query engine. It does have a native storage format but can also query external data where it resides. *Keep in mind its native storage format is not a good solution for a backend store for an application.*
+- Firestore: It is a NoSQL **document database** used to define entities with attributes. It is not a good choice for the analysis of historical data.
+- Spanner: It is an SQL-compatible relational database, but it is not built for analyzing historical data. Spanner is horizontally scalable and globally available.
+- Bigtable: It is based on column families where rows of data are referenced by a key that combines commonly queried columns. Related columns can additionally be organized into column families such as username and address.
+
+Comparing Data Storage and Database Options
+1. Warehouse
+    - Product: BigQuery
+        - Good for: Analytics, dashboards
+1. Relational
+    - Product: Cloud SQL
+        - Good for: transactional, web frameworks (such as CMS, eCommerce)
+    - Product: Spanner
+        - Good for: **global** transactions, automatic multi-site replication, failover.
+1. Non-relational:
+    - Product: Firestone
+        - Good for: Hierarchical, mobile, web. E.g.: User profiles, Game State.
+    - Product: BigTable
+        - Good for: Heavy read/write, events.
+1. Object:
+    - Product: Cloud Storage
+        - Good for: Binary or object data. Such as: Images, media serving.
+
+Storage classes:
+- **Archive storage** is the best choice for data that you plan to access less than once a year.
+    - Use when: Data archiving, online backup, and disaster recovery.
+- **Coldline** is good for storing data accessed only every 90 days.
+    - Use when: Very infrequently accessed data - ie, once a year. Typically this is for disaster
+recovery, or for financial data that has to be kept for a certain length of time to meet regulatory needs.
+- **Nearline** is good for storing data accessed only every 30 days.
+    - Use when: deal for back-up and serving long-tail multimedia content.
+- **Standard storage** is best for data that is frequently accessed ("hot" data) and/or stored for only brief periods of time. In addition, co-locating your resources by selecting the regional option maximizes the performance for data-intensive computations and can reduce network charges.
+    - Use when: "hot" data
+
 ### Documentation to review:
 Planning and estimating Google Cloud princing using the Pricing Calculator
 - [Choosing the Right Compute option in GCP](!https://cloud.google.com/blog/products/compute/choosing-the-right-compute-option-in-gcp-a-decision-tree)
+
 Planning and configuring compute resources
 - [Resource hosting options](!https://cloud.google.com/hosting-options)
+- [Compute Engine overview](!https://cloud.google.com/compute/docs/overview)
+- [Choosing a compute option](!https://cloud.google.com/docs/choosing-a-compute-option)
+
+Planning and configuring data storage options
+- [Google Cloud online storage products](!https://cloud.google.com/products/storage?hl=en)
+- [Google Cloud Storage Classes](!https://cloud.google.com/storage/docs/storage-classes)
 
 
 ## Deploying and Implementing a Cloud Solution
