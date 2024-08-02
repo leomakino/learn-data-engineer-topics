@@ -240,14 +240,14 @@ Comparing Data Storage and Database Options
         - Good for: Analytics, dashboards
 1. Relational
     - Product: Cloud SQL
-        - Good for: transactional, web frameworks (such as CMS, eCommerce)
+        - Good for: transactional, web frameworks (such as CMS, eCommerce, customer orders, user credentials)
     - Product: Spanner
-        - Good for: **global** transactions, automatic multi-site replication, failover.
+        - Good for: **global** transactions, automatic multi-site replication, failover. Large-scale database applications (> 2TiB)
 1. Non-relational:
     - Product: Firestone
-        - Good for: Hierarchical, mobile, web. E.g.: User profiles, Game State.
+        - Good for: Hierarchical, mobile, web, storing, syncing, and querying data.
     - Product: BigTable
-        - Good for: Heavy read/write, events.
+        - Good for: Heavy read/write, events, flat data, **analytical data**
 1. Object:
     - Product: Cloud Storage
         - Good for: Binary or object data. Such as: Images, media serving.
@@ -263,6 +263,27 @@ recovery, or for financial data that has to be kept for a certain length of time
 - **Standard storage** is best for data that is frequently accessed ("hot" data) and/or stored for only brief periods of time. In addition, co-locating your resources by selecting the regional option maximizes the performance for data-intensive computations and can reduce network charges.
     - Use when: "hot" data
 
+
+
+OLTP and OLAP:
+Two common workloads required in a modern business environment are transactional workloads and analytical workloads.
+
+Transactional workloads are optimized for more writes and updates than reads. Transactional means either all parts of an update happen or none of them do. For example, think of the importance of making sure deposits and withdrawals are recorded in a financial system. Both of these are part of one transaction. Relational database services used to support transactional systems in Google Cloud include Cloud SQL and Spanner.
+
+The other type of workload is analytical. It is based on querying historical data that
+doesn’t change often, and is optimized for writes. BigQuery is a good option for this kind of workload.
+
+### Planning and configuring network resources
+
+Meu ponto fraco
+
+
+Together with compute and storage decisions, an associate cloud architect should be able to plan and configure network resources in Google Cloud - including load balancing, resource locations, and Cloud DNS. Tasks include:
+- Differentiating load balancing options. E.g: load balancing options to the appropriate TCP layer
+- Identifying resource locations in a network for availability. E.g.: List regional load balancing options and when to use each one: regional, regional internal (for use inside a VPC).
+- Configuring Cloud DNS
+
+
 ### Documentation to review:
 Planning and estimating Google Cloud princing using the Pricing Calculator
 - [Choosing the Right Compute option in GCP](!https://cloud.google.com/blog/products/compute/choosing-the-right-compute-option-in-gcp-a-decision-tree)
@@ -275,6 +296,8 @@ Planning and configuring compute resources
 Planning and configuring data storage options
 - [Google Cloud online storage products](!https://cloud.google.com/products/storage?hl=en)
 - [Google Cloud Storage Classes](!https://cloud.google.com/storage/docs/storage-classes)
+
+Planning and configuring network resources
 
 
 ## Deploying and Implementing a Cloud Solution
