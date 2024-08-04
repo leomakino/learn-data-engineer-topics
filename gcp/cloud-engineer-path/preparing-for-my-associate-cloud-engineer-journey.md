@@ -284,6 +284,70 @@ Together with compute and storage decisions, an associate cloud architect should
 - Configuring Cloud DNS
 
 
+#### Differentiating load balancing options
+An important consideration when designing an application accessed by end users is load balancing.
+
+
+Load balancing takes user requests and distributes them across multiple instances of your application. This helps to keep your application from experiencing performance issues if there is a spike in user activity.
+
+
+Load balancing options available in Google Cloud can be **divided into** those that operate at **layer 7 (application)** of the OSI model and those that operate at **layer 4** of the stack.
+The http(s) and file transfer protocol (ftp) load balancers live at Layer 7 of the OSI model.
+
+Layer 4 of the OSI model encapsulates host-to-host communication in both the Transport and Network levels.  TCP/UDP, SSL and network load balancers reside at Layer 4 of the OSI model.
+
+
+Google cloud offers both internal and external load balancers.
+- The external load balancers include https, SSL, and TCP load balancers.
+- Internal load balancers include TCP/UDP, http(s), and network pass-through load balancers.
+
+
+In Google Cloud, load balancers can be be proxied or pass-through.
+- Proxied load balancers terminate connections and proxy them to new connections internally.
+- Pass-through load balancers pass the connections directly to the backends.
+
+Load balancing options:
+- Global HTTP(S)
+    - Layer 7 load balancing based on load. 
+    - Can route different URLs to different backends.
+    - Traffic type: HTTP or HTTPS
+    - Global, IPv4, IPv6
+    - External ports: HTTP on 80 or 8080; HTTPs on 443.
+- Global SSL Proxy
+    - Layer 4 load balancing of non-HTTPS SSL traffic based on load.
+    - Supported on specific port numbers.
+    - Traffic type: TCP with SSL offload
+    - Global, IPv4, IPv6
+- Global TCP Proxy
+    - Layer 4 load balancing of non-SSL TCP traffic
+    - Supported on specific port numbers
+    - Traffic type: TCP without SSL offload (Does not preserve client IP address)
+    - Global, IPv4, IPv6
+- Regional
+    - Load balancing of any traffic (TCP, UDP)
+    - Support on **any** port number
+- Regional internal
+    - Load balancing of traffic inside a VPC
+    - User for the internal tiers of multi-tier applications
+    - It can be TCP/UDP or HTTP/HTTPS traffic type
+
+
+When load balancing in a particular region, external connectivity to your front ends can happen through an external http(s) load balancer with the proper forwarding rules and the standard networking tier. For connectivity internal to your defined vpc network, you should use the internal https and internal TCP/UDP load balancing options.
+
+
+Exercises notes:
+- **Premium** external https load balancer is **global** and more expensive;
+- https load balancer is proxied, not pass-through;
+- TCP/UDP is a pass-through balancer;
+- **Premium** tier SSL is **global** and is not the proper solution between web and backend within a region.
+- SSL load balancer is not a good solution for web front ends. For a web frontend, you should use an HTTP/S load balancer (layer 7) whenever possible.
+- A standard tier proxied external load balancer is effectively a regional resource.
+- A regional internal load balancer doesn’t require external IPs and is more secure.
+
+
+
+
+
 ### Documentation to review:
 Planning and estimating Google Cloud princing using the Pricing Calculator
 - [Choosing the Right Compute option in GCP](!https://cloud.google.com/blog/products/compute/choosing-the-right-compute-option-in-gcp-a-decision-tree)
@@ -298,9 +362,20 @@ Planning and configuring data storage options
 - [Google Cloud Storage Classes](!https://cloud.google.com/storage/docs/storage-classes)
 
 Planning and configuring network resources
+- [Cloud Load Balancing overview](!https://cloud.google.com/load-balancing/docs/load-balancing-overview)
 
 
 ## Deploying and Implementing a Cloud Solution
+Deploying and implementing:
+- Compute Engine resources
+- GKE resources
+- Cloud Run and Cloud Functions resources
+- Data solutions
+- Networking resources
+- Cloud Marketplace
+- Implementing resources via infrastructure as code
+
+Understanding availability, concurrency, connectivity and access options for these services are keys to success as you deploy them to support your needs.
 
 ## Ensuring Successful Operation of a Cloud Solution
 
