@@ -377,6 +377,74 @@ Deploying and implementing:
 
 Understanding availability, concurrency, connectivity and access options for these services are keys to success as you deploy them to support your needs.
 
+### Compute Engine
+Deploying Compute Engine resources can include a range of tasks such as:
+- Lauching compute instances using Cloud Console and Cloud SDK;
+- Creating identical managed groups of instances based on an image template;
+- Generating/uploading a custom SSH key for instances;
+- Installing and configuring the Cloud Monitoring and Logging Agent. It allows to track performance and make changes when needed;
+- Assessing compute quotas and requesting increases.
+
+
+Compute Engine allows you to pick the amount of **memory and CPU** from predefined machine types. Machine types are divided into:
+- standard;
+- high memory;
+- high cpu;
+- memory-optimized;
+- compute-optimized;
+- shared-core categories.
+- Custom.
+
+If you need **GPU** support for a compute-heavy workload, you can choose to attach GPUs to certain machine types. You can only use GPUs with general-purpose N1 VMs or accelerator-optimized A2 VMs. Availability of these machine types varies by zone, so make sure you pick a zone that has GPU capability.
+
+**Storage options** for your instances include:
+- regional persistent disks;
+- zonal persistent disks;
+- and local SSD.
+
+
+Regional persistent disks share replicas of the physical disks across two zones, so
+you are protected from a single zone outage. Each persistent disk references data distributed across several physical disks.
+
+**Disk types** you can attach to your virtual machine include:
+- standard (HDD);
+- SSD;
+- or local SSD.
+
+Balanced SSD gives you higher I/O than standard HDD, but less cost and I/O than fully capable SSD disks. Local SDDs provide a very high I/O since they are physically connected to the server your VM is running on.
+
+When you create a virtual machine instance in the console it uses balanced SSD, while when you create one via a gcloud command, it uses standard HDD.
+
+Summary of disk options:
+- Persistent disk HDD:
+    - Data redundancy, Encryption at rest, Snapshotting, Bootable
+    - Use case: General, bulk file storage
+- Persistent disk SSD
+    - Data redundancy, Encryption at rest, Snapshotting, Bootable
+    - Use case: Very random IOPS
+- Local SSD disk:
+    - Encryption at rest.
+    - Use case: High IOPS and low latency.
+- RAM disk:
+    - Use case: low latency and risk of data loss.
+
+
+
+Question 1: Migrate the MySQL database with User-Defined Functions (UDFs) in the most timely and economical way. Notes about the question below.
+- Find a MySQL machine image in Cloud Marketplace meets the requirements but is not the most timely way to implement the solution because it requires additional manual configuration;
+- Implementing a database instance using Cloud SQL is incorrect because it does not support UDFs.
+- Use gcloud to implement a Compute Engine instance with an E2-standard type is incorrect because E2 is a cost-optimized Machine type. 
+- Configure a Compute Engine with an N2 Machine type, install MySQL and restore the data to the new instance is correct because N2 is balanced machine type, which is recommended for medium-large databases.
+
+### Documentation to review:
+Deploying and implementing Compute Engine resources
+- [Compute Engine Documentation](!https://cloud.google.com/compute/docs/)
+
+Deploying and implementing YYY
+- [Compute Engine Documentation](!https://cloud.google.com/compute/docs/)
+
+
+
 ## Ensuring Successful Operation of a Cloud Solution
 
 ## Configuring Access and Security
