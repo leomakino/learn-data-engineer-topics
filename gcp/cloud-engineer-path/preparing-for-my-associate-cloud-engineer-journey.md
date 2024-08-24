@@ -429,6 +429,14 @@ Summary of disk options:
     - Use case: low latency and risk of data loss.
 
 
+The **Managed instance groups (MIGs)** can be used to deploy identical instances based on instance template. The instance group can be resized and it is typically used with autoscaler. Finally, a Manager ensures all instances are running.
+
+
+A Managed Instance Groups ensures availability by keeping VM instances running. If a VM fails or stops, the MIG recreates it based on the instance template. You can make your MIG health checks application-based, which looks for an expected response from your application. The MIG will automatically recreate VMs that are not responding correctly. Another availability feature is spreading load across multiple zones using a regional MIG. Finally, you can use a load balancer to evenly distribute traffic across all instances in the group.
+
+
+When it comes time to update software, automated updates lets you define how you will upgrade the instances in a group. You can specify how many resources to use and how many instances can be unavailable at the same time. Available update scenarios include rolling updates and canary updates. Rolling updates define how you want all instances eventually upgraded to the new template. Canary updates let you specify a certain number of instances to upgrade for testing purposes.
+
 
 Question 1: Migrate the MySQL database with User-Defined Functions (UDFs) in the most timely and economical way. Notes about the question below.
 - Find a MySQL machine image in Cloud Marketplace meets the requirements but is not the most timely way to implement the solution because it requires additional manual configuration;
@@ -436,12 +444,53 @@ Question 1: Migrate the MySQL database with User-Defined Functions (UDFs) in the
 - Use gcloud to implement a Compute Engine instance with an E2-standard type is incorrect because E2 is a cost-optimized Machine type. 
 - Configure a Compute Engine with an N2 Machine type, install MySQL and restore the data to the new instance is correct because N2 is balanced machine type, which is recommended for medium-large databases.
 
+
+Question 2: Updating the OS of the instances in an automated way using minimal resources. Notes about the question below.
+- Create a new instance template, then click Update VMs. Set the update type to PROACTIVE. Click Start. It is the right alternative because this institutes a rolling update automatically, which minimizes resources as requested.
+- Set update type to Opportunistic is incorrect because updates are not interactive.
+- Set max surge to 5 is incorrect because it creates 5 new machines at a time and it does not use minimal resources.
+
+
+### Google Kubernetes Engine resources
+As an Associate Cloud Engineer, you should be comfortable with the Kubernetes CLI, kubectl, and the steps to deploy clusters and applications to GKE. You’ll also need to configure monitoring and logging in GKE. In other words, the tasks include:
+- Installing and configuring the command line interface (CLI) for Kubernetes (kubectl);
+- Deploying a Google Kubernetes Engine cluster with different configurations including AutoPilot, regional clusters, private clusters, etc.;
+- Deploying a containerized application to Google Kubernetes Engine;
+- Configuring Google Kubernetes Engine monitoring and logging.
+
+Basic concepts:
+- A cluster deploys containers on a set of nodes.
+- Nodes are VMs (Compute Engine instances).
+
+
+GKE has to modes to choose from: **autopilot mode and standard mode**. Autopilot is fully-provisioned and managed. You are charged according to the resources pods use as you deploy and replicate them based on the pod spec. Standard mode provides you flexibility to define and manage the cluster structure yourself.
+
+
+In a GKE cluster, availability deals with both the control plane and the distribution of your nodes. A zonal cluster has a single control plane in a single zone. You can distribute the nodes of a zonal cluster across multiple zones, providing node availability in case of a node outage. A regional cluster, on the other hand, has multiple replicas of the control plane in multiple zones with a given region. Nodes in a regional cluster are replicated across three zones, though you can change this behavior as you add new node pools.
+
+
+Routing between pods (**Network routing**) in GKE can be accomplished using alias IPs or Google Cloud Routes. The first option is also known as a VPC-native cluster, and the second one is called a routes-based cluster.
+
+
+**Network Isolation**: Public GKE networks let you set up routing from public networks toyour cluster. Private networks use internal addresses for pods and nodes and are isolated from public networks.
+
+
+
+Question 3: A need to build a new cloud app using a small Kubernetes cluster for the pilot that should only be available to the development team and does not need to be highly available. Additionally, the developers also need the ability to change the cluster architecture. Notes about the question below.
+- The correct ansewer: Implement a private standard zonal cluster in us-central1-a with a default pool and an Ubuntu image.
+- Standard clusters can be zonal and the default pool provides nodes used by the cluster.
+- Autopilot clusters are regional. They are managed at the pod level. Consequently, it doesn’t support Ubuntu image types.
+- The container-optimized image that supports autopilot type does not support custom packages.
+
+
+
 ### Documentation to review:
 Deploying and implementing Compute Engine resources
 - [Compute Engine Documentation](!https://cloud.google.com/compute/docs/)
+- [Basic scenarios for creating managed instance groups](!https://cloud.google.com/compute/docs/instance-groups/creating-groups-of-managed-instances)
 
-Deploying and implementing YYY
-- [Compute Engine Documentation](!https://cloud.google.com/compute/docs/)
+Deploying and implementing Google Kubernetes Engine resources
+- [Types of Clusters](!https://cloud.google.com/kubernetes-engine/docs/concepts/types-of-clusters)
 
 
 
