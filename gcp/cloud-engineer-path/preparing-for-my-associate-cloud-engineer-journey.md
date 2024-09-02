@@ -483,6 +483,54 @@ Question 3: A need to build a new cloud app using a small Kubernetes cluster for
 - The container-optimized image that supports autopilot type does not support custom packages.
 
 
+### Cloud Run and Cloud Function resources
+An Associate Cloud Engineer should be able to deploy and implement serverless solutions. Also, differentiate among serverless options including App Engine standard and flexible environment, and Cloud Run. Other tasks include:
+- Deploying an application and updating scaling configuration, versions, and traffic splitting
+- Deploying an application that receives Google Cloud events (for example, Pub/Sub events, Cloud Storage object change notification events)
+- Describe event function as a service capabilities of Cloud Functions.
+
+
+
+**Cloud Run** provides a service to manage containers in a serverless way. A service is a regional resource that is replicated in multiple zones and exposed as an endpoint. 
+Underlying infrastructure scales automatically based on incoming requests. If there are no requests coming in it can scale to zero to save you money.
+
+
+Changes to containers or environment settings create new revisions. Revisions can be rolled out in a way that supports canary testing by splitting traffic according to your specifications. 
+
+
+Cloud Run is built using an open source initiative called knative. It can use system libraries and tools made available to the container environment. It has a timeout of 60 minutes for longer running requests. Cloud Run can send multiple concurrent requests to each container instance, improving latency, and saving costs for large volumes of incoming traffic.
+
+
+**App Engine** has two management environments: standard and flexible.
+
+
+In the standard environment, apps run in a sandbox using a specific language runtime. Standard environment is good for rapid scaling. It is limited to specific languages. It can scale to 0 when there is no incoming traffic. It starts up in seconds. In the standard environment you are not allowed to make changes to the runtime.
+
+In contrast to the standard environment, App Engine flexible runs in Docker containers in Compute Engine VMs. Flexible supports more programming languages. It can use native code and you can Access and manage the underlying Compute Engine resource base. App Engine flexible does not scale to 0. Startup is in minutes. Deployment time is in minutes (longer than standard). It does allow you to modify the runtime environment.
+
+
+Cloud Run Functions It is a fully managed service based on events that happen across your cloud environment, including services and infrastructure. The functions you develop run in response to those events. There are no servers to manage or scaling to configure. The service provides the underlying resources required to execute your function. A trigger sends an https request to an endpoint the service is listening on. This endpoint then responds by deploying and executing the function and returning the results specified in your code. Pricing is based on the number of events,
+compute time, and memory required in network ingress/egress. 
+
+
+Cloud Functions use cases include IoT processing and lightweight ETL. By design, functions you write for use by the Cloud Functions service are stateless. If you need to share and persist data across function runs, you should consider using Datastore or Cloud Storage. 
+
+
+Each Cloud Function instance handles only one concurrent request at a time. If, while handling a request, another one comes in, Cloud Functions will ask for more instances to be created. This is another reason functions need to be stateless, because they can run on different instances. You can implement minimum instance limits to avoid latency associated with cold starts.
+
+
+Question 4: quickly deploy a containerized web application; the services will be exposed; Do not want to manage infrastructure; pay when requests are being handled; need support for custom
+packages. What technology meets these needs?
+- Correct: **Cloud Run** is serverless, exposes your services as an endpoint, and abstracts all infrastructure.
+- App Engine flexible environment is incorrect because it does not scale to zero.
+- App Engine standard environment is incorrect because does not allow custom packages.
+- Cloud Functions is incorrect because it does not deploy containers. It deploys and executes small snippets of code.
+
+
+Question 5: files being added to a Cloud Storage bucket. Specify a trigger resource pointing to your bucket.
+- --trigger-event google.storage.object.finalize
+
+
 
 ### Documentation to review:
 Deploying and implementing Compute Engine resources
@@ -491,6 +539,16 @@ Deploying and implementing Compute Engine resources
 
 Deploying and implementing Google Kubernetes Engine resources
 - [Types of Clusters](!https://cloud.google.com/kubernetes-engine/docs/concepts/types-of-clusters)
+
+
+Deploying and implementing Cloud Run and Cloud Function resources
+- [Hosting Options](!https://cloud.google.com/hosting-options)
+- [Choose an App Engine environment](!https://cloud.google.com/appengine/docs/the-appengine-environments)
+- [What no one tells you about Serverless](!https://cloud.google.com/blog/topics/developers-practitioners/cloud-run-story-serverless-containers)
+- [Learn Cloud Functions in a snap](!https://cloud.google.com/blog/topics/developers-practitioners/learn-cloud-functions-snap)
+- [Cloud Run Functions](!https://cloud.google.com/functions?hl=en)
+
+
 
 
 
