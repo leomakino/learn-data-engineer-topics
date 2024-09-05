@@ -590,12 +590,37 @@ Another way to load data is to execute queries in BigQuery native storage or fed
 Finally, many third party applications have connectors you can use to get data in to Big Query. You would need to look at the documentation of the product you want to ingest data from.
 
 ### Networking resources
+Knowing how to connect your cloud resources, services, and users is an important aspect of being an Associate Cloud Engineer.
+
+Virtual Private Cloud (VPC) are part of Google’s software defined network environment. VPCs provide connectivity to Compute Engine instances. They offer internal
+TCP/UDP load balancing systems. They allow you to implement Cloud VPN tunnels to communicate with your on-premises network, and they distribute external traffic to backend servers.
+
 Tasks include:
 - Creating a VPC with subnets;
 - Launching a Compute Engine instance with custom network configuration
 - Creating ingress and egress firewall rules for a VPC
 - Creating a VPN between a Google VPC and an external network using Cloud VPN
 - Creating a load balancer to distribute application network traffic to an application
+
+
+Question 9: fully control IP ranges and the definition of regional subnets. Which Virtual Private Cloud (VPC) network type allow this?
+- Default Project network is incorrect because A project’s default network is an auto mode network that creates one subnet in each Google Cloud region automatically with a predetermined set of IP ranges.
+- Auto mode network is incorrect because an auto mode network creates one subnet in each Google Cloud region automatically with a predetermined set of IP ranges.
+- An auto mode network converted to a custom network is incorrect because it retains the currently assigned IP addresses and requires additional steps to change subnet characteristics.
+- Custom mode network is **correct** because it gives you control over regions that you place your subnets in and lets you specify IP ranges for them as well.
+
+
+
+There are two types of network configurations that are available when you decide to create a new VPC.
+1. **Auto mode networks** create one subnet in each region automatically. New subnets are added automatically when new regions come on line. IP addresses are created from a predetermined set of address spaces. The default VPC created when you create a project is an auto mode VPC. The benefits of using auto mode include being easy to set up and use and subnets are created in each region. You need to ensure IP ranges do not overlap with on-premise resources.
+1. **custom network**: you create and configure the subnets you want and only in the regions you want. If you try to create instances in a region that doesn’t have a subnet defined, you will get an error message. Custom networks are recommended for production environments. Custom networks are a good choice when you don’t need subnets in every region.You can convert an auto mode to a custom network, but not the reverse.
+
+### Cloud Marketplace
+Cloud Marketplace keeps you from reinventing the wheel if you have a software stack that you need supported on a Compute Engine VM instance.
+
+Tasks include: 
+- Browsing Cloud Marketplace catalog and viewing solution details
+- Deploying a Cloud Marketplace solution
 
 ### Documentation to review:
 Deploying and implementing Compute Engine resources
@@ -620,6 +645,10 @@ Deploying and implementing data solutions
 - [Create instances](!https://cloud.google.com/sql/docs/mysql/create-instance)
 - [How to ingest data into BigQuery so you can analyze it](!https://cloud.google.com/blog/topics/developers-practitioners/bigquery-explained-data-ingestion)
 - [Introduction to loading data](!https://cloud.google.com/bigquery/docs/loading-data)
+
+Deploying and implementing networking resources
+- [VPC networks](!https://cloud.google.com/vpc/docs/vpc)
+
 
 
 
