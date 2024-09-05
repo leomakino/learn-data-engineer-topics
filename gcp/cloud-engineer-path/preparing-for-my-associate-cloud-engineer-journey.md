@@ -622,6 +622,44 @@ Tasks include:
 - Browsing Cloud Marketplace catalog and viewing solution details
 - Deploying a Cloud Marketplace solution
 
+### Infrastructure as code
+Tasks include:
+- Building infrastructure via Cloud Foundation Toolkit templates and implementing best practices;
+- Installing and configuring Config Connector in GKE to create, update, delete, and secure resources
+
+Interacting directly with Google cloud console is great, but for repetitive tasks it might be better to be able to implement resources in an automated way. Modern DevOps processes have made declarative resource allocation a reality. Tools like Terraform take the resource requirements you provide via a configuration file. These infrastructure as code systems worry about how these resources are built. You just have to specify what you want built.
+
+Terraform:
+- init downloads the latest version
+- plan verifies the syntax
+- plan outputs a preview of resources.
+- Apply sets up resources specified in the terraform config file.
+
+
+Terraform lifecycle:
+1. init
+1. plan
+1. apply
+
+
+Terraform is an open source tool for implementing resources in a declarative way. You specify a Terraform config file that describes the resources you want to deploy. Terraform is known as an infrastructure as code service. A benefit of implementing resources in this way is that your configuration files can be source controlled, thus following devops best practices.
+
+
+In Google Cloud, you store your Terraform config files in a Cloud Storage bucket with object versioning enabled. Cloud Build submits Terraform commands via a YAML file. It needs access to the Cloud Storage bucket where your Terraform config files are stored.
+
+The different files required for implementing Terraform in Google Cloud include:
+- Cloudbuild.yaml - build configuration file that contains instructions for Cloud Build
+- Backend.tf - stores remote Terraform state information
+- Terraform.tfstate - local file that stores Terraform state
+- Main.tf - contains the terraform config
+
+Commands ran by Cloud Build include:
+- Terraform init - downloads latest version of Terraform provider;
+- Terraform plan - verifies syntax, ensures supporting files exist, shows a preview of resources that will be created;
+- Terraform apply - sets up requested resources output by the Terraform plan;
+- Terraform destroy - destroy all resources in the specified config file.
+
+
 ### Documentation to review:
 Deploying and implementing Compute Engine resources
 - [Compute Engine Documentation](!https://cloud.google.com/compute/docs/)
@@ -649,10 +687,9 @@ Deploying and implementing data solutions
 Deploying and implementing networking resources
 - [VPC networks](!https://cloud.google.com/vpc/docs/vpc)
 
-
-
-
-
+Implementing resources via infrastructure as code
+- [Terraform Intro](!https://developer.hashicorp.com/terraform/intro)
+- [Terraform Google](!https://cloud.google.com/docs/terraform)
 
 
 ## Ensuring Successful Operation of a Cloud Solution
