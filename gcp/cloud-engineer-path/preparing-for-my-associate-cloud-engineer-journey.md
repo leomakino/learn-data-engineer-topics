@@ -531,6 +531,71 @@ Question 5: files being added to a Cloud Storage bucket. Specify a trigger resou
 - --trigger-event google.storage.object.finalize
 
 
+### Data solutions 
+There are several different data requirements based on the storage needs of different applications.
+
+
+As an Associate Cloud Engineer, you’ll need to be able to deploy and implement a wide range of data solutions.
+
+The steps for setting up a Cloud SQL instance are:
+1. Create instance;
+1. Select database type;
+1. Enter name;
+1. Enter password for root user;
+1. Select proper version (*it cannot be edited!*);
+1. Select region and zone (*Can’t be modified!*);
+1. Select primary and secondary zone;
+1. Config settings: include machine type, private or public ip, storage type, storage capacity, threshold for automated storage increase,...
+
+
+
+
+
+
+
+Question 7: Which gcloud flag argument is required to configure the stated failover capability using gcloud sql instances create?
+- Correct: --availability-type. This option allows you to specify zonal or regional availability, with regional providing automatic failover to a standby node in another region.
+
+Question 8: load some slowly changing data into BigQuery. The data arrives hourly in a Cloud Storage bucket. How to implement it minimizing cost and implementing it in fewest steps?
+- Implement a bq load command is incorrect because this solution doesn’t cost anything but is more complex than setting up a data transfer.
+- Read the data from your bucket by using the BigQuery streaming API is incorrect because the streaming API has pricing associated with it based on how much data is streamed in.
+- Create a Cloud Function to push data to BigQuery through a Dataflow pipeline is incorrect because a Dataflow pipeline will incur charges for the resources performing the sink into BigQuery.
+- Correct: **Use the BigQuery data transfer service** to schedule a transfer between your bucket and BigQuery. BigQuery transfer service is the simplest process to set up transfers between Cloud Storage and BigQuery. It is encompassed by one command. It is also free.
+
+
+#### Ways to batch load data into BigQuery
+BigQuery offers several ways to load data. The first, and oldest, is loading data in batch. It can be used to load data from csv files, databases, and log files. It is the recommended way to load slowly changing data. There is no charge for batch loads into BigQuery; 
+
+
+The ways you can implement a batch load in BigQuery include:
+1. Create a load job.
+1. Use BigQuery Data Transfer Service from Software as a Service products (*This is the simplest approach!*)
+1. Use Cloud Composer, a Google Cloud managed version of Apache Airflow.
+1. Use the bq command line tool and the cron scheduler on the command line interface.
+1. Use BigQuery connectors for big data products such as Spark or Hadoop.
+
+
+For real-time use cases you can stream data into BigQuery using the Streaming API. Data streamed into BigQuery can be used for querying immediately. The streaming API can be used to track and query application events or log stream information.
+
+
+
+The third way to ingest data into BigQuery is to use Dataflow and Apache Beam. These two technologies define a processing pipeline where your source or sink can
+be BigQuery. A possible use-case for this is to trigger a Cloud Function when an event happens. The Cloud Function could contain the logic to start an Apache Beam pipeline using a Dataflow runner that would execute transformations required andthen save your data into BigQuery when it is done.
+
+
+
+Another way to load data is to execute queries in BigQuery native storage or federated queries on external data and save the results to a table. CTAS (create table as select) is a way to do this using DML as well.
+
+
+Finally, many third party applications have connectors you can use to get data in to Big Query. You would need to look at the documentation of the product you want to ingest data from.
+
+### Networking resources
+Tasks include:
+- Creating a VPC with subnets;
+- Launching a Compute Engine instance with custom network configuration
+- Creating ingress and egress firewall rules for a VPC
+- Creating a VPN between a Google VPC and an external network using Cloud VPN
+- Creating a load balancer to distribute application network traffic to an application
 
 ### Documentation to review:
 Deploying and implementing Compute Engine resources
@@ -547,6 +612,15 @@ Deploying and implementing Cloud Run and Cloud Function resources
 - [What no one tells you about Serverless](!https://cloud.google.com/blog/topics/developers-practitioners/cloud-run-story-serverless-containers)
 - [Learn Cloud Functions in a snap](!https://cloud.google.com/blog/topics/developers-practitioners/learn-cloud-functions-snap)
 - [Cloud Run Functions](!https://cloud.google.com/functions?hl=en)
+
+Deploying and implementing data solutions
+- [Create buckets](!https://cloud.google.com/storage/docs/creating-buckets)
+- [Product overview of Cloud Storage](!https://cloud.google.com/storage/docs/introduction)
+- [Cloud SQL for MySQL features](!https://cloud.google.com/sql/docs/mysql/features)
+- [Create instances](!https://cloud.google.com/sql/docs/mysql/create-instance)
+- [How to ingest data into BigQuery so you can analyze it](!https://cloud.google.com/blog/topics/developers-practitioners/bigquery-explained-data-ingestion)
+- [Introduction to loading data](!https://cloud.google.com/bigquery/docs/loading-data)
+
 
 
 
