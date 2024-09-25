@@ -693,6 +693,20 @@ Implementing resources via infrastructure as code
 
 
 ## Ensuring Successful Operation of a Cloud Solution
+To ensure successful operations, an Associate Cloud Engineer needs the knowledge and skills to manage the resources used in an organization’s cloud solutions.
+Managing:
+- Compute Engine resources;
+- GKE resources;
+- Cloud Run resources;
+- Storage and database solutions;
+- Networking resources;
+- Monitoring and logging.
+
+
+### Documentation to review:
+Chapter
+- [Documentation](!https://cloud.google.com/compute/docs/)
+
 
 ## Configuring Access and Security
 
