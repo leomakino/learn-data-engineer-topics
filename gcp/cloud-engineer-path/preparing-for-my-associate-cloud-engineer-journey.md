@@ -691,7 +691,6 @@ Implementing resources via infrastructure as code
 - [Terraform Intro](!https://developer.hashicorp.com/terraform/intro)
 - [Terraform Google](!https://cloud.google.com/docs/terraform)
 
-
 ## Ensuring Successful Operation of a Cloud Solution
 To ensure successful operations, an Associate Cloud Engineer needs the knowledge and skills to manage the resources used in an organization’s cloud solutions.
 Managing:
@@ -702,10 +701,72 @@ Managing:
 - Networking resources;
 - Monitoring and logging.
 
+### Managing Compute Engine Resources
+As an Associate Cloud Engineer you might be put in charge of implementing and updating instance groups. It also lets you load balance data if needed. Tasks include:
+- Managing a single VM instance (e.g., start, stop, edit configuration, or delete an instance)
+- Remotely connecting to the instance
+- Attaching a GPU to a new instance and installing necessary dependencies
+- Viewing current running VM inventory (instance IDs, details)
+- Working with snapshots (e.g., create a snapshot from a VM, view snapshots, delete a snapshot)
+- Working with images (e.g., create an image from a VM or a snapshot, view images, delete an image)
+- Working with instance groups (e.g., set autoscaling parameters, assign instance template, create an instance template, remove instance group)
+- Working with management interfaces (e.g., Cloud Console, Cloud Shell, Cloud SDK)
+
+
+Snapshots are incremental in nature and less expensive than creating full images of a disk. You can only create them for persistent disks. Snapshots are stored across multiple locations with automatic checksums. You schedule them in the console or using the gcloud command line and cron. A Snap shot schedule and its source persistent disk have to be in the same region. You can use snapshots to move VMs. You can’t delete a snapshot that has a schedule associated with it.
+
+
+How the incremental nature of snapshots works:
+1. The first snapshot is full and contains all data on the persistent disk it was run on.
+1. Each subsequent snapshot only contains new or modified data since the first snapshot.
+1. However, sometimes to clean up resources and cost, a new snapshot might be a full backup.
+
+
+Implementing an instance group:
+1. Create instance template: machine type, boot disk, and Operating System.
+1. Configure the instance group: number of instances, autoscalling, and health checks
+
+
+Managed instance groups help you create and manage groups of identical VM instances. They are based on an instance template that defines how new VMs added to the instance group should be configured. The managed instance group will make sure the number of instances matches what you request, and monitors instances via health checks. If an instance goes down, the managed instance group will start another instance to replace it. Managed instance groups can be zonal or regional. Regional instance groups create instances across multiple zones in a region so your application can still run in case of a zonal outage.
+
+
+The first step to creating a managed instance group is to create an instance template. An instance template contains information about how to create instances in the group by specifying machine type, boot disk, connectivity, disks, and other details pertinent to your needs. This information is similar to what you would provide if you were configuring an individual instance.
+
+
+After you create an instance template you need to configure your managed instance
+group. Here is where you specify location settings, describe port mappings, and
+reference the instance template. You also specify the number of instances in your
+group, configure autoscaling, and create health checks for your instances to
+determine which instances should receive traffic.
+
+
+Question 1: what is the commands required to list and describe Compute Engine disk snapshots?
+
+Answer: gcloud compute snapshots list. 
+
+Explanation: Gcloud commands are built with **groups and subgroups**, followed by a command, which is a **verb**. In this answer, the compute is the group and snapshots the subgroup, and the list is the command.
+
+
+Question 2: Describe the incremental nature of Compute Engine disk snapshots.
+
+How to delete scheduled snapshot without returning operation error?
+A: It isn't possible to delete a snapshot schedule that is still attached to a persistent disk. Thus Detach the snapshot schedule before deleting it.
+
+
+Question 3: Implement an Instance Group based on an instance template
+Which of the following tasks are part of the process when configuring a managed instance group?
+
+A: Defining Health checks and Providing Number of instances.
+
+### Managing Google Kubernetes Engine resources
 
 ### Documentation to review:
 Chapter
-- [Documentation](!https://cloud.google.com/compute/docs/)
+- [Create archive and standard disk snapshots](!https://cloud.google.com/compute/docs/disks/create-snapshots#listing-snapshots)
+- [About archive and standard disk snapshots](!https://cloud.google.com/compute/docs/disks/snapshots)
+- [Instance templates](!https://cloud.google.com/compute/docs/instance-templates)
+- [Instance groups ](!https://cloud.google.com/compute/docs/instance-groups)
+- [Create](!aaaaa)
 
 
 ## Configuring Access and Security
