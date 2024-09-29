@@ -918,9 +918,49 @@ You have a Cloud Run service with a database backend. You want to limit the numb
 - Set CPU Utilization?  Incorrect. Default CPU utilization is 60%. It doesn’t affect the number of connections to your backing service.
 - Set Concurrency settings? Incorrect. Concurrency is how many users can connect to a particular instance. It does not directly affect connections to backend services.
 
+### Managing storage and database solutions
+As an Associate Cloud Engineer, tasks include:
+- Managing and securing objects in and between Cloud Storage buckets
+- Setting object life cycle management policies for Cloud Storage buckets
+- Executing queries to retrieve data from data instances (e.g., Cloud SQL, BigQuery, Spanner, Datastore, Bigtable)
+- Estimating costs of data storage resources
+- Backing up and restoring database instances (e.g., Cloud SQL, Datastore)
+- Reviewing job status in Dataproc, Dataflow, or BigQuery
+
+Additionally, you would be expected to know how to secure access to these images from the application through IAM roles assigned to a service account. When you upgrade product images you would like to keep the previous images, but move them to a different storage type based on object versioning. You could do this using the object lifecycle management feature of Cloud Storage.
+
+The available conditions are:
+- Age
+- Createdbefore
+- Customtimebefore
+- Dayssincecustomtime
+- Dayssincenoncurrent
+- Islive
+- Matchesstorageclass
+- Noncurrenttimebefore
+- numberofnewerversions
+
+**Cloud Storage Lifecycle Actions**
+
+```mermaid
+flowchart LR
+conditions --apply to --> Objects -- When met --> Actions
+```
+
+Lifecycle management configurations apply to current and future objects in a Cloud Storage bucket. When object metadata meets the criteria of any of the rules, Cloud Storage performs a specified action. Object metadata has to match all rules for the action to fire.
 
 
 
+**Question 8: Implement different types of Google Cloud Storage Lifecycle Actions (delete, set storage class) using lifecycle conditions.**
+
+You want to implement a lifecycle rule that changes your storage type from Standard to Nearline **after a specific date**. What conditions should you use?
+- Age? Incorrect Age is specified by number of days, not a specific date.
+- **CreatedBefore? Correct!** CreatedBefore lets you specify a date.
+- **MatchesStorageClass? Correct!** MatchesStorageClass is required to look for objects with a Standard storage type.
+- IsLive? Incorrect because IsLive has to do with whether or not the object you are looking at is the latest version. It is not date-based.
+- NumberofNewerVersions? Incorrect because it is based on object versioning and you don’t specify a date.
+
+### Managing networking resources
 
 ### Documentation to review:
 Managing Compute Engine Resources
@@ -943,12 +983,11 @@ Managing Google Kubernetes Engine resources
 Managing Cloud Run resources
 - [About instance autoscaling in Cloud Run services](!https://cloud.google.com/run/docs/about-instance-autoscaling)
 
+Managing Storage and Database solutions
+- [Object Lifecycle Management](!https://cloud.google.com/storage/docs/lifecycle)
 
-Managing Google Kubernetes Engine resources
-- [Create](!aaaaa)
 
-
-Managing Google Kubernetes Engine resources
+Managing networking resources
 - [Create](!aaaaa)
 
 
