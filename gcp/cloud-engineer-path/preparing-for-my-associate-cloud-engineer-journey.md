@@ -879,12 +879,48 @@ What Kubernetes object provides access to logic running in your cluster via endp
 
 Question 6: Apply kubectl commands to manage pods, deployments, and services
 
-
 What is the declarative way to initialize and update Kubernetes objects?
 - **kubectl apply is correct** because it creates and updates Kubernetes objects in a declarative way from manifest files.
 - kubectl create is incorrect because it creates objects in an imperative way. You can build an object from a manifest but you can’t change it after the fact. You will get an error.
 - kubectl replace is incorrect because it downloads the current copy of the spec and lets you change it. The command replaces the object with a new one based on the spec you provide.
 - kubectl run is incorrect because it creates a Kubernetes object in an imperative way using arguments you specify on the command line.
+
+
+### Managing Cloud Run resources
+As an Associate Cloud Engineer, tasks include:
+- Adjusting application traffic splitting parameters;
+- Setting scaling parameters for autoscaling instances;
+- Determining whether to run Cloud Run (fully managed) or Cloud Run for Anthos.
+
+There are also settings you need to know for autoscaling, such as min and max instances, that will let you make tradeoffs of relative latency versus cost. You also have the choice of using a fully managed version in Google Cloud or a hybrid version available as part of Anthos. The hybrid version runs on abstracted GKE resources allocated by your Anthos cluster.
+
+*Note: Cloud Run could be used to quickly test updates to containers.*
+
+**How does autoscaling work in Cloud Run?**
+
+Cloud Run automatically scales the number of container instances required for each deployed revision. When no traffic is received, the deployment automatically scales to zero.
+
+Other ways you can affect Cloud Run autoscaling:
+- CPU utilization, with a default 60% utilization.
+- Concurrency settings, with a default of 80 concurrent requests. You can increase it to 1000. You can also lower it if you need to.
+- Max number of instances limits total number of instances. It can help you control costs and limit connections to a backing service. Defaults to 1000. Quota increase required if you want more.
+- Min number of instances keeps a certain number of instances up. You will incur cost even when no instances are handling requests.
+
+Instances that are started might remain idle for up to 15 minutes to reduce latency associated with cold starts. You don’t get charged for these idle instances. You set a min and max on the container tab in the advanced settings dialog.
+
+
+**Question 7**: 
+
+You have a Cloud Run service with a database backend. You want to limit the number of connections to your database. What should you do?
+
+- Set Min instances? Incorrect. Min instances reduce latency when you start getting requests after a period of no activity. It keeps you from scaling down to zero.
+- **Set Max instances?** Max instances control costs, keeping you from starting too many instances by limiting your number of connections to a backing service.
+- Set CPU Utilization?  Incorrect. Default CPU utilization is 60%. It doesn’t affect the number of connections to your backing service.
+- Set Concurrency settings? Incorrect. Concurrency is how many users can connect to a particular instance. It does not directly affect connections to backend services.
+
+
+
+
 
 ### Documentation to review:
 Managing Compute Engine Resources
@@ -904,9 +940,8 @@ Managing Google Kubernetes Engine resources
 - [Overview of deploying workloads](!https://cloud.google.com/kubernetes-engine/docs/how-to/deploying-workloads-overview)
 - [Services](!https://cloud.google.com/kubernetes-engine/docs/concepts/service)
 
-
-Managing Google Kubernetes Engine resources
-- [Create](!aaaaa)
+Managing Cloud Run resources
+- [About instance autoscaling in Cloud Run services](!https://cloud.google.com/run/docs/about-instance-autoscaling)
 
 
 Managing Google Kubernetes Engine resources
