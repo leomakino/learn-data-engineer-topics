@@ -765,18 +765,96 @@ As an Associate Cloud Engineer, certain tasks might require you to interact with
 Containers in GKE are based on images which are shared via the Google Container registry. You need to be familiar with how to create images and deploy them to the registry.
 
 #### Internal vs External load balacing in Kubernetes
+
+```mermaid
+flowchart LR;
+A[client] -- ingress managed load balancer --> B[ingress]
+subgraph cluster
+B[ingress] o-.-o G{{Internal ingress: class GCE-Internal type Internal}}
+B[ingress] o-.-o H{{External ingress: class GCE type External}}
+B[ingress] --> C[routing rule] --> D[Service]
+D[Service] --> E[pod] & F[pod]
+end
+```
+
 To implement network load balancing you create a service object with these settings:
 - type: LoadBalancer.
 - Set External Traffic Policy to cluster or local
 
-```mermaid
-flowchart TB;
-A[client] --> B[ingress]
-B[ingress] --> C[routing rule]
-C[routing rule] --> D[Service]
-D[Service] --> E[pod]
-D[Service] --> F[pod]
+Cluster - traffic will be load balanced to any healthy GKE node and then kube-proxy will send it to a node with the pod.
+
+
+Local - nodes without the pod will be reported as unhealthy. Traffic will only be sent to nodes with the pod. Traffic will be sent directly to pod with source ip header info included.
+
+
+To implement external http(s) load balancing create an ingress object with the following settings
+- Routing depends on URL path, session affinity, and the balancing mode of backend Network endpoint groups (NEGS)
+- The object type is ingress.
+- Using ingress.class: “gce” annotation in the metadata deploys an external load balancer.
+- External load balancer is deployed at Google Points of presence.
+- Static IP for ingress lasts as long as the object.
+
+
+To implement an internal http(s) load balancer create an ingress object with the
+following settings:
+- Routing depends on URL path, session affinity, and balancing mode of the backend NEGS.
+- The object kind is ingress.
+- Metadata requires an Ingress.class: “gce-internal” to spawn an internal load balancer.
+- Proxies are deployed in a proxy only subnet in a specific region in your VPC.
+- Only NEGs are supported. Use the following annotation in your service metadata:
+    - cloud.google.com/neg: '{"ingress": true}'
+- Forwarding rule is assigned from the GKE node address range.
+
+#### Kubernets objects
+A **pod** is the smallest deployable object in Kubernetes. It is a single instance of a running process that contains one or more docker containers. Pods provide networking and storage to containers, and contain dependencies the container needs to run and communicate.
+
+
+A **deployment manages and monitor** a set of multiple identical pods. It uses a replica set to define the number of pods. A deployment monitors pods in a replica set and replaces unhealthy instances to ensure your application remains available. A deployment uses a pod template, which provides a spec of what each deployed pod should look like. When you update the pod template in a deployment, it starts a rolling upgrade of the pods in the deployment.
+
+
+A **service is a group of pod endpoints** that you can configure access for. You use selectors to define which pods are included in a service. A service gives you a stable IP that belongs to the service. Pods have internal IP addresses but they can change as pods get restarted and replaced. A service can be configured to implement load balancing.
+
+
+#### Types of kubectl commands
+kubectl types:
+- Declarative: apply
+    - Works on a directory of config files
+    - Specifies what
+- Imperative: run, create, replace, delete
+    - Overwrite existing state
+    - Operate on single object
+    - Specifies how
+
+
+You execute kubectl commands to manage objects such as pods, deployments, and services.
+
+
+Imperative commands act on a live object or single config file and overwrite any state changes that have occurred on an existing object. Declarative commands use a config stored in a directory to deploy and apply changes to your app objects.
+
+
+Example commands:
+```bash
+kubectl -run #generates a new object in a cluster, by default of deployment
+Kubectl -create #generates a new object from a config file
+Kubectl -get #display requested resources
+kubectl -expose
+labelled pods #creates a new service that distributes traffic to labelled pods
 ```
+
+Pods are not created by themselves but are based on template made available in deployments.
+
+You can use the name of an existing object or defined config file. The object you create service for can be one of the following: 
+- deployment
+- service
+- replica set
+- replication controller 
+- pod.
+
+
+If you need to change a deployment you change the config file and do a kubectl ```-apply```.
+
+
+
 #### Questions
 
 Question 4: Contrast the differences between an internal and external load balancer in Google Kubernetes Engine
@@ -785,12 +863,28 @@ A GKE cluster requires an internal http(s) load balancer. You are creating the c
 
 - *Annotate your ingress object with an ingress.class of “gce.”* is incorrect because to implement an internal load balancer, the ingress class needs to be “gce-internal.”
 - *Configure your service object with a type: LoadBalancer* is incorret because using Load Balancer at the service level implements a Layer 4 network load balancer, not an http(s) load balancer.
-- *Annotate your service object with a “neg” reference.* **is correct** because an internal http(s) load balancer can only use NEGs.
+- *Annotate your service object with a “neg” reference.* **is correct** because an internal http(s) load balancer can only use NEGs (Network endpoint group).
 - *Implement custom static routes in your VPC.* is incorrect because this describes a routes-based cluster. In order to support
 internal load balancing, your cluster needs to use VPC-native mode, where your cluster provides IP addresses to your pods from an alias IP range.
 
 Question 5: Describe the relationship between Kubernetes pods, services, and deployments
+
+What Kubernetes object provides access to logic running in your cluster via endpoints that you define?
+- Pod templates is incorrect because it defines how pods will be configured as part of a deployment.
+- Pods is incorrect because it provides the executable resources your containers run in.
+- Services **is correct** because service endpoints are defined by pods with labels that match those specified in the service configuration file. Services then specify how those pods are exposed.
+- Deployments is incorrect because Deployments help you with availability and the health of a set of pod replicas. They do not help you configure external access.
+
+
+
 Question 6: Apply kubectl commands to manage pods, deployments, and services
+
+
+What is the declarative way to initialize and update Kubernetes objects?
+- **kubectl apply is correct** because it creates and updates Kubernetes objects in a declarative way from manifest files.
+- kubectl create is incorrect because it creates objects in an imperative way. You can build an object from a manifest but you can’t change it after the fact. You will get an error.
+- kubectl replace is incorrect because it downloads the current copy of the spec and lets you change it. The command replaces the object with a new one based on the spec you provide.
+- kubectl run is incorrect because it creates a Kubernetes object in an imperative way using arguments you specify on the command line.
 
 ### Documentation to review:
 Managing Compute Engine Resources
@@ -805,6 +899,10 @@ Managing Google Kubernetes Engine resources
 - [Ingress for external Application Load Balancers](!https://cloud.google.com/kubernetes-engine/docs/concepts/ingress-xlb)
 - [Configure Ingress for external Application Load Balancers](!https://cloud.google.com/kubernetes-engine/docs/how-to/load-balance-ingress)
 - [Configuring Ingress for internal Application Load Balancers](!https://cloud.google.com/kubernetes-engine/docs/how-to/internal-load-balance-ingress)
+- [GKE overview](!https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview)
+- [Network overview - pods](!https://cloud.google.com/kubernetes-engine/docs/concepts/network-overview#pods)
+- [Overview of deploying workloads](!https://cloud.google.com/kubernetes-engine/docs/how-to/deploying-workloads-overview)
+- [Services](!https://cloud.google.com/kubernetes-engine/docs/concepts/service)
 
 
 Managing Google Kubernetes Engine resources
