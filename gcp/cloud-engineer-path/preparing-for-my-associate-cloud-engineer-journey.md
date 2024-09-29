@@ -985,6 +985,55 @@ You need to expand this subnet to include enough IP addresses for at most 2000 n
 
 PREFIX_LENGTH = a subnet mask size in bits. If the primary IPv4 range is 10.1.2.0/24, you can supply 20 to reduce the subnet mask to 20 bits, which changes the primary IPv4 range to 10.1.2.0/20. For valid ranges, see IPv4 subnet ranges.
 
+### Monitoring and logging
+As an Associate Cloud Engineer, tasks include:
+- Creating Cloud Monitoring alerts based on resource metrics
+- Creating and ingesting Cloud Monitoring custom metrics (e.g., from applications or logs)
+- Configuring log sinks to export logs to external systems (e.g., on-premises or BigQuery)
+- Configuring logs routers
+- Viewing and filtering logs in Cloud Logging
+- Viewing specific log message details in Cloud Logging
+- Using cloud diagnostics to research an application issue (e.g., viewing Cloud Trace data)
+- Viewing Google Cloud status
+
+Performance monitoring is another important aspect of managing the day-to-day operations of your cloud solutions. The majority of the products we review in this topic come from the Cloud Operations Suite.
+
+Cloud Monitoring allows you to build charts based on metrics you specify. You can also look at logs associated with resources from the dashboard. You could use this to monitor messages being posted to your pubsub topic for the transportation management app.
+
+Custom metrics allow you to define metrics descriptors for things you want to keep track of that aren’t included in standard metrics.
+
+Cloud Logging allows you to log any timestamped data in logs you define and manage. There are a myriad of options for where you can save your logs and how to route them. There is also an interface provided to query your logs.
+
+Cloud Observability has several tools that will help you with performance issues. Error Reporting, Cloud Trace, and Cloud Profiler all help you figure out what might be causing latency and performance issues in your apps.
+
+**Cloud operations custom alerts**
+Custom alerts:
+1. What: Conditions
+    - state of a resource;
+    - Metric;
+    - Threshold
+1. How: Notification channels
+    - Who is notified;
+    - How are they notified;
+    - What documentation do you need to provide them
+
+In Cloud Monitoring you implement alerts by defining alert policies. An alerting policy specifies what you want to be alerted on and how you want to be notified.
+
+The “what” is made of conditions that describe the state of a resource, or groups of resources, that cause you to take action.
+
+The “how” is provided by notification channels, where you specify who is notified when the condition of the alerting policy is met.
+
+Conditions are made of a monitored resource, a metric for that resource, and the threshold where the condition is met. An alerting policy can have up to 6 conditions. In an alerting policy with 1 condition, when that condition is met, an incident is created. For an alerting policy, you specify how those conditions are combined.
+
+**Question 10: Configure a Google Cloud Operations custom alert: specify conditions, send optional notifications, and reference documentation.**
+
+You are tasked with monitoring the system’s resources so you can react quickly to any problems. You want to ensure the CPU usage of each of your Compute Engine instances in us-central1 remains below 60%. You want an incident created if it exceeds this value for 5 minutes. You need to configure the proper alerting policy for this scenario. What should you do?
+- Choose resource type of VM instance and metric of CPU utilization, condition trigger all time series violates, condition is above, threshold is .60 for 5 minutes. Incorrect. The trigger should be “each of your instances”, not “all of your instances.”
+- Choose resource type of VM instance, and metric of CPU utilization, condition trigger if any time series violates, condition is below, threshold is .60 for 5 minutes. Incorrect. The alert policy should record an incident when the CPU utilization exceeds a certain amount. The condition for this statement is below that, so it is wrong.
+- **Choose resource type of VM instance and metric of CPU utilization, condition trigger if any time series violates, condition is above, threshold is .60 for 5 minutes.** Correct! All the values of this statement match the scenario. 
+
+
+
 ### Documentation to review:
 Managing Compute Engine Resources
 - [Create archive and standard disk snapshots](!https://cloud.google.com/compute/docs/disks/create-snapshots#listing-snapshots)
@@ -1015,8 +1064,9 @@ Managing networking resources
 - [Expand a primary IPv4 range](!https://cloud.google.com/vpc/docs/create-modify-vpc-networks#expand-subnet)
 
 
-Managing Google Kubernetes Engine resources
-- [Create](!aaaaa)
+Monitoring and logging
+- [Create metric-threshold alerting policies](!https://cloud.google.com/monitoring/alerts/using-alerting-ui)
+- [Alerting overview](!https://cloud.google.com/monitoring/alerts)
 
 
 ## Configuring Access and Security
