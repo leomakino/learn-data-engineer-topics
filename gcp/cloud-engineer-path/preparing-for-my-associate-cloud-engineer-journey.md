@@ -759,13 +759,67 @@ Which of the following tasks are part of the process when configuring a managed 
 A: Defining Health checks and Providing Number of instances.
 
 ### Managing Google Kubernetes Engine resources
+As an Associate Cloud Engineer, certain tasks might require you to interact with a GKE cluster and its nodes. It involve to know about GKE’s workload objects, such as pods, deployments, and services.
+
+
+Containers in GKE are based on images which are shared via the Google Container registry. You need to be familiar with how to create images and deploy them to the registry.
+
+#### Internal vs External load balacing in Kubernetes
+To implement network load balancing you create a service object with these settings:
+- type: LoadBalancer.
+- Set External Traffic Policy to cluster or local
+
+```mermaid
+flowchart TB;
+A[client] --> B[ingress]
+B[ingress] --> C[routing rule]
+C[routing rule] --> D[Service]
+D[Service] --> E[pod]
+D[Service] --> F[pod]
+```
+#### Questions
+
+Question 4: Contrast the differences between an internal and external load balancer in Google Kubernetes Engine
+
+A GKE cluster requires an internal http(s) load balancer. You are creating the configuration files required for this resource. What is the proper setting for this scenario?
+
+- *Annotate your ingress object with an ingress.class of “gce.”* is incorrect because to implement an internal load balancer, the ingress class needs to be “gce-internal.”
+- *Configure your service object with a type: LoadBalancer* is incorret because using Load Balancer at the service level implements a Layer 4 network load balancer, not an http(s) load balancer.
+- *Annotate your service object with a “neg” reference.* **is correct** because an internal http(s) load balancer can only use NEGs.
+- *Implement custom static routes in your VPC.* is incorrect because this describes a routes-based cluster. In order to support
+internal load balancing, your cluster needs to use VPC-native mode, where your cluster provides IP addresses to your pods from an alias IP range.
+
+Question 5: Describe the relationship between Kubernetes pods, services, and deployments
+Question 6: Apply kubectl commands to manage pods, deployments, and services
 
 ### Documentation to review:
-Chapter
+Managing Compute Engine Resources
 - [Create archive and standard disk snapshots](!https://cloud.google.com/compute/docs/disks/create-snapshots#listing-snapshots)
 - [About archive and standard disk snapshots](!https://cloud.google.com/compute/docs/disks/snapshots)
 - [Instance templates](!https://cloud.google.com/compute/docs/instance-templates)
 - [Instance groups ](!https://cloud.google.com/compute/docs/instance-groups)
+
+
+Managing Google Kubernetes Engine resources
+- [Ingress for internal Application Load Balancers](!https://cloud.google.com/kubernetes-engine/docs/concepts/ingress-ilb)
+- [Ingress for external Application Load Balancers](!https://cloud.google.com/kubernetes-engine/docs/concepts/ingress-xlb)
+- [Configure Ingress for external Application Load Balancers](!https://cloud.google.com/kubernetes-engine/docs/how-to/load-balance-ingress)
+- [Configuring Ingress for internal Application Load Balancers](!https://cloud.google.com/kubernetes-engine/docs/how-to/internal-load-balance-ingress)
+
+
+Managing Google Kubernetes Engine resources
+- [Create](!aaaaa)
+
+
+Managing Google Kubernetes Engine resources
+- [Create](!aaaaa)
+
+
+Managing Google Kubernetes Engine resources
+- [Create](!aaaaa)
+
+
+Managing Google Kubernetes Engine resources
 - [Create](!aaaaa)
 
 
