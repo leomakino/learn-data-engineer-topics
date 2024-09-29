@@ -962,6 +962,29 @@ You want to implement a lifecycle rule that changes your storage type from Stand
 
 ### Managing networking resources
 
+As an Associate Cloud Engineer, tasks include:
+- Adding a subnet to an existing VPC
+- Expanding a subnet to have more IP addresses
+- Reserving static external or internal IP addresses
+- Working with CloudDNS, CloudNAT, Load Balancers and firewall rules
+
+As an Associate Cloud Engineer, any app you deploy is going to have connectivity requirements. Google’s software defined networking stack is based on the idea of a Virtual Private Cloud. VPCs group regional resources into internal IP address ranges
+called **subnets**. As you manage network resources, you might have to add or expand a subnet to let it support more devices.
+
+IP addresses assigned to both internal and external virtual machines are ephemeral, meaning as resources come and go your IP addresses might change. To get around this problem you can set and attach static IPs that persist across different individual resources.
+
+
+**Question 9: Describe how to expand the IPs available to a subnet**
+
+You need to expand this subnet to include enough IP addresses for at most 2000 new users or devices. What should you do?
+- gcloud compute networks subnets expand-ip-range mysubnet --region us-central1 --prefix-length 20? Incorrect becayse a prefix length of 20 would expand the IP range to 4094, which is far too many for the scenario.
+- gcloud networks subnets expand-ip-range mysubnet --region us-central1 --prefix-length 21? Incorrect because this command is missing the compute command-set.
+- **gcloud compute networks subnets expand-ip-range mysubnet --region us-central1 --prefix-length 21**? Correct! This command gives a total of 2046 addresses available and meets the requirement.
+- gcloud compute networks subnets expand-ip-range mysubnet --region us-cetnral1 --prefix-length 22? Incorrect because this command doesn’t give you enough IP addresses (only 1,000)
+
+
+PREFIX_LENGTH = a subnet mask size in bits. If the primary IPv4 range is 10.1.2.0/24, you can supply 20 to reduce the subnet mask to 20 bits, which changes the primary IPv4 range to 10.1.2.0/20. For valid ranges, see IPv4 subnet ranges.
+
 ### Documentation to review:
 Managing Compute Engine Resources
 - [Create archive and standard disk snapshots](!https://cloud.google.com/compute/docs/disks/create-snapshots#listing-snapshots)
@@ -988,7 +1011,8 @@ Managing Storage and Database solutions
 
 
 Managing networking resources
-- [Create](!aaaaa)
+- [gcloud compute networks subnets expand-ip-range](!https://cloud.google.com/sdk/gcloud/reference/compute/networks/subnets/expand-ip-range)
+- [Expand a primary IPv4 range](!https://cloud.google.com/vpc/docs/create-modify-vpc-networks#expand-subnet)
 
 
 Managing Google Kubernetes Engine resources
