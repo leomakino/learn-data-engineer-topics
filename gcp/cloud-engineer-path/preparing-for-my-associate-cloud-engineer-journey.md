@@ -1070,4 +1070,12 @@ Monitoring and logging
 
 
 ## Configuring Access and Security
+An Associate Cloud Engineer plays an ongoing role in configuring and managing IAM access and service accounts. To successfully perform the Associate Cloud Engineer role, you need to be able to:
+- Manage Identity and Access Management (IAM),
+- Manage service accounts,
+- View audit logs
+
+
+Service accounts are designed to enable machine-to-machine communication for just this purpose. The steps of setting up a service account is to create the service account. Next, it is assign permissions to it. Finally, it is to attach that service account to a Compute Engine virtual machine. Attaching a service account allows the virtual machine and all the apps running on it to use the permissions assigned to the service account.
+
 
