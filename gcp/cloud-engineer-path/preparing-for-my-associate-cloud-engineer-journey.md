@@ -1121,6 +1121,67 @@ You can create roles from individual permissions, or you can select and pick per
 To update an existing role, you run roles.get(), update the role locally, and then run roles.patch().
 
 ### Managing service accounts
+How do we enable the machine-to-machine or server-to-server access requirements for the application to talk to those backends?
+
+A: The solution to machine-to-machine access is a service account.
+
+As an Associate Cloud Engineer, you need to know how to create a service account and assign roles to it. You also need to know how to list a service account’s permissions, and allow other users to inherit its permissions - also called impersonation. Finally, because they don’t sign in interactively like a user does, service accounts authenticate via keys. Managing those keys and providing temporary credentials through code are important things for you to know as you help secure your cloud solutions. So, tasks include:
+- Creating service accounts
+- Using Service Accounts in IAM policies with minimum permissions
+- Assigning service accounts to resources
+- Managing IAM of a Service Account
+- Managing service account impersonation
+- Creating and managing short-lived service account credentials
+
+
+#### Create, use, and assign service accounts
+Summary:
+1. To create a service account: ```gcloud iam service-accounts create ```
+1. To assign policies: ```gcloud projects add-iam-policy``` 
+1. Attach a service account to a resource as you create it: 
+```bash
+gcloud compute instances create cymbal-vm --service-account \
+<name-of-service-account@gserviceaccount.com> \
+--scopes https://www/googleapis.com/auth/cloud-platform
+``` 
+
+Using service accounts with IAM policies: 
+- To add a policy to a service account run the ```gcloud projects add-iam-policy-binding``` command.
+- The ```--member``` argument should be a string starting with “serviceAccount:” and
+containing your service account id with an email address suffix of
+```@project_id.iam.gserviceaccount.com```.
+- A ```--role``` argument contains the role you want to assign to the service account.
+
+Assigning service accounts to resources:
+- Resources in Google Cloud can be assigned a service account that acts as the resource’s default identity. This process is known as attaching a service account to a resource.
+- The resource, or apps running on the resource, impersonate the attached service account to access Google Cloud APIs.
+- Multiple virtual machine instances can use the same service account, *but a virtual machine can only have one service account identity*.
+- Service account changes will affect all virtual machine instances using the service account.
+- In gcloud you identify the service account you want to use by using the ```--service-account``` argument.
+
+Authentication:
+- Two types of keys are available for authentication of a service account: user managed keys and Google managed keys.
+- You create and manage user managed keys yourself. Google only stores the public key.
+- With Google managed keys Google stores both the public and private portion of the keys
+- Google has APIs you can use to sign requests with the private key.
+
+#### Types of authentication keys
+Summary:
+1. API Key: To access public data
+1. OAuth2.0 Client: To access private end-user data
+1. Environment provided service account: To access resources with a service account internal to Google Cloud
+1. Service account key: To access resources with a service account outside of Google Cloud
+
+Application credentials are based on:
+1. what the application needs to access 
+1. and where it needs to run from.
+
+Thus:
+- If you are accessing public data, the recommendation is to use an API key.
+- If you are accessing private data on behalf of an end user, you should you use the API’s OAuth2.0 client.
+- If you are accessing private data on behalf of a service account attached to resources inside a Google Cloud environment, you should use an environment provided service account.
+- If you are accessing private data on behalf of a service account running outside of Google Cloud, you should create and use a service account key.
+
 
 ### Questions
 These are the diagnostic questions you answered that relate to this area:
@@ -1142,7 +1203,7 @@ Q: assign roles to the dev and prod projects; You are receiving an error when yo
 - Ask your administrator for the roles/resourcemanager.folderIamAdmin is correct this choice gives you the required permissions while minimizing the number of individual resources you have to set permissions for.
 
 
-Question 3: List the steps to create a custom role in IAM.
+**Question 3**: List the steps to create a custom role in IAM.
 
 Q: Modify a custom role implemented for administration of the dev/test environment that need to use Cloud Run instead of Cloud Functions. How to correct the cloud functions permission to the cloud run?
 - Make the change to the custom role locally and run an update on the custom role is correct because it is the recommended process to update an existing custom role. You get the current policy, update it locally, and write the updated policy back into
@@ -1151,8 +1212,35 @@ Google Cloud. The gcloud commands used in this process include the get and updat
 - Copy the existing role, add the new permissions to the copy, and delete the old role is incorrect because copying an existing role creates a new custom role. Creating a new custom role is not required for this scenario.
 - Create a new role with needed permissions and migrate users to it. It is incorrect because finding all users with this role and reassigning them could be very time consuming.
 
+
+**Question 4**: Differentiate between Google accounts and service accounts in IAM.
+
+Q: Which of the scenarios below is an example of a situation where you should use a service account?
+
+A: 
+- To directly access user data? Incorrect. Service accounts should not be used to access user data without consent
+- For development environments? Incorrect. Service accounts should not be used for development environments. Use the application default credentials.
+- For interactive analysis? Incorrect. Service accounts should be used for unattended work that does not require user interaction.
+- For individual GKE pods? Correct! When configuring access for GKE, you set up dedicated service accounts for each pod. You then use workload identity to map them to dedicated Kubernetes service accounts.
+
+**Question 5**: Identify the section of the Google API that specifies an IAM scope.
+
+Q: A mobile app for end users to track deliveries that are en route to them needs to access data about truck location from Pub/Sub using Google recommended practices. What kind of credentials should you use?
+- API key? Incorrect. API keys are used to access publicly available data.
+- OAuth 2.0 client? Incorrect. OAuth 2.0 clients provide access to an application for private data on behalf of end users.
+- Environment provided service account? Incorrect. Environment-provided service accounts are for applications running on resources inside Google Cloud.
+- **Service account key? Correct! Service account keys are used for accessing private data such as your Pub/Sub truck information from an external environment such as a mobile app running on a phone.**
+
 ### Documentation to review
 Managing IAM
 - [IAM overview](!https://cloud.google.com/iam/docs/overview)
 - [Cluster administration overview](!https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-admin-overview#managing_identity_and_access)
 - [Create and manage custom roles](!https://cloud.google.com/iam/docs/creating-custom-roles)
+
+
+Managing Service Accounts
+- [Authentication methods at Google - Service accounts](!https://cloud.google.com/docs/authentication#service-accounts)
+- [Creating a Service accounts](!https://cloud.google.com/iam/docs/service-accounts-create#creating_a_service_account)
+- [Create a VM and attach the service account](!https://cloud.google.com/compute/docs/access/create-enable-service-accounts-for-instances#using)
+- [Preparing to make a delegated API call](!https://developers.google.com/identity/protocols/oauth2/service-account#python)
+- [Authentication methods at Google](!https://cloud.google.com/docs/authentication/)
