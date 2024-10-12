@@ -1076,6 +1076,83 @@ An Associate Cloud Engineer plays an ongoing role in configuring and managing IA
 - View audit logs
 
 
+
+
+
 Service accounts are designed to enable machine-to-machine communication for just this purpose. The steps of setting up a service account is to create the service account. Next, it is assign permissions to it. Finally, it is to attach that service account to a Compute Engine virtual machine. Attaching a service account allows the virtual machine and all the apps running on it to use the permissions assigned to the service account.
 
+### Managing IAM
 
+The tasks included in this part of your job as an Associate Cloud Engineer include viewing IAM policies, creating IAM policies, and knowing when to implement the different types of policies, including basic, predefined and custom roles.
+
+
+#### Assign access to members using IAM
+
+A Google account represents anyone who interacts with Google Cloud. When signing up for a Google account you will be asked to provide an email address that is associated with the account. The email does not have to come from the gmail domain.
+
+
+A service account is how applications and resources authenticate and access services in Google Cloud. Since apps cannot sign in interactively with a username and password, service accounts use keys to authenticate.
+
+
+Google groups are collections of identity principals that can be referenced by the email address assigned to the group. You can apply access policies to a group. Each member of the group will receive the permissions you specify in the group policy as they authenticate.
+
+Google Workspace and Cloud Identity domains give you the ability to manage users based on the way your organization interacts with Google. Each method gives you a virtual group representing all the registered users in your organization and the ability to add, modify, and delete users and groups.
+
+
+| **Member Identity**                       | **E-mail example**                     |
+|-------------------------------------------|----------------------------------------|
+| Google Account                            | userid@gmail.com                       |
+| Service Account                           | 1234@cloudservices.gserviceaccount.com |
+| Google Group                              | groupname@googlegroups.com             |
+| Cloud Identity or Google Workspace Domain | alias@example.com                      |
+
+
+#### Create custom roles
+The first thing you need to do when creating custom permissions is be familiar with the permissions and roles that are available in your project or organization.
+
+The gcloud command you need to run is: ```gcloud iam list-testable-permissions <full-resource-name>```. To make sure there isn’t already another role that will fill your needs, you can also look at the permissions assigned to a specific role by looking at the role metadata. The role metadata includes the role ID and the permissions associated with that role.
+
+Custom roles can be created at the project or organizational level.
+
+You need to have the Iam.roles.create permission. You have to be the owner of the group or project, or have an organization administrator role or the IAM Role Administrator role.
+
+You can create roles from individual permissions, or you can select and pick permissions from predefined roles.
+
+To update an existing role, you run roles.get(), update the role locally, and then run roles.patch().
+
+### Managing service accounts
+
+### Questions
+These are the diagnostic questions you answered that relate to this area:
+
+**Question 1** requires identifying types of members you can assign access to in IAM:
+
+Q: Need to configure access to Spanner from the GKE cluster. Need to specify an account type to set the proper permissions.
+
+A:  Assign permissions through service account referenced by the application is correct because a service account uses an account identity and an access key. It is used by applications to connect to services.
+
+
+
+**Question 2**: Describe how to assign roles in the IAM interface.
+
+Q: assign roles to the dev and prod projects; You are receiving an error when you try to run set-iam policy; The projects are organized into the same folder; Following best practices for the permissions you need while respecting the practice of least privilege assign roles into it.
+- Ask your administrator for resourcemanager.projects.setIamPolicy roles for each project is incorrect because **best practices** is to minimize the number of access policies needed.
+- Ask your administrator for the roles/resourcemanager.organizationAdmin is incorrect because this does not meet the requirements for **least privilege**.
+- Ask your administrator for the roles/iam.securityAdmin role is incorrect because Security Admin allows you to access most Google Cloud resources. Assigning the security Admin role does not meet least privilege requirements.
+- Ask your administrator for the roles/resourcemanager.folderIamAdmin is correct this choice gives you the required permissions while minimizing the number of individual resources you have to set permissions for.
+
+
+Question 3: List the steps to create a custom role in IAM.
+
+Q: Modify a custom role implemented for administration of the dev/test environment that need to use Cloud Run instead of Cloud Functions. How to correct the cloud functions permission to the cloud run?
+- Make the change to the custom role locally and run an update on the custom role is correct because it is the recommended process to update an existing custom role. You get the current policy, update it locally, and write the updated policy back into
+Google Cloud. The gcloud commands used in this process include the get and update policy subcommands.
+- Delete the custom role and recreate a new custom role with required permissions is incorrect because recreating a custom role is not necessary in this scenario. You can update the existing one.
+- Copy the existing role, add the new permissions to the copy, and delete the old role is incorrect because copying an existing role creates a new custom role. Creating a new custom role is not required for this scenario.
+- Create a new role with needed permissions and migrate users to it. It is incorrect because finding all users with this role and reassigning them could be very time consuming.
+
+### Documentation to review
+Managing IAM
+- [IAM overview](!https://cloud.google.com/iam/docs/overview)
+- [Cluster administration overview](!https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-admin-overview#managing_identity_and_access)
+- [Create and manage custom roles](!https://cloud.google.com/iam/docs/creating-custom-roles)
