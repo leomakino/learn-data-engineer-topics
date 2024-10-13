@@ -22,24 +22,27 @@ Each of these locations is divided into several different regions and zones. Reg
 You can run resources in different regions. This is useful for bringing applications closer to users around the world, and also for protection in case there are issues with an entire region, say, due to a natural disaster.
 
 
-Google Infrastructure Security:
-- Hardware infrastructure layer
-    - hardware design and provenance
-    - Secure boot stack
-    - Premises security
-- Service deployment layer
+The security infrastructure can be explained in progressive layers, starting from the physical security os the data centers,continuing on to how the hardware and software that underlie the infrastructure are secured, and finally, describing the technical constraints and processes in place to support operational security.
+1. Hardware infrastructure layer
+    - hardware design and provenance: server boards, networking equipment, security chip are custom-designed by Google.
+    - Secure boot stack: Google server machines use a variety of technologies to ensure that they are booting the correct software stack
+    - Premises security: Access to data centers is limited to only a very small number of Google employees.
+1. Service deployment layer
     - Encryption of inter-service communication
-- User identity layer
-- Storage services layer
+    - Google’s services communicate with each other using RPC calls (cryptographic privacy and integrity for remote procedure)
+1. User identity layer
+    - manifests to end users as the Google login page
+    - it goes beyond asking for a simple username and password
+1. Storage services layer
     - Encryption at rest
-- Internet communication layer
-    - Google Front End (GFE)
-    - Denial of Service (DoS) protection
-- Operational security layer
-    - Intrusion detection
-    - Reducing insider risk
-    - Employee Universal Second Factor (U2F) use
-    - Software development practices
+1. Internet communication layer
+    - Google Front End (GFE): ensures that all TLS connections are ended using a public-private key pair and an X.509 certificate autority (CA)
+    - Denial of Service (DoS) protection: Google has multi-tier, multi-layer DoS protections
+1. Operational security layer
+    - Intrusion detection: Rules and machine intelligence give Google’s operational security teams warnings of possible incidents.
+    - Reducing insider risk: Google aggressively limits and actively monitors the activities of employees who have been granted administrative access to the infrastructure.
+    - Employee Universal Second Factor (U2F) use: To guard against phishing attacks against Google employees, employee accounts require use of U2F-compatible Security Keys.
+    - Software development practices: Google employs central source control and requires two-party review of new code.
     
 
 
