@@ -45,4 +45,41 @@ The security infrastructure can be explained in progressive layers, starting fro
     - Software development practices: Google employs central source control and requires two-party review of new code.
     
 
+## Resources and Access in the Cloud
+### Resource Hierarchy
+The resource hierarchy directly relates to how policies are managed and applied on Google Cloud.
 
+Policies can be defined at the project, folder, and organization node levels. Some Google Cloud services allow policies to be applied to individual resources, too. Policies are also inherited downward.
+
+
+Google Cloud’s Resource Manager tool is designed to programmatically help you manage projects. It’s an API that can gather a list of all the projects associated with an account, create new projects, update existing projects, and delete projects.
+
+How a new organization node is created depends on whether your company is also a Google Workspace customer. If you have a Workspace domain, Google Cloud projects will automatically belong to your organization node. Otherwise, you can use Cloud Identity, Google’s identity, access, application, and endpoint management platform, to generate one.
+
+### IAM
+Otherwise, you can use Cloud Identity, Google’s identity, access, application, and endpoint management platform, to generate one.
+
+A “who” is also called a “principal.” Each principal has its own identifier, usually an email address.
+
+
+You can define deny rules that prevent certain principals from using certain permissions, regardless of the roles they're granted. This is because IAM always checks relevant deny policies before checking relevant allow policies. Deny policies, like allow policies, are inherited through the resource hierarchy.
+
+
+There are three kinds of roles in IAM: 
+1. basic, 
+1. predefined, and 
+1. custom.
+
+Basic roles include:
+- viewer: can access resources but can’t make changes.
+- editor: can access and make changes to a resource
+- owner: access and make changes to a resource; can manage the associated roles and permissions and set up billing
+- billing administrator: control the billing for a project but not be able to change the resources in the project
+
+
+Custom roles will allow you to define those exact permissions. Two important details about custom roles:
+- need to manage the permissions that define the custom role you’ve created.
+- it can only be applied to either the project level or organization level.
+
+### Cloud Identity
+With Cloud Identity, organizations can define policies and manage their users and groups using the Google Admin Console.
