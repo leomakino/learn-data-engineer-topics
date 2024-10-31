@@ -202,3 +202,67 @@ Many Google Cloud customers want to connect their Google Virtual Private Cloud n
     - it helps you establish high-bandwidth dedicated connectivity between Google Cloud and another cloud service provider.
     - it supports your adoption of an integrated multicloud strategy.
     - it offers reduced complexity, site-to-site data transfer, and encryption.
+
+## Storage in the cloud
+### Cloud Storage
+The storage objects offered by Cloud Storage are immutable, which means that you do not edit them, but instead a new version is created with every change made. Administrators have the option to either allow each new version to completely overwrite the older one, or to keep track of each change made to a particular object by enabling “versioning” within a bucket. If you don’t turn on object versioning, by default new versions will always overwrite older versions.
+
+Using IAM roles and, where needed, access control lists (ACLs), organizations can conform to security best practices (principle of least privilege).
+
+
+There are a couple of options to control user access to objects and buckets:
+- For most purposes, IAM is sufficient;
+    - Roles are inherited from project to bucket to object.
+- To finer control, you can create access control lists (ACLs).
+    - Each access control list consists of two pieces of information.
+    - The first is a **scope**, which defines who can access and perform an action.
+    - The second is a **permission**, which defines what actions can be performed.
+
+There are several ways to bring data into Cloud Storage
+- online transfer using commands (gcloud storage) 
+- Drag and drop option using web browser
+- Storage Transfer Service enables you to import large amounts of online data into Cloud Storage quickly and cost-effectively.
+    - it lets you schedule and manage batch transfers to Cloud Storage from: 
+        1. another cloud provider, 
+        1. different Cloud Storage region 
+        1. an HTTP(S) endpoint.
+- Transfer Appliance, which is a rackable, high-capacity storage server that you lease from Google Cloud.
+    - You can transfer up to a petabyte of data on a single appliance.
+
+### Cloud SQL
+It is the Google Cloud’s second core storage option is Cloud SQL. Cloud SQL offers fully managed relational databases, including MySQL, PostgreSQL, and SQL Server as a service.
+
+Cloud SQL doesn't require any software installation or maintenance. It can scale up to 128 processor cores, 864 GB of RAM, and 64 TB of storage.
+
+It includes a network firewall, which controls network access to each database instance.
+
+A benefit of Cloud SQL instances is that they are accessible by other Google Cloud services (e.g. Compute Engine), and even external services.
+
+### Spanner
+key words: relational, global, high numbers of operations per second
+
+### Firestore
+NoSQL cloud database for mobile, web, and server development.
+
+
+Data is stored in documents and then organized into collections. Documents can contain complex nested objects in addition to subcollections. Each document contains a set of key-value pairs.
+
+Query performance is proportional to the size of the result set,
+
+
+Firestore uses data synchronization to update data on any connected device.
+
+
+### Bigtable
+Bigtable is Google's NoSQL big data database service. It is a great choice for both operational and analytical applications.
+
+
+Bigtable can interact with other Google Cloud services and third-party clients.
+
+Data can also be streamed in through a variety of popular stream processing frameworks like Dataflow Streaming, Spark Streaming, and Storm. And if streaming is not an option, data can also be read from and written to Bigtable through batch processes like Hadoop MapReduce, Dataflow, or Spark.
+
+
+### Obs: BQ
+BigQuery hasn’t been mentioned in this section of the course because it sits on the edge between data storage and data processing.
+
+The usual reason to store data in BigQuery is so you can use its big data analysis and interactive querying capabilities, but it’s not purely a data storage product.
