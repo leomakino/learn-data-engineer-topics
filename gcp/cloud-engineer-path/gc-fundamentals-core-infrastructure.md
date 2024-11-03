@@ -343,6 +343,46 @@ Additionally, there is a small fee for every one million requests you serve. The
 You can also run code written in less popular languages, such as: Cobol, Haskell, and Perl. As long as your app handles web requests, you're good to go.
 
 
-
 **Cloud Functions** is a lightweight, event-based, asynchronous compute solution that allows you to create small, single-purpose functions that respond to cloud events, without the need to manage a server or a runtime environment.
 Events from Cloud Storage and Pub/Sub can trigger Cloud Functions asynchronously, or you can use HTTP invocation for synchronous execution.
+
+## Prompt Engineering
+Generative AI encompasses a broader range of models capable of generating various types of content beyond just text, while LLM specifically refers to a subset of generative AI models focusing on language tasks.
+
+Generative AI is a subset of artificial intelligence that is capable of creating text, images, or other data using generative models, often in response to prompts.
+
+The LLM works like a fancy autocomplete, suggesting the most common correct response to the prompt. But sometimes the LLM gives a completely wrong answer. This is called a hallucination. This happens because LLMs can only understand the information they were trained on.
+
+They often assume that the prompt is true.
+
+
+Gemini has access to a massive range of data, including Google Cloud documentation, tutorials, and samples. With the right prompts, it can produce detailed suggestions and guides on what resources will best suit in your current challenge and their configuration.
+
+Gemini can even create detailed gcloud commands and insert them into Cloud Shell.
+
+LMM is a huge object model containing a massive dataset of text. But how can you extract the information you need from this dataset? A: **prompt engineering**
+
+A prompt is the text that you feed to the model, and prompt engineering is a way of articulating your prompts to get the best response from the model.
+
+The better structured a prompt is, the better the output from the model will be.
+
+
+Prompts can be in the form of a question, and are categorized into four categories: 
+1. zero-shot: do not contain any context or examples to assist the model. E.g.: “What's the capital of Japan?” does not provide any examples of what a capital is.
+1. one-shot: it provides one example to the model for context. E.g. we ask for the capital of Japan again, but we provide Italy and Rome as an example.
+1. few-shot: it provides at least two examples to the model for context.
+1. role prompts: it requires a frame of reference for the model to work from as it answers the questions. E.g.: “I want you to act as a business professor. I'll give you a term, and you will correctly explain its meaning. Make sure your answers are always right. What is ROI? “
+
+
+There are two elements of a prompt:
+1. preamble: it refers to the introductory text you provide to give the model context and instructions before your main question or request.
+1. input: it is the central request you're making to the LLM.
+
+Prompt example:  “You're a cloud architect. You want to build a Google Cloud VPC network that can be centrally managed. You also connect to other VPC networks in your company's other regions. You don't want to have many different sets of firewall policies to maintain. What sort of network architecture would you recommend?”
+
+Best practices:
+1. Write detailed and explicit instructions.
+1. Be clear and concise in the prompts that you feed into the model.
+1. define boundaries for the prompt. It's better to instruct the model on what to do rather than what not to do.
+1. Adopt a persona for your input.
+1. Longer sentences can sometimes produce suboptimal results. It's best to break long sentences in a prompt into a series of shorter sentences and simpler tasks.
