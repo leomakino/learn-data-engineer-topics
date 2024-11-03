@@ -319,3 +319,30 @@ Running a GKE cluster comes with the benefit of advanced cluster management feat
 
 
 To start up Kubernetes on a cluster in GKE, all you do is run this command: $> gcloud container clusters create k1
+
+## Developing Applications in the Cloud
+Cloud Run is a managed compute platform that runs stateless containers via web requests or Pub/Sub events.
+
+The Cloud Run developer workflow is a straightforward three-step process:
+1. write your application using your favorite programming language
+1. build and package your application into a container image
+1. the container image is pushed to Artifact Registry, where Cloud Run will deploy it.
+
+
+Once you've deployed your container image, you'll get a unique HTTPS URL back. Cloud Run then starts your container on demand to handle requests, and ensures that all incoming requests are handled by dynamically adding and removing containers.
+
+
+Because Cloud Run is serverless, it means that you, as a developer, can focus on building your application and not on building and maintaining the infrastructure that powers it.
+
+With Cloud Run, you can use a container-based workflow, as well as a source-based workflow. The source-based approach will deploy source code instead of a container image. Cloud Run then builds the source and packages the application into a container image.
+
+The pricing model on Cloud Run is unique; as you only pay for the system resources you use while a container is handling web requests, with a granularity of 100ms, and when it's starting or shutting down.
+
+Additionally, there is a small fee for every one million requests you serve. The price of container time increases with CPU and memory.
+
+You can also run code written in less popular languages, such as: Cobol, Haskell, and Perl. As long as your app handles web requests, you're good to go.
+
+
+
+**Cloud Functions** is a lightweight, event-based, asynchronous compute solution that allows you to create small, single-purpose functions that respond to cloud events, without the need to manage a server or a runtime environment.
+Events from Cloud Storage and Pub/Sub can trigger Cloud Functions asynchronously, or you can use HTTP invocation for synchronous execution.
