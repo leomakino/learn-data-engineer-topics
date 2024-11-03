@@ -205,7 +205,7 @@ Many Google Cloud customers want to connect their Google Virtual Private Cloud n
 
 ## Storage in the cloud
 ### Cloud Storage
-The storage objects offered by Cloud Storage are immutable, which means that you do not edit them, but instead a new version is created with every change made. Administrators have the option to either allow each new version to completely overwrite the older one, or to keep track of each change made to a particular object by enabling “versioning” within a bucket. If you don’t turn on object versioning, by default new versions will always overwrite older versions.
+The storage objects offered by Cloud Storage are immutable, which means that you do not edit them, but instead a new version is created with every change made. Administrators have the option to either allow each new version to completely overwrite the older one, or to keep track of each change made to a particular object by enabling “versioning” within a bucket. If you don't turn on object versioning, by default new versions will always overwrite older versions.
 
 Using IAM roles and, where needed, access control lists (ACLs), organizations can conform to security best practices (principle of least privilege).
 
@@ -230,7 +230,7 @@ There are several ways to bring data into Cloud Storage
     - You can transfer up to a petabyte of data on a single appliance.
 
 ### Cloud SQL
-It is the Google Cloud’s second core storage option is Cloud SQL. Cloud SQL offers fully managed relational databases, including MySQL, PostgreSQL, and SQL Server as a service.
+It is the Google Cloud's second core storage option is Cloud SQL. Cloud SQL offers fully managed relational databases, including MySQL, PostgreSQL, and SQL Server as a service.
 
 Cloud SQL doesn't require any software installation or maintenance. It can scale up to 128 processor cores, 864 GB of RAM, and 64 TB of storage.
 
@@ -263,6 +263,59 @@ Data can also be streamed in through a variety of popular stream processing fram
 
 
 ### Obs: BQ
-BigQuery hasn’t been mentioned in this section of the course because it sits on the edge between data storage and data processing.
+BigQuery hasn't been mentioned in this section of the course because it sits on the edge between data storage and data processing.
 
-The usual reason to store data in BigQuery is so you can use its big data analysis and interactive querying capabilities, but it’s not purely a data storage product.
+The usual reason to store data in BigQuery is so you can use its big data analysis and interactive querying capabilities, but it's not purely a data storage product.
+
+## Containers in the Cloud
+The idea of a container is to give the independent scalability of workloads in PaaS and an abstraction layer of the OS and hardware in IaaS. A container is an invisible box around your code and its dependencies with limited access to its own partition of the file system and hardware. All that's needed on each host is an OS kernel that supports containers and a container runtime.
+
+You'll probably want to build your applications using lots of containers, each performing their own function like microservices.
+
+### Kubernets
+A product that helps manage and scale containerized applications is Kubernetes. To save time and effort when scaling applications and workloads, Kubernetes can be bootstrapped using Google Kubernetes Engine.
+
+Kubernetes is an open-source platform for managing containerized workloads and services. It makes it easy to orchestrate many containers on many hosts, scale them as microservices, and easily deploy rollouts and rollbacks. At the highest level, Kubernetes is a set of APIs that you can use to deploy containers on a set of nodes called a cluster.
+
+
+
+The system is divided into a set of primary components that run as the control plane and a set of nodes that run containers. A node represents a computing instance, like a machine but *it is different to a node on Google Cloud which is a virtual machine running in Compute Engine*.
+
+
+A Pod is the smallest unit in Kubernetes that you can create or deploy. Deploying containers on nodes by using a wrapper around one or more containers is what defines a Pod. Generally, you only have one container per Pod, but if you have multiple containers with a hard. The Pod provides a unique network IP and set of ports for your containers and configurable options that govern how your containers should run.
+
+
+One way to run a container in a Pod in Kubernetes is to use the  `kubectl` run command, which starts a Deployment with a container running inside a Pod.
+
+Kubernetes creates a Service with a fixed IP address for your Pods. In GKE, the load balancer is created as a network load balancer. Any client that reaches that IP address will be routed to a Pod behind the Service.
+
+
+A Service is an **abstraction** which defines a **logical set of** Pods and a policy by which to access them. As Deployments create and destroy Pods, Pods will be assigned their own IP addresses, but those addresses don't remain stable over time. A Service group is a set of Pods and provides a stable endpoint (or fixed IP address) for them.
+
+The real strength of Kubernetes comes when you work in a declarative way. Instead of issuing commands, you provide a configuration file that tells Kubernetes what you want your desired state to look like, and Kubernetes determines how to do it.
+
+
+What happens when you want to update a new version of your app? To update your container to get new code in front of users, but rolling out all those changes at one time would be risky. In this case, you would use kubectl rollout or change your deployment configuration file and then apply the change using kubectl apply.
+
+
+### GKE
+GKE is a Google-hosted managed Kubernetes service in the cloud. The GKE environment consists of multiple machines, specifically Compute Engine instances, grouped together to form a cluster.
+
+
+You can create a Kubernetes cluster with Kubernetes Engine, but how is GKE different from Kubernetes? GKE manages all the control plane components for us. It still exposes an IP address to which we send all of our Kubernetes API requests, but GKE takes responsibility for provisioning and managing all the control plane infrastructure behind it. It also eliminates the need of a separate control plane. With the Autopilot mode, which is recommended, GKE manages the underlying infrastructure such as node configuration, autoscaling, auto-upgrades, baseline security configurations, and baseline networking configuration. utopilot is optimized for production. It also helps produce a strong security posture.
+
+
+With the Standard mode, you manage the underlying infrastructure, including configuring the individual nodes. The GKE Standard mode has the same functionality as Autopilot, but you're responsible for the configuration, management, and optimization of the cluster.
+
+
+
+Running a GKE cluster comes with the benefit of advanced cluster management features that Google Cloud provides:
+- Google Cloud's load-balancing for Compute Engine instances, 
+- Node pools to designate subsets of nodes within a cluster for additional flexibility, 
+- Automatic scaling of your cluster's node instance count.
+- Automatic upgrades for your cluster's node software.
+- Node auto-repair to maintain node health and availability.
+- logging and monitoring with Google Cloud Observability for visibility into your cluster.
+
+
+To start up Kubernetes on a cluster in GKE, all you do is run this command: $> gcloud container clusters create k1
