@@ -68,14 +68,42 @@ The PoPs (points of presence) are where Google's network is connected to the res
 ### VPC
 GCP resources can connect them to each other and isolate them from each other in a Virtual Private Cloud. You can also define fine-grained network and policies within GCP and between GCP and On-premises or other public Clouds.
 
-
 Essentially:
 - VPC is a comprehensive set of Google managed networking objects. 
 - VPC provides IP addresses for internal and external use along with granular IP address range selections.
 - Networks come in three different flavors; default, auto mode, and custom mode. 
 - Subnetworks allow you to divide or segregate your environment.
 - Regions in zones represents Google's datacenters
+
 ### Projects, Networks, and Subnetworks
+Projects are the key organizer of infrastructure resources and it associates objects and services with billing. The default quota for each project is 15 networks, but you can simply request additional quota
+
+
+These networks can be shared with other projects, or they can be peered with networks in other projects. Also, these networks do not have IP ranges but are simply a construct of all of the individual IP addresses and services within that network.
+
+Inside a network, you can segregate your resources with **regional** subnetworks. There are different types of networks: default, auto, and custom.
+- default
+    - Every project is provided with a default VPC network with preset subnets and firewall rules.
+    -  a subnet is allocated for each region with non-overlapping CIDR blocks and firewall rules that allow ingress traffic for ICMP, RDP, and SSH traffic from anywhere, as well as ingress traffic from within the default network for all protocols and ports.
+- auto mode
+    - one subnet from each region is automatically created within it.
+    - the default network is actually an auto mode network. ???
+    - These automatically created subnets use a set of predefined IP ranges with a /20 mask that can be expanded to /16.
+    - All of these subnets fit within the 10.128.0.0/9 CIDR block.
+    - as new Google Cloud regions become available, new subnets in those regions are automatically added to auto mode networks using an IP range from that block.
+- custom mode
+    - it does not automatically create subnets
+    - This type of network provides you with **complete control** over its subnets and IP ranges: which subnets to create, in regions you choose, and using IP ranges you specify.
+    - These IP ranges cannot overlap between subnets of the same network.
+    - you can convert an auto mode network to a custom mode network to take advantage of the control that custom mode networks provide.
+    - Google Cloud now supports IPv6 in a custom VPC network mode, for example you can configure IPv6 addressing on ‘dual-stack’ VM instances running both IPv4 and IPv6.
+
+
+The subnet is simply an IP address range, and you can use IP addresses within that range. Every subnet has four reserved IP addresses in its primary IP range. The new subnet must not overlap with other subnets in the same VPC network in any region. Each IP range for all subnets in a VPC network must be a unique valid CIDR block. Also, the new subnet IP address ranges are regional internal IP addresses and have to fall within valid IP ranges.
+
+
+Do not scale your subnet beyond what you actually need.
+
 ### IP Addresses
 ### Princing
 ### Common Network Designs
