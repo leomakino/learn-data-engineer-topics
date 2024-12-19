@@ -114,5 +114,86 @@ To expand the subnet, I could go to VPC networks through the navigation menu. Cl
 That's how easy it is to expand a subnet in GCP without any workload shutdown or downtime
 
 ### IP Addresses
+In Google Cloud, each virtual machine can have two IP addresses assigned:
+1. An internal IP address, which is going to be assigned via DHCP internally;
+1. An external IP address, but this one is optional.
+
+
+Every VM that starts up and any service that depends on virtual machines gets an internal IP address. When you create a VM in Google Cloud, its symbolic name is registered with an internal DNS service that translates the name to an internal IP address.
+
+
+The external IP address can be:
+1. assigned from a pool, making it ephemeral (meaning: lasting for only a short time), or 
+1. it can be assigned from a reserved external IP address, making it static.
+
+Primary internal Ipv4 address:
+- Ephemeral (Automatic)
+- Ephemeral (Custom)
+- Reserve static internal IPV4 ADDRESS
+
+If you reserve static external IP address and do not assign it to a resource, such as a VM instance or a forwarding rule, you are charged at a higher rate than for static and ephemeral external IP addresses that are in use.
+
+#### Mapping IP Addresses
+Regardless of whether you use an ephemeral or static IP address, the external address is unknown to the OS of the VM. The external IP address is mapped to the VM's internal address transparently by VPC. Running ifconfig within a VM in Google Cloud only returns the internal IP address.
+
+Let’s explore this further by looking at DNS resolution for both internal and external addresses.
+
+Google Cloud has two types of internal DNS names, Zonal and Global (project wide) DNS. In general, Google strongly recommends using zonal DNS because it offers higher reliability guarantees by isolating failures in the DNS registration to individual zones.
+
+Each instance has a hostname that can be resolved to an internal IP address. This hostname is the same as the instance name. There is also an internal fully qualified domain name, or FQDN, for an instance that uses the format [hostnamke].[zone].c.[project-id].internal.
+
+The DNS name always points to a specific instance, no matter what the internal IP address is. Each instance has a metadata server that also acts as a DNS resolver for that instance. The metadata server handles all DNS queries for local network resources and routes all other queries to Google's public DNS servers for public name resolution.
+
+An instance is not aware of any external IP address assigned to it. Instead, the network stores a lookup table that matches external IP addresses with the internal IP addresses of the relevant instances.
+
+Public DNS records pointing to instances are not published automatically; however, admins can publish these using existing DNS servers. Domain name servers can be hosted on Google Cloud, using Cloud DNS. 
+
+**Cloud DNS** uses Google’s global network of Anycast name servers to serve your DNS zones from redundant locations around the world, providing lower latency and high availability for your users. Google Cloud offers a 100% uptime Service Level Agreement, or SLA, for domains configured in Cloud DNS. Cloud DNS lets you create and update millions of DNS records without the burden of managing your own DNS servers and software.
+
+Another networking feature of Google Cloud is **Alias IP Ranges**. It lets you assign a range of internal IP addresses as an alias to a virtual machine's network interface. *This is useful if you have multiple services running on a VM, and you want to assign a different IP address to each service*. In other words, you can configure multiple IP addresses, representing containers or applications hosted in a VM, without having to define a separate network interface.
+
+#### IP Addresses for Default Domains
+Google publishes the complete list of IP ranges that it announces to the internet in goog.json. Useful links:
+- https://www.gstatic.com/ipranges/cloud.json provides a JSON representation of Cloud IP addresses organized by region.
+- https://www.gstatic.com/ipranges/cloud_geofeed is a standard geofeed formatted IP geolocation file that we share with 3rd-party IP geo providers like Maxmind, Neustar, and IP2Location.
+- https://www.gstatic.com/ipranges/goog.json and https://www.gstatic.com/ipranges/goog.txt are JSON and TXT formatted files
+respectively that include Google public prefixes in CIDR notation.
+
+For more information as well as an example of how to use this information, refer to https://cloud.google.com/vpc/docs/configure-private-google-access#ip-addr-defaults
+
+#### Routes and firewall rules
+By default, every network has routes that let instances in a network send traffic directly to each other, even across subnets. In addition, every network has a default route that directs packets to destinations that are outside the network. Although these routes cover most of your normal routing needs, you can also create special routes that overwrite these routes.
+
+Just creating a route does not ensure that your packet will be received by the specified next top. **Firewall** rules must also allow the packet.
+
+The default network has pre-configured firewall rules that allow all instances in the network to talk with each other. Manually created networks do not have such rules, so you must create them.
+
+Routes map traffic to destination networks. It matches packets by destination IP addresses. No traffic will flow without also matching a firewall rule.
+
+Each route in the Routes collection may apply to one or more instances. A route applies to an instance if the network and instance tags match. If the network matches and there are no instance tags specified, the route applies to all instances in that network.
+
+**GCP firewall rules** protect your virtual machine instances from unapproved connections, both inbound and outbound, known as ingress and egress, respectively.
+
+Every VPC network functions as a distributed firewall. Although firewall rules are applied to the network as a whole, connections are allowed or denied at the instance level.
+
+Firewall rules allow bidirectional communication once a session is established. if for some reason, all firewall rules in a network are deleted, there is still an implied "Deny all" ingress rule and an implied "Allow all" egress rule for the network.
+
+A firewall rule is composed of the following parameters:
+- The direction of the rule
+     - Inbound connections are matched against ingress rules only
+     - outbound connections are matched against egress rules only.
+- The source of the connection for ingress packets, or the destination of the connection for egress packets.
+- The protocol and port of the connection
+    - where any rule can be restricted to apply to specific protocols only or specific combinations of protocols and ports only.
+- The action of the rule: which is to allow or deny packets that match the direction, protocol, port, and source or destination of the rule.
+- The priority of the rule: which governs the order in which rules are evaluated.
+- Rule assignment: all rules are assigned to all instances, but you can assign certain rules to certain instances only.
+
+
+Egress firewall rules control **outgoing connections originated inside** your GCP network. For egress firewall rules, destinations to which a rule applies may be specified using IP CIDR ranges.
+
+Ingress firewall rules protect against **incoming connections to the instance from any source**. The firewall prevents instances from receiving connections on non-permitted ports and protocols. Source CIDR ranges can be used to protect an instance from undesired connections coming either from external networks or from GCP IP ranges. You can control ingress connections from a VM instance by constructing inbound connection conditions using source CIDR ranges, protocols, or ports.
+
+
 ### Princing
 ### Common Network Designs
