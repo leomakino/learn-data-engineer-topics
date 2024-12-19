@@ -104,6 +104,15 @@ The subnet is simply an IP address range, and you can use IP addresses within th
 
 Do not scale your subnet beyond what you actually need.
 
+#### Expand a subnet
+E.g.: A slash 29 mask provides you with eight addresses. But of those, four are reserved by GCP, which leaves you with another four for your VM instances.
+
+If I create 4 VMs intances, when I try to create the fifth I receive a message telling that the IP space of that subnet has been exhausted.
+
+To expand the subnet, I could go to VPC networks through the navigation menu. Click the "Edit" button on subnet. Expand the ip range to a slash 23, and this is going to allow a lot of instances, actually over 500 instances.
+
+That's how easy it is to expand a subnet in GCP without any workload shutdown or downtime
+
 ### IP Addresses
 ### Princing
 ### Common Network Designs
