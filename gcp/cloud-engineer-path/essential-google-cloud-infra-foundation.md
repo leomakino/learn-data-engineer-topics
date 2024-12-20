@@ -194,6 +194,28 @@ Egress firewall rules control **outgoing connections originated inside** your GC
 
 Ingress firewall rules protect against **incoming connections to the instance from any source**. The firewall prevents instances from receiving connections on non-permitted ports and protocols. Source CIDR ranges can be used to protect an instance from undesired connections coming either from external networks or from GCP IP ranges. You can control ingress connections from a VM instance by constructing inbound connection conditions using source CIDR ranges, protocols, or ports.
 
+Which firewall rule allows the ping to mynet-notus-vm's external IP address? 
+A: mynetwork-allow-icmp. Public access to those instances is only controlled by the ICMP firewall rule
+
+
+VPC networks are by default isolated private networking domains. Therefore, no internal IP address communication is allowed between networks, unless you set up mechanisms such as VPC peering or VPN
+
+
+Commands used:
+- ping -c 3 <Enter mynet-notus-vm's internal IP here>
+- gcloud compute networks create privatenet --subnet-mode=custom
+- gcloud compute networks subnets create privatesubnet-us --network=privatenet --region=Region 1 --range=172.16.0.0/24
+- gcloud compute networks list
+- gcloud compute networks subnets list --sort-by=NETWORK
+- gcloud compute firewall-rules create privatenet-allow-icmp-ssh-rdp --direction=INGRESS --priority=1000 --network=privatenet --action=ALLOW --rules=icmp,tcp:22,tcp:3389 --source-ranges=0.0.0.0/0
+- gcloud compute firewall-rules list --sort-by=NETWORK
+- gcloud compute instances create privatenet-us-vm --zone=Zone 1 --machine-type=e2-micro --subnet=privatesubnet-us --image-family=debian-12 --image-project=debian-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=privatenet-us-vm
+- gcloud compute instances list --sort-by=ZONE
+
+
+Lab note: You cannot ping the internal IP address of managementnet-us-vm and privatenet-us-vm because they are in separate VPC networks from the source of the ping (mynet-us-vm), even though they are all in the same zone.
 
 ### Princing
+
+
 ### Common Network Designs
