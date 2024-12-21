@@ -363,6 +363,10 @@ Planning and configuring data storage options
 
 Planning and configuring network resources
 - [Cloud Load Balancing overview](!https://cloud.google.com/load-balancing/docs/load-balancing-overview)
+Links referenced by labs:
+- [Using IAP for TCP forwarding](!https://cloud.google.com/iap/docs/using-tcp-forwarding)
+- [Private access options for services](!https://cloud.google.com/vpc/docs/private-access-options#pga-supported)
+
 
 
 ## Deploying and Implementing a Cloud Solution

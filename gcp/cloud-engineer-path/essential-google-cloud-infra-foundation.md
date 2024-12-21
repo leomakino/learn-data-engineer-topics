@@ -215,7 +215,42 @@ Commands used:
 
 Lab note: You cannot ping the internal IP address of managementnet-us-vm and privatenet-us-vm because they are in separate VPC networks from the source of the ping (mynet-us-vm), even though they are all in the same zone.
 
-### Princing
-
-
 ### Common Network Designs
+1. If your application needs increased availability, you can place two virtual machines into multiple zones, but within the same subnet work. By allocating VMs on a single subnet to separate zones, you get improved availability without additional security complexity. It provides isolation for many types of infrastructure, hardware and software failures.
+
+1. Globalization: Putting resources in different regions provides an even higher degree of failure independence. When using a global load balancer like the HTTP load balancer, you can route traffic to the region that is closest to the user. This can result in better latency for users and lower network traffic costs for your project.
+
+
+A general security **best practice is only assigning internal IP addresses to your VM instances**, whenever possible.
+
+Cloud NAT (Network Address Translation) is Google's managed network address translation service. It lets you provision your application instances without public IP addresses, while also allowing them to access the internet in a controlled and efficient manner. This means your private instances can access the internet for updates, patching, configuration management, and more.  In the class example Cloud NAT enables two private instances to access an update server on the Internet, which is referred to as outbound NAT. However, Cloud NAT does not Implement inbound NAT. In other words, hosts outside your VPC network cannot directly access any of the private instances behind the cloud NAT gateway.
+
+
+You should enable private Google access to allow VM instances that only have internal IP addresses to reach the external IP addresses of Google APIs and services. For example, if your private VM instance needs to access a cloud storage bucket, you need to enable private Google access. **Private Google access has no effect on instances that have external IP addresses**, that's why VMs A2 and B2 can access Google APIs and services.
+
+#### Implementing Private Google Access and Cloud NAT
+In this lab, you implement Private Google Access and Cloud NAT for a VM instance that doesn't have an external IP address. Then you verify access to public IP addresses of Google APIs and services and other connections to the Internet.
+
+The objectives of this lab are:
+- Configure a VM instance that doesn't have an external IP address
+- Connect to a VM instance using an Identity-Aware Proxy (IAP) tunnel
+- Enable Private Google Access on a subnet
+- Configure a Cloud NAT gateway
+- Verify access to public IP addresses of Google APIs and services and other connections to the internet
+
+When instances do not have external IP addresses, they can only be reached by other instances on the network via a managed VPN gateway or via a Cloud IAP tunnel. Cloud IAP enables context-aware access to VMs via SSH and RDP without bastion hosts. 
+
+Private Google Access is enabled at the subnet level. When it is enabled, instances in the subnet that only have private IP addresses can send traffic to Google APIs and services through the default route (0.0.0.0/0) with a next hop to the default internet gateway.
+
+With the Private Google Access the vms can now access certain Google APIs and services without an external IP address, but the instance cannot access the internet for updates and patches. Running sudo apt-get update in the vm should only work for Google Cloud packages because the VMs only has access to Google APIs and services. Configuring a **Cloud NAT gateway allows the vms to reach the internet**.
+
+Cloud NAT is a regional resource. You can configure it to allow traffic from all ranges of all subnets in a region, from specific subnets in the region only, or from specific primary and secondary CIDR ranges only.
+
+Cloud NAT logs are generated for the following sequences:
+- When a network connection using NAT is created.
+- When a packet is dropped because no port was available for NAT.
+
+
+Commands:
+- gcloud compute ssh vm-internal --zone ZONE --tunnel-through-iap
+- ping -c 2 www.google.com
