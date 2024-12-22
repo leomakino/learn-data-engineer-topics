@@ -70,3 +70,97 @@ You have connected to the virtual machine created earlier in the lab. Did you no
 The prompt now says something similar to sa_107021519685252337470@gcelab2:
 - The reference before the @ indicates the account being used.
 - After the @ sign indicates the host machine being accessed.
+
+## Set up Network and Application Load Balancers
+In this lab, you learn how to perform the following tasks:
+1. Create multiple web server instances.
+1. Configure a load balancing service.
+1. Send traffic to the instances
+1. Create an Application Load Balancer.
+1. Test traffic sent to the instances
+
+Create VM with startup script: 
+```
+  gcloud compute instances create www1 \
+    --zone=Zone \
+    --tags=network-lb-tag \
+    --machine-type=e2-small \
+    --image-family=debian-11 \
+    --image-project=debian-cloud \
+    --metadata=startup-script='#!/bin/bash
+      apt-get update
+      apt-get install apache2 -y
+      service apache2 restart
+      echo "
+<h3>Web Server: www1</h3>" | tee /var/www/html/index.html'
+```
+
+Configure the load balancing service:
+1. Create a static external IP address for your load balancer `gcloud compute addresses create network-lb-ip-1 --region Region`
+1. Add a legacy HTTP health check resource: `gcloud compute http-health-checks create basic-check`
+1. Add a target pool in the same region as your instances. Run the following to create the target pool and use the health check, which is required for the service to function:`gcloud compute target-pools create www-pool   --region Region --http-health-check basic-check`
+1. Add the instances to the pool: `gcloud compute target-pools add-instances www-pool --instances www1,www2,www3`
+1. Add a forwarding rule:
+```
+gcloud compute forwarding-rules create www-rule \
+    --region  Region \
+    --ports 80 \
+    --address network-lb-ip-1 \
+    --target-pool www-pool
+```
+
+Application Load Balancing is implemented on Google Front End (GFE). GFEs are distributed globally and operate together using Google's global network and control plane. You can configure URL rules to route some URLs to one set of instances and route other URLs to other instances.
+
+Requests are always routed to the instance group that is closest to the user, if that group has enough capacity and is appropriate for the request. If the closest group does not have enough capacity, the request is sent to the closest group that does have capacity.
+
+To set up a load balancer with a Compute Engine backend, your VMs need to be in an instance group. The managed instance group provides VMs running the backend servers of an external Application Load Balancer.
+
+Managed instance groups (MIGs) let you operate apps on multiple identical VMs. You can make your workloads scalable and highly available by taking advantage of automated MIG services, including: autoscaling, autohealing, regional (multiple zone) deployment, and automatic updating.
+
+-  create the load balancer template
+```
+gcloud compute instance-templates create lb-backend-template \
+   --region=Region \
+   --network=default \
+   --subnet=default \
+   --tags=allow-health-check \
+   --machine-type=e2-medium \
+   --image-family=debian-11 \
+   --image-project=debian-cloud \
+   --metadata=startup-script='#!/bin/bash
+     apt-get update
+     apt-get install apache2 -y
+     a2ensite default-ssl
+     a2enmod ssl
+     vm_hostname="$(curl -H "Metadata-Flavor:Google" \
+     http://169.254.169.254/computeMetadata/v1/instance/name)"
+     echo "Page served from: $vm_hostname" | \
+     tee /var/www/html/index.html
+     systemctl restart apache2'
+```
+- Create a managed instance group based on the template:
+```
+gcloud compute instance-groups managed create lb-backend-group \
+   --template=lb-backend-template --size=2 --zone=Zone
+```
+- Create a backend service
+```
+gcloud compute backend-services create web-backend-service \
+  --protocol=HTTP \
+  --port-name=http \
+  --health-checks=http-basic-check \
+  --global
+```
+
+- Add your instance group as the backend to the backend service
+```
+gcloud compute backend-services add-backend web-backend-service \
+  --instance-group=lb-backend-group \
+  --instance-group-zone=Zone \
+  --global
+```
+- Create a target HTTP proxy to route requests to your URL map:
+```
+gcloud compute target-http-proxies create http-lb-proxy \
+    --url-map web-map-http
+```
