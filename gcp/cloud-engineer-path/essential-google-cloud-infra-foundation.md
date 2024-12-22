@@ -254,3 +254,132 @@ Cloud NAT logs are generated for the following sequences:
 Commands:
 - gcloud compute ssh vm-internal --zone ZONE --tunnel-through-iap
 - ping -c 2 www.google.com
+
+## Virtual Machines
+A VM is similar but not identical to a hardware computer. VMs consists of a virtual CPU, some amount of memory, disk storage, and an IP address.
+
+Compute Engine is GCP's service to create VMs. It is very flexible and offers many **options including some that can't exist in physical hardware**. For example:
+- a micro VM shares a CPU with other virtual machines, so you can get a VM with less capacity at a lower cost.
+- some VMs offer burst capability: the virtual CPU will run above its rated capacity for a brief period, using the available shared physical CPU.
+
+The main VM options are CPU, memory, discs, and networking.
+
+Compute Engine features
+- Machine rightsizing
+    - Recommendation engine for optimum machine size
+    - Cloud Monitoring statistics
+    - New recommendation 24 hours after VM create or resize
+- Instance metadata
+- Startup and shutdown scripts
+- Availability policies
+    - Live migrate
+    - Auto restart
+- Global load balancing
+    - Multiple regions for availability
+- OS patch management:
+    - Create patch approvals
+    - Set up flexible scheduling
+    - Apply advanced patch configuration settings
+- Per-second billing
+- Sustained use discounts
+- Committed use discounts
+- Preemptible and Spot VMs
+    - up to 91% discount
+    - No SLA
+
+### Compute Options
+Three disk options: Standard, SSD, or local SSD. Both of these options provide the same amount of capacity in terms of disk size when choosing a persistent disk. Therefore, the question really is about performance versus cost, because there's a different pricing structure. SSDs are designed to give you a **higher number of IOPS per dollar** versus standard disks, which will give you a **higher amount of capacity per dollar**. 
+
+Local SSDs have higher throughput and lower latency than SSD persistent disks, because they are attached to the physical hardware. The data that you store on local SSDs persists only until you stop or delete the instance. Typically, a local SSD is used as a swap disk.
+
+Networking:
+- auto, custom networkds
+- Inbound/outbound firewall rules
+    - IP based
+    - Instance/group tags
+- Regional HTTPS load balancing
+- Network load balancing
+    - Doesn't require pre-warming
+- Global and multi regional subnotworks
+
+#### VM Access and lifecycle
+VM access:
+1. On a Linux instance (SSH):
+    - The creator has SSH capability and can use the Google Cloud console to grant SSH capability to other users.
+    - SSH from computer or third-party client and generate key pair
+    - Requires firewall rule to allow tcp:22
+1. On a Windows instance (RDP):
+    - the creator can use the console to generate a username and password and anyone who knows the username and password can connect to the instance using a Remote Desktop Protocol, or RDP, client.
+    - RDP clients and Powershell terminal
+    - Requires setting the Windows password
+    - Requires firewall rule to allow tcp:3389
+
+The lifecycle of a VM:
+1. States:
+    1. Provisioning
+    1. Staging
+    1. Running/Repairing
+    1. Supending/Suspended or Stopping/Terminated
+1. After running, its possible to:
+    - instances.suspend()
+    - instances.stop()
+    - instances.delete()
+1. If suspend:
+    - instances.delete()
+    - instances.resume()
+1. If Terminated:
+    - instances.delete()
+    - instances.start()
+
+Compute Engine can live migrate your virtual machine to another host due to a maintenance event to prevent your applications from experiencing disruptions. A VM's availability policy determines how the instance behaves in such an event. The default maintenance behavior for instances is to live migrate, but you can change the behavior to terminate your instance during maintenance events instead. If your VM is terminated due to a crash or other maintenance event, your instance automatically restarts by default, but this can also be changed.
+
+Availability policy: Automatic changes
+- Automatic restart
+    - Automatic VM restart due to crash or maintenance event (not preemption or a user-initiated terminate)
+- On host maintenance
+    - Determines whether host is live-migrated or terminated due to a maintenance event (Live migration is the default)
+- Live migration
+    - During maintenance event, VM is migrated to different hardware without interruption
+    - Metadata indicates occurrence of live migration
+
+OS updated and patch management is an essential part of managing an infrastructure. Google Offers the **OS patch management** to easily keep infrastructures up-to-date and reduce the risk of security vulnerabilities. This service has two main components:
+1. Patch compliance reporting, which provides insights on the patch status of your VM instances across Windows and Linux distributions. Also, recommendation.
+1. Patch deployment, which automates the operating system and software patch update process. it schedules patch jobs.
+
+There are several tasks that can be performed with patch management:
+- Create patch approvals
+- select what patches to apply to your system from the full set of updates available for the specific operating system
+- Set up flexible scheduling
+- choose when to run patch updates (one-time and recurring schedules)
+- Apply advanced patch configuration settings
+- customize patches by adding configurations such as pre and post patching scripts
+- manage these patch jobs or updates from a centralized location
+
+When a VM is terminated, you do not pay for memory and CPU resources. However, **you are charged for any attached disks and reserved IP addresses**. In the terminated state, you can perform any of the actions listed here, such as changing the machine type, but you cannot change the image of a stopped VM.
+
+#### Creating Virtual Machine Lab
+In this lab, you created several virtual machine instances of different types with different characteristics. One was a small utility VM for administration purposes. You also created a standard VM and a custom VM.
+
+Note: Notice that you cannot change the machine type, the CPU platform, or the zone.
+
+You can add network tags and allow specific network traffic from the internet through firewalls. Some properties of a VM are integral to the VM, are established when the VM is created, and cannot be changed. Other properties can be edited.
+
+You can add additional disks and you can also determine whether the boot disk is deleted when the instance is deleted.
+
+Normally the boot disk defaults to being deleted automatically when the instance is deleted. But sometimes you will want to override this behavior. This feature is very important because you cannot create an image from a boot disk when it is attached to a running instance.
+
+So you would need to disable Delete boot disk when instance is deleted to enable creating a system image from the boot disk.
+
+Note 2: You cannot convert a non-preemptible instance into a preemptible one. This choice must be made at VM creation. A preemptible instance can be interrupted at any time and is available at a lower cost.
+
+If a VM is stopped for any reason, (for example an outage or a hardware failure) the automatic restart feature will start it back up. Is this the behavior you want? Are your applications idempotent (written to handle a second startup properly)?
+
+During host maintenance, the VM is set for live migration. However, you can have the VM terminated instead of migrated.
+
+If you make changes, they can sometimes take several minutes to be implemented, especially if they involve networking changes like adding firewalls or changing the external IP.
+
+Commands:
+- To see information about unused and used memory and swap space on your custom VM, run the following command: `free`
+- To see details about the RAM installed on your VM, run the following command: `sudo dmidecode -t 17`
+- To verify the number of processors, run the following command: `nproc`
+- To see details about the CPUs installed on your VM, run the following command: `lscpu`
