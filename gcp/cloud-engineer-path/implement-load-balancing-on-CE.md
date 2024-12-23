@@ -119,33 +119,48 @@ Managed instance groups (MIGs) let you operate apps on multiple identical VMs. Y
 
 -  create the load balancer template
 ```
-gcloud compute instance-templates create lb-backend-template \
-   --region=Region \
-   --network=default \
-   --subnet=default \
-   --tags=allow-health-check \
+gcloud compute instance-templates create lab-test-backend-template \
+   --region=us-west3 \
    --machine-type=e2-medium \
    --image-family=debian-11 \
    --image-project=debian-cloud \
-   --metadata=startup-script='#!/bin/bash
-     apt-get update
-     apt-get install apache2 -y
-     a2ensite default-ssl
-     a2enmod ssl
-     vm_hostname="$(curl -H "Metadata-Flavor:Google" \
-     http://169.254.169.254/computeMetadata/v1/instance/name)"
-     echo "Page served from: $vm_hostname" | \
-     tee /var/www/html/index.html
-     systemctl restart apache2'
+   --metadata-from-file=startup-script=startup.sh
 ```
+
 - Create a managed instance group based on the template:
 ```
-gcloud compute instance-groups managed create lb-backend-group \
-   --template=lb-backend-template --size=2 --zone=Zone
+gcloud compute instance-groups managed create lab-test-backend-group \
+   --template=lab-test-backend-template --size=2 --zone=us-west3-b
 ```
+
+- Create a firewall rule named as grant-tcp-rule-812 to allow traffic (80/tcp)
+```
+gcloud compute firewall-rules create grant-tcp-rule-812 \
+  --network=default \
+  --action=allow \
+  --direction=ingress \
+  --source-ranges=130.211.0.0/22,35.191.0.0/16 \
+  --rules=tcp:80
+```
+
+- set up a global static external IP address that your customers use to reach your load balancer
+```
+gcloud compute addresses create lab-test-ipv4-1 \
+  --ip-version=IPV4 \
+  --global
+```
+
+- dd your instance group as the backend to the backend service group with named port (http:80)
+gcloud compute instance-groups managed set-named-ports lab-test-backend-group --named-ports=http:80 --zone=us-west3-b
+
+- Create a health check for the load balancer
+```
+gcloud compute health-checks create http http-basic-check --port 80
+```
+
 - Create a backend service
 ```
-gcloud compute backend-services create web-backend-service \
+gcloud compute backend-services create lab-test-backend-service \
   --protocol=HTTP \
   --port-name=http \
   --health-checks=http-basic-check \
@@ -154,13 +169,29 @@ gcloud compute backend-services create web-backend-service \
 
 - Add your instance group as the backend to the backend service
 ```
-gcloud compute backend-services add-backend web-backend-service \
-  --instance-group=lb-backend-group \
-  --instance-group-zone=Zone \
+gcloud compute backend-services add-backend lab-test-backend-service \
+  --instance-group=lab-test-backend-group \
+  --instance-group-zone=us-west3-b \
   --global
 ```
+
+- Create a URL map to route the incoming requests to the default backend service
+```
+gcloud compute url-maps create lab-test-map-http \
+    --default-service lab-test-backend-service
+```
+
 - Create a target HTTP proxy to route requests to your URL map:
 ```
-gcloud compute target-http-proxies create http-lb-proxy \
-    --url-map web-map-http
+gcloud compute target-http-proxies create http-lab-test-proxy \
+    --url-map lab-test-map-http
+```
+
+- Create a global forwarding rule to route incoming requests to the proxy
+```
+gcloud compute forwarding-rules create http-content-rule \
+   --address=lab-test-ipv4-1\
+   --global \
+   --target-http-proxy=http-lab-test-proxy \
+   --ports=80
 ```
