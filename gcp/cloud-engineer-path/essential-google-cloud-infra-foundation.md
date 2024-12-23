@@ -383,3 +383,61 @@ Commands:
 - To see details about the RAM installed on your VM, run the following command: `sudo dmidecode -t 17`
 - To verify the number of processors, run the following command: `nproc`
 - To see details about the CPUs installed on your VM, run the following command: `lscpu`
+
+### Compute Options
+Three options for creating and configuring a VM:
+1. Cloud Console
+1. Cloud Shell
+1. RESTful API
+
+If you plan on using the command line or RESTful API, I'ts recommend that you first configure the instance through the Google Cloud console and then ask Compute Engine for the equivalent REST request or command line.
+
+When you create a VM, you select a machine type from a machine family that determines the resources available to that VM. There are several machine families you can choose from and each machine family is further organized into machine series and predefined machine types within each series. A machine family is a curated set of processor and hardware configurations optimized for specific workloads.
+
+There are four Compute Engine machine families:
+- General-purpose: 
+    - E2:
+        - Machine types for common workloads, optimized for cost and flexibility.
+        - The E2 machine series is suited for day-to-day computing at a lower cost, especially where there are no application dependencies on a specific CPU architecture.
+        - The Standard E2 VMs have between 2 to 32 vCPUs with a ratio of 0.5 GB to 8 GB of memory per vCPU.
+        - They are a great choice for web servers, small to medium databases, development and test environments, and many applications that don't have strict performance requirements.
+        - It constains a shared-core machine types that use context-switching to share a physical core between vCPUs for multitasking.
+    - N2 and N2D:
+        - They are the most flexible VM types and provide a balance between price and performance across a wide range of VM shapes, including enterprise applications, medium-to-large databases, and many web and app-serving workloads.
+        - N2 supports the latest second generation scalable processor from Intel with up to 128 vCPUs and 0.5 to 8 GB of memory per vCPU.
+        - N2D latest EPYC Milan and EPYC Rome processors, and provide up to 224 vCPUs per node.
+    - T2A and T2D:
+        - Scale-out workloads
+        - run on Arm processors
+        - If you have containerized workloads, Tau VMs are supported by Google Kubernetes Engine to help optimize price-performance.
+- Compute-optimized
+    - Machine types for performance-intensive workloads, with **highest performance per core**
+    - Best fit for: AAA gaming, electronic design automation, and high-performance computing across simulations, genomic analysis, or media transcoding.
+    - C2: from 4 to 60 vCPUs, and offers up to 240 GB of memory
+    - C2D machine series provides the largest VM sizes and are best-suited for high-performance computing. It also has the largest available last-level cache per core
+    - H3 series offer 88 cores and 352 GB of DDR5 memory
+- Memory-optimized
+    - Machine types for workloads with higher memory-to-vCPU ratios, like in-memory databases 
+    - M1 machine series has up to 4 TB of memory, while the M2 machine series has up to 12 TB of memory.
+    - These machine series are well-suited for large in-memory databases such as SAP HANA, as well as in-memory data analytics workloads.
+    - Both the M1 and M2 machine series offer the lowest cost per GB of memory on Compute Engine, making them **a great choice for workloads that utilize higher memory configurations with low compute resource requirements**.
+- Accelerator-optimized (GPUs)
+    - Graphics processing units (GPUs) accelerate specific workloads on your instances such as machine learning and data processing.
+    - it is ideal for massively parallelized Compute Unified Device Architecture (CUDA) compute workloads, such as machine learning and high-performance computing.
+    - A2, A3, G2, N1
+    - The A2 series has 12 to 96 vCPUs, and up to 1360 GB of memory.
+    - G2 VMs offer 4 to 96 vCPUs, up to 432 GB of memory. It is well-suited for CUDA-enabled ML training and inference, video transcoding, remote visualization workstation.
+- Storage optimized
+    - Machine types for storage-intensive workloads, like horizontal, scale-out databases.
+
+
+Alternatively, it's possible to create custom machine types. These let you specify the number of vCPUs and the amount of memory for your instance. It is ideal for when you have workloads that are not a good fit for the predefined machine types that are available to you. 
+
+It costs slightly more to use a custom machine type than an equivalent predefined machine type, and there are still some limitations in:
+- Only machine types with 1 vCPU or an even number of vCPUs can be created.
+- Memory must be between 1 GB and 8 GB per vCPU.
+- The total memory of the instance must be a multiple of 256 MB.
+
+
+
+
