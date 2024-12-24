@@ -438,6 +438,19 @@ It costs slightly more to use a custom machine type than an equivalent predefine
 - Memory must be between 1 GB and 8 GB per vCPU.
 - The total memory of the instance must be a multiple of 256 MB.
 
+### Compute pricing
+All vCPUs, GPUs, and GB of memory are charged a minimum of 1 minute. After 1 minute, instances are charged in 1-second increments.
 
+Compute Engine uses a resource-based pricing model, where each vCPU and each GB of memory on Compute Engine is billed separately rather than as a part of a single machine type.
 
+If your workload is stable and predictable, you can purchase a specific amount of vCPUs and memory for a discount off of normal prices in return for committing to a usage term of 1 year or 3 years.
 
+Preemptible and Spot VMs are instances that you can create and run at a much lower price than normal instances. 
+For both types of VM, Compute Engine might terminate (or preempt) these instances if it requires to access those resources for other tasks.
+
+Compute Engine provides VM sizing recommendations to help you optimize the resource used of your virtual machine instances. Recommendations for the new instance will appear 24 hours after the instance has been created.
+
+Sustained use discounts are automatic discounts that you get for running specific Compute Engine resources (vCPUs, memory, and GPU devices) for a significant portion of the billing month. For example, when you run one of these resources for more than 25% of a month.
+- if you use a virtual machine for 50% of the month, you can an effective discount of 10%.
+- If you use it for 75% of the month, you get an effective discount of 20%.
+- If you use it for 100% of the month, you get an effective discount of 30%
