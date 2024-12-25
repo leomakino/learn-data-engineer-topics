@@ -439,6 +439,8 @@ It costs slightly more to use a custom machine type than an equivalent predefine
 - The total memory of the instance must be a multiple of 256 MB.
 
 ### Compute pricing
+Sustained use discounts are automatic discounts that you get for running specific Compute Engine resources (vCPUs, memory, GPU devices) for a significant portion of the billing month.
+
 All vCPUs, GPUs, and GB of memory are charged a minimum of 1 minute. After 1 minute, instances are charged in 1-second increments.
 
 Compute Engine uses a resource-based pricing model, where each vCPU and each GB of memory on Compute Engine is billed separately rather than as a part of a single machine type.
@@ -475,5 +477,148 @@ If you have workloads that require physical isolation from other workloads or vi
 
 Another compute option is to create a **shielded VM**. It offers verifiable integrity to your VM instances, so you can be confident that your instances haven't been compromised by boot or kernel-level malware or rootkits. In order to use the shielded VM features, you **need to select a shielded image**.
 
-
 **Confidential VMs** are a breakthrough technology that allows you to **encrypt data** in use, while it's been processed. It is a type of **N2D** Compute Engine VM instance running on hosts based on the second generation of AMD Epyc processors, code-named "Rome".
+
+### Images
+A machine image is a Compute Engine resource that stores all the configuration, metadata, permissions, and data from one or more disks required to create a virtual machine (VM) instance.
+
+When creating a virtual machine, you can choose the boot disk image. This image includes the boot loader, the operating system, the file system structure, any pre-configured software, and any other customizations.
+
+Public base images:
+- Google, third-party vendors, and community.
+- Linux: CentOS, CoreOS, Debian, RHEL, SUSE, Ubuntu, openSUSE, and FreeBSD
+- Windows: Windows server and SQL SERVER pre-installed on Windows
+- *Notes*: 
+    - *Windows, RHEL and SUSE are premium images. *
+    - *They will have per-second charges after a 1-minute minimum, with the exception of SQL Server images, which are charged per minute after a 10-minute minimum.*
+    - *Premium image prices vary with the machine type but these they do not vary by region or zone.*
+
+
+Custom images:
+- Create new image from VM: pre-configured and installed SW.
+- Import from on-prem, workstation, or another cloud.
+- Management features: image sharing, image family, deprecation
+
+You can use a machine image in many system maintenance scenarios, such as creation, backup and recovery, and instance cloning.
+
+
+Machine images are the most ideal resources for disk backups as well as instance cloning and replication.
+
+### Disk Options
+Every single VM comes with a single root persistent disk. This image is bootable in that you can attach it to a VM and boot from it, and it is durable in that it can survive if the VM terminates.
+
+To have a boot disk survive a VM deletion, you need to disable the “Delete boot disk when instance is deleted” option in the instance’s properties.
+
+There are different types of disks:
+1. persistent disk
+    - it's going to be attached to the VM through the network interface.
+    - Even though it's persistent, it's not physically attached to the machine
+    - This separation of disk and compute allows the disk to survive if the VM terminates.
+    - It's possible to attach a disk in read-only mode to multiple VMs.
+1. Zonal persistent disks offer efficient, reliable block storage.
+1. Regional persistent disks provide active-active disk replication across two zones in the same region.
+    - Regional persistent disks deliver durable storage that is synchronously replicated across zones and are a great option for high-performance databases and enterprise applications that also require high availability.
+
+Standard persistent disks are backed by standard hard disk drives and are suitable for large data processing workloads that primarily use sequential I/Os.
+
+Performance SSD persistent disks are backed by solid-state drives and are suitable for enterprise applications and high-performance databases that require lower latency and more IOPS than standard persistent disks provide.
+
+Extreme persistent disks are zonal persistent disks also backed by solid-state drives. They are designed for high-end database workloads, providing consistently high performance for both random access workloads and bulk throughput. Unlike other disk types, you can provision your desired IOPS.
+
+local SSDs are are ephemeral but provide very high IOPS. Data on these disks will survive a reset but not a VM stop or terminate.
+
+You also have the option of using a RAM disk. This will be the fastest type of performance available if you need small data structures.
+
+Summary:
+- Persistent disks can be rebooted and snapshotted, but local SSDs and RAM disks are ephemeral.
+- persistent HDD disk when you don't need performance but just need capacity.
+- high performance needs, start looking at the SSD options.
+- persistent disks offer data redundancy because the data on each persistent disk is distributed across several physical disks.
+- Local SSDs provide even higher performance, but without the data redundancy.
+- RAM disks are very volatile but they provide the highest performance.
+-  there is a limit on how many Local SSDs you can attach to a VM, there is also a limit on how many persistent disks you can attach to a VM
+    - Shared-core machine type: 16 disks
+    - Standard, High Memory, High-CPU, Memory-optimized, and Compute-optimized machine types: 128 disks
+- Persistent Disks are not physical disks, they are a virtual-networked service. Each persistent disk remains encrypted either with system-defined keys or with customer-supplied keys.
+
+### Common Compute Engine actions
+Some common actions that you can perform with Compute Engine:
+1. Use the metadata server to programmatically get unique information about an instance
+1. Move an instance to a new zone
+1. Backup critical data with Snapshot
+1. Migrate data between zones with Snapshot
+1. Transfer from HDD to SSD to improve performance
+1. Resize persistent disk
+
+
+#### metadata
+Every VM instance stores its metadata on a metadata server. The metadata server is particularly useful in combination with startup and shutdown scripts.
+
+For example, you can write a startup script that gets the metadata key/value pair for an instance's external IP address and use that IP address in your script to set up a database. Because the default metadata keys are the same on every instance, you can reuse your script without having to update it for each instance.
+
+Storing and retrieving instance metadata is a very common Compute Engine action. It's recommend storing the startup and shutdown scripts in Cloud Storage.
+
+#### Move an instance to a new zone
+You can move a VM even if one of the following scenarios applies: 
+- The VM instance is in a TERMINATED state.
+- The VM instance is a Shielded VM that uses UEFI firmware.
+
+If you move your instance within the same region, you can automate the move by using the gcloud compute instances move command. 
+
+To move your VM, you must shut down the VM, move it to the destination zone or region, and then restart it. After you move your VM, update any references that you have to the original resource, such as any target VMs or target pools that point to the earlier VM.
+
+Moving within region:
+- gcloud compute instances move
+- Update references to VM is not automatic
+
+If you move your instance to a different region, you need to manually processes
+- Snapshot all persistent disks on the source VM
+- Create new persistent disks in destionation zone restored from snapshots
+- Create new VM in the destination zone and attach new persistent disks
+- Assign static IP to new VM
+- Update references to VM
+- Delete the snapshots original disks and original VM
+
+Persistent disk snapshots
+- Snapshot is not available for local SSD.
+- Creates an incremental backup to Cloud Storage
+    - Not visible in your buckets; managed by the snapshot service
+- Create scheduled snapshots
+    - Regularly and automatically back up your zonal and regional persistent disks
+- Snapshots can be restored to a new persistent disk
+    - New disk can be in another region or zone in the same project
+
+### Working with VMs Lab
+In this lab, you set up a game application. It will run on a Compute Engine instance. You use an e2-medium machine type that includes a 10-GB boot disk, 2 virtual CPU (vCPU), and 4 GB of RAM. This machine type runs Debian Linux by default.
+
+The objectives of this lab are:
+- Customize an application server
+- Install and configure necessary software
+- Configure network access
+- Schedule regular backups
+
+if you close your SSH terminal, the server is also terminated. To avoid this issue, you can use `screen`, an application that allows you to create a virtual terminal that can be "detached," becoming a background process, or "reattached," becoming a foreground process. When a virtual terminal is detached to the background, it will run whether you are logged in or not.
+
+Commands used:
+- create a directory that serves as the mount point for the data disk, run the following command: `sudo mkdir -p /home/minecraft`
+- Format the disk: 
+```
+sudo mkfs.ext4 -F -E lazy_itable_init=0,\
+lazy_journal_init=0,discard \
+/dev/disk/by-id/google-minecraft-disk
+```
+- Mount the disk
+```
+sudo mount -o discard,defaults /dev/disk/by-id/google-minecraft-disk /home/minecraft
+```
+-  install screen: `sudo apt-get install -y screen`
+- To reattach the terminal `sudo screen -r mcs`
+
+
+Backing up your application data is a common activity. In this case, you configure the system to back up the data to Cloud Storage.
+Create a backup script:
+1. In the mc-server SSH terminal, navigate to your home directory: `cd /home/minecraft`
+1. To create the script: `sudo nano /home/minecraft/backup.sh`
+1. Copy and paste the following script into the file
+1. Schedule: `sudo crontab -e`
+1. At the bottom of the cron table: `0 */4 * * * /home/minecraft/backup.sh`
