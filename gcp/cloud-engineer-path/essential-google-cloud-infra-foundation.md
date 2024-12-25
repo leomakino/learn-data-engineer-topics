@@ -454,3 +454,26 @@ Sustained use discounts are automatic discounts that you get for running specifi
 - if you use a virtual machine for 50% of the month, you can an effective discount of 10%.
 - If you use it for 75% of the month, you get an effective discount of 20%.
 - If you use it for 100% of the month, you get an effective discount of 30%
+
+Compute Engine calculates sustained use discounts based on vCPU and memory usage across each region and separately for each of the following categories: Predefined machine types, and Custom machine types.
+
+### Special Compute configurations
+Preemptible VMs are only going to live for up to 24 hours, and you only get a 30-second notification before the machine is preempted.
+
+there are no live migrations nor automatic restarts in preemptible VMs, but you can actually create monitoring and load balancers that can start up new preemptible VMs in case of a failure. In other words, there are external ways to keep restarting preemptible VMs if you need to.
+
+
+**One major use case for preemptible VMs is running batch processing jobs.** If some of those instances terminate during processing, the job slows but it does not completely stop. Therefore, preemptible instances complete your batch processing tasks without placing additional workload on your existing instances, and without requiring you to pay full price for additional normal instances.
+
+Spot VMs are the latest version of preemptible VMs. Spot VMs are virtual machine (VM) instances with the spot provisioning model.  Spot VMs do not have a maximum runtime. Spot VMs are finite Compute Engine resources, so they might not always be available.
+
+The probability that Compute Engine stops Spot VMs for a system event is generally low, but might vary from a day to day and from zone to zone depending on current conditions. Spot VMs can't live-migrate to become standard VMs while they are running or be set to automatically restart when there is a maintenance event.
+
+Preemptible VMs use the same pricing model as Spot VMs.
+
+If you have workloads that require physical isolation from other workloads or virtual machines in order to meet compliance requirements, you want to consider sole-tenant nodes. A sole-tenant node is a physical Compute Engine server that is dedicated to hosting VM instances only for your specific project. A sole-tenant node is shown on the right and it also has multiple VM instances, but they all belong to the same project.
+
+Another compute option is to create a **shielded VM**. It offers verifiable integrity to your VM instances, so you can be confident that your instances haven't been compromised by boot or kernel-level malware or rootkits. In order to use the shielded VM features, you **need to select a shielded image**.
+
+
+**Confidential VMs** are a breakthrough technology that allows you to **encrypt data** in use, while it's been processed. It is a type of **N2D** Compute Engine VM instance running on hosts based on the second generation of AMD Epyc processors, code-named "Rome".
