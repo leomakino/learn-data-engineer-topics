@@ -92,3 +92,82 @@ An organization policy is:
 
 What if I already have a different corporate directory?
 A: Google Cloud Directory Sync
+
+### Service Accounts
+It provides an identity for carrying out service-to-service interactions in a project without supplying user credentials.
+
+There are three types of service accounts: 
+1. user-created or custom,
+1. built-in, and 
+1. Google APIs service accounts.
+
+Apart from the default service account, all projects come with a Google Cloud APIs service account, identifiable by the email: project-number@cloudservices.gserviceaccount.com.
+
+You can also start an instance with a custom service account.
+
+Custom service accounts provide more flexibility than the default service account, but they require more management from you.
+
+The default Compute Engine service account is identifiable by the email project-number-compute@developer.gserviceaccount.com, and it is automatically granted the Editor role on the project.
+
+Authorization is the process of determining what permissions an authenticated identity has on a set of specified resources.
+
+Scopes are used to determine whether an authenticated identity is authorized.
+
+Service accounts are convenient when you're not accessing user data. 
+
+Roles for service accounts can also be assigned to groups or users. You treat a service account as the resource, and decide who can use it by providing users or a group with the Service Account User role. This allows those users to act as that service account to perform permissions.
+
+There are two types of service account keys:
+- Google-managed service accounts
+    - All service accounts have Google-managed keys
+    - Google stores both the public and private portion of the key
+    - Each public key can be used for signing for a maximum of two weeks
+    - Private keys are never directly accessible. 
+- User-managed service accounts
+    - Google only stores the public portion of a user-managed key
+    - Users are responsible for private key security
+    - Can create up to 10 user-managed service accounts keys per service
+    - Can be administered via the IAM API, gcloud, or the console
+
+By default, when using service accounts within Google Cloud, Google automatically manages the keys for service accounts. However, if you want to be able to use service accounts outside of Google Cloud, it is possible to also manually create and manage your own service account keys.
+
+With Google-managed service account keys, Google stores both the public and private portion of the key, and rotates them regularly. Your private key is always held securely in escrow and is never directly accessible.
+
+You may optionally create one or more user-managed key pairs (also known as **"external" keys**) that can be used from outside of Google Cloud. Google only stores the public portion of a user-managed key. The User is responsible for security of the private key and performing other management operations such as key rotation, whether manually or programmatically. Google does not save your user-managed private keys, so if you lose them, Google cannot help you recover them. 
+
+User-managed keys should be used as a last resort. Consider the other alternatives, such as short-lived service account credentials (tokens), or service account impersonation.
+
+### Organization Restrictions
+The Organization Restrictions feature lets you prevent data exfiltration through phishing or insider attacks. It restricts access only to resources in authorized Google Cloud organizations.
+
+Employees of an organization use a managed device to access the organization resources. The managed device is governed by the organizational policies of a company. An egress proxy administrator configures the proxy to add organization restrictions headers to any requests originating from a managed device. This proxy configuration prevents users from accessing any Google Cloud resources in non-authorized Google Cloud organization.
+
+The Organization Restrictions feature in Google Cloud inspects all requests for organization restrictions header, and allows or denies the requests based on the organization being accessed.
+
+Organization Restrictions can be used to restrict access to employees in your organization so that employees can access resources only in your Google Cloud organization and not other organizations.
+
+They can also be used to allow your employees to read from Cloud Storage resources but restrict employee access only to resources in your Google Cloud organization. Or, allow your employees to access a vendor Google Cloud organization in addition to your Google Cloud organization.
+
+### IAM best practices
+Hierarchy:
+- Check the policy granted on each resource and make sure you recognize the inheritance. 
+- Because of inheritance, use the principle of least privilege when granting roles.
+- Audit policies in Cloud Audit Logs: setiampolicy
+- Audit membership of groups used in policies
+
+Grant roles:
+- Grant roles to groups instead of individuals. This allows you to update group membership instead of changing a Cloud IAM policy. - make sure to audit membership of groups used in policies and control the ownership of the Google group used in Cloud IAM policies.
+- Example: Network Admin Group containing the (i) Group needing view only role and (ii) Group needing read_write only role
+- groups are not only associated with job roles but can exist for the purpose of role assignment.
+
+Service Accounts
+- be very careful when granting the *service accounts user role* because it provides access to all the resources of the service account has access to.
+- when you create a service account give it a display name that clearly identifies its purpose, ideally using an established naming convention.
+-  establish key rotation policies and methods and audit keys with the serviceAccount.keys.list method.
+- Use Cloud Identity Aware Proxy or Cloud IAP.
+
+Cloud IAP lets you establish a central authorization layer for applications accessed by HTTPS. So you can use an application level access control model instead of relying on network level firewalls. Applications and resources protected by Cloud IAP can only be accessed through the proxy by users and groups with the correct Cloud IAM role.
+
+When you grant a user access to an application or resource by Cloud IAP. They are subject to the fine-grained access controls implemented by the product in use without requiring a VPN. Cloud IAP performs authentication and authorization checks when a user tries to access a Cloud IAP secure resource.
+
+What abstraction is primarily used to administer user access in IAM ?
