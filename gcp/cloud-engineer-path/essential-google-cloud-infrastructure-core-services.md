@@ -225,7 +225,7 @@ Cloud Storage has four storage classes: Standard, Nearline, Coldline and Archive
 When you upload an object to a bucket, the object is assigned the bucket's storage class, unless you specify a storage class for the object. You can change the default storage class of a bucket but you can't change the location type.
 
 **In order to help manage the classes of objects in your bucket**, Cloud Storage offers Object Lifecycle Management.
-
+000000
 Access control for your objects and buckets
 - For most purposes, IAM is sufficient, and roles are inherited from project to bucket to object.
 - Access control lists or ACLs offer finer control.
@@ -236,3 +236,164 @@ The maximum number of ACL entries you can create for a bucket or object is 100. 
 - scope: defines who can perform the specified actions (for example, a specific user or group of users).
 - permission, which defines what actions can be performed (for example, read or write).
 
+
+### Cloud Storage Features
+- Customer-supplied encryption key (CSEK)
+    - Use your own encryption keys instead of the Google-managed keys,
+- Object Lifecycle Management
+    - Automatically delete, archive objects, etc.
+- Object Versioning
+    - Maintain multiple versions of objects
+    - *You are charged for the versions as if they were multiple files,*
+- Directory Synchronization
+    - Synchronizes a VM directory with a bucket
+- Object change notifications using Pub/Sub
+- Autoclass
+    - It manages all aspects of storage classes for a bucket.
+
+---
+
+Object Versioning:
+- can be enabled for a bucket
+- Storage creates an archived version of an object each time the live version of the object is overwritten or deleted.
+- The archived version retains the name of the object but is uniquely identified by a generation number
+- It's possible to list archived versions of an object, restore the live version of an object to an older state, or permanently delete an archived version
+- Google recommends that you use Soft Delete instead of Object Versioning to protect against permanent data loss from accidental or malicious deletions.
+
+Soft Delete:
+- It provides default bucket-level protection for your data from accidental or malicious deletion by preserving all recently deleted objects for a specified period of time.
+- It retains all deleted objects, whether from a delete command or because of an overwrite
+- It is enabled by default with a retention duration of seven days
+- You can increase the retention duration to 90 days or disable it by setting the retention duration to 0.
+
+Object Lifecycle Management:
+- use cases like: 
+    - setting a Time to Live for objects
+    - archiving older versions of objects
+    - downgrading storage classes
+- The configuration is a set of rules that apply to all the objects in the bucket.
+- When an object meets the criteria of one of the rules, Cloud Storage automatically performs a specified action on the object.
+- rules may not be applied immediately because Object inspection occurs in asynchronous batches. Updates to your lifecycle configuration may take up to 24 hours to go into effect.
+
+Object Retention Lock:
+- lets you set retention configuration on objects within Cloud Storage buckets that have enabled the feature
+- It governs how long the object must be retained and has the option to permanently prevent the retention time from being reduced or removed.
+
+what if you have to upload terabytes or even petabytes of data? There are three services that address this:
+1. Transfer Appliance
+    - It is a hardware appliance you can use to securely migrate large volumes of data (from hundreds of terabytes up to 1 petabyte) to Google Cloud without disrupting business operations.
+1. Storage Transfer Service
+    - It enables high-performance **imports of online data**
+    - data source can be another Cloud Storage bucket, an Amazon S3 bucket, or an HTTP/HTTPS location.
+1. Offline Media Import
+    - It is a third party service where physical media (such as storage arrays, hard disk drives, tapes, and USB flash drives) is sent to a provider who uploads the data.
+
+### Choosing a storage class
+If your data has a variety of access frequencies, or the access patterns for your data are unknown or unpredictable, you should consider Autoclass. The Autoclass feature automatically transitions objects in your bucket to appropriate storage classes based on the access pattern of each object. all objects added to the bucket begin in Standard storage. The feature moves data that is not accessed to colder storage classes to reduce storage cost. 
+Data that is accessed is also moved to Standard storage to optimize future accesses. **When enabled on a bucket, there are no early deletion charges, no retrieval charges, and no charges for storage class transitions.** All operations are charged at the Standard storage rate.
+
+### Filestore
+It is a fully managed network attached storage (NAS) for CE and GKE instances.
+Filestore is a managed file storage service for applications that require a file system interface and a shared file system for data. It gives users a simple native experience for standing up managed network attached storage with either Compute Engine or Google Kubernetes Engine instances.
+
+It offers native compatibility with existing enterprise applications and supports any NFSV3 compatible clients. The the benefit of this features are:
+- scale-out performance, 
+- hundreds of terabytes of capacity, and 
+- file locking without the need to install or maintain any specialized plug-ins or client-side software
+
+Use cases:
+- expedite migration of enterprise applications
+- On-premises applications that require a file system interface to data.
+- Enterprise applications that need a shared file system
+- media rendering: you can easily meant filestore file shares on Compute Engine instances, enabling visual effects artists to collaborate on the same file share.
+- Web developers and large hosting providers also rely on Filestore to manage and serve web content, including needs such as WordPress hosting.
+
+It offers low latency for file operations, and as capacity or performance needs change, you can easily grow or shrink your instances as needed.
+
+### Lab
+The objectives of this lab are:
+- Create and use buckets
+- Set access control lists to restrict access
+- Use your own encryption keys
+- Implement version controls
+- Use directory synchronization
+- Share a bucket across projects using IAM
+
+In this lab you learned to create and work with buckets and objects, and you learned about the following features for Cloud Storage:
+- CSEK: Customer-supplied encryption key
+- Use your own encryption keys
+- Rotate keys
+- ACL: Access control list
+- Set an ACL for private, and modify to public
+- Lifecycle management
+- Set policy to delete objects after 31 days
+- Versioning
+- Create a version and restore a previous version
+- Directory synchronization
+- Recursively synchronize a VM directory with a bucket
+- Cross-project resource sharing using IAM
+- Use IAM to enable access to resources across projects
+
+
+
+get the default access list that's been assigned to the file
+```
+gsutil acl get gs://$BUCKET_NAME_1/filename.extension  > acl.txt
+cat acl.txt
+```
+
+To update the access list to make the file publicly readable
+```
+gsutil acl ch -u AllUsers:R gs://$BUCKET_NAME_1/setup.html
+gsutil acl get gs://$BUCKET_NAME_1/setup.html  > acl3.txt
+cat acl3.txt
+```
+
+Generate a CSEK key
+
+- AES-256 base-64 key: `python3 -c 'import base64; import os; print(base64.encodebytes(os.urandom(32)))'`
+- generate boto file: `gsutil config -n`
+- Modify the boto file
+```
+ls -al
+
+nano .boto
+```
+---
+Rotate CSEK keys
+- When a file is encrypted, rewriting the file decrypts it using the decryption_key1 that you previously set, and encrypts the file with the new encryption_key.
+```
+gsutil rewrite -k gs://$BUCKET_NAME_1/setup2.html
+```
+
+---
+- View the current lifecycle policy for the bucket: `gsutil lifecycle get gs://$BUCKET_NAME_1`
+- Create a JSON lifecycle policy file: `nano life.json`
+- Paste the following value into the life.json file
+```
+{
+  "rule":
+  [
+    {
+      "action": {"type": "Delete"},
+      "condition": {"age": 31}
+    }
+  ]
+}
+```
+- set the policy: `gsutil lifecycle set life.json gs://$BUCKET_NAME_1`
+- verify the policy `gsutil lifecycle get gs://$BUCKET_NAME_1`
+
+---
+Enable versioning
+- view the current versioning status `gsutil versioning get gs://$BUCKET_NAME_1`
+- enable versioning `gsutil versioning set on gs://$BUCKET_NAME_1`
+- List all versions of the file: 
+```
+gcloud storage ls -a gs://$BUCKET_NAME_1/setup.html
+```
+---
+Synchronize a directory to a bucket
+
+To sync the firstlevel directory on the VM with your bucket, run the following command:
+`gsutil rsync -r ./firstlevel gs://$BUCKET_NAME_1/firstlevel`
