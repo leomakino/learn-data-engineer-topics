@@ -178,3 +178,61 @@ The Objectives of this lab are:
 - Restrict access to specific features or resources
 - Use the Service Account User role
 
+## Storage and Database Services
+Questions to best choose the storage option:
+
+Is your data structured? 
+- No: Do you need a shared file system?
+    - Yes: Filestore
+    - No: Cloud Storage
+- Yes: does your workload focus on analytics
+    - Yes: Bigtable or BigQuery, depending on your latency and update needs
+    - No: If your data is relational and you need Hybrid transaction/analytical processing, also known as HTAP, choose **AlloyDB**
+    - No: If you don’t need HTAP and don’t need global scalability, choose **Cloud SQL**
+    - No: If you don’t need HTAP and need global scalability, choose **Spanner**
+- If your data is structured, does not focus on analytics and is not relational data
+    - If need application caching: Memorystore
+    - If don't need application caching: Firestore
+---
+
+Storage and database services
+| **Service name** | **Best for**   | **Good for**                                          | **Such as**                                     |
+|------------------|----------------|-------------------------------------------------------|-------------------------------------------------|
+| Cloud Storage    | Object         | Binary or object data                                 | Images, media, serving, backups                 |
+| Filestore        | File           | Network Attached Storage (NAS)                        | Latency sensitive workloads                     |
+| Cloud SQL        | Relational     | Web Frameworks                                        | CMS, eCommerce                                  |
+| Cloud Spanner    | Relational     | RDBMS + Scale, HA, HTAP                               | User metadata, Ad/Fin/MarTech                   |
+| AlloyDB          | Relational     | Hybrid transactional and analytical processing (HTAP) | Machine Learning, Generative AI                 |
+| Firestore        | Non-relational | Hierarchical, mobile, web                             | User, profiles, game state                      |
+| Cloud Bigtable   | Non-relational | Heavy read + write events                             | AdTeach, financial, IoT                         |
+| BigQuery         | Warehouse      | Enterprise data warehouse                             | Analytics, dashboards                           |
+| Memorystore      | Redis          | Automating complex Redis and Memcached tasks          | Enabling high availability, fail over, patching |
+
+### Cloud Storage
+Cloud Storage is a collection of buckets that you place objects into.
+
+Cloud Storage has four storage classes: Standard, Nearline, Coldline and Archive, and each of those storage classes provide 3 location types: 
+- multi-region: is a large geographic area, such as the United States, that contains two or more geographic places.
+- Dual-region is a specific pair of regions, such as Finland and the Netherlands.
+- A region: is a specific geographic place
+
+1. Standard Storage is best for data that is frequently accessed and/or stored for only brief periods of time. This is the most expensive storage class but it has no minimum storage duration and no retrieval cost.
+1. Nearline Storage is a low-cost, highly durable storage service for storing infrequently accessed data like data backup, long-tail multimedia content, and data archiving. **30-day minimum storage duration**. Costs for data access are acceptable trade-offs for lowered at-rest storage costs.
+1. Coldline Storage is a very-low-cost, highly durable storage service for storing infrequently accessed data. **90-day minimum storage duration**. 
+1. Archive Storage is the lowest-cost, highly durable storage service for data archiving, online backup, and disaster recovery. Unlike the so-to-speak "coldest" storage services offered by other Cloud providers, your data is available within milliseconds, not hours or days. Archive Storage also has higher costs for data access and operations, as well as a **365-day minimum storage duration**.
+
+
+When you upload an object to a bucket, the object is assigned the bucket's storage class, unless you specify a storage class for the object. You can change the default storage class of a bucket but you can't change the location type.
+
+**In order to help manage the classes of objects in your bucket**, Cloud Storage offers Object Lifecycle Management.
+
+Access control for your objects and buckets
+- For most purposes, IAM is sufficient, and roles are inherited from project to bucket to object.
+- Access control lists or ACLs offer finer control.
+- For even more detailed control, signed URLs provide a cryptographic key that gives time-limited access to a bucket or object.
+- a signed policy document further refines the control by determining what kind of file can be uploaded by someone with a signed URL.
+
+The maximum number of ACL entries you can create for a bucket or object is 100. Each ACL consists of one or more entries, and these entries consist of two pieces of information: 
+- scope: defines who can perform the specified actions (for example, a specific user or group of users).
+- permission, which defines what actions can be performed (for example, read or write).
+
