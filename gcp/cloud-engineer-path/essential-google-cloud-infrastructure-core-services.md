@@ -170,4 +170,11 @@ Cloud IAP lets you establish a central authorization layer for applications acce
 
 When you grant a user access to an application or resource by Cloud IAP. They are subject to the fine-grained access controls implemented by the product in use without requiring a VPN. Cloud IAP performs authentication and authorization checks when a user tries to access a Cloud IAP secure resource.
 
-What abstraction is primarily used to administer user access in IAM ?
+What abstraction is primarily used to administer user access in IAM ? Roles
+
+### Exploring IAM Lab
+The Objectives of this lab are:
+- Use IAM to implement access control;
+- Restrict access to specific features or resources
+- Use the Service Account User role
+
