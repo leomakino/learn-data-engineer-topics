@@ -353,6 +353,7 @@ Generate a CSEK key
 
 - AES-256 base-64 key: `python3 -c 'import base64; import os; print(base64.encodebytes(os.urandom(32)))'`
 - generate boto file: `gsutil config -n`
+The encryption controls are contained in a gsutil configuration file named .boto
 - Modify the boto file
 ```
 ls -al
@@ -397,3 +398,66 @@ Synchronize a directory to a bucket
 
 To sync the firstlevel directory on the VM with your bucket, run the following command:
 `gsutil rsync -r ./firstlevel gs://$BUCKET_NAME_1/firstlevel`
+
+### Cloud SQL
+Question: Use Cloud SQL or install a SQL Server application image on a VM using Compute Engine?
+Question in other words: Build your own database solution or use a managed service?
+
+The benefits of using a managed service (Cloud SQL) instead of building a data base solution are:
+- patches and updates are automatically applied;
+- Integration with Cloud Shell, app engine and Google workspace scripts
+- supports other applications and tools like SQL Workbench, Toad and other external applications
+- high performance and scalability with up to 64 TB of storage capacity, 60,000 IOPS, and 624 GB of RAM per instance
+- synchronous replication to each zone's persistent disk
+- failover process
+- automated and on-demand backups with point-in-time recovery.
+- import and export databases using mysqldump, or import and export CSV files.
+
+
+If you are trying to connect from within Google Cloud, use **Cloud SQL Private IP**
+
+if you are trying to connect to your Cloud SQL instance from outside of Google Cloud, another region or project, you have 3 options:
+- Cloud SQL Auth Proxy, which handles authentication, encryption, and key rotation for you.
+- If you need manual control over the SSL connection, you can generate and periodically rotate the certificates yourself.
+- unencrypted connection by authorizing a specific IP address to connect to your SQL server over its external IP address.
+
+
+In this lab, you created a Cloud SQL database and configured it to use both an external connection over a secure proxy and a Private IP address, which is more secure and performant. Remember that you can only connect via Private IP if the application and the Cloud SQL server are collocated in the same region and are part of the same VPC network. If your application is hosted in another region, VPC, or even project, use a proxy to secure its connection over the external connection.
+
+### Cloud Spanner
+A cloud spanner instance replicates data in end cloud zones which can be within one region or across several regions. The replication of data will be synchronized across zones using Google's global fiber network.
+
+### AlloyDB
+AlloyDB for PostgreSQL is a fully managed, PostgreSQL-compatible database service that's designed for demanding workloads such as hybrid transactional and analytical processing.
+
+AlloyDB pairs a Google-built database engine with a cloud-based, multi-node architecture to deliver enterprise-grade performance, reliability, and availability.
+
+AlloyDB also uses adaptive algorithms and machine learning for PostgreSQL vacuum management, storage and memory management, data tiering, and analytics acceleration.
+
+AlloyDB provides fast transactional processing, more than 4 times faster than standard PostgreSQL for transactional workloads.
+
+It's suitable for demanding enterprise workloads, including workloads that require high transaction throughput, large data sizes, or multiple read replicas.
+
+AlloyDB also provides real-time business insights and is up to 100 times faster than standard PostgreSQL for analytical queries.
+
+Built-in integration with Vertex AI, Google's artificial intelligence platform, lets you call machine learning models.
+
+### Firestore - NoSQL database
+Cloud Firestore is a fast, fully managed, serverless, cloud native, NoSQL, document database
+
+Its client libraries provide live synchronization and offline support 
+
+Cloud Firestore is the right storage service for your data.
+- If your schema might change and you need an adaptable database
+- you need to scale to zero or you want low maintenance overhead scaling up to terabytes
+
+### Cloud BigTable
+
+
+### Memorystore
+Memorystore for Redis provides a fully managed in-memory data store service.
+
+Applications running on Google Cloud can achieve extreme performance by leveraging the highly scalable, available, secure Redis service without the burden of managing complex Redis deployments.
+
+Memorystore for Redis is fully compatible with the Redis Protocol
+- you can lift and shift your applications from open source Redis to Memorystore without any code changes 
