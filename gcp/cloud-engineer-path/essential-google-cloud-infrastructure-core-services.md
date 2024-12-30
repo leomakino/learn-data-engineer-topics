@@ -511,3 +511,30 @@ Budgets in Google Cloud are not a way to prevent spending or stop resources. The
 1. These alerts send emails to billing admins after spend exceeds a percent of the budget or a specified amount.
 1. **It's possible to send an alert when the spend is forecasted to exceed the percent of the budget amount by the end of the budget period**.
 1. In addition to receiving an email, you can use Pub/Sub notifications to programmatically receive spend updates about this budget. You could even create a Cloud Function that listens to the Pub/Sub topic to automate cost management.
+
+## Resource Monitoring
+### Operation Suite Overview
+**Google Cloud’s operations suite is now Google Cloud  Observability**
+Google Cloud’s operations suite dynamically discovers cloud resources and application services based on deep integration with Google Cloud and Amazon Web Services.It has services for monitoring, logging, error reporting, and fault tracing.
+
+Google Cloud's operations suite provides powerful monitoring, logging, and diagnostics. It equips you with insight into the health, performance, and availability of cloud-powered applications, enabling you to find and fix issues faster. It is integrated with Google Cloud Platform, Amazon Web Services, and popular open source packages.
+
+Google Cloud's operations suite combines metrics, logs, and metadata from all of your cloud accounts and projects into a single comprehensive view of your environment, enabling rapid drill-down and root cause analysis. It gives you access to logs, metrics, traces, and other signals from your infrastructure platform(s), virtual machines, containers, middleware, and application tier, so that you can track issues all the way from your end user to your backend services and infrastructure. Integration with popular services like PagerDuty and Slack provide for rapid incident response.
+
+### Monitoring
+Cloud Monitoring dynamically configures monitoring after resources are deployed and has intelligent defaults that allow you to easily create charts for basic monitoring activities. You can then generate insights from this data through dashboards, charts, and alerts.
+
+A metrics scope contains the custom dashboards, alerting policies, uptime checks, notification channels, and group definitions that you use with your monitored projects.
+
+All users of Google Cloud’s operations suite with access to that metrics scope have access to all data by default.
+
+Cloud Monitoring allows you to create custom dashboards that contain charts of the metrics that you want to monitor. Charts can be customized with filters to remove noise, groups to reduce the number of time series, and aggregates to group multiple time series together.
+
+Best practices when creating alerts: 
+1. Google recommends **alerting on symptoms**, and not necessarily causes.
+1. Use multiple notification channels, like email and SMS.
+1. Customize your alerts to the audience’s needs by describing what actions need to be taken or what resources need to be examined.
+1. adjust monitoring alerts so that they are actionable and don’t just set up alerts on everything possible.
+
+**Uptime checks** can be configured to test the availability. The resource to be checked can be an App Engine application, a Compute Engine instance, a URL of a host, or an AWS instance or load balancer. The type of uptime check can be set to HTTP, HTTPS, or TCP.
+
