@@ -452,7 +452,17 @@ Cloud Firestore is the right storage service for your data.
 - you need to scale to zero or you want low maintenance overhead scaling up to terabytes
 
 ### Cloud BigTable
+Cloud Bigtable is a fully managed NoSQL database with petabyte-scale and very low latency.
 
+Cloud Bigtable is a great choice for both operational and analytical applications, including IoT, user analytics, and financial data analysis, because it supports high read and write throughput at low latency.
+
+Cloud Bigtable integrates easily with popular big data tools like Hadoop, Cloud Dataflow, and Cloud Dataproc. It also supports the open source industry standard HBase API
+
+Cloud Bigtable stores data in massively scalable tables, each of which is a sorted key/value map.
+
+A Cloud Bigtable table is sharded into blocks of contiguous rows, called tablets, to help balance the workload of queries. Tablets are similar to HBase regions
+
+Tablets are stored on Colossus, which is Google's file system, in SSTable format.
 
 ### Memorystore
 Memorystore for Redis provides a fully managed in-memory data store service.
@@ -460,4 +470,44 @@ Memorystore for Redis provides a fully managed in-memory data store service.
 Applications running on Google Cloud can achieve extreme performance by leveraging the highly scalable, available, secure Redis service without the burden of managing complex Redis deployments.
 
 Memorystore for Redis is fully compatible with the Redis Protocol
-- you can lift and shift your applications from open source Redis to Memorystore without any code changes 
+- you can lift and shift your applications from open source Redis to Memorystore without any code changes
+
+## Resource Management
+A Google's recommendation is labeling all your resources and exporting your billing data to BigQuery to analyze your spend.
+### Resource Manager
+1. Billing is accumulated from the bottom up (resource to project).
+1. Resource consumption is measured in quantities
+1. All resources in Google Cloud are tracked and their consumption is logged against a project. 
+1. A project relates resources to a billing method.
+1. Each project is associated with one billing account
+
+### Quotas
+All resources in Google Cloud are subject to project quotas or limits.
+
+If you expect a notable upcoming increase in usage, you can proactively request quota adjustments from the quotas page in the Cloud console.
+
+If quotas can be changed, why do they exist? 
+- Project quotas prevent runaway consumption in case of error or malicious attack.
+- Quotas also prevent billing spikes or surprises.
+- quotas for sizing consideration and periodic review.
+
+How do quotas protect Google Cloud customers? A: Quotas are established at reasonable defaults for common cloud usage and proof of concept activities. If you are planning to scale up a production cloud solution you may need to request that the quotas be raised. This is a reasonable checkpoint to verify that actions that might result in a large consumption of resources are reviewed.
+
+Quotas are the maximum amount of resources you can create for that resource type as long as those resources are available.
+E.g.: For example, if a region is out of local SSDs, you cannot create local SSDs in that region, even if you still hae quota for local SSDs
+
+### Labels
+Labels are a utility for organizing GCP resources. Labels are key-value pairs that you can attach to your resources, like VMs, disks, snapshots and images.
+
+You can create and manage labels using the GCP console, gcloud, or the Resource Manager API, and each resource can have up to 64 labels.
+
+Labels can also be used in scripts to help analyze costs or to run bulk operations on multiple resources.
+
+### Billing 
+Budgets in Google Cloud are not a way to prevent spending or stop resources. They are a tool for raising awareness about the consumption of resources so that a business can implement its own consumption management processes.
+
+1. Setting a budget lets you track how your spend is growing toward that amount.
+1. After you determine your budget amount, you can set the budget alerts. 
+1. These alerts send emails to billing admins after spend exceeds a percent of the budget or a specified amount.
+1. **It's possible to send an alert when the spend is forecasted to exceed the percent of the budget amount by the end of the budget period**.
+1. In addition to receiving an email, you can use Pub/Sub notifications to programmatically receive spend updates about this budget. You could even create a Cloud Function that listens to the Pub/Sub topic to automate cost management.
