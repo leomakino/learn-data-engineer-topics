@@ -538,3 +538,33 @@ Best practices when creating alerts:
 
 **Uptime checks** can be configured to test the availability. The resource to be checked can be an App Engine application, a Compute Engine instance, a URL of a host, or an AWS instance or load balancer. The type of uptime check can be set to HTTP, HTTPS, or TCP.
 
+### Logging
+Cloud Logging allows you to store, search, analyze, monitor, and alert on log data and events from Google Cloud and AWS. Logging includes storage for logs, a user interface called Logs Explorer, and an API to manage logs programmatically. The service lets you read and write log entries, search and filter your logs, and create log-based metrics.
+
+### Error Reporting
+Error Reporting counts, analyzes, and aggregates the errors in your running cloud services. A centralized error management interface displays the results with sorting and filtering capabilities, and you can even set up real-time notifications when new errors are detected.
+
+These errors are either reported by the Error Reporting API or are inferred to be errors when Error Reporting inspects log entries for common text patterns such as stack traces. 
+
+Error Reporting groups errors which are considered to have the same root cause.
+
+### Tracing - View latency of app requests
+Cloud Trace provides **latency** sampling and reporting for Google App Engine, Google HTTP(S) load balancers, and applications instrumented with the Cloud Trace SDKs. Reporting includes per-URL statistics and latency distributions.
+
+Cloud Trace is a distributed tracing system that collects latency data from your applications
+
+### Cloud Profile
+Poorly performing code increases the latency and cost of applications and web services every day. While it’s possible to measure code performance in development environments, the results generally don’t map well to what’s happening in production. 
+
+Cloud Profiler continuously analyzes the performance of CPU or memory-intensive functions executed across an application. It  uses statistical techniques and extremely low-impact instrumentation that runs across all production application instances to provide a complete picture of an application’s performance without slowing it down.
+
+Cloud Profiler helps you optimize your code's performance, find the sources of memory leaks, and reduce your costs. Profiler continually analyzes your production services with no noticeable performance impact. 
+
+### Resource monitoring Lab
+In this lab, you learned how to:
+- Monitor your projects
+- Create a Cloud Monitoring workspace
+- Create alerts with multiple conditions
+- Add charts to dashboards
+- Create resource groups
+- Create uptime checks for your services
