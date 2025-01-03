@@ -277,8 +277,8 @@ Cloud Dataprep is an intelligent data service for visually exploring, cleaning a
 
 Dataprep Architecture:
 ```mermaid
-flowchart LR
-A[Cloud Storage] -- raw data -- B[Dataprep]
+flowchart LR;
+A[Cloud Storage] -- raw data --> B[Dataprep]
 B[Dataprep] -- C[Dataflow]
 C[Dataflow] -- D[BigQuery]
 ```
