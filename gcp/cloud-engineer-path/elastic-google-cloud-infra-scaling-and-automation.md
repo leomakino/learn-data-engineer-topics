@@ -279,6 +279,6 @@ Dataprep Architecture:
 ```mermaid
 flowchart LR;
 A[Cloud Storage] -- raw data --> B[Dataprep]
-B[Dataprep] -- C[Dataflow]
-C[Dataflow] -- D[BigQuery]
+B[Dataprep] --> C[Dataflow]
+C[Dataflow] --> D[BigQuery]
 ```
