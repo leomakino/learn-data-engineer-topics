@@ -275,10 +275,19 @@ Cloud Dataprep is an intelligent data service for visually exploring, cleaning a
 - prepare raw data from BigQuery
 - The refined data can then be exported to BigQuery or Cloud Storage for analysis and machine learning.
 
-Dataprep Architecture:
+Dataprep Architecture example:
 ```mermaid
 flowchart LR;
 A[Cloud Storage] -- raw data --> B[Dataprep]
 B[Dataprep] --> C[Dataflow]
 C[Dataflow] --> D[BigQuery]
 ```
+
+#### Dataproc
+It's a fully managed cloud service for running Apache Spark and Apache Hadoop clusters.
+- Cloud Dataproc clusters are quick to start, scale and shut down, with each of these operations taking 90 seconds or less on average. This means you can spend less time waiting for clusters and more hands-on time working with your data.
+- Cloud Dataproc has built-in integration with other GCP services
+- create clusters quickly, manage them easily, and save money by turning clusters off when you don't need them
+-  move existing projects into Cloud Dataproc without redevelopment.
+
+Now, Cloud Dataproc and Cloud Dataflow can both be used for data processing
