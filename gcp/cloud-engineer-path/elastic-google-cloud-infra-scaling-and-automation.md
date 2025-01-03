@@ -5,6 +5,9 @@ This course explores and deploys solution elements, including securely interconn
 Different applications and workloads require different network connectivity solutions. Google supports multiple ways to connect your infrastructure to GCP. This module focus on GCP's hybrid connectivity products, which Cloud VPN, Cloud Interconnect, and Peering
 
 ### Cloud VPN
+
+What is the purpose of Virtual Private Networking (VPN)? A: To enable a secure communication method (a tunnel) to connect two trusted environments through an untrusted environment, such as the Internet. VPNs use IPSec tunnels to provide an encapsulated and encrypted path through a hostile or untrusted environment.
+
 Google Cloud offers two types of Cloud VPN gateways:
 1. HA VPN
 1. Classic VPN
@@ -129,6 +132,153 @@ gcloud compute routers add-bgp-peer vpc-demo-router1 \
     --region "REGION"
 ```
 
+### Cloud Interconnect and Peering
+There are different Cloud Interconnect and Peering services available to connect your infrastructure to Google’s network.
+
+These services can be split into **Dedicated versus Shared** connections and **Layer 2 versus Layer 3** connections.
+
+The services are:
+- Direct Peering
+- Carrier Peering
+- Dedicated Interconnect
+- Partner Interconnect
+
+Dedicated connections provide a direct connection to Google’s network.
+Shared connections provide a connection to Google’s network through a partner.
+
+Layer 2 connections use a VLAN that pipes directly into your GCP environment, providing connectivity to internal IP addresses in the RFC 1918 address space. Layer 3 connections provide access to Google Workspace services, YouTube, and Google Cloud APIs using public IP addresses.
+
+Cloud VPN uses the public internet, but traffic is encrypted and provides access to internal IP addresses. That’s why Cloud VPN is a useful addition to Direct Peering and Carrier Peering.
+
+|         | **Dedicated**               | **Shared**                                |
+|---------|-------------------------|---------------------------------------|
+| **Layer 3** | Direct  Peering         | Carrier Peering, Partner Interconnect |
+| **Layer 2** | Dedicated  Interconnect | Partner Interconnect                  |
+
+#### Cloud Interconnect
+Dedicated Interconnect provides direct physical connections between your on-premises network and Google’s network.
+
+This enables you to transfer large amounts of data between networks, which can be more cost-effective than purchasing additional bandwidth over the public internet.
+
+To use Dedicated Interconnect, it's necessary to provision a cross connect between the Google network and your own router in a common colocation facility.
+
+When you are distance from the dedicated interconnection points, consider using Partner Interconnect.
+
+Partner Interconnect provides connectivity between your on-premises network and your VPC network through a supported service provider. This is useful if your data center is in a physical location that cannot reach a Dedicated Interconnect colocation facility or if your data needs don't warrant a Dedicated Interconnect.
+
+**Cross-Cloud Interconnect** helps you to establish high-bandwidth dedicated connectivity between Google Cloud and another cloud service provider. When you buy Cross-Cloud Interconnect, Google provisions a dedicated physical connection between the Google network and that of another cloud service provider. Cross-Cloud Interconnect connections are available in two sizes: 10 Gbps or 100 Gbps.
+
+The main differences between the interconnect options are the connection capacity and the requirements for using a service.
+- The IPsec VPN tunnels that Cloud VPN offers have a capacity of 1.5 to 3 Gbps per tunnel and require a VPN device on your on-premises network.
+- Dedicated Interconnect has a capacity of 10 Gbps or 100 Gbps per link and requires you to have a connection in a Google-supported colocation facility
+- Partner Interconnect has a capacity of 50 Mbps to 50 Gbps per connection, and requirements depend on the service provider.
+- Cross-Cloud Interconnect connections are available in two sizes: 10 Gbps or 100 Gbps.
+
+- If you need a lower cost solution or have lower bandwidth needs you can choose Cloud VPN.
+- If you need an enterprise-grade connection to Google Cloud that has higher throughput, you can choose Dedicated Interconnect or Partner Interconnect.
+- If you need to connect to another cloud service provider, choose Cross-Cloud Interconnect.
+
+*Google recommends using Cloud Interconnect instead of Direct Peering and Carrier Peering, which you would only use in certain circumstances.*
+| **Connection**            | **Provides**                                                                             | **Capacity**                       | **Requirements**                                                   | **Access Type** |
+|---------------------------|------------------------------------------------------------------------------------------|------------------------------------|--------------------------------------------------------------------|-----------------|
+| VPN Tunnel                | Encrypted tunnel to VPC networks through the public internet                             | 1.5-3 Gbps per tunnel              | Remote VPN gateway                                                 | Internal IP     |
+| Dedicated  Interconnect   | Dedicated, direct connection to  VPC networks                                            | 10 Gbps or 100 Gbps per link       | Connection in  colocation facility                                 | Internal IP     |
+| Partner  Interconnect     | Dedicated bandwidth connection to VPC networksthough a service partner                   | 50 Mbps -  50 Gbps per connection  | Service provider                                                   | Internal IP     |
+| Cross-Cloud  Interconnect | Dedicated physical connection between VPC network and network hosted by service provider | 10 Gbps or 100 Gbps per connection | Primary and redundant ports (GC and remote cloud service provider) | Internal IP     |
+
+#### Peering
+Cloud Peering services: direct peering and carrier peering
+
+With this connection, you will be able to exchange Internet traffic between your network and Google's at one of the Google's broad-reaching edge network locations.
+
+Direct peering with Google is done by exchanging BGP routes between Google and the peering entity.
+
+**Unlike dedicated interconnect, direct peering does not have an SLA.**
+
+GCP's Edge Points of Presence, or PoPs, are where Google's network connects to the rest of the Internet via peering.
+
+When you are distance from the PoPs, consider connect via a carrier peering partner. It also does not have an SLA.
+
+Direct peering has a capacity of 10 Gbps per link and requires you to have a connection in a GCP Edge Point of Presence. Carrier peering's capacity and requirements vary depending on the service provider that you work with.
+
+| **Connection**  | **Provides**                                                | **Capacity**                      | **Requirements**      | **Access Type** |
+|-----------------|-------------------------------------------------------------|-----------------------------------|-----------------------|-----------------|
+| Direct Peering  | Dedicated, direct connection to Google's network            | 10 Gbps per link                  | Connection in GC PoPs | Public IP       |
+| Carrier Peering | Peering through service provider to Google's public network | Varies based on partner  offering | Service provider      | Public IP       |
+
+#### Choosing a connection
+Interconnect services provide direct access to RFC1918 IP addresses in your VPC, with an SLA. 
+Peering services, in contrast, offer access to Google public IP addresses only, without an SLA.
+
+Choosing:
+- Do you need to extend your network for Workspace services, youtube or Google Cloud APIs?
+    - If yes: Choose Peering services according with the requesites of the PoP
+    - if no: Choose Interconnect service
+
+To choose interconnect service:
+- Need dedicated high bandwidth?
+    - If No: Encryption managed by Google? If yes Cloud VPN, If no, self-managed encryption tunnels
+    - If Yes: Dedicated interconnect, partner interconnect or cross cloud interconnect
+
+Within Partner Interconnect, you can choose between L2 Partner Interconnect and L3 Partner Interconnect. 
+- if you need BGP peering Choose L2 Partner Interconnect
+- if you don't need BGP peering Choose L3 Partner Interconnect
+
+### Shared VPC and VPC Peering
+Many organizations commonly deploy multiple, isolated projects with multiple VPC networks and subnets. This submodule covers two configurations for sharing VPC networks across GCP projects.
+
+Shared VPC 
+- allows you to share a network across several projects in your GCP organization.
+- allows an organization to connect resources from multiple projects to a common Virtual Private Cloud (VPC) network
+- communicate with each other securely and efficiently by using internal IP addresses
+- lets organization administrators delegate administrative responsibilities, such as creating and managing instances, to Service Project Admins while maintaining **centralized control** over network resources like subnets, routes, and firewalls.
+
+
+A standalone VPC network is an unshared VPC network that exists in either a standalone project or a service project.
+
+VPC Network Peering 
+- allows you to configure private communication across projects in the same or different organizations.
+- each VPC network will have firewall rules that define what traffic is allowed or denied between the networks
+- Each organization has its own organization node, VPC network, VM instances, Network Admin, and Instance Admin.
+- VPC Network Peering is a **decentralized** or distributed approach to multi-project networking
+
+In order for VPC Network Peering to be established successfully, the Producer Network Admin needs to peer the Producer Network with the Consumer Network, and the Consumer Network Admin needs to peer the Consumer Network with the Producer Network. When both peering connections are created, the VPC Network Peering session becomes Active and routes are exchanged. This allows the virtual machine instances to communicate privately using their internal IP addresses.
+
+Historically, such projects would consider external IP addresses or VPNs to facilitate private communication between VPC networks. However, VPC Network Peering does not incur the network latency, security, and cost drawbacks that are present when using external IP addresses or VPNs.
+
+you have to use VPC Network Peering:
+- If you want to configure private communication between VPC networks in different organizations, .
+- if you want to configure private communication between VPC networks in the same project
+
+**Shared VPC only works within the same organization.**
 ## Load Balancing and Autoscaling
 ## Infrastructure Automation
 ## Managed Services
+#### Dataflow
+Dataflow is a Google Cloud service that provides unified stream and batch data processing at scale. Use Dataflow to create jobs that read from one or more sources, transform the data, and write the data to a destination. 
+
+Dataflow:
+- fully managed service for transforming and enriching data in stream and batch
+- a lot of the complexity of infrastructure setup and maintenance is handled for you
+- supports fast, simplified pipeline development via expressive SQL, Java and Python APIs in the Apache Beam SDK
+
+ETL:
+- Extract from Cloud Datastore, Cloud Pub/Sub, Apache Avro, Apache Kafta,...
+- Transform/Process using Dataflow
+- Load to Bigquery, Vertex AI, Cloud BigTable
+
+#### Dataprep
+Cloud Dataprep is an intelligent data service for visually exploring, cleaning and preparing structured and unstructured data for analysis reporting and machine learning.
+
+- With automatic schema, data types, possible joins and anomaly detection, you can skip the time-consuming data profiling and focus on data analysis.
+- is fully managed and scaled on-demand to meet your growing data-preparation needs
+- prepare raw data from BigQuery
+- The refined data can then be exported to BigQuery or Cloud Storage for analysis and machine learning.
+
+Dataprep Architecture:
+```mermaid
+flowchart LR
+A[Cloud Storage] -- raw data -- B[Dataprep]
+B[Dataprep] -- C[Dataflow]
+C[Dataflow] -- D[BigQuery]
+```
