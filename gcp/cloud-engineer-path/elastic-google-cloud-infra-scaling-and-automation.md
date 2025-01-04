@@ -325,6 +325,47 @@ You can configure IP addresses to be assigned automatically or assign specific I
 
 ### HTTP(S) Load Balancing
 
+HTTP(S) load balancing acts at Layer 7 of the OSI model. This is the application layer takes routing decisions based on the URL.
+
+HTTP(S) load balancing provides global **load balancing for HTTP(S) requests** destined for your instances. 
+- HTTP(S) load balancing balances HTTP and HTTPS traffic across multiple back-end instances and across multiple regions.
+- HTTP requests are load balanced on port 80 or 8080, and HTTPS requests are load balanced on port 443.
+- Your applications are available to your customers at a single anycast IP address, which simplifies your DNS setup.
+- supports both IPv4 and IPv6 clients
+- requires no pre-warming
+- enables content-based and cross-regional load balancing.
+- It's possible to configure **URL maps** that route some URLs to one set of instances and route other URLs to other instances.
+
+Normally, HTTP(S) load balancing uses a round-robin algorithm to distribute requests among available instances. Session affinity attempts to send all requests from the same client to same virtual machine instance.
+
+Architecture of an HTTP(S) Load Balancer
+```mermaid
+flowchart TD;
+A(Internet) --> B[Global Forwarding Rule]
+B --> C[Target Proxy]
+C <--> D[URL Map]
+C --> E[Backend Service]
+E <--> F[Health Check]
+E ----> G[Instance group - Backend 1]
+E ----> H[Instance group - Backend 2]
+```
+
+HTTP(S) load balancers support the QUIC transport layer protocol. QUIC is a transport layer protocol that allows for faster client connection initiation, eliminates head-of-line blocking in multiplexed streams, and supports connection migration when a client's IP address changes.
+
+To use HTTPS, you must create at least one SSL certificate that can be used by the target proxy for the load balancer. SSL certificate resources are used only with the load balancing proxies such as a target HTTPS proxy or target SSL proxy.
+
+A network endpoint group, or NEG:
+- is a configuration object that specifies a group of backend endpoints or services. 
+- A common use case for this configuration is deploying services in containers.
+- Zonal and internet NEGs define how endpoints should be reached, whether they are reachable, and where they are located.
+- serverless NEGs don't contain endpoints.
+
+There are 4 types of NEGs:
+- Zonal
+- Internet
+- Hybrid connectivity
+- Serveless
+
 ### Cloud CDN
 ### SSL Proxy/TCP Load Balancing
 ### Network Load Balancing
