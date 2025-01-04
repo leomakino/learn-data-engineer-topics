@@ -252,7 +252,88 @@ you have to use VPC Network Peering:
 
 **Shared VPC only works within the same organization.**
 ## Load Balancing and Autoscaling
+
+Cloud Load Balancing is a fully distributed, software-defined, managed service. Cloud Load Balancing gives you the ability to **distribute load-balanced compute resources** in single or multiple regions to meet your high availability.
+
+Google Cloud offers different types of load balancers that can be divided into two categories: global and regional.
+
+Global: HTTP(S), SSL proxy, and TCP proxy load balancers.
+- Global External HTTP(S) Load Balancing
+- External HTTP(S) Load Balancing (classic)
+- External SSL Proxy Load Balancing
+- External TCP Proxy Load Balancing
+
+Regional: external and internal HTTP(S), and TCP Proxy
+- Regional External HTTP(S) Load Balancing
+- Internal HTTP(S) Load Balancing
+- Internal TCP/UDP Load Balancing
+- External TCP/UDP Network Load Balancing
+- Internal TCP Proxy Load Balancing
+- External Regional TCP Proxy Load Balancing
+
+Use a global load balancer when your users and instances are distributed globally, your users need access to the same applications and content, and you want to provide access using a single anycast IP address. 
+
+The internal and network load balancers distribute traffic to instances that are in a single Google Cloud region. The internal load balancer for HTTP(S) traffic is a proxy-based, regional Layer 7 load balancer that enables you to run and scale your services behind a private load balancing IP address that is accessible only in the load balancer's region in your VPC network.
+
+### Managed Instance Groups
+A managed instance group is a collection of identical VM instances that you control as a single entity using an instance template. Managed instance groups can work with load balancing services to distributor network traffic to all of the instances in the group.
+
+Managed instance groups can automatically identify and recreate unhealthy instances in a group to ensure that all instances are running optimally.
+
+Regional managed instance groups are generally **recommended over zonal** managed instance groups because they allow you to spread the application load across multiple zones instead of confining your application to a single zone or having you manage multiple instance groups across different zones.
+
+In order to create a managed instance group, you first need to create a instance template. Next, you're going to create a managed instance group of N specified instances.
+
+When you create an instance group, you define the specific rules for that instance group:
+- what type of managed instance group you want to create;
+- single or multizoned and where those locations will be;
+- instance template;
+- autoscale and under what circumstances;
+- health check to determine which instances are healthy and should receive traffic.
+
+Essentially, you're creating virtual machines, but you're applying more rules to that instance group.
+- Deploy identical instances based on instance template
+- instance group can be resized
+- Manager ensures all instances are running
+- Typically used with autoscaler
+- Can be single zone or regional
+
+Managed instance groups offer autoscaling capabilities that allow you to automatically add or remove instances from a managed instance group based on increases or decreases in load. It helps your applications gracefully handle increases in traffic and reduces cost when the need for resources is lower.
+
+Autoscaling policy:
+- CPU utilization
+- Load balancing capacity
+- Monitoring metrics
+- Queue-based workload
+- Schedule-based
+
+Applicable autoscaling policies include scaling based on CPU utilization, load balancing capacity, or monitoring metrics, or by a queue-based workload like Pub/Sub or schedule such as start-time, duration and recurrence.
+
+health check:
+- define a protocol
+- port
+- health criteria: 
+    - define how often to check whether an instance is healthy (check interval)
+    - how long to wait for a response (timeout)
+    - how many successful attempts are decisive (healthy threshold)
+    - how many failed attempts are decisive (unhealthy threshold)
+
+Configuring stateful IP addresses in a managed instance group ensures that applications continue to function seamlessly during autohealing, update, and recreation events.
+
+You can configure IP addresses to be assigned automatically or assign specific IP addresses to each VM instance in a managed instance group. But Preserving an instance’s IP addresses is useful in many different scenarios.
+
+
+### HTTP(S) Load Balancing
+
+### Cloud CDN
+### SSL Proxy/TCP Load Balancing
+### Network Load Balancing
+### Internal Load Balancing
+### Choosing Load Balancer
+
 ## Infrastructure Automation
+
+
 ## Managed Services
 #### Dataflow
 Dataflow is a Google Cloud service that provides unified stream and batch data processing at scale. Use Dataflow to create jobs that read from one or more sources, transform the data, and write the data to a destination. 
