@@ -373,6 +373,51 @@ There are 4 types of NEGs:
 ### Choosing Load Balancer
 
 ## Infrastructure Automation
+Calling the Cloud API from code is a powerful way to generate infrastructure. But writing code to create infrastructure also has some challenges.
+
+Terraform uses a system of highly structured templates and configuration files to document the infrastructure in an easily readable and understandable format.
+
+Terraform conceals the actual Cloud API calls so you don't need to write the code and can focus on the definition of the infrastructure.
+
+### Terraform
+Terraform is one of the tools used for Infrastructure as Code or IaC. 
+
+Infrastructure as code allows for the quick provisioning and removing of infrastructures. Terraform lets you provision Google Cloud resources—such as virtual machines, containers, storage, and networking—with declarative configuration files. Resources are infrastructure objects such as Compute Engine virtual machines, storage buckets, containers, or networks.
+
+Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an open-source tool that codifies APIs into declarative configuration files that can be shared among team members, treated as code, edited, reviewed, and versioned. Terraform uses a plugin-based architecture to support the numerous infrastructure and service providers available. Each "provider" is its own encapsulated binary distributed separately from Terraform itself. Initialize Terraform by setting Google as the provider.
+
+Automated infrastructure provisioning means that the infrastructure can be provisioned on demand, and the deployment complexity is managed in code. This provides the flexibility to change infrastructure as requirements change. And all the changes are in one place.
+
+Google Cloud supports Terraform, where deployments are described in a file known as a configuration. 
+- Configurations can be modularized using templates which allow the abstraction of resources into reusable components across deployments.
+- is a complete document in the Terraform language that tells Terraform how to manage a given collection of infrastructure.
+- can consist of multiple files and directories.
+- components:
+    - A block has a body that enables you to declare arguments and nested blocks.
+    - Arguments are used to assign a value to a name
+    - An expression represents a value that can be assigned to an identifier.
+
+
+HashiCorp Configuration Language (HCL) allows for concise descriptions of resources using blocks, arguments, and expressions.
+
+The benefit of a declarative approach
+- is that it allows you to specify what the configuration should be and let the system figure out the steps to take.
+- Instead of deploying each resource separately, you specify the set of resources which compose the application or service
+- Unlike Cloud Shell, Terraform will deploy resources in **parallel**.
+
+commands:
+- `terraform init` it makes sure that the Google provider plugin is downloaded and installed in a subdirectory of the current working directory along with various other bookkeeping files
+- `terraform plan` performs a refresh and then determines what actions are necessary to achieve the desired state specified in the configuration files.
+- `terraform plan` it creates the infrastructure defined in the main.tf file
+- `terraform fmt` rewrite the Terraform configuration files to a canonical format and style
+
+#### Lab
+In this lab, you learn how to perform the following tasks:
+- Create a configuration for an auto mode network
+- Create a configuration for a firewall rule
+- Create a module for VM instances
+- Create and deploy a configuration
+- Verify the deployment of a configuration
 
 
 ## Managed Services
