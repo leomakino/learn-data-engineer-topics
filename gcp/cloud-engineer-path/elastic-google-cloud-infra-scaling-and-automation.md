@@ -367,10 +367,83 @@ There are 4 types of NEGs:
 - Serveless
 
 ### Cloud CDN
+Cloud CDN (Content Delivery Network) uses Google's globally distributed edge points of presence to **cache** HTTP(S) load-balanced content close to your users. It provides faster delivery of content to your users while reducing serving costs.
+
+cache types:
+- cache miss: nobody requested before, there is no site cached.
+- cache hit: cache site able to serve that content without having to process the HTTP Load Balancer request.
+
+
+Cloud CDN offers three cache modes, which define how responses are cached, whether or not Cloud CDN respects cache directives sent by the origin, and how cache TTLs are applied.
+- USE_ORIGIN_HEADERS: requires origin responses to set valid cache directives and valid caching headers
+- CACHE_ALL_STATIC: automatically caches static content that doesn't have the no-store, private, or no-cache directive
+- FORCE_CACHE_ALL: unconditionally caches responses, overriding any cache directives set by the origin.
+
+*You should make sure not to cache private, per-user content (such as dynamic HTML or API responses) if using a shared backend with this mode configured.*
+
 ### SSL Proxy/TCP Load Balancing
+SSL proxy is a global load balancing service for **encrypted** non-HTTP traffic. It uses SSL connections at the load balancing layer, then balances the connections across your instances using the SSL or TCP protocols.
+
+SSL proxy load balancing supports both IPv4 and IPv6 addresses for client traffic and provides intelligent routing, certificate management, security patching and SSL policies.
+
+### TCP Proxy Load Balancing
+TCP proxy is a global load balancing service for **unencrypted**, non-HTTP traffic. This load balancer terminates your customer's TCP sessions at the load balancing layer then forwards the traffic to your virtual machine instances using TCP or SSL.
+
+TCP proxy load balancing supports both IPv4 and IPv6 addresses for client traffic.
+
 ### Network Load Balancing
+Network load balancing is a regional, non-proxied load balancing service. In other words, all traffic is passed through the load balancer instead of being proxied, and the traffic can only be **balanced between VM instances that are in the same region**, unlike a global load balancer.
+
+what is a target pool resource? A target pool resource defines a group of instances that receive incoming traffic from forwarding rules. These target pools can only be used with forwarding rules that can handle TCP and UDP traffic. Each target pool can only have one health check.
+
 ### Internal Load Balancing
+It is software-defined fully distributed load balancing solution.
+The internal TCP/UDP load balancer is a **regional private** load balancing service for TCP and UDP-based traffic. In other words this load balancer enables you to run and scale your services behind a **private** load balancing **IP address**.
+
+It's only accessible through internal IP addresses or virtual machine instances in the same region.
+
+Because you don't need a public IP address for you load balanced service your internal client requests stay internal to your VPC network and region.
+
+----
+
+**Cloud's internal HTTPS load balancing** is a proxy-based regional layer seven load balancer that also enables you to run and scale your services behind an internal load balancing IP address.
+
+
 ### Choosing Load Balancer
+Only the HTTP(S), SSL proxy, and TCP proxy load balancing services support IPv6 clients.
+
+To determine which Cloud Load Balancing product to use, you must first determine what traffic type your load balancers must handle.
+
+```mermaid
+flowchart TD
+    A[Application Load Balancer HTTP HTTPS] --> B[External]
+    A --> C[Internal]
+    B --> D[Global]
+    B --> E[Regional]
+    C --> F[Regional]
+    D --> G(Global External Application Load Balancer)
+    E --> H(Regional External Application Load Balancer)
+    F --> I(Regional Internal Application Load Balancer)
+```
+
+```mermaid
+flowchart TD
+    A[Network Load Balancer TCP UDP Other IP protocols] --> B[Proxy]
+    A --> C[Passthrough]
+    B --> D[External]
+    B --> E[Internal]
+    C --> F[External]
+    C --> Z[Internal]
+    D --> |Global|G(External proxy Network Load Balancer)
+    D --> |Regional| X[Regional External proxy Network Load Balancer]
+    E --> |Regional| H(Regional internal proxy Network Load Balancer)
+    F --> |Regional| I(Regional external passthrough network load balancer)
+    Z --> |Regional|Y(Regional internal passthrough network load balancer)
+```
+
+1. You'd choose an Application Load Balancer when you need a flexible feature set for your applications with HTTP(S) traffic.
+1. You'd choose a proxy Network Load Balancer to implement TLS offload, TCP proxy, or **support for external load balancing to backends in multiple regions**. 
+1. You'd choose a passthrough Network Load Balancer to preserve client source IP addresses, avoid the overhead of proxies, and to support additional protocols like UDP, ESP, and ICMP. UDP, or if you need to expose client IP addresses to your applications.
 
 ## Infrastructure Automation
 Calling the Cloud API from code is a powerful way to generate infrastructure. But writing code to create infrastructure also has some challenges.
