@@ -70,7 +70,7 @@ Commands:
     - The symbols next to the resources and arguments indicate the action performed on the resource.
         - \+ means will be created
         - \-\+ means will be destroyed and recreate the resource
-        - ` means the resource will be updated in-place
+        - ~ means the resource will be updated in-place
         - \- means will be destroyed
 - destroy: destroy infrastructure resources
     - Terraform determines the order in which things must be destroyed. E.g.: VPC network can't be deleted if it still has resources
