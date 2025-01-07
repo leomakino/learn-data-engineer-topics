@@ -115,3 +115,159 @@ Use cases:
 gcloud beta terraform vet is different from the terraform validate command.
 - `gcloud beta terraform vet`: related to constraints
 - `terraform validate`: is used for testing syntax and the structure of your configuration without deploying any resources
+
+## Writing Infrastructure Code for Google Cloud
+### Resources
+Resources are infrastructure elements.
+
+Resources, In GC, include instances, instance templates, groups, VPC networks, firewall rules, VPN tunnels, Cloud Routers, and more.
+
+Terraform uses the underlying APIs of each Google Cloud service to deploy your resources.
+
+A provider is a plugin that provides a collection of resource types.
+
+- The resource block is used to declare a single infrastructure object.
+- Some resource arguments are mandatory for resource creation, and others are optional.
+- Attributes can be used to define any advanced features associated with a resource.
+
+A declared resource is identified by its type and name. Therefore, the resource name must be unique within the module.
+
+### Meta-arguments for resources
+The Terraform language defines several meta-arguments, which can be used with any resource type to change the behavior of resources.
+- **Count** creates multiple instances, depending on the value you define.
+- **for_each** creates multiple instances according to a map or set of strings.
+- **Depends_on** is used to specify explicit dependencies
+- **Lifecycle** defines the lifecycle of a resource.
+
+With the lifecycle argument you can prevent destruction of a resource for compliance purposes, and create a resource before destroying the replaced resource. This approach is often used for high availability.
+
+Count:
+- replace redundant code by adding the count argument at the beginning of the resource definition.
+- tells Terraform to create n instances of the same kind.
+- The count index starts at 0 and increments by 1 for each resource.
+
+
+*If some of their arguments need distinct values that can't be directly derived from an integer, it's safer to use for_each.*
+
+for_each:
+- Terraform will create one instance for each member of the string.
+- Consider a scenario where you need three similar instances configured in three specific zones and you want the names to have zones as prefixes for identification. Instead of writing lengthy repetitive code, you can use the for_each argument to assign specific values.
+
+### Resource dependencies
+A dependency graph helps you understand your infrastructure before deploying it. Terraform builds a dependency graph from your configurations to generate plans and refresh state. Terraform creates a dependency graph to determine the correct order of operations. 
+
+Graph command: `terraform graph | dot -Tpng > graph.png`
+
+The attributes are interpolated during run time, and primitives such as variables, output values, and providers are connected in a dependency tree.
+
+Terraform can handle two kinds of dependencies: implicit and explicit.
+- Implicit dependencies are known to Terraform
+    - E.g.1: cannot create a compute instance unless the network is created
+    - E.g.2: cannot assign a static IP address for a Compute Engine instance until a static IP is reserved.
+    - A given resource can only be created upon creation of another resource.
+- explicit dependencies are unknown. You need to explicitly mention dependencies that Terraform cannot see.
+    - E.g. 1:  let’s say you use a specific Cloud Storage bucket to run an application. That dependency is configured inside the application code and not visible to Terraform. **In this scenario, you can use depends_on to explicitly declare the dependency.**
+    - The depends_on argument gives you the flexibility to control the order in which Terraform processes the resources in a configuration.
+    - E.g.2: you need to create two VMs—server and client —and want the client VM to only be created upon the successful creation of the server VM. This dependency is not visible to Terraform and has to be explicitly mentioned.
+
+The order in which the resources are defined has no effect on how Terraform applies your changes, so organize your configuration files in a way that makes the most sense for you and your team.
+
+### Variables
+With variables, you can parameterize values shared between resources. Input variables serve as parameters for Terraform, allowing easy customization and sharing without having to alter the source code. Variables separate source code from value assignments.
+
+Variables must be declared in the variable block. *It’s recommended that you save all variable declarations within a separate file named variables.tf*.
+
+There are two rules for naming variables.
+1. the name of the variable must be unique within a module.
+1. variable names cannot be keywords.
+
+
+Terraform can automatically deduce the type and default values. 
+
+Terraform supports the following primitive variable types: 
+- Bool
+- Number
+- string
+
+```tf
+variable "variable_name" {
+    type = <variable_type>
+    description = "<variable description>"
+    default = "<default value for variable>"
+    sensitive = true
+}
+```
+
+To access the value of a variable declared within the module, you can use the expressions var.
+
+The default value can be overridden by assigning a value in environment values, or .tfvars files or -var option.
+
+The description string is often included in documentation, so it should be written from the perspective of the user rather than its maintainer. Comments can be used by the maintainer.
+
+Sensitive, as the name suggests, is a variable argument used to protect sensitive information from being displayed in command outputs or log files
+
+There are several ways to set **variable values to variables**: Terraform automatically loads the variable definitions files as long as they are exactly named terraform.tfvars, terraform.tfvars.json, .auto.tfvars, or auto.tfvars.json.
+
+```bash
+# .tfvars file (Recommended method)
+tf apply -var-file my-vars.tfvars
+
+# CLI option
+tf apply -var project_id="my-project"
+
+# environment variables
+TF_VAR_project_id="myproject" \
+tf apply
+
+# Using terraform.tfvars
+tf apply
+```
+
+### Variables best practices
+Parameterize only when necessary:
+- Only parameterize values that must vary for each instance or environment
+- Changing a variable with a default value is backward-compatible
+- removing a variable is not backward-compatible.
+- Avoid alternating between var-files and command-line options. Command-line options are ephemeral and easy to forget, and they cannot be checked into source control.
+- Variables must have descriptions.
+
+### Output values
+Output values are similar to return values in common programming languages. With outputs, you can view information about the infrastructure resources you created on the command line.
+
+Output values are used for several purposes. The most common use case is to print root module resource attributes in the CLI after its deployment. Most of the server details are calculated at deployment and can only be inferred post-creation.
+
+Output values are also **used to pass information generated by one resource to another**.  Most of the server details are calculated at deployment and can only be inferred post-creation.
+- For example, you can extract server-specific values – such as an IP address – to another resource that requires this information.
+
+Output values are declared using the output block. The keyword ‘output’ indicates that the label associated with the keyword is the name of the output value.
+
+The arguments that can be included within an output block are:
+- value: returns a value to the user of the module
+- Description: provides an explanation of the purpose of the output and the value expected.
+- sensitive: used to mask the value to a resource attribute.
+
+```tf
+output "name" {
+    description = "purpose of the output and the value expected"
+    # value = <resource_type>.<resource_name>.<attribute>
+    value = google_storage_bucket_object.picture.self_link
+}
+```
+
+best practices for output values
+- declare them in a separate file named output.tf
+- Only output useful information, such as computed information
+- Avoid outputting values that simply regurgitate variables or provide known information
+- provide meaningful names and descriptions.
+- mark sensitive outputs
+
+### Terraform Registry and Cloud Foundation Toolkit
+Resources available to help you write infrastructure code for Google Cloud:
+1. Terraform Registry
+    - is an interactive resource for discovering a wide selection of integrations and configuration packages, otherwise known as providers and modules.
+    - includes solutions developed by HashiCorp, third-party vendors, and the Terraform community.
+1. Cloud Foundation Toolkit (CFT)
+    -  provides a series of reference modules for Terraform that reflect Google Cloud best practices.
+    - is a collection of Google Cloud Terraform modules built and maintained by Googlers.
+1. Cloud Foundation Fabric (CFF)
+    - a collection of Terraform modules and end to end examples meant to be cloned as a single unit and used for fast prototyping or decomposed and modified for usage in organizations.
