@@ -271,3 +271,167 @@ Resources available to help you write infrastructure code for Google Cloud:
     - is a collection of Google Cloud Terraform modules built and maintained by Googlers.
 1. Cloud Foundation Fabric (CFF)
     - a collection of Terraform modules and end to end examples meant to be cloned as a single unit and used for fast prototyping or decomposed and modified for usage in organizations.
+
+## Organizing and Reusing Configuration with Terraform Modules
+As your infrastructure grows, so does your code base, and your team will have to spend a fair amount of time to understand the code, change it, test it, and then deploy it. The convenience that abstraction brings along with the flexibility to standardize code is undeniable.
+
+*“Don’t Repeat Yourself” (DRY): repeating the same set of code multiple times.*
+
+With modules, you can group sets of resources together so you can reuse them later. Should you have to update code? you’ll only need to do so in one location.
+
+In this module:
+- you’ll be able to define Terraform modules and use them to reuse configuration.
+- you’ll learn how to use publicly available modules on Terraform or GitHub
+- You’ll also explore how to use input variables to parameterize configurations, and output values to access resource attributes outside the module.
+- you’ll learn best practices for using modules
+
+### Introduction to Modules
+In general-purpose programming languages like Ruby, Java, and Python, functions are used to implement the DRY principle. With Terraform, you can place your reusable code inside a module and reuse that module in multiple places.
+
+Modules allow you to group a set of resources together and reuse them later, and they can be referenced from other modules.
+
+The root module is the directory from which you run terraform commands. The root module consists of .tf files that are stored in your working directory.
+
+Other modules and resources are instantiated in the root module.
+
+*Each directory has its own main.tf file.* These modules are instantiated when they are called with the terraform apply command, which you’ll learn about in the next lesson.
+
+The benefits of using modules
+- Readable: Modules eliminate many lines of code with a call to the source module
+- Reusable: use modules to write a code once and reuse it multiple times
+- Abstract: you can separate configurations into logical units
+- Consistent: Modules help you package the configuration of a set of resources
+
+### Reuse Configurations with Modules
+Now that modules are created, the next step is to call the **modules from the parent main.tf file**. You can call the module to reference the code in the module block.
+
+Run the terraform init command to download any modules referenced by a configuration.
+The source argument determines the location of the module source code.
+- It is a meta-argument required to initialize (init)
+- This value can either be a local path within the root directory or a remote path to a module source that Terraform downloads.
+- Different source types supported: **Terraform Registry, GitHub, Bitbucket, HTTP URLs, and Cloud Storage buckets**
+
+Local path is used to reference a module stored within the same directory as the calling module. If the module that you want to call is stored in a directory named “servers”, located in the same directory as your root module, your root configuration will look like the examples: / or ./.
+
+Local paths are unique when compared to other module sources, because they do not require any installation. The files are locally referenced from the child module to the parent module directly. Therefore no explicit update is required.
+
+To use the code published in a Terraform Registry for the Google Cloud provider, use the format **terraform-google-modules/gcloud/google**. *To avoid any unwanted changes to your Terraform configuration, it’s recommended that you use version constraint.* Only the modules installed from the Terraform Registry support this constraint.
+
+After Terraform Registry, the most commonly used remote source is the GitHub repository. Similar to Terraform Registry, you can directly enter the GitHub URL where the source code is located.
+
+```tf
+# Syntax for calling the module
+module "<Name>" {
+    source = "<source_location>"
+    [CONFIG ...]
+}
+
+# Source Example: Local path
+module "web_server" {
+    source = "./server"
+}
+
+# Source Example: remote source - Terraform Registry
+module "web_server" {
+    source = "terraform-google-modules/vm/google/modules/compute_instance"
+    version = "1.1.2"
+}
+
+# Source Example: remote source - Github
+module "web_server" {
+    source = "github.com/terraform-google-modules/terraform-google-vm//modules/compute_instance"
+}
+```
+
+### Variables and Outputs
+Let’s examine how you can use variables to parameterize a module, and outputs to pass resource attributes outside a module.
+
+With variables, you can customize aspects of modules without altering the source code.
+
+```tf
+# Parameterize configuration with input variables - Step 1
+# In the module, at main.tf
+# Replace the hard coded arguments with a variable
+resource "google_compute_network" "vpc_network" {
+    name = var.network_name # This assignment provides the flexibility to configure the name argument when the module is called
+}
+```
+
+```tf
+# Parameterize configuration with input variables  - Step 2
+# In the module, at variable.tf
+# Declare the variables in the variables.tf
+variable "network_name" {
+    type = string
+    description = "name of the network"
+}
+```
+
+```tf
+# Parameterize configuration with input variables  - Step 3
+# In the root, at main.tf
+# Pass the value for the input variable when you call the module
+module "network_1" {
+    source = "./network"
+    network_name = "my-network1"
+}
+
+module "network_2" {
+    source = "./network"
+    network_name = "my-network2"
+}
+```
+
+**To pass resource arguments from one module to another, the argument must be configured as an output value in Terraform.** You can refer to the output value by using the format module...
+
+Example: The server module needs the network name created by the network module
+```tf
+resource "google_compute_network" "my_network" {
+    name = "mynetwork" # The server module need this name
+    auto_create_subnetworks = true
+}
+```
+```tf
+resource "google_compute_instance" "server_VM" {
+    network = <network created by network module>
+}
+```
+
+Solving the example above - Using output values:
+```tf
+# Declare the output value in the network module
+# In the /network/output.tf
+output "network_name" {
+    value = google_compute_network.my_network.name
+}
+```
+```tf
+# Declare the argument as a variable in the server module
+# In the /server/variables.tf
+variable "network_name" {
+}
+
+# In the /server/main.tf
+resource "google_compute_instance" "server_VM" {
+    network = var.network_name
+}
+```
+```tf
+# Refer the output value when calling the server module
+# In the root, at main.tf
+module "server_VM1"{
+    source = "./server"
+    network_name = module.mynetwork_1.network_name
+}
+
+module "mynetwork_1" {
+    source = "./network"
+}
+```
+
+### Best Practices
+1. Modularize your code for keeping your codebase DRY and encapsulating best practices
+1. Parameterize modules intelligently only if they make sense for end users to change
+1. Use local modules to organize and encapsulate your code
+1. Use the public Terraform Registry for complementing complex architecture confidently
+1. Publish and share your module with your team
