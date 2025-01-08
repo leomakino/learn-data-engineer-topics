@@ -60,6 +60,7 @@ Version arguments constrain the provider to a specific version or a range of ver
 Commands:
 - init: Initialize the provider with plugin
     -  ensures that the Google provider plugin is downloaded and installed in a subdirectory of the current working directory, along with various other bookkeeping files
+    -- terraform init -migrate-state: used to migrate state file to cloud storage
 - plan: Preview the resources that will be created after terraform apply
     - detailing all the resources that will be created, modified, or destroyed upon executing terraform apply.
     - Compares the current configuration to the prior state and notes any differences.
@@ -80,6 +81,8 @@ Commands:
     - It is a rare event in production enviroments
     - It will destroy the data associated to any resource
 - fmt: Autoformat to match canonical conventions
+- show : Examine your state file
+- refresh: reconcile the state Terraform knows about (via its state file) with the real-world infrastructure. This can be used to detect any drift from the last-known state and to update the state file. This does not modify infrastructure, but does modify the state file. If the state is changed, this may cause changes to occur during the next plan or apply
 
 Code conventions (best practices):
 - *Separate meta arguments from the other arguments* by placing them first or last in the code with a blank line
@@ -435,3 +438,79 @@ module "mynetwork_1" {
 1. Use local modules to organize and encapsulate your code
 1. Use the public Terraform Registry for complementing complex architecture confidently
 1. Publish and share your module with your team
+
+## Introduction to Terraform State
+In Terraform, you can use the state to achieve that infrastructure changes are tracked and monitored. 
+
+The Terraform State 
+- Terraform state is a metadata repository of your infrastructure configuration.
+- stores metadata for your infrastructure configuration.
+
+A state describes the state of your infrastructure resources. By default, state is stored locally in a file named "terraform.tfstate", but it can also be stored remotely. 
+
+Terraform uses the local state to create plans and change your infrastructure. Before any operation, Terraform does a refresh to update the state with the real infrastructure.
+
+The primary purpose of Terraform state is to store bindings between objects in a remote system and resource instances declared in your configuration.
+
+
+### Storing States Files
+Local states work well when there’s only one developer working on a project. The default configuration can get tricky when multiple developers run Terraform simultaneously and each machine has its own understanding of the current infrastructure.
+
+If you’re working in a team where multiple developers are writing code to manage the infrastructure, then you should store state files remotely in a central location. That way when your infrastructure is changed, your Terraform state file is updated and synced, and your team will always be working with up-to-date infrastructure.
+
+Once you configure a remote backend, Terraform will automatically load the state file from the backend every time you run the plan or apply commands.
+
+Issues with storing the terraform state locally:
+- No shared access
+- No locking: When members run Terraform at the same time, they run into conflict in access, which leads to data corruption and data loss.
+- No confidentiality: State file exposes all sensitive data such as username and password of the database
+
+Remote Cloud Storage buckets
+- natively support state locking. The file can be locked so that if multiple developers run terraform apply simultaneously, it won’t be corrupted by simultaneous updates. 
+- Remote file storage is also more secure than local.
+- natively support encryption in transit and encryption on disk.
+- Cloud Storage includes several ways to configure access permissions, so you can control who has access to your state files.
+
+For example:
+1. you can use IAM policies with a bucket.
+1. Though Cloud Storage buckets are encrypted at rest, you can use customer-supplied encryption keys to provide an added layer of protection.
+
+
+How to store a Terraform state remotely in a Cloud Storage bucket:
+1. add the google_storage_bucket resource to a Terraform configuration file, such as main.tf
+1. add the code to a new Terraform configuration file called backend.tf.
+
+```tf
+# Create the bucket in the root (main.tf)
+resource "google_storage_bucket" "default" {
+    name = "bucket-tfstate"
+    force_destroy = false
+    location = "US"
+    storage_classe = "STANDARD"
+    versioning {
+        enabled = true
+    }
+}
+```
+```tf
+# Change the backend configuration at backend.tf
+terraform {
+    backend "gcs" {
+        bucket = bucket-tfstate
+        prefix = terraform/state
+    }
+}
+```
+
+### Terraform state best practices
+1. Use remote state when working in teams
+    - to lock and version state files
+    - separate sensitive information from version control
+    - only the build system and highly privileged administrators have access to the remote state bucket.
+    - To prevent accidentally committing development state to source control, use gitignore for Terraform state files.
+1. Don't store screts in a state file
+1. Encrypt state
+    - To add an extra layer of defense, always encrypt the state file
+    - Cloud Storage buckets are encrypted at rest, customer-supplied encryption keys provide an added layer of protection.
+1. Don't modify state file manually
+    - Use the terraform state command when you need to modify a state
