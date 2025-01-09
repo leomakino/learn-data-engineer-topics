@@ -81,7 +81,7 @@ Commands:
     - It is a rare event in production enviroments
     - It will destroy the data associated to any resource
 - fmt: Autoformat to match canonical conventions
-- show : Examine your state file
+- show : inspect the current state
 - refresh: reconcile the state Terraform knows about (via its state file) with the real-world infrastructure. This can be used to detect any drift from the last-known state and to update the state file. This does not modify infrastructure, but does modify the state file. If the state is changed, this may cause changes to occur during the next plan or apply
 
 Code conventions (best practices):
