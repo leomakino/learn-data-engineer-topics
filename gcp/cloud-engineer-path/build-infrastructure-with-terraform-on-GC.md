@@ -13,3 +13,69 @@ There is a + next to google_compute_instance.terraform, which means that Terrafo
 
 commands:
 -  create an empty file: `touch instance.tf`
+- `terraform taint` recreate the something. E.g.: `terraform taint google_compute_instance.vm_instance`
+
+## IaC with Terraform
+Summary of the workflow:
+1. Scope: Confirm what resources need to be created for a given project.
+1. Author: Create the configuration file in HCL based on the scoped parameters.
+1. Initialize: Run terraform init in the project directory with the configuration files. This will download the correct provider plug-ins for the project.
+1. Plan & Apply: Run terraform plan to verify creation process and then terraform apply to create real resources as well as the state file that compares future changes in your configuration files to what actually exists in your deployment environment.
+
+Terraform block:
+- it is required so Terraform knows which provider to download from the Terraform Registry. 
+- hashicorp/google is the shorthand for registry.terraform.io/hashicorp/google.
+- The version argument is optional, but recommended. f the version isn't specified, Terraform will automatically download the most recent provider during initialization.
+
+Providers:
+- it is used to configure the named provider
+- A provider is responsible for creating and managing resources. 
+- Multiple provider blocks can exist if a Terraform configuration manages resources from different providers.
+
+As you change Terraform configurations, Terraform builds an execution plan that only modifies what is necessary to reach your desired state. By using Terraform to change infrastructure, you can version control not only your configurations but also your state so you can see how the infrastructure evolves over time.
+
+Destructive changes:
+- It is a change that requires the provider to replace the existing resource rather than updating it.
+- This usually happens because the cloud provider doesn't support updating the resource in the way described by your configuration.
+- The prefix -/+ means that Terraform will destroy and recreate the resource, 
+- E.g.: Changing the disk image of an instance
+
+Destroy infrastructure:
+- completely destroy your Terraform-managed infrastructure.
+- Destroying your infrastructure is a rare event in production environments. But if you're using Terraform to spin up multiple environments such as development, testing, and staging, then destroying is often a useful action.
+- it behaves as if all of the resources have been removed from the configuration.
+- Just like with terraform apply, Terraform determines the order in which things must be destroyed. 
+
+Saving the plan:
+1. `terraform plan -out static_ip` **Saving the plan this way ensures that you can apply exactly the same plan in the future.**
+1. `terraform apply "static_ip"` 
+
+The order that resources are defined in a terraform configuration file has no effect on how Terraform applies your changes. Organize your configuration files in a way that makes the most sense for you and your team.
+
+#### Implicit and explicit dependencies
+Implicit: Terraform can automatically infer when one resource depends on another.
+- E.g.: the reference to `google_compute_address.vm_static_ip.address` creates an implicit dependency 
+- Implicit dependencies via interpolation expressions are the primary way to inform Terraform about these relationships, and should be used whenever possible.
+
+Explicit:
+- Sometimes there are dependencies between resources that are not visible to Terraform.
+- The `depends_on` argument can be added to any resource and accepts a list of resources to create explicit dependencies for.
+
+#### Defining a provisioner
+To define a provisioner, modify the resource block. Multiple provisioner blocks can be added to define multiple provisioning steps. Terraform supports many provisioners, but for this example you are using the local-exec provisioner.
+
+The `local-exec` provisioner executes a command locally on the machine running Terraform, not the VM instance itself.
+
+The output may be confusing at first. Terraform found nothing to do - and if you check, you'll find that there's no ip_address.txt file on your local machine.Terraform treats provisioners differently from other arguments.**Provisioners only run when a resource is created,** but adding a provisioner does not force that resource to be destroyed and recreated.
+
+---
+
+Failed provisioners and tainted resources:
+- if a resource is successfully created but fails a provisioning step, Terraform will error and mark the resource as tainted.
+- A resource that is tainted still exists, but shouldn't be considered safe to use, since provisioning failed.
+- When you generate your next execution plan, Terraform will remove any tainted resources and create new resources, attempting to provision them again after creation.
+
+---
+Destroy provisioners
+- Provisioners can also be defined that run only during a destroy operation.
+- These are useful for performing system cleanup, extracting data, etc
