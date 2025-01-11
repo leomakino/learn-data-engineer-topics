@@ -79,3 +79,72 @@ Failed provisioners and tainted resources:
 Destroy provisioners
 - Provisioners can also be defined that run only during a destroy operation.
 - These are useful for performing system cleanup, extracting data, etc
+
+## Interact with Terraform Modules
+A Terraform module is a set of Terraform configuration files in a single directory. Even a simple configuration consisting of a single directory with one or more .tf files is a module. When you run Terraform commands directly from such a directory, it is considered the **root module**.
+
+Terraform commands will only directly use the configuration files in one directory, which is usually the current working directory. Your configuration can use **module blocks** to call modules in other directories. When Terraform encounters a module block, it loads and processes that module's configuration files.
+
+Modules can be loaded from either the local filesystem or a remote source. 
+
+Module best practices:
+- Start writing your configuration with a plan for modules. 
+- Use local modules to organize and encapsulate your code. *Even if you aren't using or publishing remote modules, organizing your configuration in terms of modules from the beginning will significantly reduce the burden of maintaining and updating your configuration as your infrastructure grows in complexity.*
+- Use the public Terraform Registry to find useful modules. *This way you can quickly and confidently implement your configuration by relying on the work of others.*
+- Publish and share modules with your team. Most infrastructure is managed by a team of people, and modules are an important tool that teams can use to create and maintain infrastructure.
+- Google recommends that you create every Terraform configuration with the assumption that it may be used as a module, because this will help you design your configurations to be flexible, reusable, and composable.
+
+## Interact with Terraform Modules
+
+Create a Terraform configuration
+```bash
+git clone https://github.com/terraform-google-modules/terraform-google-network
+cd terraform-google-network
+git checkout tags/v6.0.1 -b v6.0.1
+```
+
+Set values for module input variables: Some input variables are required, which means that the module doesn't provide a default value
+
+Define root input variables: Using input variables with modules is very similar to how you use variables in any Terraform configuration. A common pattern is to identify which module input variables you might want to change in the future, and then create matching variables in your configuration's variables.tf file with sensible default values. Those variables can then be passed to the module block as arguments.
+
+```tf
+# In variables.tf
+variable "project_id" {
+  description = "The project ID to host the network in"
+  default     = "FILL IN YOUR PROJECT ID HERE"
+}
+
+# Back in the main.tf file
+module "test-vpc-module" {
+  ...
+  project_id   = var.project_id
+  ...
+}
+```
+
+Define root output values: Modules also have output values, which are defined within the module with the output keyword. You can access them by referring to `module.<MODULE NAME>.<OUTPUT NAME>`. Like input variables, module outputs are listed under the outputs tab.
+
+When using a new module for the first time, you must run either `terraform init` or `terraform get` to install the module.
+
+---
+
+Module structure:
+- LICENSE
+- README.md
+- main.tf
+- variables.tf
+- outputs.tf
+*Note: None of these files are required or has any special meaning to Terraform when it uses your module. You can create a module with a single .tf file or use any other file structure you like.*
+
+Each of these files serves a purpose:
+- LICENSE: contains the license under which your module will be distributed. When you share your module, the LICENSE file will let people using it know the terms under which it has been made available. Terraform itself does not use this file.
+- README.md: contains documentation in markdown format that describes how to use your module. Terraform does not use this file, but services like the Terraform Registry and GitHub will display the contents of this file to visitors to your module's Terraform Registry or GitHub page.
+- main.tf: contains the main set of configurations for your module. You can also create other configuration files and organize them in a way that makes sense for your project.
+- variables.tf: contains the variable definitions for your module. When your module is used by others, the variables will be configured as arguments in the module block. Because all Terraform values must be defined, any variables that don't have a default value will become required arguments. A variable with a default value can also be provided as a module argument, thus overriding the default value.
+- outputs.tf: contains the output definitions for your module. Module outputs are made available to the configuration using the module, so they are often used to pass information about the parts of your infrastructure defined by the module to other parts of your configuration.
+
+*Be aware of these files and ensure that you don't distribute them as part of your module:*
+- terraform.tfstate and terraform.tfstate.backup
+- .terraform
+- *.tfvars
+*Note: If you are tracking changes to your module in a version control system such as Git, you will want to configure your version control system to ignore these files. For an example, see this .gitignore file from GitHub.*
