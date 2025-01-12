@@ -148,3 +148,331 @@ Each of these files serves a purpose:
 - .terraform
 - *.tfvars
 *Note: If you are tracking changes to your module in a version control system such as Git, you will want to configure your version control system to ignore these files. For an example, see this .gitignore file from GitHub.*
+
+## Managing Terraform state
+### Purpose of Terraform state
+State is a necessary requirement for Terraform to function. People sometimes ask whether Terraform can work without state or not use state and just inspect cloud resources on every run. In the scenarios where Terraform may be able to get away without state, doing so would require shifting massive amounts of complexity from one place (state) to another place (the replacement concept). This section will help explain why Terraform state is required.
+
+Terraform expects that each remote object is bound to only one resource instance, which is normally guaranteed because Terraform is responsible for creating the objects and recording their identities in the state.  If you instead import objects that were created outside of Terraform, you must verify that each distinct object is imported to only one resource instance. If one remote object is bound to two or more resource instances, Terraform may take unexpected actions against those objects because the mapping from configuration to the remote object state has become ambiguous.
+
+In addition to tracking the mappings between resources and remote objects, Terraform must also track metadata such as resource dependencies. Terraform typically uses the configuration to determine dependency order. However, when you remove a resource from a Terraform configuration, Terraform must know how to delete that resource. Terraform can see that a mapping exists for a resource that is not in your configuration file and plan to destroy. However, because the resource no longer exists, the order cannot be determined from the configuration alone.
+
+**To ensure correct operation, Terraform retains a copy of the most recent set of dependencies within the state.** In addition to basic mapping, Terraform stores a cache of the attribute values for all resources in the state. This is an optional feature of Terraform state and is used only as a performance improvement.
+
+When running a terraform plan, Terraform must know the current state of resources in order to effectively determine the changes needed to reach your desired configuration. For small infrastructures it's ok but for larger infrastructures, querying every resource is too slow. Many cloud providers do not provide APIs to query multiple resources at the same time, and the round trip time for each resource is hundreds of milliseconds. In addition, cloud providers almost always have API rate limiting, so Terraform can only request a limited number of resources in a period of time. Larger users of Terraform frequently use both the -refresh=false flag and the -target flag in order to work around this. In these scenarios, the cached state is treated as the record of truth.
+
+Terraform can use remote locking as a measure to avoid multiple different users accidentally running Terraform at the same time; this ensures that each Terraform run begins with the most recent updated state. If supported by your backend, Terraform will lock your state for all operations that could write state. This prevents others from acquiring the lock and potentially corrupting your state.
+
+The persistent data stored in the backend belongs to a workspace. Initially the backend has only one workspace, called default, and thus only one Terraform state is associated with that configuration. Certain backends support multiple named workspaces, which allows multiple states to be associated with a single configuration. The configuration still has only one backend, but multiple distinct instances of that configuration can be deployed without configuring a new backend or changing authentication credentials.
+
+### Working with backends
+A backend in Terraform determines how state is loaded and how an operation such as apply is executed. This abstraction enables non-local file state storage, remote execution, etc. By default, Terraform uses the "local" backend, which is the normal behavior of Terraform you're used to. 
+
+benefits of backends:
+- Working in a team: Backends can store their state remotely and protect that state with locks to prevent corruption. Some backends, such as Terraform Cloud, even automatically store a history of all state revisions.
+- Keeping sensitive information off disk: State is retrieved from backends on demand and only stored in memory.
+- Remote operations: For larger infrastructures or certain changes, terraform apply can take a long time. Some backends support remote operations, which enable the operation to execute remotely. You can then turn off your computer, and your operation will still complete. Combined with remote state storage and locking (described above), this also helps in team environments.
+
+*Backends are completely optional: You can successfully use Terraform without ever having to learn or use backends.*
+
+#### Add a local backend
+When configuring a backend for the first time (moving from no defined backend to explicitly configuring one), Terraform will give you the option to migrate your state to the new backend. This lets you adopt backends without losing any existing state.
+
+To be extra careful, we always recommend that you also manually back up your state. You can do this by simply copying your terraform.tfstate file to another location.
+
+Add a local backend to main.tf:
+```tf
+terraform {
+  backend "local" {
+    path = "terraform/state/terraform.tfstate"
+  }
+}
+```
+
+#### Add a Cloud Storage backend
+A Cloud Storage backend stores the state as an object in a configurable prefix in a given bucket on Cloud Storage. This backend also supports state locking. This will lock your state for all operations that could write state. This prevents others from acquiring the lock and potentially corrupting your state.
+
+Add a lgcs backend to main.tf:
+```tf
+terraform {
+  backend "gcs" {
+    bucket  = "# REPLACE WITH YOUR BUCKET NAME"
+    prefix  = "terraform/state"
+  }
+}
+```
+
+#### Refresh the state
+The terraform refresh command is used to reconcile the state Terraform knows about (via its state file) with the real-world infrastructure. This can be used to detect any drift from the last-known state and to update the state file.
+
+This does not modify infrastructure, but does modify the state file. If the state is changed, this may cause changes to occur during the next plan or apply.
+
+### Import Terraform configuration
+In this section, you will import an existing Docker container and image into an empty Terraform workspace.
+
+You may need to manage infrastructure that wasn’t created by Terraform. Terraform import solves this problem by loading supported resources into your Terraform workspace’s state. The import command doesn’t automatically generate the configuration to manage the infrastructure, though. Because of this, importing existing infrastructure into Terraform is a multi-step process.
+
+Bringing existing infrastructure under Terraform’s control involves five main steps:
+1. **Existing Infra**: Identify the existing infrastructure to be imported.
+1. **Import**: the infrastructure into your Terraform state.
+1. **Write Config**: Write a Terraform configuration that matches that infrastructure.
+1. **Plan**: Review the Terraform plan to ensure that the configuration matches the expected state and infrastructure.
+1. **Apply** the configuration to update your Terraform state
+
+In this section, first you will create a Docker container with the Docker CLI. Next, you will import it into a new Terraform workspace. Then you will update the container’s configuration using Terraform 
+
+*Warning: Importing infrastructure manipulates Terraform state in ways that could leave existing Terraform projects in an invalid state. Make a backup of your terraform.tfstate file and .terraform directory before using Terraform import on a real Terraform project, and store them securely.*
+
+
+Import:
+1. clone the example repository: `git clone https://github.com/hashicorp/learn-terraform-import.git`
+1. Change into that directory: `cd learn-terraform-import`
+1. Terraform import requires this Terraform resource ID and the full Docker container ID. `terraform import docker_container.web $(docker inspect -f {{.ID}} hashicorp-learn)` 
+
+In some cases, you can bring resources under Terraform's control without using the terraform import command. This is often the case for resources that are defined by a single unique ID or tag, such as Docker images.
+
+Limitations and other considerations. There are several important things to consider when importing resources into Terraform. Terraform import can only know the current state of infrastructure as reported by the Terraform provider. It does not know:
+- Whether the infrastructure is working correctly.
+- The intent of the infrastructure.
+- Changes you've made to the infrastructure that aren't controlled by Terraform; for example, the state of a Docker container's filesystem.
+
+Importing involves manual steps which can be error-prone, especially if the person importing resources lacks the context of how and why those resources were created originally.
+
+Not all providers and resources support Terraform import.
+
+Following infrastructure as code (IaC) best practices such as immutable infrastructure can help prevent many of these problems, but infrastructure created manually is unlikely to follow IaC best practices. Tools such as Terraformer can automate some manual steps associated with importing infrastructure. However, these tools are not part of Terraform itself and are not endorsed or supported by HashiCorp.
+
+## Challenge Lab
+Topics tested:
+- Import existing infrastructure into your Terraform configuration.
+- Build and reference your own Terraform modules.
+- Add a remote backend to your configuration.
+- Use and implement a module from the Terraform Registry.
+- Re-provision, destroy, and update infrastructure.
+- Test connectivity between the resources you've created.
+
+In this lab, you will use Terraform to import and create multiple VM instances, a VPC network with two subnetworks, and a firewall rule for the VPC to allow connections between the two instances. You will also create a Cloud Storage bucket to host your remote backend.
+
+### Create the configuration files:
+1. create your Terraform configuration files
+```bash
+# Create files
+touch main.tf
+touch variables.tf
+mkdir modules
+cd modules
+mkdir instances
+cd instances
+touch instances.tf
+touch outputs.tf
+touch variables.tf
+cd ..
+mkdir storage
+cd storage
+touch storage.tf
+touch outputs.tf
+touch variables.tf
+cd
+```
+2. Fill out variables.tf in root, instances and storage
+```tf
+variable "region" {
+    default = "us-west1"
+}
+
+variable "zone" {
+    default = "us-west1-a"
+}
+
+variable "project_id" {
+    default = "qwiklabs-gcp-04-25d795cc9665"
+}
+```
+3. Terraform block
+```tf
+terraform {
+  required_providers {
+    google = {
+      source = "hashicorp/google"
+      version = "3.55.0"
+    }
+  }
+}
+
+provider "google" {
+  project     = var.project_id
+  region      = var.region
+  zone        = var.zone
+}
+
+module "instances" {
+
+  source     = "./modules/instances"
+
+}
+```
+4. `terraform init`
+
+### Import infrastructure
+InstanceID 1: 2158622837767539126, InstanceID 2: 3467100807930710455, boot disk image debian-11-bullseye-v20241210, Machine type e2-micro
+
+1. add the module reference into the main.tf 
+```tf
+module "instances" {
+    source = "./modules/instances"
+}
+```
+2. `terraform init`
+3. write the resource configurations in the **instances.tf** file to match the pre-existing instances
+```tf
+resource "google_compute_instance" "tf-instance-1" {
+  name         = "tf-instance-1"
+  machine_type = "e2-micro"
+  zone         = "us-west1-a"
+  allow_stopping_for_update = true
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+   network = "default"
+  }
+}
+
+resource "google_compute_instance" "tf-instance-2" {
+  name         = "tf-instance-2"
+  machine_type = "e2-micro"
+  zone         = "us-west1-a"
+  allow_stopping_for_update = true
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+    network = "default"
+  }
+}
+```
+4. Import tf-instance-1 and tf-instance-2
+- `terraform import module.instances.google_compute_instance.tf-instance-1 2158622837767539126`
+- `terraform import module.instances.google_compute_instance.tf-instance-2 3467100807930710455`
+
+5. `terraform plan`, `terraform apply`
+
+### Configure a remote backend
+1. Create a Cloud Storage bucket resource inside the **storage module**:
+```tf
+resource "google_storage_bucket" "bucket_gcp" {
+  name        = "# REPLACE WITH Bucket Name in the site"
+  location    = "US"
+  force_destroy = true
+  uniform_bucket_level_access = true
+}
+```
+2. add output values inside of the outputs.tf file
+```tf
+output "bucket_gcp" {
+    description = "The created storage bucket"
+    value       = google_storage_bucket.bucket
+}
+```
+3. Add the module reference to the main.tf
+```tf
+module "storage" {
+    source = "./modules/storage"
+}
+```
+4. Configure this storage bucket as the remote backend inside the main.tf
+```tf
+terraform {
+  backend "gcs" {
+    bucket  = "# REPLACE WITH YOUR BUCKET NAME"
+    prefix  = "terraform/state"
+  }
+}
+```
+
+### Modify and update infrastructure
+1. modify the tf-instance-1 and tf-instance-2 resources to use an e2-standard-2 machine type
+```tf
+machine_type = "e2-standard-2"
+```
+2. Add a third instance resource and name it. Make sure to change the machine type to e2-standard-2 to all the three instances.
+
+### Destroy
+Destroy the third instance by removing the resource from the configuration file
+
+### Use a module from the Registry
+1. Use network module
+```bash
+git clone https://github.com/terraform-google-modules/terraform-google-network
+cd terraform-google-network
+git checkout tags/v6.0.0 -b v6.0.0
+```
+
+2. Name the VPC, **use global routing mode**, and Specify 2 subnets in the region.
+```tf
+module "test-vpc-module" {
+  source       = "terraform-google-modules/network/google"
+  version      = "~> 6.0"
+  project_id   = var.project_id 
+  network_name = "my-custom-mode-network"
+  mtu          = 1460
+
+  subnets = [
+    {
+      subnet_name   = "subnet-01"
+      subnet_ip     = "10.10.10.0/24"
+      subnet_region = "us-west1"
+    },
+    {
+      subnet_name           = "subnet-02"
+      subnet_ip             = "10.10.20.0/24"
+      subnet_region         = "us-west1"
+      subnet_private_access = "true"
+      subnet_flow_logs      = "true"
+    },
+    {
+      subnet_name               = "subnet-03"
+      subnet_ip                 = "10.10.30.0/24"
+      subnet_region             = "us-west1"
+      subnet_flow_logs          = "true"
+      subnet_flow_logs_interval = "INTERVAL_10_MIN"
+      subnet_flow_logs_sampling = 0.7
+      subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
+      subnet_flow_logs_filter   = "false"
+    }
+  ]
+}
+```
+
+3. `terraform init`, `terraform plan`, `terraform apply`
+4. In update the configuration resources to connect tf-instance-1 to subnet-01 and tf-instance-2 to subnet-02.
+```tf
+network_interface {
+    network = "UPADTE NAME"
+    subnetwork         = module.test-vpc-module.subnet-01
+}
+```
+
+### Configure a firewall
+1. Create a firewall rule
+```tf
+resource "google_compute_firewall" "firewall_1" {
+  name    = "test-firewall"
+  network = google_compute_network."UPADTE NAME".name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+
+  source_ranges = "0.0.0.0/0"
+}
+```
