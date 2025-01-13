@@ -38,3 +38,36 @@ VPC networks are by default isolated private networking domains. However, no int
 ---
 
 Create a VM instance with multiple network interfaces: Multiple network interfaces enable you to create configurations in which an instance connects directly to several VPC networks (up to 8 interfaces, depending on the instance's type). Each network interface has its own internal IP address so that the VM instance can communicate with those networks. 
+
+## Cloud Monitoring Starting Lab
+
+### Install the Monitoring and Logging agents
+Agents collect data and then send or stream info to Cloud Monitoring in the Cloud Console.
+
+The Cloud **Monitoring agent** is a collected-based daemon that **gathers system and application metrics from virtual machine instances** and sends them to Monitoring. By default, the Monitoring agent collects disk, CPU, network, and process metrics. Configuring the Monitoring agent allows third-party applications to get the full list of agent metrics.
+
+In this section, you install the Cloud Logging agent to stream logs from your VM instances to Cloud Logging. It is best practice to run the Cloud Logging agent on all your VM instances.
+
+
+Run the Monitoring agent install script:
+1. `curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh`
+1. `sudo bash add-google-cloud-ops-agent-repo.sh --also-install`
+1. `sudo systemctl status google-cloud-ops-agent"*"`
+
+### Create an uptime check
+Uptime checks verify that a resource is always accessible.  create an uptime check to verify your VM is up.
+1. Create Uptime Check
+1. Protocol, select HTTP. *Maybe the vm need: Firewall: Allow HTTP traffic*
+
+### Create an alerting policy
+In the alerting policy is possible 
+- Set the Threshold position
+- Manage Notification Channels
+
+### Create a dashboard and chart
+You can display the metrics collected by Cloud Monitoring in your own charts and dashboards. 
+
+### View logs
+Cloud Monitoring and Cloud Logging are closely integrated.
+
+Select Navigation menu > Logging > Logs Explorer.
