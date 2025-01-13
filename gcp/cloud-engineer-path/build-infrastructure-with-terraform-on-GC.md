@@ -368,8 +368,8 @@ resource "google_compute_instance" "tf-instance-2" {
 ### Configure a remote backend
 1. Create a Cloud Storage bucket resource inside the **storage module**:
 ```tf
-resource "google_storage_bucket" "bucket_gcp" {
-  name        = "# REPLACE WITH Bucket Name in the site"
+resource "google_storage_bucket" "storage-bucket" {
+  name        = "tf-bucket-670279"
   location    = "US"
   force_destroy = true
   uniform_bucket_level_access = true
@@ -377,7 +377,7 @@ resource "google_storage_bucket" "bucket_gcp" {
 ```
 2. add output values inside of the outputs.tf file
 ```tf
-output "bucket_gcp" {
+output "storage-bucket" {
     description = "The created storage bucket"
     value       = google_storage_bucket.bucket
 }
@@ -392,7 +392,7 @@ module "storage" {
 ```tf
 terraform {
   backend "gcs" {
-    bucket  = "# REPLACE WITH YOUR BUCKET NAME"
+    bucket  = "tf-bucket-670279"
     prefix  = "terraform/state"
   }
 }
@@ -407,6 +407,7 @@ machine_type = "e2-standard-2"
 
 ### Destroy
 Destroy the third instance by removing the resource from the configuration file
+`terraform taint module.instances.google_compute_instance.tf-instance-226313`
 
 ### Use a module from the Registry
 1. Use network module
@@ -418,37 +419,25 @@ git checkout tags/v6.0.0 -b v6.0.0
 
 2. Name the VPC, **use global routing mode**, and Specify 2 subnets in the region.
 ```tf
-module "test-vpc-module" {
-  source       = "terraform-google-modules/network/google"
-  version      = "~> 6.0"
-  project_id   = var.project_id 
-  network_name = "my-custom-mode-network"
-  mtu          = 1460
+module "vpc" {
+    source  = "terraform-google-modules/network/google"
+    version = "6.0.0"
 
-  subnets = [
-    {
-      subnet_name   = "subnet-01"
-      subnet_ip     = "10.10.10.0/24"
-      subnet_region = "us-west1"
-    },
-    {
-      subnet_name           = "subnet-02"
-      subnet_ip             = "10.10.20.0/24"
-      subnet_region         = "us-west1"
-      subnet_private_access = "true"
-      subnet_flow_logs      = "true"
-    },
-    {
-      subnet_name               = "subnet-03"
-      subnet_ip                 = "10.10.30.0/24"
-      subnet_region             = "us-west1"
-      subnet_flow_logs          = "true"
-      subnet_flow_logs_interval = "INTERVAL_10_MIN"
-      subnet_flow_logs_sampling = 0.7
-      subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
-      subnet_flow_logs_filter   = "false"
-    }
-  ]
+    project_id   = var.project_id
+    network_name = "tf-vpc-499873" <based on VPC name in left pane lab>
+    routing_mode = "GLOBAL"
+
+    subnets = [
+        {
+            subnet_name           = "subnet-01"
+            subnet_ip             = "10.10.10.0/24"
+            subnet_region         = "us-west1"
+        },
+        {
+            subnet_name           = "subnet-02"
+            subnet_ip             = "10.10.20.0/24"
+            subnet_region         = "us-west1"
+        }]
 }
 ```
 
@@ -456,23 +445,23 @@ module "test-vpc-module" {
 4. In update the configuration resources to connect tf-instance-1 to subnet-01 and tf-instance-2 to subnet-02.
 ```tf
 network_interface {
-    network = "UPADTE NAME"
-    subnetwork         = module.test-vpc-module.subnet-01
+    network = "tf-vpc-965427"
+    subnetwork         = "subnet-02"
 }
 ```
 
 ### Configure a firewall
 1. Create a firewall rule
 ```tf
-resource "google_compute_firewall" "firewall_1" {
-  name    = "test-firewall"
-  network = google_compute_network."UPADTE NAME".name
+resource "google_compute_firewall" "tf-firewall" {
+  name    = "tf-firewall"
+  network = "tf-vpc-965427"
 
   allow {
     protocol = "tcp"
     ports    = ["80"]
   }
 
-  source_ranges = "0.0.0.0/0"
+  source_ranges = ["0.0.0.0/0"]
 }
 ```
