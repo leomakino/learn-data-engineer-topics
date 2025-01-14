@@ -71,3 +71,41 @@ You can display the metrics collected by Cloud Monitoring in your own charts and
 Cloud Monitoring and Cloud Logging are closely integrated.
 
 Select Navigation menu > Logging > Logs Explorer.
+
+## Managing Deployments Using Kubernetes Engine
+### Depolyment object
+- `kubectl explain deployment`
+- see all of the fields `kubectl explain deployment --recursive`
+- `kubectl explain deployment.metadata.name`
+
+### Create a deployment
+- Update the deployments/auth.yaml configuration file: `vi deployments/auth.yaml`
+
+When you run the kubectl create command to create the auth deployment, it will make one pod that conforms to the data in the deployment manifest. This means you can scale the number of Pods by changing the number specified in the replicas field.
+- create your deployment: `kubectl create -f deployments/auth.yaml`
+- verify: `kubectl get deployments`, then `kubectl get replicasets`
+- View the Pods that were created: `kubectl get pods`
+
+create and expose the hello deployment
+- create a service for the auth deployment: `kubectl create -f services/auth.yaml`
+- `kubectl create -f deployments/hello.yaml`
+- `kubectl create -f services/hello.yaml`
+
+
+Scale a deployment:
+The replicas field can be most easily updated using the kubectl scale command: `kubectl scale deployment hello --replicas=5`
+
+### Rolling update
+Deployments support updating images to a new version through a rolling update mechanism. When a deployment is updated with a new version, it creates a new ReplicaSet and slowly increases the number of replicas in the new ReplicaSet as it decreases the replicas in the old ReplicaSet.
+- To update your deployment: `kubectl edit deployment hello`
+- rollout history: `kubectl rollout history deployment/hello`
+- pause the rollout: `kubectl rollout pause deployment/hello`
+
+### Canary deployments
+When you want to test a new deployment in production with a subset of your users, use a canary deployment. Canary deployments allow you to release a change to a small subset of your users to mitigate risk associated with new releases. A canary deployment consists of a separate deployment with your new version and a service that targets both your normal, stable deployment as well as your canary deployment.
+- create a new canary deployment for the new version: `cat deployments/hello-canary.yaml`
+- create the canary deployment: `kubectl create -f deployments/hello-canary.yaml`
+
+what if you wanted to ensure that a user didn't get served by the canary deployment? A use case could be that the UI for an application changed, and you don't want to confuse the user. In a case like this, you want the user to "stick" to one deployment or the other. You can do this by creating a service with session affinity. This way the same user will always be served from the same version. 
+
+### Blue-green Deployments
