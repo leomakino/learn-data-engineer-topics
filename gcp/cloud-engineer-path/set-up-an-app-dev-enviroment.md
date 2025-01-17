@@ -64,3 +64,27 @@ Commands:
 - publish the message "hello" to the topic: `gcloud pubsub topics publish myTopic --message "Hello"`
 - pull command to get the messages from a topic: `gcloud pubsub subscriptions pull mySubscription --auto-ack`
 - pull more than one message `gcloud pubsub subscriptions pull mySubscription --auto-ack --limit=3`
+
+### Challenge Lab
+1. gcloud config set run/region us-east4
+1. gcloud config set compute/zone us-east4-a
+1. Create a bucket: `gcloud storage buckets create gs://qwiklabs-gcp-02-bf106dbe763f-bucket`
+1. Create a Pub/Sub topic: `gcloud pubsub topics create topic-memories-158`
+1. Create the thumbnail Cloud Run Function
+    1. Create a directory for the function code `mkdir memories-thumbnail-creator && cd $_`
+    1. Paste the code in `nano index.js`
+    1. Paste the code in `nano package.json`
+    1. Install the package dependencies `npm install`
+    1. Deploy
+``` bash
+gcloud functions deploy memories-thumbnail-creator \
+  --gen2 \
+  --runtime=nodejs20 \
+  --region=us-east4 \
+  --source=. \
+  --entry-point=memories-thumbnail-creator \
+  --trigger-topic topic-memories-158 \
+  --stage-bucket qwiklabs-gcp-03-ed427d011658-bucket \
+  --allow-unauthenticated
+```
+6. Test it: `curl https://storage.googleapis.com/cloud-training/gsp315/map.jpg | gsutil cp - gs://`
