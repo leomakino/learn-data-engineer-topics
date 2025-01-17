@@ -36,6 +36,12 @@ gcloud functions logs read nodejs-pubsub-function \
 ```
 
 ### Setting up Pub/Sub
+Pub/Sub is an asynchronous global messaging service. There are three terms in Pub/Sub that appear often: topics, publishing, and subscribing. A producer publishes messages to a topic and a consumer creates a subscription to a topic to receive messages from it.
+- A topic is a shared string that allows applications to connect with one another through a common thread.
+- Publishers push (or publish) a message to a Cloud Pub/Sub topic
+- Subscribers make a "subscription" to a topic where they will either pull messages from the subscription or configure webhooks for push subscriptions. Every subscriber must acknowledge each message within a configurable window of time.
+
+
 To use Pub/Sub, you create a topic to hold data and a subscription to access data published to the topic. 
 
 Setting up Pub/Sub:
@@ -43,3 +49,18 @@ Setting up Pub/Sub:
     - The topic must have a unique name.
 1. Add a subscription
 1. Publish a message to the topic
+
+Features of the pull command:
+- Using the pull command without any flags will output only one message
+- Once an individual message has been outputted from a particular subscription-based pull command, you cannot access that message again with the pull command
+
+Commands:
+- create a topic: `gcloud pubsub topics create myTopic`
+- List topics: `gcloud pubsub topics list`
+- Delete topic: `gcloud pubsub topics delete Test1`
+- create a subscription called mySubscription to topic myTopic: `gcloud pubsub subscriptions create --topic myTopic mySubscription`
+- List subscription in a topic: `gcloud pubsub topics list-subscriptions myTopic`
+- Delete subscription: `gcloud pubsub subscriptions delete Test1`
+- publish the message "hello" to the topic: `gcloud pubsub topics publish myTopic --message "Hello"`
+- pull command to get the messages from a topic: `gcloud pubsub subscriptions pull mySubscription --auto-ack`
+- pull more than one message `gcloud pubsub subscriptions pull mySubscription --auto-ack --limit=3`
