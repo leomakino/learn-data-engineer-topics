@@ -58,3 +58,56 @@ Google provides a managed service for building containers called C**loud Build**
 
 
 Cloud Build can deliver the newly built images to various execution environments, including Google Kubernetes Engine, App Engine, and Cloud Run functions.
+
+### Working with Cloud Build
+The objectives of this lab are:
+- Use Cloud Build to build and push containers
+- Use Artifact Registry to store and deploy containers
+
+---
+Building containers with DockerFile and Cloud Build
+
+You can write build configuration files to provide instructions to Cloud Build as to which tasks to perform when building a container. These build files can fetch dependencies, run unit tests, analyses and more.
+
+1. Create an empty quickstart `nano quickstart.sh`
+1. Add the following lines in to the file
+```bash
+#!/bin/sh
+echo "Hello, world! The time is $(date)."
+```
+3. Create an empty Dockerfile `nano Dockerfile`
+1. Add the following Dockerfile command
+```dockerfile
+# use the Alpine Linux base image
+FROM alpine
+# adds the quickstart.sh script to the / directory in the image
+COPY quickstart.sh /
+# This configures the image to execute the /quickstart.sh script
+CMD ["/quickstart.sh"]
+```
+5. make the quickstart.sh script executable: `chmod +x quickstart.sh`
+1. Create a new Docker repository named quickstart-docker-repo
+```bash
+gcloud artifacts repositories create quickstart-docker-repo --repository-format=docker \
+    --location="REGION" --description="Docker repository"
+```
+7. build the Docker container image in Cloud Build: `gcloud builds submit --tag "REGION"-docker.pkg.dev/${DEVSHELL_PROJECT_ID}/quickstart-docker-repo/quickstart-image:tag1`
+
+--- 
+
+Building containers with a build configuration file and Cloud Build
+Cloud Build also supports custom build configuration files. In this task you will incorporate an existing Docker container using a custom YAML-formatted build file with Cloud Build.
+
+1. `nano cloudbuild.yaml`
+1. Include the lines
+```yaml
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'YourRegionHere-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag1', '.' ]
+images:
+- 'YourRegionHere-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag1'
+```
+3. start a Cloud Build using cloudbuild.yaml as the build configuration file `gcloud builds submit --config cloudbuild.yaml`
+
+--- 
+
