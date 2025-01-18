@@ -109,5 +109,36 @@ images:
 ```
 3. start a Cloud Build using cloudbuild.yaml as the build configuration file `gcloud builds submit --config cloudbuild.yaml`
 
---- 
+### Kubernetes
+Kubernetes is an open source platform for managing containerized workloads and services. It makes it easy to orchestrate many containers on many hosts, scale them as microservices, and easily deploy rollouts and rollbacks.
 
+Kubernetes is a set of APIs that you can use to deploy containers on a set of nodes (computing instances) called a cluster. The system is divided into a set of primary components that run as the control plane and a set of nodes that run containers.
+
+You can describe a set of applications and how they should interact with each other, and Kubernetes determines how to make that happen. 
+
+ubernetes supports declarative configurations. When you administer your infrastructure declaratively, you describe the desired state you want to achieve, instead of issuing a series of commands to achieve that desired state.
+
+Kubernetes also allows imperative configuration, in which you issue commands to change the system’s state. One of the primary strengths of Kubernetes is its ability to automatically keep a system in a state you declare. Therefore, experienced Kubernetes administrators use imperative configuration only for quick temporary fixes and as a tool when building a declarative configuration.
+
+features:
+- Kubernetes supports different workload types.
+    - It supports stateless applications, such as Nginx or Apache web servers, and stateful applications where user and session data can be stored persistently.
+    - supports batch jobs and daemon tasks
+- It can automatically scale containerized applications in and out based on resource utilization.
+- It allows users to specify resource request levels and resource limits for workloads.
+- It is extensible through a rich ecosystem of plugins and addons.
+
+Kubernetes Custom Resource Definitions let developers define new types of resources that can be created, managed, and used in Kubernetes. it’s open-source, Kubernetes is portable and can be deployed anywhere–whether on premises or on another cloud service provider.
+
+### Google Kubernetes Engine
+Google Kubernetes Engine is a managed Kubernetes service hosted on Google’s infrastructure. It’s designed to help deploy, manage, and scale Kubernetes environments for containerized applications.
+
+Google Kubernetes Engine offers a mode of operation called GKE Autopilot, which is designed to manage your cluster configuration, like nodes, scaling, security, and other preconfigured settings.
+
+The virtual machines that host containers in a GKE cluster are called nodes. GKE has a node auto-repair feature that was designed to repair unhealthy nodes. It performs periodic health checks on each node of the cluster and nodes determined to be unhealthy are drained and recreated.
+
+GKE is integrated with several services: 
+- Cloud Build uses private container images securely stored in Artifact Registry to automate the deployment.
+- IAM helps control access by using accounts and role permissions.
+- Google Cloud Observability provides an understanding into how an application is performing.
+- Virtual Private Clouds, which provide a network infrastructure including load balancers and ingress access for your cluster.
