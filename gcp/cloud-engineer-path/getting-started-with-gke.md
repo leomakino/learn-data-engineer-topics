@@ -211,3 +211,33 @@ How is GKE different from Kubernetes?
 - Node configuration and management depends on the type of GKE mode you use.
 - With the Autopilot mode, which is recommended, GKE manages the underlying infrastructure such as node configuration, autoscaling, auto-upgrades, baseline security configurations, and baseline networking configuration.
 - With the Standard mode, you manage the underlying infrastructure, including configuring the individual nodes.
+
+### GKE modes
+Autopilot:
+- optimizes the management of Kubernetes with a hands-off experience
+- only pay for what you use.
+
+Standard:
+- allows the Kubernetes management infrastructure to be configured in many different ways.
+- This requires more management overhead, but produces an environment for fine-grained control.
+- you pay for all of the provisioned infrastructure, regardless of how much gets used.
+
+Benefits and functionality of Autopilot:
+- optimized for production
+- Autopilot defines the underlying machine type for your cluster based on workloads, which optimizes both usage and cost for the cluster and adapts to changing workloads.
+- It lets you deploy production-ready GKE clusters faster.
+- helps produce a strong security posture
+  - Google helps secure the cluster nodes and infrastructure, and it eliminates infrastructure security management tasks.
+  - By locking down nodes, Autopilot reduces the cluster's attack surface and ongoing configuration mistakes.
+- Google monitors the entire Autopilot cluster, including control plane, worker nodes and core Kubernetes system components.
+- provides a way to configure update windows for clusters to ensure minimal disruption to workloads.
+- Google is fully responsible for optimizing resource consumption. **Only pay for Pods, not nodes**
+
+Autopilot restrictions:
+- The configuration options in GKE Autopilot are more restrictive than in GKE Standard.
+- It has restrictions on access to node objects: Features like SSH and privilege escalation were removed and there are limitations on node affinity and host access.
+
+The GKE Standard mode has the same functionality as Autopilot, but you’re responsible for the configuration, management, and optimization of the cluster.
+
+### Deploying GKE Autopilot lab
+Clusters can be created across a region or in a single zone. A single zone is the default. When you deploy across a region the nodes are deployed to three separate zones and the total number of nodes deployed will be three times higher
