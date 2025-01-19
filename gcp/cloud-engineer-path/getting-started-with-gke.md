@@ -256,3 +256,110 @@ In Kubernetes, a workload is spread evenly across available nodes by default.
 To maintain an application's high availability, you need a better way to manage it in Kubernetes than specifying individual Pods. One option is to declare a controller object.
 
 Deployments are a great choice for long-lived software components like web servers, especially when you want to manage them as a group. Instead of using multiple YAML manifests or files for each Pod, you used a single Deployment YAML to launch three replicas of the same container. Within a Deployment object spec, the number of replica Pods, which containers should run the Pods, and which volumes should be mounted the following elements are defined.
+
+## Kubernetes Operations
+### kubectl command
+kubectl is a utility used by administrators to control Kubernetes clusters. It's used to communicate with the Kube API server on the control plane.
+
+**to work properly, kubectl must be configured with the location and credentials of a Kubernetes cluster.** And before kubectl can be used to configure a cluster, it must first be configured.
+
+*kubectl stores its configuration in a file in the home directory in a hidden folder named $home/.kube/config.*
+
+**kubectl config** shows the configuration of the kubectl command itself, whereas other kubectl commands show the configurations of cluster and workloads.
+
+To connect kubectl to a GKE cluster, first retrieve the credentials for the specified cluster. This can be done with the “get-credentials” gcloud command in any other environment where the gcloud command-line tool and kubectl are installed.
+
+By default, the gcloud “get-credentials” command writes configuration information into a config file in the . kube directory in the $HOME directory.
+
+Although kubectl is a tool for administering the internal state of an existing cluster, it can't create new clusters or change the shape of existing clusters.
+
+kubectl's syntax is composed of four parts:
+1. the command
+1. the type: like Pods, deployments, nodes, or other objects, including the cluster itself.
+1. the name: specifies the object defined in TYPE. *The name field isn't always needed*
+1. optional flags
+
+The command specifies the action that you want to perform, such as get, describe, logs, or exec.
+
+The kubectl command has many uses, from creating Kubernetes objects, to viewing them, deleting them, and viewing or exporting configuration files.
+
+Connect kubectl to a GKE cluster:
+```bash
+gcloud container clusters \
+get credentials [CLUSTER_NAME] \
+-- region [REGION_NAME]
+```
+
+### Introspection
+Introspection is the process of debugging problems when an application is running. It's the act of gathering information about the containers, pods, services, and other engines that run within the cluster.
+
+We'll start with four commands to use to gather information about your app:
+1. get: It shows the object's phase status as pending, running, succeeded, failed, or unknown, or CrashLoopBackOff.
+    - Containers inside a Pod can be starting, restarting, or running continuously.
+1. describe: investigate a Pod in detail
+    - This command provides information about a Pod and its containers such as labels, resource requirements, and volumes.
+1. exec: lets you run a single command inside a container and view the results in your own command shell.
+    - This is useful when a single command, such as ping, will do.
+1. logs: provides a way to see what is happening inside a Pod.
+    - This is useful in troubleshooting, as the logs command can reveal errors or debugging messages written by the applications that run inside Pods.
+    - if the Pod has multiple containers, you can use the -c argument to show the logs for a specific container inside the Pod.
+    - stdout: Standard output on the console
+    - stderr: Standard error messages
+
+Example: Let's say you need to install a package, like a network monitoring tool or a text editor, before you can begin troubleshooting. To do so, you can launch an interactive shell using the `kubectl exec -it [POD_NAME] -- [command]` switch, which connects your shell to the container that allows you to work inside the container. This syntax attaches the standard input and standard output of the container to your terminal window or command shell. The -i argument tells kubectl to pass the terminal's standard input to the container, and the -t argument tells kubectl that the input is a TTY. If you don't use these arguments then the exec command will be executed in the remote container and return immediately to your local shell. 
+
+It's not a best practice to install software directly into a container, as changes made by containers to their file systems are usually ephemeral. Instead, consider building container images that have exactly the software you need, instead of temporarily repairing them at run time.
+
+### Deploying GKE Autopilot Clusters from Cloud Shell
+create a kubernetes cluster for running containers : `gcloud container clusters create-auto $my_cluster --region $my_region`
+
+In Kubernetes, authentication can take several forms. For GKE, authentication is typically handled with OAuth2 tokens and can be managed through Cloud Identity and Access Management across the project as a whole and, optionally, through role-based access control which can be defined and configured within each cluster.
+
+In GKE, cluster containers can use service accounts to authenticate to and access external resources.
+
+
+To create a kubeconfig file with the credentials of the current user (to allow authentication) and provide the endpoint details for a specific cluster (to allow communicating with that cluster through the kubectl command-line tool), execute the following command: `gcloud container clusters get-credentials $my_cluster --region $my_region`
+
+This command creates a .kube directory in your home directory if it doesn't already exist. In the .kube directory, the command creates a file named config if it doesn't already exist, which is used to store the authentication and configuration information. The config file is typically called the kubeconfig file. Open the kubeconfig file with the nano text editor: `nano ~/.kube/config`
+
+The kubeconfig file can contain information for many clusters. The currently active context (the cluster that kubectl commands manipulate) is indicated by the current-context property. 
+
+After the kubeconfig file is populated and the active context is set to a particular cluster, you can use the kubectl command-line tool to execute commands against the cluster. 
+
+- print out the content of the kubeconfig file: `kubectl config view`
+- print out the cluster information for the active context: `kubectl cluster-info`
+- print out the active context: `kubectl config current-context`
+- print out some details for all the cluster contexts in the kubeconfig file: `kubectl config get-contexts`
+- change the active context: `kubectl config use-context gke_${DEVSHELL_PROJECT_ID}_Region_autopilot-cluster-1`
+
+Kubernetes introduces the abstraction of a Pod to group one or more related containers as a single entity to be scheduled and deployed as a unit on the same node.
+
+deploy nginx as a Pod named nginx-1: `kubectl create deployment --image nginx nginx-1`
+
+This command creates a Pod named nginx with a container running the nginx image. When a repository isn't specified, the default behavior is to try to find the image either locally or in the Docker public registry. In this case, the image is pulled from the Docker public registry.
+
+- view all the deployed Pods in the active context cluster: `kubectl get pods`
+- view the resource usage across the nodes of the cluster: `kubectl top node` and `kubectl top pods`
+
+To be able to serve static content through the nginx web server, you must create and place a file into the container. place the file into the appropriate location within the nginx container in the nginx Pod to be served statically: `kubectl cp ~/test.html $my_nginx_pod:/usr/share/nginx/html/test.html`. *ou can specify other containers in a multi-container Pod by using the -c option, followed by the name of the container.*
+
+A service is required to expose a Pod to clients outside the cluster. Services are discussed elsewhere in the course and used extensively in other labs. You can use a simple command to create a service to expose a Pod: `kubectl expose pod $my_nginx_pod --port 80 --type LoadBalancer`. This command creates a LoadBalancer service, which allows the nginx Pod to be accessed from internet addresses outside of the cluster.
+
+view details about services in the cluster: `kubectl get services`
+
+In this task, you connect to a Pod to adjust settings, edit files, and make other live changes to the Pod. *Note: Use this process only when troubleshooting or experimenting. Because the changes you make are not made to the source image of the Pod, they won't be present in any replicas.*
+
+deploy your manifest, execute the following command: `kubectl apply -f ./new-nginx-pod.yaml`
+
+In this task you use shell redirection to connect to the bash shell in your new nginx pod to carry out a sequence of actions.
+
+start an interactive bash shell in the nginx container: kubectl exec -it new-nginx -- /bin/bash
+
+Because the nginx container image has no text editing tools by default, you need to install one:
+```bash
+apt-get update
+apt-get install nano
+```
+
+To connect to and test the modified nginx container (with the new static HTML file), you could create a service. An easier way is to use port forwarding to connect to the Pod directly from Cloud Shell. set up port forwarding from Cloud Shell to the nginx Pod (from port 10081 of the Cloud Shell VM to port 80 of the nginx container): `kubectl port-forward new-nginx 10081:80`
+curl http://35.197.126.220/test.html
