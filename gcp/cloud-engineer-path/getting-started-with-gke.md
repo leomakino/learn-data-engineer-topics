@@ -17,11 +17,11 @@ running multiple applications problems:
 1. applications that share dependencies are not isolated from each other
 1. a dependency upgrade for one application might cause another to stop working.
 
-*A more efficient way to resolve the dependency problem is to implement abstraction at the level of the application and its dependencies.* You don’t have to virtualize the entire machine, or even the entire operating system–just the user space. The user space is all the code that resides above the kernel, and it includes applications and their dependencies. *This is what it means to create containers.*
+*A more efficient way to resolve the dependency problem is to implement abstraction at the level of the application and its dependencies.* You don't have to virtualize the entire machine, or even the entire operating system–just the user space. The user space is all the code that resides above the kernel, and it includes applications and their dependencies. *This is what it means to create containers.*
 
 Containers:
 - are isolated user spaces for running application code.
-- are lightweight because they don’t carry a full operating system
+- are lightweight because they don't carry a full operating system
 - can be created and shut down quickly, because they just start and stop operating system processes and do not boot an entire VM or initialize an operating system for each application.
 - are a code-centric way to deliver high-performing, scalable applications.
 - provide access to reliable underlying hardware and software
@@ -118,7 +118,7 @@ You can describe a set of applications and how they should interact with each ot
 
 ubernetes supports declarative configurations. When you administer your infrastructure declaratively, you describe the desired state you want to achieve, instead of issuing a series of commands to achieve that desired state.
 
-Kubernetes also allows imperative configuration, in which you issue commands to change the system’s state. One of the primary strengths of Kubernetes is its ability to automatically keep a system in a state you declare. Therefore, experienced Kubernetes administrators use imperative configuration only for quick temporary fixes and as a tool when building a declarative configuration.
+Kubernetes also allows imperative configuration, in which you issue commands to change the system's state. One of the primary strengths of Kubernetes is its ability to automatically keep a system in a state you declare. Therefore, experienced Kubernetes administrators use imperative configuration only for quick temporary fixes and as a tool when building a declarative configuration.
 
 features:
 - Kubernetes supports different workload types.
@@ -128,10 +128,10 @@ features:
 - It allows users to specify resource request levels and resource limits for workloads.
 - It is extensible through a rich ecosystem of plugins and addons.
 
-Kubernetes Custom Resource Definitions let developers define new types of resources that can be created, managed, and used in Kubernetes. it’s open-source, Kubernetes is portable and can be deployed anywhere–whether on premises or on another cloud service provider.
+Kubernetes Custom Resource Definitions let developers define new types of resources that can be created, managed, and used in Kubernetes. it's open-source, Kubernetes is portable and can be deployed anywhere-whether on premises or on another cloud service provider.
 
 ### Google Kubernetes Engine
-Google Kubernetes Engine is a managed Kubernetes service hosted on Google’s infrastructure. It’s designed to help deploy, manage, and scale Kubernetes environments for containerized applications.
+Google Kubernetes Engine is a managed Kubernetes service hosted on Google's infrastructure. It's designed to help deploy, manage, and scale Kubernetes environments for containerized applications.
 
 Google Kubernetes Engine offers a mode of operation called GKE Autopilot, which is designed to manage your cluster configuration, like nodes, scaling, security, and other preconfigured settings.
 
@@ -142,3 +142,72 @@ GKE is integrated with several services:
 - IAM helps control access by using accounts and role permissions.
 - Google Cloud Observability provides an understanding into how an application is performing.
 - Virtual Private Clouds, which provide a network infrastructure including load balancers and ingress access for your cluster.
+
+## Kubernetes Architecture
+### Kubernetes concepts
+Kubernetes object model: Each item Kubernetes manages is represented by an object, and you can view and change these objects attributes and state.
+
+Declarative management: Kubernetes needs to be told how objects should be managed, and it will work to achieve and maintain that desired state.
+
+A Kubernetes object is defined as a persistent entity that represents the state of something running in a cluster: its desired state and its current state.
+
+Kubernetes objects have two important elements:
+1. an object spec for each object being created. It's here that the desired state of the object is defined by you.
+1. the object status, which represents the current state of the object provided by the Kubernetes control plane.
+
+Kubernetes control plane is a term to refer to the various system processes that collaborate to make a Kubernetes cluster work.
+
+Pods:
+- Pods are the foundational building block of the standard Kubernetes model, and they're the smallest deployable Kubernetes object. 
+- Every running container in a Kubernetes system is in a Pod.
+- A Pod creates the environment where the containers live, and that environment can accommodate one or more containers.
+- If there is more than one container in a Pod, they are tightly coupled and **share resources**, like networking and storage.
+- Kubernetes assigns each Pod a unique IP address, and every container within a Pod shares the network namespace, including IP address and network ports.
+- Containers within the same Pod can communicate through localhost, 127.0.0.1
+- A Pod can also specify a set of storage volumes that will be shared among its containers.
+
+### Kubernetes components
+Control plane:
+- Kube-APIserver
+- etcd
+- kubernetes scheduler
+- kube-cloud-manager
+- kube-controller-manager
+
+A Pod can also specify a set of storage volumes that will be shared among its containers.
+
+A cluster needs computers, and these computers are usually virtual machines. One computer is called the **control plane**, and the others are called **nodes**. The node's job is to run Pods, and the control plane's is to coordinate the entire cluster.
+
+Several critical Kubernetes components run on the control plane:
+1. kube-APIserver component, which is the only single component that you'll interact with directly.
+    - The job of this component is to accept commands that view or 
+    change the state of the cluster.
+    - **kubectl command**: connect to the kube-APIserver and communicate with it using the Kubernetes API
+    - it also authenticates incoming requests, determines whether they are authorized and valid, and manages admission control.
+    - any query or change to the cluster's state must be addressed to the kube-APIserver.
+1. **etcd** component is the **cluster's database**
+    - Its job is to reliably store the state of the cluster.
+    - This includes all the cluster configuration data,along with more dynamic information such as what nodes are part of the cluster, what Pods should be running, and where they should be running.
+1. **kube-scheduler** is responsible for scheduling Pods onto the nodes
+    - evaluates the requirements of each individual Pod and selects which node is most suitable.
+    - it **doesn't** do the work of actually launching Pods on nodes
+    - whenever it discovers a Pod object that doesn't yet have an assigned node, it chooses a node and writes the name of that node into the Pod object.
+1. **kube-controller-manager component**: it continuously monitors the state of a cluster through the kube-APIserver
+    - Whenever the current state of the cluster doesn't match the desired state, kube-controller-manager will attempt to make changes to achieve the desired state.
+    - It's called the controller manager because many Kubernetes objects are maintained by loops of code called controllers, which handle the process of remediation. *The Node Controller's job is to monitor and respond when a node is offline.*
+1. **kube-cloud-manager** component manages controllers that interact with underlying cloud providers.
+    - if you manually launched a Kubernetes cluster on Compute Engine, kube-cloud-manager would be responsible for bringing in Google Cloud features like load balancers and storage volumes.
+
+Nodes:
+- Each node runs a **small family of control-plane** components called a **kubelet**
+  - kubelet is like an Kubernetes's agent on each node.
+  - When the kube-APIserver wants to start a Pod on a node, it connects to that node's kubelet.
+  - Kubelet uses the container runtime to start the Pod and monitors its lifecycle, including readiness and liveness probes, and reports back to the kube-APIserver.
+- kube-proxy: maintains network connectivity among the Pods in a cluster.
+
+How is GKE different from Kubernetes?
+- GKE manages all the control plane components for us.
+- GKE still exposes an IP address to which we send all of our Kubernetes API
+- Node configuration and management depends on the type of GKE mode you use.
+- With the Autopilot mode, which is recommended, GKE manages the underlying infrastructure such as node configuration, autoscaling, auto-upgrades, baseline security configurations, and baseline networking configuration.
+- With the Standard mode, you manage the underlying infrastructure, including configuring the individual nodes.
