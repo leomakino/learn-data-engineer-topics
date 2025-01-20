@@ -139,3 +139,33 @@ complete CPU and heap picture of an application without slowing it down.
 With broad platform support that includes Compute Engine VMs, App Engine, and Kubernetes, it allows developers to analyze applications running anywhere, including Google Cloud, other cloud platforms, or on-premises, with support for Java, Go, Python, and Node.js.
 
 Cloud Proﬁler presents the call hierarchy and resource consumption of the relevant function in an interactive ﬂame graph that helps developers understand which paths consume the most resources and the different ways in which their code is actually called.
+
+## Monitoring Critical systems
+### Monitoring and Dashboarding Multiple projects lab
+How to set up a central project for monitoring other projects, create monitoring resource groups, uptime checks, and custom dashboards.
+
+#### Create a metrics scope and link the two worker projects into it.
+There are a number of ways you might want to configure the relationship between the host project doing the monitoring, and the project or projects being monitored.
+
+In general, if you're going for the multiple projects being centrally monitored approach, then it's recommended that the monitoring project contains nothing but monitoring related resources and configurations. 
+
+#### Create and configure Monitoring groups
+Cloud Monitoring lets you monitor a set of resources together as a single group. Groups can then be linked to alerting policies, dashboards, etc. Each metrics scope can support up to five-hundred groups and up to six layers of sub-groups. Groups can be created using a variety of criteria, including labels, regions, and applications.
+
+In this task, you:
+- Assign labels to the web servers to make them easier to track.
+- Create a resource group and place the servers into it.
+- Create a sub-group just for frontend dev servers
+
+#### Create and test an uptime check
+Google Cloud uptime checks test the liveliness of externally facing HTTP, HTTPS, or TCP applications by accessing said applications from multiple locations around the world. The subsequent report includes information on uptime, latency, and status. Uptime checks can also be used in alerting policies and dashboards.
+
+In this task, you:
+- Create an uptime check for the Frontend Servers group.
+- Investigate out how an uptime check handles failure.
+
+Note: If a Monitoring group is created based on labels, then the group will keep checking for powered off server for 5 minutes. After 5 minutes, Google Cloud determines the server should no longer be counted as a member of the group.
+
+This is important because if an uptime check is tied to the group, then it will only report failures while the group reports that missing server.
+
+When the group quits reporting the off server, the uptime check quits checking for it, and suddenly the check starts passing again. This can be a real issue if you're not careful. 
