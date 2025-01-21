@@ -38,9 +38,9 @@ How is it measured? Sample latency metrics include:
 
 **Traﬃc** measures how many requests are reaching your
 system. Traﬃc is important because:
-1. It’s an indicator of current system demand.
+1. It's an indicator of current system demand.
 2. Its historical trends are used for capacity planning.
-3. It’s a core measure when calculating infrastructure spend.
+3. It's a core measure when calculating infrastructure spend.
 
 Sample traﬃc metrics include:
 - Network I/O
@@ -48,7 +48,7 @@ Sample traﬃc metrics include:
 saturation measures how close to capacity a system is. Saturation is important because:
 1. It's an indicator of current system demand. In other words, how full the service is.
 2. It focuses on the most constrained resources.
-3. It’s frequently tied to degrading performance as capacity is reached.
+3. It's frequently tied to degrading performance as capacity is reached.
 
 Sample capacity metrics include:
 - % memory utilization
@@ -249,6 +249,35 @@ A chart's widget type and its analysis mode setting determine how the chart disp
 **Threshold line**: The Threshold option creates a horizontal line from a point on the Y-axis. The line provides a visual reference for the chosen threshold value. You can add a threshold that refers to a value on the left Y-axis or the right Y-axis.
 
 Compare to past: When you use Compare to Past mode on a chart, the legend is modiﬁed to include a second “values” column. The current Value column becomes Today, and the past values column is named appropriately—for example, Last Week.
+
+### Query metrics
+a more versatile way of interacting with metrics by leveraging the query languages such as Monitoring Query Language (MQL) and PromQLA.
+
+Query metrics by using MQL and PromQL:
+- MQL: is an advanced query language. It provides an expressive, text-based interface to Cloud Monitoring time-series data. By using MQL, you can retrieve, filter, and manipulate time-series data.
+- PromQL provides an alternative to the Metrics Explorer menu-driven and Monitoring Query Language (MQL) interfaces for creating charts and dashboards.
+
+You can use PromQL to query and chart Cloud Monitoring data from the following sources:
+- Google Cloud services
+- User-defined metrics, like log-based metrics and Cloud Monitoring user-defined metrics.
+- Google Cloud Managed Service for Prometheus
+
+You can also use tools like Grafana to chart metric data ingested into Cloud Monitoring. Available metrics include metrics from Managed Service for Prometheus and Cloud Monitoring metrics documented in the lists of metrics.
+
+Why use MQL? **Whether you need to perform joins, display arbitrary percentages, or even make advanced calculations, the use cases for MQL are unlimited.**
+- Create ratio-based charts and alerts
+- Perform time-shift analysis (compare metric data week over week, month over month, year over year, etc.)
+- Apply mathematical, logical, table operations, and other functions to metrics
+- Fetch, join, and aggregate over multiple metrics
+- Select by arbitrary, rather than predefined, percentile values
+- Create new labels to aggregate data by, using arbitrary string  manipulations including regular expressions
+
+### Uptime checks
+Uptime checks can be configured to test the availability of your public services from locations around the world, as you can see on this slide. The type of uptime check can be set to HTTP, HTTPS, or TCP.
+
+For each uptime check, you can create an alerting policy and view the latency of each global location.
+
+Uptime checks can help us ensure that our externally facing services are running and that we aren't burning our error budgets unnecessarily.
 
 
 #### Create a metrics scope and link the two worker projects into it.
