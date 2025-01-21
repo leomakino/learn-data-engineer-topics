@@ -181,6 +181,76 @@ it's possible for one metrics scope to monitor multiple projects, and also a pro
 
 the recommended approach for production deployments is to create a dedicated project to host monitoring conﬁguration data and use its metrics scope to set up monitoring for the projects that have actual resources in them.
 
+### Data model and Dashboards
+In general terms, monitoring data is recorded in time series. Each individual time series includes four pieces of information relevant to this discussion:
+
+Cloud Monitoring Data model:
+- metric: consists of metric label and metric type that describes the metric
+- resource: consists of resource-label and the resource information from which the metrics are collected
+- metricKind and valueType: tells you how to interpret the values
+- points: are an array of timestamped values that tells you what the values of the metrics are
+
+
+In general terms, monitoring data is recorded in time series. Each individual time series includes four pieces of information relevant to this discussion:
+- The metric field describes the metric itself and records two aspects:
+    - The metric-label that represents one combination of label values.
+    - The metric type specifies the available labels and describes what is represented by the data points.
+- The resource field records:
+    - The resource-label represents one combination of label values.
+    - The specific monitored resource from which the data was collected.
+- The metricKind and valueType fields tell you how to interpret the values. The value type is the data type for the measurements. Each time series records the value type (type ValueType) for its data points.
+    - For measurements consisting of a single value at a time, the value type tells you how the data is stored:
+        - BOOL, a boolean
+        - INT64, a 64-bit integer
+        - DOUBLE, a double-precision float
+        - STRING, a string
+    - For distribution measurements, the value isn't a single value but a
+    - group of values. The value type for distribution measurements is DISTRIBUTION.
+- Each time series includes the metric kind (type MetricKind) for its data points.
+The kind of metric data tells you how to interpret the values relative to each other. Cloud Monitoring metrics are one of three kinds:
+    - A gauge metric, in which the value measures a specific instant in time.
+For example, metrics measuring CPU utilization are gauge metrics;
+each point records the CPU utilization at the time of measurement.
+    - A delta metric, in which the value measures the change in a time
+interval. For example, metrics measuring request counts are delta
+metrics; each value records how many requests were received after
+the start time, up to and including the end time.
+    - A cumulative metric, in which the value constantly increases over time. For example, a metric for “sent bytes” might be cumulative; each value records the total number of bytes sent by a service at that time.
+- The points field is an array of timestamped values. The metric type tells you what the values represent. The sample time series has an array with a single data point; in most time series, the array has many more values.
+
+Dashboards are a way for you to view and analyze metric data that is important to you. They give you graphical representations on the main signal data in such a way as to help you make key decisions about your Google Cloud-based resources.
+
+You can also use the Dashboard Builder to visualize application metrics that you are interested in. You can select the chart type and filter the metrics based on your requirements.
+
+**Metrics Explorer** lets you build charts for any metric collected by your project. With it, you can:
+- Save charts you create to a custom dashboard.
+- Share charts by their URL.
+- View the configuration for charts as JSON.
+
+Most importantly, you can use Metrics Explorer as a tool to explore data that you don't need to display long term on a custom dashboard.
+
+You define a chart by specifying both what data should display and how the chart should display it:
+1. **Metric**
+1. **Filter**: To reduce the amount of data returned for a metric
+1. **Group by**: reduce the amount of data returned for a metric by
+combining different time series. Grouping is done by label values.
+1. **Alignment**: creates a new time series in which the raw data has been regularized in time so it can be combined with other aligned time series. Alignment produces time series with regularly spaced data.
+
+Alignment is a prerequisite to aggregation across time series, and monitoring does it automatically, by using default values. You can override these defaults by using the alignment options, which are the Alignment function and the Min alignment period.
+
+- The min alignment period determines the length of time for subdividing the time series. For example, you can break a time series into one-minute chunks or one-hour chunks. The default alignment period, which is also the minimum, is one minute.
+- The alignment function determines how to summarize the data in each alignment period. The functions include the sum, the mean, and so forth.
+
+A chart's widget type and its analysis mode setting determine how the chart displays data. There are three analysis modes:
+- Standard mode displays each time series with a unique color.
+- Stats mode displays common statistical measures for the data in a  chart.
+- X-Ray mode displays each time series with a translucent gray color. Each line is faint, and where lines overlap or cross, the points appear brighter. Therefore, this mode is most useful on charts with many lines. Overlapping lines create bands of brightness, which indicate the normal behavior within a metrics group.
+
+**Threshold line**: The Threshold option creates a horizontal line from a point on the Y-axis. The line provides a visual reference for the chosen threshold value. You can add a threshold that refers to a value on the left Y-axis or the right Y-axis.
+
+Compare to past: When you use Compare to Past mode on a chart, the legend is modiﬁed to include a second “values” column. The current Value column becomes Today, and the past values column is named appropriately—for example, Last Week.
+
+
 #### Create a metrics scope and link the two worker projects into it.
 There are a number of ways you might want to configure the relationship between the host project doing the monitoring, and the project or projects being monitored.
 
