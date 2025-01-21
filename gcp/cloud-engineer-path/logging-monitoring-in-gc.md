@@ -305,3 +305,59 @@ Note: If a Monitoring group is created based on labels, then the group will keep
 This is important because if an uptime check is tied to the group, then it will only report failures while the group reports that missing server.
 
 When the group quits reporting the off server, the uptime check quits checking for it, and suddenly the check starts passing again. This can be a real issue if you're not careful. 
+
+## Alerting Policies
+### SLI, SLO and SLA
+SLIs, are carefully selected monitoring metrics that measure one aspect of a service's reliability. Ideally, SLIs should have a close linear relationship with your users' experience of that reliability, and we recommend expressing them as the ratio of two numbers: the number of good events divided by the count of all valid events.
+
+SLO, combines a service level indicator with a target reliability and will generally be somewhere just short of 100%. you should choose SLOs that are **S.M.A.R.T.**
+
+SLAs, which are commitments made to your customers that your systems and applications will have only a certain amount of “down time.”
+
+### Developing an alerting strategy
+Goal: Person is notified when needed
+- A service is down
+- SLOs or SLAs are heading toward not being met.
+- Something needs to change.
+
+An alert is an automated notification sent by Google Cloud through some notification channel to an external application, ticketing system, or person.
+
+Error budget = Perfetion - SLO. E.g.: If the SLO is: “90% of requests must return in 200 ms,” then the error budget is: 100% - 90% = 10%
+
+Evaluating alerts:
+- Precision: 
+    - Relevant alerts = Relevant alerts + irrelevant alerts
+    - It’s decreased by false alerts
+- Recall: 
+    - Relevant alerts = Relevant alerts + missed alerts
+    - Recall is adversely affected by missed alerts. It’s decreased by missing alerts.
+- Detection time: 
+    - How long it takes the system to notice an alert condition
+    - Long detection times can negatively affect the error budget
+    - Raising alerts too fast may result in poor precision
+- Reset time: 
+    - How long alerts fire after an issue is resolved
+    - Continued alerts on repaired systems can lead to confusion
+
+Precision can be seen as a measure of exactness, whereas recall is a measure of completeness.
+
+---
+Alert window lengths (per week, per month, per year)
+
+The window is a regular-length subdivision of the SLO total time:
+- Smaller windows tend to yield faster alert detections and shorter reset times, but they also tend to decrease precision because of their tendency toward false positives.
+- Longer windows tend to yield better precision, because they have longer to confirm that an error is really occurring. But reset and detection times are also longer. That means you spend more error budget before the alert triggers.
+
+One trick might be to use short windows, but add a successive failure count. One window failing won’t trigger the alert, but when three fail in a row the error is triggered. This way, the error is spotted quickly but treated as an anomaly until the duration or error count is reached. The rule: An error is spotted quickly but treated as an anomaly until three windows fail in a row.
+
+Many variables can affect a good alerting strategy:
+- Amount of traffic
+- Error budget
+- Peak and slow periods
+You can define multiple conditions in an alerting policy to try to get better precision, recall, detection time, and rest time.
+
+Alerts should always be prioritized based on customer impact and SLA. Don't involve humans unless the alert meets some threshold for criticality. severity levels are an important concept in alerting to aid you and your team in properly assessing which notifications should be prioritized.
+
+You can create custom severity levels on your alert policies and have this data included in your notifications for more effective alerting and integration with downstream third-party services (for example, Webhook, Cloud Pub/Sub, PagerDuty).
+
+Low-priority alerts might be logged, sent through email, or inserted into a support ticket management system.
