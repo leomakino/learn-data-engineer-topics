@@ -141,8 +141,45 @@ With broad platform support that includes Compute Engine VMs, App Engine, and Ku
 Cloud Proﬁler presents the call hierarchy and resource consumption of the relevant function in an interactive ﬂame graph that helps developers understand which paths consume the most resources and the different ways in which their code is actually called.
 
 ## Monitoring Critical systems
+Monitoring is all about keeping track of exactly what's happening with the resources that we launched inside of Google Cloud.
+
+Monitoring is the foundation of product reliability. It reveals what needs urgent attention and shows trends in application usage patterns, which can yield better capacity planning, and generally help improve an application client's experience, and reduce their problems.
+
+---
+### Cloud Monitoring Architecture patterns
+A typical Cloud Monitoring architecture includes the following:
+1. Metric Collection
+    - GKE custom metrics
+    - CE metrics
+    - 100+ services metrics
+1. Metric Storage
+    - Stores the collected data and routes to the configured visualization and analysis layer.
+    - this layer includes the
+Cloud Monitoring API that helps triage the metrics collected to be stored for further analysis.
+1. Visualization & Analysis
+    - Dashboards
+    - Uptime checks
+    - Alert Policies
+    - Notifications
+
+System metrics from Google Cloud are available at no cost to customers. These
+metrics provide information about how the service is operating. Over 1500 metrics
+across more than 100 Google Cloud services automatically.
+
+However, if customers, e.g. in traditional enterprise cohorts, are using 3Party products for monitoring and **want to aggregate their Google Cloud metrics into those partner products, they can use Cloud Monitoring APIs to ingest these metrics.**
+
+Hybrid monitoring and logging: With Google's partner BindPlane by Blue Medora, you can import monitoring and 00000000000logging data from both on-premises VMs and other cloud providers
+
+### Monitoring Multiple projects
+When you go to monitoring settings for a project, you can see that the current metrics scope only has a single project in it, the one it is currently viewing.
+
+
 ### Monitoring and Dashboarding Multiple projects lab
 How to set up a central project for monitoring other projects, create monitoring resource groups, uptime checks, and custom dashboards.
+
+it's possible for one metrics scope to monitor multiple projects, and also a project can be monitored from only a single metrics scope.
+
+the recommended approach for production deployments is to create a dedicated project to host monitoring conﬁguration data and use its metrics scope to set up monitoring for the projects that have actual resources in them.
 
 #### Create a metrics scope and link the two worker projects into it.
 There are a number of ways you might want to configure the relationship between the host project doing the monitoring, and the project or projects being monitored.
