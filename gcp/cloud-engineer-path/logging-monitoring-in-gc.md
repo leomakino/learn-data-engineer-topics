@@ -361,3 +361,52 @@ Alerts should always be prioritized based on customer impact and SLA. Don't invo
 You can create custom severity levels on your alert policies and have this data included in your notifications for more effective alerting and integration with downstream third-party services (for example, Webhook, Cloud Pub/Sub, PagerDuty).
 
 Low-priority alerts might be logged, sent through email, or inserted into a support ticket management system.
+
+### Creating Alerts
+An alerting policy has:
+- A name
+- One or more alert conditions
+- Notifications
+- Documentation
+
+The alerting policies are of two types:
+- Metric based alerting
+    - Used to track metric data collected by Cloud Monitoring
+    - Add a metric-based alerting policy by starting from the Alerts page of Cloud Monitoring.
+    - Example: Notify when the application that runs on a VM has high latency for a significant time period.
+- Log based alerting
+    - Used to notify anytime a specific message occurs in a log,
+    - Add a log-based alerting policy by using the Logs Explorer in Cloud Logging or under Cloud Monitoring
+    - Example: Notify when a human user accesses the security key of a service account
+
+There are three types of conditions for **metric-based alerts**:
+- Metric-threshold conditions trigger when the values of a metric are more than, or less than, a threshold for a specific duration window.
+- Metric-absence conditions trigger when there is an absence of measurements for a duration window.
+- Forecast conditions predict the future behavior of the measurements by using previous data. These conditions trigger when there is a prediction that a time series will violate the threshold within a forecast window
+
+The documentation option is designed to give the alert recipient additional information they might find helpful.
+
+Each incident is in one of three **states**:
+- Incidents firing: If an incident is open, the alerting policy's set of conditions is being met. Or there’s no data to indicate that the condition is no longer met. Open incidents usually indicate a new or unhandled alert.
+- Acknowledged incidents: A technician spots a new open alert. Before one starts to investigate, they mark it as acknowledged as a signal to others that someone is dealing with the issue.
+- Alert policies: displays the number of alerting policies created.
+
+Snooze displays the recently configured snoozes. When you want to temporarily prevent alerts from being created and notifications from being sent, or to prevent repeated notifications from being sent for an open incident, you create a snooze.
+
+Groups provide a mechanism for alerting on the behavior of a set of resources instead of individual resources.
+
+You define the one-to-many membership criteria for your groups. Criteria can include:
+- Cloud Projects
+- Resource name
+- Resource type
+- Tags and labels
+- Security groups
+- Regions
+- App Engine apps and services
+
+**Logs-based metrics** are extracted from Cloud Monitoring and are based on the content of log entries.
+
+### Alerting in Google Cloud Lab
+The Alerting CLI (and API) can be very effective when applying alerting policies with code or scripts.
+
+Every project needs to first create an App Engine application before it can be used. This is done just once per project using the console, or the gcloud app create command.
