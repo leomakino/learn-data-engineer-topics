@@ -410,3 +410,18 @@ You define the one-to-many membership criteria for your groups. Criteria can inc
 The Alerting CLI (and API) can be very effective when applying alerting policies with code or scripts.
 
 Every project needs to first create an App Engine application before it can be used. This is done just once per project using the console, or the gcloud app create command.
+
+### Service Monitoring
+Modern applications are composed of multiple services connected together, and when something fails, it often seems like many things fail at the same time. To help manage this complexity, SLO monitoring helps with SLO and alert creation.
+
+With Service Monitoring, you get the answers to the following questions:
+- What are your services? What functionality do those services expose to internal and external customers?
+- What are your promises and commitments regarding the availability and performance of those services, and are your services meeting them?
+- For microservices-based apps, what are the inter-service dependencies? How can you use that knowledge to double check new code rollouts and triage problems if a service degradation occurs?
+- Can you look at all the monitoring signals for a service holistically to reduce mean time to repair (MTTR)?
+
+Service Monitoring can approach SLO compliance calculations in two fundamental ways:
+1. Request-based SLOs: use a ratio of good requests to total requests
+1. Window-based SLOs: use a ratio of the number of good versus bad measurement intervals, or windows.
+
+Service Monitoring makes SLO creation easy.
