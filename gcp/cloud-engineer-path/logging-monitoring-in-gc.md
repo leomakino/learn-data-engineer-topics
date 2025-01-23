@@ -617,3 +617,59 @@ Log Analytics is useful in multiple aspects:
 - DevOps: quickly troubleshoot an issue. Log Analytics includes capabilities to count the top requests grouped by response type and severity, which allows engineers to diagnose the issues.
 - Security: finding all the audit logs. Log Analytics help better investigate the security -related attacks with queries over large volumes of security data.
 - IT/Network Operations: identifying network issues. Log Analytics in this case provides better network insights and management through advanced log aggregation capabilities.
+
+## Working with Audit Logs
+### Cloud Audit Logs
+Probably the most important group of logs in Google Cloud are the Cloud Audit Logs.
+
+Cloud Audit Logs help answer the question, "Who did what, where, and when? 
+
+It maintains four audit logs for each Google Cloud project, folder, and organization: 
+- Admin Activity audit logs (administrative actions): Record modifications to configuration or metadata
+- System Event audit logs: Record Google Cloud non-human admin actions that modify configurations of resources.
+- Data Access audit logs: Record calls that **read** metadata, configurations, or that create, modify, or read user-provided data
+    - They are disabled by default (except for BigQuery), and when enabled, the default retention is 30 days.
+- Policy Denied audit logs: Record a security policy violation
+
+Very similar to Cloud Audit logs, Access Transparency logs help by providing logs of accesses to your data by human Googlers (as opposed to automated systems). Access Transparency logs give you different information than Cloud Audit Logs. Cloud Audit Logs record the actions that members of your Google Cloud organization have taken in your Google Cloud resources, whereas Access Transparency logs record the actions taken by Google personnel.
+
+### Data Acess audit logs
+Data Access audit logs can be enabled at various levels in the resource hierarchy. These levels include:
+- Organization
+- Folder
+- Project,
+- Resources, and
+- Billing accounts
+
+The added logging does add to the cost, currently: $0.50 per gigabyte for ingestion.
+
+Data Access audit logs are disabled by default, for everything but BigQuery. They may be enabled and configured at the organization, folder, project, or service level.
+
+You can control what type of information is kept in the audit logs. There are three types of Data Access audit logs information:
+- Admin-read: Records operations that read metadata or configuration information. For example, you looked at the configurations for your bucket.
+- Data-read: Records operations that read user-provided data. For example, you listed files and then downloaded one from Cloud Storage.
+- Data-write: Records operations that write user-provided data. For example, you created a new Cloud Storage file.
+
+You can exempt specific users or groups from having their data accesses recorded. This functionality comes in handy when you want reduce the cost and noise associated with the volume of logs that are not of your interest. Data access audit logs can be of high volume, so cost associated is directly proportional to the volume of data logs.
+
+Use the Google Cloud CLI or the API to enable Data Access audit logs:
+1. `gcloud projects get-iam-policy [project-id] > policy.yaml`
+1. edit the /tmp/policy.yaml 
+```yaml
+auditConfigs:
+- auditLogConfigs:
+- logType: ADMIN_READ
+- logType: DATA_READ
+- logType: DATA_WRITE
+service: run.googleapis.com #Could also be all Services
+bindings:
+- members:
+...
+```
+3. set that as the new IAM policy: `gcloud projects set-iam-policy [project-id] policy.yaml`
+
+### Audit logs entry format
+Every audit log entry in Cloud Logging is an object of type **LogEntry**.
+
+What distinguishes an audit log entry from other log entries is the protoPayload field,
+which contains an AuditLog object that stores the audit logging data.
