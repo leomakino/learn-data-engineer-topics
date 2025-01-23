@@ -558,3 +558,62 @@ Some tips on finding log entries quickly:
     - logName="projects/benkelly-test/logs/apache-access"
 - Limit the time range that you’re searching
     - timestamp >= “2018-08-08T10:00:00Z” AND timestamp <= “2018-08-08T10:10:00Z”
+
+### Logs-based metrics
+Logs-based metrics derive metric data from the content of log entries. There are two types of log-based metrics:
+- System-defined log-based metrics: are calculated only from logs that have been ingested by Logging. If a log has been explicitly excluded from ingestion by Cloud Logging, it isn't included in these metrics.
+- User-defined log-based metrics: created by you to track things in your Google Cloud project that are of particular interest to you.
+
+Logs-based metrics are suitable in different cases: 
+- **Count the occurrences** of a message, like a warning or error, in your logs and receive a notiﬁcation when the number of occurrences crosses a threshold.
+- **Observe trends in your data**: like latency values in your logs, and receive a notiﬁcation if the values change in an unacceptable way.
+- **Visualize extracted data**: Create charts to display the numeric data extracted from your logs
+
+Key access control roles:
+- Logs Configuration Writer: can list, create, get, update, and delete log-based metrics.
+- Logs Viewers can view existing metrics
+- Monitoring Viewers can read the time series in log-based metrics.
+- Logging Admins, Editors, and Owners are all broad-level roles that can create log-based metrics.
+
+Log-based metric types:
+1. Counter metrics: count the number of log entries matching an advanced logs query.
+1. Distribution metrics: record the statistical distribution of the extracted log values in
+histogram buckets. Their
+distribution across the configured buckets is recorded, along with the count, mean,
+and sum of squared deviations of the values.
+1. Boolean metrics: record where a log entry matches a specified filter
+
+
+Labels and logs:
+- Like many cloud resources, labels can be applied to log-based metrics. Their prime use is to help with group-by and filtering tasks in Cloud Monitoring.
+- Two types of labels applied:
+    - Default
+    - User-defined
+- User-defined labels can be either of the following:
+    - The entire contents of a named field in the LogEntry object.
+    - A part of a named field that matches a regular expression.
+- You can create up to ten user-defined labels per metric.
+- A label cannot be deleted once created.
+
+### Log Analytics
+Log Analytics gives you the analytical power of BigQuery within the Cloud Logging console and provides you with a new user interface that's optimized for analyzing your logs.
+
+When you create a bucket and activate analytics on it, Cloud Logging makes the logs data available in both the new Log Analytics interface and BigQuery; you don't have to route and manage a separate copy of the data in BigQuery. You can still query and examine the data as usual in Cloud Logging with the Logging query language.
+
+Use cases:
+- Logs Explorer: Troubleshooting
+    - Get to the root cause with search, filtering, histogram and suggested searches.
+- Log Analytics
+    - Analyze application performance, data access and network access patterns.
+- Log Analytics pipeline maps logs to BigQuery tables (JSON, STRING, INT64, RECORD, etc..) and writes to BigQuery. Use the same logs data in Log Analytics directly from BigQuery to report on aggregated application and business data found in logs.
+
+
+How different is analytics-enabled bucket log data from logs routed to BigQuery?
+- Log data in BigQuery is managed by Cloud Logging.
+- BigQuery ingestion and storage costs are included in your Logging costs.
+- Data residency and lifecycle are managed by Cloud Logging.
+
+Log Analytics is useful in multiple aspects:
+- DevOps: quickly troubleshoot an issue. Log Analytics includes capabilities to count the top requests grouped by response type and severity, which allows engineers to diagnose the issues.
+- Security: finding all the audit logs. Log Analytics help better investigate the security -related attacks with queries over large volumes of security data.
+- IT/Network Operations: identifying network issues. Log Analytics in this case provides better network insights and management through advanced log aggregation capabilities.
