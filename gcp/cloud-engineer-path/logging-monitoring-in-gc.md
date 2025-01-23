@@ -479,3 +479,82 @@ Cloud Logging is actually a collection of components exposed through a centraliz
 For each Google Cloud project, Logging automatically creates two logs buckets: **_Required and _Default**, and corresponding log sinks with the same names. All logs generated in the project are stored in one of these two locations:
 - _Required: This bucket holds Admin Activity audit logs, System Event audit logs, and Access Transparency logs, and retains them for 400 days. You aren't charged for the logs stored in _Required, and the retention period of the logs stored here cannot be modified. You cannot delete or modify this bucket.
 - _Default:  This bucket holds all other ingested logs in a Google Cloud project, except for the logs held in the _Required bucket. Standard Cloud Logging pricing applies to these logs.
+
+Log Router sinks can be used to forward copies of some or all of your log entries to non-default locations. There are several sink locations, depending on need:
+- Cloud Logging bucket works well to help pre-separate log entries into a distinct log storage bucket.
+- BigQuery dataset allows the SQL query power of BigQuery to be brought to bear on large and complex log entries.
+- Cloud Storage bucket is a simple external Cloud Storage location, perhaps for long-term storage or processing with other systems.
+- Pub/Sub topic can export log entries to message handling third-party applications or systems created with code and running somewhere like Dataflow or Cloud Functions.
+- Splunk is used to integrate logs into existing Splunk-based system.
+- The Other project option is useful to help control access to a subset of log
+entries.
+
+The process for creating log sinks involves writing a query that selects the log entries you want to export in Logs Explorer, and choosing a destination of Cloud Storage, BigQuery, or Pub/Sub. The query and destination are held in an object called a sink.
+
+Some possible log export processing options:
+- Log archiving and analysis: s
+    - Events -> Logging -> Pub/Sub -> Dataflow -> BigQuery
+    - excellent option if you're looking for real-time log processing at scale.
+    - react to real-time issues, while streaming the logs into BigQuery for longer-term analysis.
+- Archive logs for long-term storage
+    -  Events -> Logging -> Cloud Storage
+    - long-term retention, reduced storage costs, and configurable object lifecycles
+- Exporting back to Splunk
+    - Events -> Logging -> Pub/Sub -> Splunk
+    - Integrate the logging data from Google Cloud, back into an third-party System Information.
+
+A common logging need is centralized **log aggregation** for auditing, retention, or non-repudiation purposes. **Aggregated sinks allow for easy exporting of logging entries without a one-to-one setup.** There are three available Google Cloud Logging aggregation levels:
+- Project
+- Folder
+- Organization
+
+By performing security analytics, you help your organization prevent, detect, and respond to threats like malware, phishing, ransomware, and poorly configured assets. One of the steps in security log analytics workflow is to create aggregate sinks and
+route those logs to a single destination depending on the choice of security analytics tool, such as Log Analytics, BigQuery, Chronicle, or a third-party security information and event management (SIEM) technology.
+
+### Query and view logs
+The Logs Explorer interface lets you retrieve logs, parse and analyze log data, and refine your query parameters. The Logs Explorer contains the following panes:
+1. Action toolbar: to refine logs to projects or storage views, share a link and learn about logs explorer.
+1. Query pane: Query pane is where you can build queries, view recently viewed and saved queries and a lot more.
+1. Results Toolbar: This can be used to quickly show or hide logs and histogram pane and create a log based metric or alert
+1. Query results: Is the details of results with a summary and timestamp that helps troubleshoot further
+1. Log fields: is used to filter your options based on various factors such as a resource type, log name, project ID, etc
+1. Histogram: s where the query result is visualized a histogram bars, where each bar is a time range and is color coded based on severity.
+
+Queries may be created directly with the Logging Query Language (LQL), using the drop-down menus, the logs field explorer, or by clicking fields in the results themselves. The query builder drop-down menu makes it easy to start narrowing your log choices:
+- Resource: Lets you specify resource.type. Entries use the logical operator AND.
+- Log name: Lets you specify logName. When selecting multiple entries, the logical operator OR is used.
+- Severity: Lets you specify severity. When selecting multiple entries, the logical operator OR is used.
+
+Comparison operators to filter queries: [FIELD_NAME] [OPERATOR] [VALUE]. Operators:
+| **Operator** | **Description**          | **Example**                                         |
+|-----------------|--------------------------|-----------------------------------------------------|
+| =               | Equals                   | resource.type="gce_instance"                        |
+| !=              | does not equal           | resource.labels.instance_id!="1234567890"           |
+| > < >= <=       | numeric ordering         | timestamp <= "2018-08-13T20:00:00Z"                 |
+| :               | has                      | textPayload:"GET /check"                            |
+| :*              | presence                 | jsonPayload.error:*                                 |
+| =~              | search for a pattern     | jsonPayload.message =~ "regular expression pattern" |
+| !~              | search not for a pattern | jsonPayload.message !~ "regular expression pattern" |
+
+The colon operation helps check if a value exists. This is useful when you want to match a substring within a log entry field. To test if a missing or defaulted field exists without testing for a particular value in the field, use the :* comparison
+
+Boolean operators:
+- AND
+- NOT
+- OR
+*The NOT operator has the highest precedence, followed by OR and AND in that order*
+
+The recipe for finding entries:
+- When you’re trying to find log entries, start with what you know: the log filename, resource name, even a bit of the contents of the logged message might work.
+- Full text searches are slow, but they may be effective
+- Use indexed SEARCH function for complete text matches, because they perform a case-insensitive match SEARCH(textPayload, "hello world")
+- If possible, restrict text searches to an log field
+
+Some tips on finding log entries quickly:
+- Search for specific values of indexed fields
+- Apply constraints on resource.type and resource.labels field
+    - resource.type = "gke_cluster" resource.labels.namespace = "my-cool-namespace"
+- Be specific on which logs you’re searching
+    - logName="projects/benkelly-test/logs/apache-access"
+- Limit the time range that you’re searching
+    - timestamp >= “2018-08-08T10:00:00Z” AND timestamp <= “2018-08-08T10:10:00Z”
