@@ -146,3 +146,82 @@ To view the Apache GCE Overview dashboard, do the following:
 1. Monitoring service.
 1. select Dashboards.
 1. select the Apache Overview dashboard
+
+## Monitoring Google Cloud Network
+Learn to: Collect and analyze VPC Flow Logs, Firewall Rules Logging, load balancer logs, and Cloud NAT logs so you can see what's happening to the traffic across your network.
+
+### VPC Flow Logs
+VPC Flow Logs records a sample of network flows sent from and received by VM instances, including Google Kubernetes Engine nodes.
+
+These logs can be used for network monitoring, traffic analysis, forensics, real-time security analysis, and expense optimization.
+
+VPC Flow Logs introduces **no delay or performance penalty** when enabled.
+
+You can activate or deactivate VPC Flow Logs per VPC subnet.
+
+When enabled for a subnet, VPC Flow Logs collects data from all VM instances in that subnet.
+
+Logs Explorer can be used to access the VPC Flow Logs. The entries will be vpc_flows below the Compute Engine section.
+
+### Firewall rules logging
+VPC firewall rules let you allow or deny connections to or from your virtual machine (VM) instances based on a configuration that you specify.
+
+Enabled VPC firewall rules are always enforced, and protect your instances regardless of their configuration and operating system, even if they didn’t start.
+
+Firewall Rules Logging lets you audit, verify, and analyze the effects of your firewall rules.
+
+**By default, Firewall Rules Logging is disabled.**
+
+*Note: Firewall Rules Logging can only record TCP and UDP connections.*. For other protocols, use Packet Mirroring.
+
+
+*Caution: Firewall Rules Logging can generate a lot of data, which might have a cost implication.*
+
+If the connectivity issue is related to a firewall, then there are two major possibilities: A firewall rule is actively blocking the incoming connections from the web servers Or Network traffic is blocked by default in most networks.
+
+### Load balancer logs
+While all the Google Cloud load balancers support Cloud Logging and Cloud Monitoring, the log type and log fields supported vary based on the type of the load balancers.
+
+These include: Internal and external Application Load Balancers, Internal and external Network Load Balancers, and internal and external Proxy Load Balancers.
+
+You can view request logs and export them to Cloud Storage, BigQuery, or Pub/Sub for analysis.
+
+A single internal Application Load Balancer URL map can reference more than one backend service. You might need to enable logging for more than one backend service, depending on your configuration.
+
+### Cloud NAT logs
+Cloud NAT is the Google-managed Network Address Translation service. It lets you provision your application instances without public IP addresses, and it also lets them access the internet in a controlled and efficient manner.
+
+There are many Cloud NAT benefits:
+- VMs without external IP addresses can access destinations on the internet.
+    - For example, you might have VMs that only need internet access to download updates. Cloud NAT lets you configure these VMs with an internal IP address.
+
+Cloud NAT logging lets you log NAT TCP and UDP connections and errors.
+
+When Cloud NAT logging is enabled, a log entry can be generated when a network connection that uses Cloud NAT is created, and/or when an egress packet is dropped because no port was available for Cloud NAT.
+
+Cloud NAT logging might be enabled when a new Cloud NAT gateway is first created, or by editing the settings of an existing gateway.
+
+### Packet Mirroring
+Another way to monitor the network traffic flowing in and out of your Compute Engine virtual machines is to use Packet Mirroring.
+
+Packet Mirroring clones the traffic of specific instances in your Virtual Private Cloud (VPC) network and forwards it for examination.
+
+Packet Mirroring captures all ingress and egress traffic and packet data, such as payloads and headers.
+
+The mirroring happens on the virtual machine (VM) instances, not on the network. Therefore, Packet Mirroring consumes additional bandwidth on the hosts.
+
+Packet Mirroring is useful when you need to monitor and analyze your security status. It exports all traffic, not only the traffic between sampling periods.
+
+One of the major limitations of Packet Mirroring is bandwidth consumption:
+- Packet Mirroring consumes the egress bandwidth of the mirrored instances
+- there is a work around: Use filters to reduce the traffic collected for mirrored instances. This filter can be used for IP address ranges, protocols, traffic directions and lot more.
+
+Two main use cases where Packet Mirroring is useful in security and monitoring:
+- Network and application monitoring
+    - Network engineers can use the data from Packet Mirroring to: Maintain integrity of deployment.
+    - Troubleshoot packet loss issues by analyzing protocols.
+    - Troubleshoot reconnection and latency issues by analyzing real time traffic patterns.
+- Security and compliance: 
+    - Implement zero-trust by monitoring network traffic across and within the trust boundaries without any network re-architecture.
+- Network forensics for PCI compliance:
+    - Packet mirroring help capture, process and preserve forensic of different attack vectors.
