@@ -256,3 +256,80 @@ Tasks:
 1. Verify that network traffic is logged
 1. Export the network traffic to BigQuery to further analyze the logs
 1. Add VPC flow log aggregation
+
+## Investigating application performance issues
+### Error Reporting
+Application Performance Management (APM) combines the monitoring and troubleshooting capabilities of Cloud Logging and Cloud Monitoring with Error Reporting, Cloud Trace, and Cloud Profiler.
+
+Error Reporting looks through all the logs that your application and infrastructure has reported. It then counts, analyzes, and aggregates the exceptions to report them on your preferred notification channel.
+
+Error Reporting can only analyze log entries that are stored in Cloud Logging buckets that are in the **global** region. 
+**The source and destination Google Cloud projects must be the same, and customer-managed encryption keys (CMEK) must be disabled.**
+
+Error Reporting helps you see the problems through the noise by constantly analyzing your exceptions. Problems are intelligently aggregated into meaningful groups tailored to your programming language and framework.
+
+Error Reporting is available on desktop and in the Google Cloud app for iOS and Android.
+
+Error Reporting can aggregate and display errors for: 
+- App Engine standard environment and flexible environment,
+- Cloud Run functions
+- Apps Script
+-  Cloud Run
+- Compute Engine
+- Amazon EC2
+- GKE
+
+Setting up Error Reporting 
+- is simple and dependent on the language and compute environment.
+- install the client library by using npm
+- The easiest way to manually log errors to Error Reporting in Node.js is to import the Error Reporting library.
+- You then instantiate a client to start reporting errors to Error Reporting.
+- *For App Engine flexible environment and standard environment, Cloud Run, Cloud Run functions, and Apps Script, Error Reporting is automatically enabled.*
+- *For GKE, add cloud-platform access scope during cluster creation.*
+- *For Compute Engine, ensure the service account used has the Error Reporting Writer role.*
+- *Outside Google Cloud, provide the Google Cloud project ID and service account credentials to the Error Reporting library*
+
+### Cloud Trace
+Cloud Trace is a distributed tracing system that collects latency data from your applications and displays it in the Google Cloud console. You can track how requests propagate through your application and receive detailed near-real time performance insights.
+
+Trace continuously gathers and analyzes trace data from your project to automatically identify recent changes to the performance of your application. If Trace detects a significant shift in the latency profile of your app, you’re **automatically alerted**. It also helps with identification of **performance bottlenecks**.
+
+The language-specific SDKs of Trace can analyze projects that run on VMs (even VMs not managed by Google Cloud). The Trace SDK is available for Java, Node.js, Ruby, and Go. 
+
+The Trace API can be used to submit and retrieve trace data from any source.
+
+Cloud Trace terminologies
+- Tracing client: collects spans and sends them to Cloud Trace
+- Trace: describes the time it takes an application to complete a single operation
+- Span: describes how long it takes to perform a complete suboperation.
+
+A trace is a collection of spans. A span describes how long it takes to perform a complete suboperation. A trace might describe how long it takes to process an incoming request from a user and return a response. A span might describe how long a particular RPC call requires.
+
+
+There are two ways to send trace data to Cloud Trace: 
+1. The first one is automatic tracing
+1. instrumenting the application. You can do this by using Google client libraries or OpenTelemetry
+
+Required IAM permissions: Cloud **Trace Agent role** is needed to send trace data from the application to Cloud Trace
+
+### View application latency with Cloud Trace
+Learn how to use Cloud Trace by doing the following:
+- Deploy a sample application to a Google Kubernetes Engine (GKE) cluster.
+- Create a trace by sending an HTTP request to the sample application.
+- Use the Cloud Trace interface to view the latency information of the trace you created.
+
+### Cloud Profiler
+Attempting to measure performance in test environments usually fails to replicate the pressures on a production system. Continuous profiling of production systems is an effective way to discover where resources like CPU cycles and memory are consumed when the service operates in its working environment.
+
+Cloud Profiler is a statistical, low-overhead profiler that continuously gathers CPU usage and memory-allocation information from your production applications.
+
+Cloud Profiler presents the call hierarchy and resource consumption of the corresponding function in an interactive flame graph.
+
+The profiling types available vary by language. For the metrics, you will find the following: 
+- **CPU time** is the time that the CPU spends executing a block of code. *The time it was waiting or processing instructions for something else is not included.*
+- **Wall time** is the time that it takes to run a block of code, including all wait time, including that for locks and thread synchronization.
+- **Heap** is the amount of memory allocated in the heap of the program when the profile is collected. 
+- **Allocated heap** is the total amount of memory that was allocated in the heap of the program.
+- **Contention**: provides information about threads stuck waiting for other threads.
+- **Threads** contains thread counts.
+- 
