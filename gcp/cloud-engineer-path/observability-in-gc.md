@@ -225,3 +225,34 @@ Two main use cases where Packet Mirroring is useful in security and monitoring:
     - Implement zero-trust by monitoring network traffic across and within the trust boundaries without any network re-architecture.
 - Network forensics for PCI compliance:
     - Packet mirroring help capture, process and preserve forensic of different attack vectors.
+
+### Network Intelligence Center
+Network Intelligence Center gives you centralized monitoring and visibility into your network. It reduces troubleshooting time and effort and increases network security, all while improving the overall user experience.
+
+Currently, it offers five modules:
+- **Network Topology**: visualizes your Google Cloud network as a graph.
+- **Connectivity Tests**: helps you to quickly diagnose connectivity issues and prevent outages.
+  - Run tests to help verify the effect of configuration changes
+- **Performance Dashboard**: gives you visibility into the performance of your VPC.
+  - The **Latency tab** aggregates latency information based on a sample of your actual Transmission Control Protocol (TCP) VM traffic.
+- **Firewall Insights**: produces metrics and insights that let you make better decisions about your firewall rules.
+  -  It exposes misconfigurations, and identifies rules that could be made more strict.
+- **Network Analyzer**: automatically monitors your VPC network configurations and detects misconfigurations and suboptimal configurations.
+  - It provides insights on Network Topology, firewall rules, routes, configuration dependencies, and connectivity to services and applications.
+
+Firewall Insights metrics let you analyze the way that your firewall rules are being used:
+- Verify that firewall rules are being used in the intended way
+- Verify that firewall rules allow or block their intended connections
+- Perform live debugging of connections that are inadvertently dropped
+- Discover malicious attempts to access your network
+
+### Analyzing Network Traffic with VPC Flow Logs
+In this lab, you will configure a network to record traffic to and from an Apache web server using VPC Flow Logs. You will then export the logs to BigQuery to analyze them.
+
+Tasks:
+1. Configure a custom network with VPC flow logs
+  - *Note: Turning on VPC flow logs doesn't affect performance, but some systems generate a large number of logs, which can increase costs. If you click on Configure logs you'll notice that you can modify the aggregation interval and sample rate. This allows you to trade off longer interval updates for lower data volume generation which lowers logging costs.*
+1. Create an Apache web server
+1. Verify that network traffic is logged
+1. Export the network traffic to BigQuery to further analyze the logs
+1. Add VPC flow log aggregation
