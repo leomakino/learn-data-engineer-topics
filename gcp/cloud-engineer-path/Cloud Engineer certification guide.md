@@ -109,8 +109,9 @@ An Associate Cloud Engineer deploys and secures applications, services, and infr
 
 # Prepare with questions (Practice tests)
 1. [Sample questions](https://docs.google.com/forms/d/e/1FAIpQLSfexWKtXT2OSFJ-obA4iT3GmzgiOCGvjrT9OfxilWC1yPtmfQ/viewform)
-
-
+1. [Free Google Associate Cloud Engineer Certification Practice Exam 2023](https://www.youtube.com/watch?v=9CEJ1YYgsJk)
+1. [Real Exam Questions | ACE Google Cloud Certified Associate Cloud Engineer Exam Questions](https://www.youtube.com/watch?v=5kJ9Vb-7ZH0)
+1. [Part-1 Goggle Associate Cloud Engineer certifiaction exam](https://www.youtube.com/watch?v=rO46RiO_yxU)
 
 # Schedule an exam
 1. [Schedule on this link](https://cp.certmetrics.com/google/en/home/dashboard)
