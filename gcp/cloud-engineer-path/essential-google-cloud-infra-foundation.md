@@ -7,7 +7,7 @@ The Cloud Mobile App is another way to interact with Google Cloud.
 - The app even offers alerts and incident management and allows you to get up-to-date billing information for your projects and get billing alerts for projects that are going over budget.
 - Manage VMs and database instances
 - Manage apps in the App Engine
-- Manage billinghttps://accounts.google.com/AddSession/signinchooser?service=accountsettings&sarp=1&continue=https%3A%2F%2Fconsole.cloud.google.com%2Fhome%2Fdashboard%3Fproject%3Dqwiklabs-gcp-04-42f7ccba5be1&ddm=1&flowName=GlifWebSignIn&flowEntry=AddSession#Email=student-04-7158ad184798@qwiklabs.net
+- Manage billing
 
 
 The Google Cloud interface consists of two parts: the Cloud Console and Cloud Shell.
